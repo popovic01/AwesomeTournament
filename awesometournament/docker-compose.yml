@@ -1,0 +1,32 @@
+version: "3.0"
+services:
+  web:
+    image: tomcat:10
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./target/awesometournament.war:/usr/local/tomcat/webapps/ROOT.war
+
+  db:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 5s
+      timeout: 10s
+      retries: 50
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8081:8080
