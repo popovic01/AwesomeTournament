@@ -1,5 +1,9 @@
 # Homework 1
 
+## Objectives
+
+AwesomeTournament is a web application whose main purpose is to organize sport tournaments, manage teams, and follow results and rankings for every tournament. It offers an opportunity to tournament organizers to create different types of tournaments, create draws and keep track of teams and players. On the other hand, basic users could pick the tournament they are interested in and follow the match results and statistics.
+
 ## Main functionalities
 
 ### Creation of a new tournament
