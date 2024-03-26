@@ -37,3 +37,31 @@ Each tournament creator has an ability to make a draw for the tournament (there 
 ### Match logging
 
 The tournament creator can log to the tournament page and edit the result of the matches so that other users could see them.
+
+## Data Logic Layer
+
+The ER schema contains 6 entities which are going to be described in details in this section.
+
+1. User 
+
+Entity Type User contains ID (INT), Email (CHAR) and Password (CHAR) for every user. The primary key is ID, while Email is a unique column. Every user can create one or more tournaments as well as one or more teams.
+
+2. Tournament
+
+Entity Type Tournament contains ID (INT), Name (CHAR), Token (CHAR), Creator_User_ID (INT), Max_Teams (INT), Max_Players (INT), Min_Players (INT), Starting_Players (INT), Max_Substitutions (INT), Deadline (DATETIME), Start_Date (DATETIME), Creation_Date (DATETIME), Logo (CHAR) and Is_Finished (BOOL). The primary key is ID, Name is a unique column while Creator_User_ID is a foreign key contraint to the User table. Every tournament must be created by exactly one user. Logo contains path to the file which represents logo for a particular tournament. Max_Players and Min_Players are maximum and minimum numbers of players for each team in the tournament, while Starting_Players is a number of players in each match of the tournament.
+
+3. Team 
+
+Entity Type Team contains ID (INT), Name (CHAR), Logo (CHAR), Creator_User_ID (INT) and Tournament_ID (INT). The primary key is ID, Name is a unique column while Creator_User_ID is a foreign key contraint to the User table and Tournament_ID is a foreign key contraint to the Tournament table. Every Team must belong to the one tournament and must be created by some user. This Entity Type can have multiple players and can play multiple matches.
+
+4. Player
+
+Entity Type Player contains ID (INT), Name (CHAR), Surname (CHAR), Team_ID (INT), Position (ENUM), Medical_Certificate (CHAR), Date_Of_Birth (DATETIME). The primary key is ID while Team_ID is a foreign key contraint to the Team table. Every player must belong to some team and can be participant in the events. Medical_Certificate contains path to the file which represents Medical Certificate for a particular player.
+
+5. Match
+
+Entity Type Match contains ID (INT), Team1_ID (INT), Team2_ID (INT), Tournament_ID (INT), Team1_Score (INT), Team2_Score (INT), Result (CHAR), Referee (CHAR), Match_Date (DATETIME) and Is_Finished (BOOL). The primary key is ID while Team1_ID and Team2_ID are foreign keys contraint to the Team table. Tournament_ID is a foreign key contraint to the Tournament table. Every match must belong to some tournament, have up to two teams and can have multiple event associated to it.
+
+6. Event
+
+Entity Type Event contains ID (INT), Match_ID (INT), Player_ID (INT), Type (Enum) and Time (DATETIME). The primary key is ID while Match_ID is a foreign key contraint to the Match table and Player_ID is a foreign key contraint to the Player table. Every event belongs to one match and has one Player who made the event. Type of event can be Goal, Substitution or Faul.
