@@ -9,19 +9,19 @@
 | /tournament/[tournament] | GET | Return [tournament] fields |
 | /tournament/[tournament] | PUT | Update [tournament] fields |
 | /tournament/[tournament] | DELETE | Delete [tournament] |
+| /tournament/[tournament]/team | POST | Create a new team in [tournament]. The user must be logged |
+| /tournament/[tournament]/team | GET | Return a list of the teams in [tournament] |
+| /tournament/[tournament]/team/[team] | GET | Return [team] fields |
+| /tournament/[tournament]/team/[team] | PUT | Update [team] fields |
+| /tournament/[tournament]/team/[team] | DELETE | Delete [team] |
+| /tournament/[tournament]/team/[team]/player | POST | Create a new player in [team]. Player fields must be filled within the [tournament] deadline |
+| /tournament/[tournament]/team/[team]/player/[player] | GET | Return the fields of [player] |
+| /tournament/[tournament]/team/[team]/player/[player] | PUT | Update [player] fields |
+| /tournament/[tournament]/team/[team]/player/[player] | DELETE | Delete [player] |
+| /tournament/[tournament]/match | GET | Return the list of all the matches in [tournament] |
+| /tournament/[tournament]/match/[match] | GET | Return [match] fields |
+| /tournament/[tournament]/match/[match] | PUT | Update [match] fields |
+| /tournament/[tournament]/match/[match] | DELETE | Delete [match] |
+| /tournament/[tournament]/ranking | GET | Return the ranking of [tournament] |
+| /tournament/[tournament]/scorers_ranking | GET | Return the scorers ranking of [tournament] |
 | /auth/login | POST | Send email and password to be checked |
-| /[tournament]/team | POST | Create a new team in [tournament]. The user must be logged |
-| /[tournament]/team | GET | Return a list of the teams in [tournament] |
-| /[tournament]/[team] | GET | Return [team] fields |
-| /[tournament]/[team] | PUT | Update [team] fields |
-| /[tournament]/[team] | DELETE | Delete [team] |
-| /[tournament]/[team]/player | POST | Create a new player in [team]. Player fields must be filled within the [tournament] deadline |
-| /[tournament]/[team]/[player] | GET | Return the fields of [player] |
-| /[tournament]/[team]/[player] | PUT | Update [player] fields |
-| /[tournament]/[team]/[player] | DELETE | Delete [player] |
-| /[tournament]/match | GET | Return the list of all the matches in [tournament] |
-| /[tournament]/[match] | GET | Return [match] fields |
-| /[tournament]/[match] | PUT | Update [match] fields |
-| /[tournament]/[match] | DELETE | Delete [match] |
-| /[tournament]/ranking | GET | Return the ranking of [tournament] |
-| /[tournament]/scorers_ranking | GET | Return the scorers ranking of [tournament] |
