@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 public class ExampleServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.getWriter().println("Hello");
+        req.setAttribute("attribute", "It works!!");
+        req.getRequestDispatcher("hello.jsp").forward(req, resp);
     }
 }
