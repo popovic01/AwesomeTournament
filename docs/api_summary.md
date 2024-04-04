@@ -17,6 +17,11 @@
 | api/tournaments/[tournament]/matches/[match] | GET | Returns [match] fields |
 | api/tournaments/[tournament]/matches/[match] | PUT | Updates [match] fields |
 | api/tournaments/[tournament]/matches/[match] | DELETE | Deletes [match] |
+| api/tournaments/[tournament]/matches/[match]/events | POST | Creates a new event in [match] |
+| api/tournaments/[tournament]/matches/[match]/events | GET | Returns a list of all the events in [match] |
+| api/tournaments/[tournament]/matches/[match]/events/[event] | GET | Returns the fields of [event] |
+| api/tournaments/[tournament]/matches/[match]/events/[event] | PUT| Updates [event] fields|
+| api/tournaments/[tournament]/matches/[match]/events/[event] | DELETE | Deletes [event] |
 | api/tournaments/[tournament]/ranking | GET | Returns the ranking of [tournament] |
 | api/tournaments/[tournament]/scorers_ranking | GET | Returns the scorers ranking of [tournament] |
 | api/teams/[team] | GET | Returns [team] fields |
