@@ -18,14 +18,54 @@ The following endpoint allows the [team] owner to add a new player to the team
     }
     ```
 - **Success Response**:
-  - Code: 200
+  - Code: 201
   - Content: 
     - ```
       {
-        "result": "successful"
+        "result": "Resource created"
       }
       ```
-- **Error Response**: **TODO**
+- **Error Response**:
+  - Code: 302
+  - Content:
+    - ```
+      {
+        "error": {
+          "code": 302,
+          "message": "User not logged in"
+        }
+      }
+      ```
+  - Code: 400
+  - Content:
+    - ```
+      {
+        "error": {
+          "code": 400,
+          "message": "Wrong request format"
+        }
+      }
+      ```
+  - Code: 403
+  - Content:
+    - ```
+      {
+        "error": {
+          "code": 403,
+          "message": "User doesn't have the necessary permissions"
+        }
+      }
+      ```
+  - Code: 503
+  - Content:
+    - ```
+      {
+        "error": {
+          "code": 503,
+          "message": "Server not ready"
+        }
+      }
+      ```
 
 # Get a list of all the players in [team]
 
@@ -53,7 +93,27 @@ The following endpoint returns the list of all the players belonging to [team]
         ...
       ]
       ```
-- **Error Response**: **TODO**
+- **Error Response**:
+  - Code: 204
+  - Content:
+    - ```
+      {
+        "error": {
+          "code": 204,
+          "message": "No content"
+        }
+      }
+      ```
+  - Code: 503
+  - Content:
+    - ```
+      {
+        "error": {
+          "code": 503,
+          "message": "Server not ready"
+        }
+      }
+      ```
 
 # Get [players] fields
 
@@ -78,4 +138,24 @@ The following endpoint returns [player] fields
         "date_of_birth": player_date_of_birth
       }
       ```
-- **Error Response**: **TODO**
+- **Error Response**:
+  - Code: 404
+  - Content:
+    - ```
+      {
+        "error": {
+          "code": 404,
+          "message": "Not found"
+        }
+      }
+      ```
+  - Code: 503
+  - Content:
+    - ```
+      {
+        "error": {
+          "code": 503,
+          "message": "Server not ready"
+        }
+      }
+      ```
