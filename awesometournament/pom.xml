@@ -10,8 +10,24 @@
   <packaging>war</packaging>
 
   <name>awesometournament Maven Webapp</name>
+  <description>Web App for managing and following tournaments results</description>
   <!-- FIXME change it to the project's website -->
   <url>http://www.example.com</url>
+
+  <inceptionYear>2024</inceptionYear>
+
+  <developers>
+      <developer>
+        <id>2119069</id>
+        <name>Milica Popovic</name>
+        <email>milica.popovic@studenti.unipd.it</email>
+      </developer>
+  </developers>
+
+  <organization>
+      <name>Department of Information Engineering (DEI), University of Padua, Italy</name>
+      <url>http://www.dei.unipd.it/en/</url>
+  </organization>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -26,6 +42,7 @@
       <version>4.11</version>
       <scope>test</scope>
     </dependency>
+    
     <dependency>
 			<groupId>jakarta.servlet</groupId>
 			<artifactId>jakarta.servlet-api</artifactId>
@@ -38,6 +55,7 @@
 			<artifactId>log4j-api</artifactId>
 			<version>2.20.0</version>
 		</dependency>
+    
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-core</artifactId>
