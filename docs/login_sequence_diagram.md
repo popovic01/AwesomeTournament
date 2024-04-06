@@ -1,0 +1,3 @@
+# Login Sequence Diagram description
+
+This sequence diagram shows the login operation. The operation is instantiated when an actor executes a POST request with a login credentials to the web server. The web server instantiates the LoginServlet and gets the information about the datasource from the AbstractDatabaseServlet. After that it calls the doPost method of the LoginServlet, passing the HttpServletRequest and the HTTPServletResponse. The LoginServlet then passes the Connection and login credentials to LoginDAO which executes SELECT statement on the database in order to check if the User with the credentials exists. After that, the LoginServlet replies to the web server with the appropriate response and HTML page. 
