@@ -1,3 +1,9 @@
+CREATE USER awesome;
+CREATE DATABASE awesome;
+GRANT ALL PRIVILEGES ON DATABASE awesome TO awesome;
+
+\c awesome;
+
 CREATE TABLE "user" (
         id SERIAL PRIMARY KEY,
         email VARCHAR UNIQUE NOT NULL,
