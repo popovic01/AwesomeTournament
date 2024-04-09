@@ -4,13 +4,13 @@ GRANT ALL PRIVILEGES ON DATABASE awesome TO awesome;
 
 \c awesome;
 
-CREATE TABLE "user" (
+CREATE TABLE public.user (
         id SERIAL PRIMARY KEY,
         email VARCHAR UNIQUE NOT NULL,
         password VARCHAR NOT NULL
 );
 
-CREATE TABLE "tournament" (
+CREATE TABLE public.tournament (
         id SERIAL PRIMARY KEY,
         name VARCHAR NOT NULL,
         token VARCHAR NOT NULL,
@@ -28,7 +28,7 @@ CREATE TABLE "tournament" (
         FOREIGN KEY (creator_user_id) REFERENCES "user" (id)
 );
 
-CREATE TABLE "team" (
+CREATE TABLE public.team (
         id SERIAL PRIMARY KEY,
         name VARCHAR NOT NULL,
         logo VARCHAR NULL,
@@ -38,9 +38,9 @@ CREATE TABLE "team" (
         FOREIGN KEY (tournament_id) REFERENCES "tournament" (id)
 );
 
-CREATE TYPE match_result as ENUM ('team1', 'team2', 'draw');
+CREATE TYPE public.match_result as ENUM ('team1', 'team2', 'draw');
 
-CREATE TABLE "match" (
+CREATE TABLE public.match (
         id SERIAL PRIMARY KEY,
         team1_id INT NOT NULL,
         team2_id INT NOT NULL,
@@ -56,9 +56,9 @@ CREATE TABLE "match" (
         FOREIGN KEY (tournament_id) REFERENCES "tournament" (id)
 );
 
-CREATE TYPE player_position as ENUM ('goalkeeper', 'defender', 'midfielder', 'striker');
+CREATE TYPE public.player_position as ENUM ('goalkeeper', 'defender', 'midfielder', 'striker');
 
-CREATE TABLE "player" (
+CREATE TABLE public.player (
         id SERIAL PRIMARY KEY,
         name VARCHAR NOT NULL,
         surname VARCHAR NOT NULL,
@@ -69,9 +69,9 @@ CREATE TABLE "player" (
         FOREIGN KEY (team_id) REFERENCES "team" (id)
 );
 
-CREATE TYPE event_type as ENUM ('goal', 'yellow card', 'red card');
+CREATE TYPE public.event_type as ENUM ('goal', 'yellow card', 'red card');
 
-CREATE TABLE "event" (
+CREATE TABLE public.event (
         id SERIAL PRIMARY KEY,
         match_id INT NOT NULL,
         player_id INT NOT NULL,
