@@ -105,4 +105,3 @@ public final class LogContext {
         throw new AssertionError(String.format("No instances of %s allowed.", LogContext.class.getName()));
     }
 }
-
