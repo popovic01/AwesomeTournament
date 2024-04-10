@@ -4,7 +4,6 @@ package it.unipd.dei.dam.awesometournament.resources.entities;
 //that allows you to store contextual information for logging on a per-thread basis.
 import org.apache.logging.log4j.ThreadContext;
 
-
 /**
  * LogContext is designed to provide a logging context for actions performed within a web application.
  * It allows developers to log contextual information related to user actions, such as the user performing
