@@ -8,18 +8,25 @@
 		<servlet-name>Hello</servlet-name>
 		<servlet-class>it.unipd.dei.dam.awesometournament.servlet.ExampleServlet</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>Player</servlet-name>
+		<servlet-class>it.unipd.dei.dam.awesometournament.servlet.PlayerServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>Login</servlet-name>
+		<servlet-class>it.unipd.dei.dam.awesometournament.servlet.LoginServlet</servlet-class>
+	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>Hello</servlet-name>
 		<url-pattern>/hello</url-pattern>
 	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>Player</servlet-name>
-		<servlet-class>it.unipd.dei.dam.awesometournament.servlet.PlayerServlet</servlet-class>
-	</servlet>
 	<servlet-mapping>
 		<servlet-name>Player</servlet-name>
 		<url-pattern>/api/players/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Login</servlet-name>
+		<url-pattern>/auth/login</url-pattern>
 	</servlet-mapping>
 </web-app>
