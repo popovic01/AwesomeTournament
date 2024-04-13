@@ -1,4 +1,4 @@
-package it.unipd.dei.dam.awesometournament.resources.entities;
+package it.unipd.dei.dam.awesometournament.resources;
 
 //The class uses ThreadContext from Apache Log4j, which is a Map-based structure
 //that allows you to store contextual information for logging on a per-thread basis.

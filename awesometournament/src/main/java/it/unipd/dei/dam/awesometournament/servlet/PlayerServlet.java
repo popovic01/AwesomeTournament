@@ -9,15 +9,22 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.message.StringFormatterMessageFactory;
 
 import it.unipd.dei.dam.awesometournament.database.GetPlayerDAO;
+import it.unipd.dei.dam.awesometournament.resources.Actions;
+import it.unipd.dei.dam.awesometournament.resources.LogContext;
 import it.unipd.dei.dam.awesometournament.resources.entities.Player;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-public class PlayerServlet extends AbstractDatabaseServlet{
-    protected final static Logger LOGGER = LogManager.getLogger(PlayerServlet.class, StringFormatterMessageFactory.INSTANCE);
+public class PlayerServlet extends AbstractDatabaseServlet {
+    protected final static Logger LOGGER = LogManager.getLogger(PlayerServlet.class,
+            StringFormatterMessageFactory.INSTANCE);
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        LogContext.setIPAddress(req.getRemoteAddr());
+        LogContext.setAction(Actions.GET_PLAYER);
+
         LOGGER.info("Received get request");
 
         String url = req.getRequestURI();
@@ -30,7 +37,7 @@ public class PlayerServlet extends AbstractDatabaseServlet{
                 int playerId = Integer.parseInt(urlParts[3]);
                 Connection connection = getConnection();
                 GetPlayerDAO getPlayerDAO = new GetPlayerDAO(connection, playerId);
-                Player player = (Player)getPlayerDAO.access().getOutputParam();
+                Player player = (Player) getPlayerDAO.access().getOutputParam();
                 if (player != null) {
                     resp.getWriter().println(player.getName());
                     resp.getWriter().println(player.getSurname());
