@@ -4,13 +4,13 @@ GRANT ALL PRIVILEGES ON DATABASE awesome TO awesome;
 
 \c awesome;
 
-CREATE TABLE public.user (
+CREATE TABLE public.users (
         id SERIAL PRIMARY KEY,
         email VARCHAR UNIQUE NOT NULL,
         password VARCHAR NOT NULL
 );
 
-CREATE TABLE public.tournament (
+CREATE TABLE public.tournaments (
         id SERIAL PRIMARY KEY,
         name VARCHAR NOT NULL,
         token VARCHAR NOT NULL,
@@ -28,7 +28,7 @@ CREATE TABLE public.tournament (
         FOREIGN KEY (creator_user_id) REFERENCES "user" (id)
 );
 
-CREATE TABLE public.team (
+CREATE TABLE public.teams (
         id SERIAL PRIMARY KEY,
         name VARCHAR NOT NULL,
         logo VARCHAR NULL,
@@ -40,7 +40,7 @@ CREATE TABLE public.team (
 
 CREATE TYPE public.match_result as ENUM ('team1', 'team2', 'draw');
 
-CREATE TABLE public.match (
+CREATE TABLE public.matches (
         id SERIAL PRIMARY KEY,
         team1_id INT NOT NULL,
         team2_id INT NOT NULL,
@@ -58,7 +58,7 @@ CREATE TABLE public.match (
 
 CREATE TYPE public.player_position as ENUM ('goalkeeper', 'defender', 'midfielder', 'striker');
 
-CREATE TABLE public.player (
+CREATE TABLE public.players (
         id SERIAL PRIMARY KEY,
         name VARCHAR NOT NULL,
         surname VARCHAR NOT NULL,
@@ -71,7 +71,7 @@ CREATE TABLE public.player (
 
 CREATE TYPE public.event_type as ENUM ('goal', 'yellow card', 'red card');
 
-CREATE TABLE public.event (
+CREATE TABLE public.events (
         id SERIAL PRIMARY KEY,
         match_id INT NOT NULL,
         player_id INT NOT NULL,
