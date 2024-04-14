@@ -27,20 +27,20 @@ public class PlayerServlet extends AbstractDatabaseServlet {
 
         LOGGER.info("Received get request");
 
-        String url = req.getRequestURI();
-        String[] urlParts = url.split("/");
+        String url = req.getPathInfo();
+        String[] urlParts = url.split("/"); // urlParts[0] = ""
 
-        if (urlParts.length > 4) {
+        if (urlParts.length != 2) {
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid URL format");
         } else {
             try {
-                int playerId = Integer.parseInt(urlParts[3]);
+                int playerId = Integer.parseInt(urlParts[1]);
                 Connection connection = getConnection();
                 GetPlayerDAO getPlayerDAO = new GetPlayerDAO(connection, playerId);
                 Player player = (Player) getPlayerDAO.access().getOutputParam();
                 if (player != null) {
-                    resp.getWriter().println(player.getName());
-                    resp.getWriter().println(player.getSurname());
+                    req.setAttribute("player", player);
+                    req.getRequestDispatcher("/player.jsp").forward(req, resp);
                 } else {
                     resp.sendError(HttpServletResponse.SC_NOT_FOUND);
                 }
