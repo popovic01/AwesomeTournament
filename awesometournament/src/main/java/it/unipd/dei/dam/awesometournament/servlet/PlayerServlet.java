@@ -3,6 +3,8 @@ package it.unipd.dei.dam.awesometournament.servlet;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,27 +30,32 @@ public class PlayerServlet extends AbstractDatabaseServlet {
         LOGGER.info("Received get request");
 
         String url = req.getPathInfo();
-        String[] urlParts = url.split("/"); // urlParts[0] = ""
-
-        if (urlParts.length != 2) {
-            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid URL format");
-        } else {
-            try {
-                int playerId = Integer.parseInt(urlParts[1]);
-                Connection connection = getConnection();
-                GetPlayerDAO getPlayerDAO = new GetPlayerDAO(connection, playerId);
-                Player player = (Player) getPlayerDAO.access().getOutputParam();
-                if (player != null) {
-                    req.setAttribute("player", player);
-                    req.getRequestDispatcher("/player.jsp").forward(req, resp);
-                } else {
-                    resp.sendError(HttpServletResponse.SC_NOT_FOUND);
+        if (url != null) {
+            String[] urlParts = url.split("/"); // urlParts[0] = ""
+            if (urlParts.length != 2) {
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid URL format");
+            } else {
+                try {
+                    int playerId = Integer.parseInt(urlParts[1]);
+                    Connection connection = getConnection();
+                    GetPlayerDAO getPlayerDAO = new GetPlayerDAO(connection, playerId);
+                    List<Object> result = (ArrayList<Object>) getPlayerDAO.access().getOutputParam();
+                    if (result != null) {
+                        req.setAttribute("player", (Player) result.get(0));
+                        req.setAttribute("teamName", (String) result.get(1));
+                        req.getRequestDispatcher("/player.jsp").forward(req, resp);
+                    } else {
+                        resp.sendError(HttpServletResponse.SC_NOT_FOUND, "The player doesn't exist");
+                    }
+                } catch (NumberFormatException e) {
+                    resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Player ID must be an integer");
+                } catch (SQLException e) {
+                    resp.sendError(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
                 }
-            } catch (NumberFormatException e) {
-                resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Player ID must be an integer");
-            } catch (SQLException e) {
-                resp.sendError(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
             }
+        } else {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid URL format");
         }
+
     }
 }
