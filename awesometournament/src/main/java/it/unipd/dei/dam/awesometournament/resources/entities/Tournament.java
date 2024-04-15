@@ -142,11 +142,11 @@ public class Tournament {
         this.logo = logo;
     }
 
-    public boolean getIsFinished() {
+    public boolean isFinished() {
         return isFinished;
     }
 
-    public void setIsFinished(boolean finished) {
+    public void setFinished(boolean finished) {
         isFinished = finished;
     }
 
