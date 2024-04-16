@@ -13,6 +13,7 @@ public enum PlayerPosition {
     STRIKER;
 
     public static PlayerPosition db2enum(String dbValue) {
+        if (dbValue == null) return null;
         switch (dbValue) {
             case "goalkeeper":
                 return GOALKEEPER;
@@ -23,11 +24,12 @@ public enum PlayerPosition {
             case "striker":
                 return STRIKER;
             default:
-	            throw new IllegalArgumentException("Unknown database value: " + dbValue);
+                throw new IllegalArgumentException("Unknown database value: " + dbValue);
         }
     }
 
     public static String enum2db(PlayerPosition enumValue) {
+        if (enumValue == null) return null;
         switch(enumValue) {
             case GOALKEEPER:
                 return "goalkeeper";
@@ -37,7 +39,6 @@ public enum PlayerPosition {
                 return "midfielder";
             case STRIKER:
                 return "striker";
-
             default:
                 throw new IllegalArgumentException("Unknown enum value: " + enumValue);
         }
