@@ -16,6 +16,10 @@
 		<servlet-name>Login</servlet-name>
 		<servlet-class>it.unipd.dei.dam.awesometournament.servlet.LoginServlet</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>User</servlet-name>
+		<servlet-class>it.unipd.dei.dam.awesometournament.servlet.UserServlet</servlet-class>
+	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>Hello</servlet-name>
@@ -28,5 +32,10 @@
 	<servlet-mapping>
 		<servlet-name>Login</servlet-name>
 		<url-pattern>/auth/login</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<!-- TODO This shouldn't be part of the final release. -->
+		<servlet-name>User</servlet-name>
+		<url-pattern>/api/user/*</url-pattern>
 	</servlet-mapping>
 </web-app>
