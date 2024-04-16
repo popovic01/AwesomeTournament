@@ -16,9 +16,10 @@
         Player player = (Player) request.getAttribute("player");
     %>
     <ul>
+        <li><b>ID:</b> <c:out value="${player.id}"/></li>
         <li><b>Name:</b> <c:out value="${player.name}"/></li>
         <li><b>Surname:</b> <c:out value="${player.surname}"/></li>
-        <li><b>Team:</b> <c:out value="${teamName}"/></li>
+        <li><b>Team ID:</b> <c:out value="${player.teamId}"/></li>
         <li><b>Position:</b> <c:out value="${player.position}"/></li>
         <li><b>Medical Certificate:</b> <c:out value="${player.medicalCertificate}"/></li>
         <li><b>Date of Birth:</b> <c:out value="${player.dateOfBirth}"/></li>

@@ -42,10 +42,9 @@ public class PlayerServlet extends AbstractDatabaseServlet {
                     int playerId = Integer.parseInt(urlParts[1]);
                     Connection connection = getConnection();
                     GetPlayerDAO getPlayerDAO = new GetPlayerDAO(connection, playerId);
-                    List<Object> result = (ArrayList<Object>) getPlayerDAO.access().getOutputParam();
-                    if (result != null) {
-                        req.setAttribute("player", (Player) result.get(0));
-                        req.setAttribute("teamName", (String) result.get(1));
+                    Player player = (Player) getPlayerDAO.access().getOutputParam();
+                    if (player != null) {
+                        req.setAttribute("player", player);
                         req.getRequestDispatcher("/player.jsp").forward(req, resp);
                     } else {
                         resp.sendError(HttpServletResponse.SC_NOT_FOUND, "The player doesn't exist");

@@ -26,23 +26,20 @@ public class GetPlayerDAO extends AbstractDAO {
     protected void doAccess() throws Exception {
         PreparedStatement p = null;
         ResultSet rs = null;
-        List<Object> playerTeam = null;
+        Player player = null;
 
         try {
             p = con.prepareStatement(STATEMENT);
             p.setInt(1, this.id);
             rs = p.executeQuery();
             if (rs.next()) {
-                playerTeam = new ArrayList<Object>();
-                Player player = new Player(rs.getInt("id"),
+                player = new Player(rs.getInt("id"),
                     rs.getString("name"),
                     rs.getString("surname"),
                     rs.getInt("team_id"),
                     PlayerPosition.db2enum(rs.getString("position")),
                     rs.getString("medical_certificate"),
                     rs.getDate("date_of_birth"));
-                playerTeam.add(player);
-                playerTeam.add(rs.getString("team_name"));
 
                 LOGGER.info("Player with id %d found", this.id);
             } else {
@@ -52,7 +49,7 @@ public class GetPlayerDAO extends AbstractDAO {
             if (p != null) p.close();
             if (rs != null) rs.close();
         }
-        this.outputParam = playerTeam;
+        this.outputParam = player;
     }
 
 }
