@@ -6,6 +6,7 @@ import java.sql.SQLException;
 
 import it.unipd.dei.dam.awesometournament.database.CreateUserDAO;
 import it.unipd.dei.dam.awesometournament.resources.entities.User;
+import it.unipd.dei.dam.awesometournament.utils.Hashing;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,9 +28,10 @@ public class ExampleDatabaseServlet extends AbstractDatabaseServlet{
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String email = req.getParameter("email");
-        String password = req.getParameter("password");
+        String clearpassword = req.getParameter("password");
+        String hashedpassword = Hashing.hashPassword(clearpassword);
         LOGGER.info("email: "+ email);
-        User u = new User(0, email, password);
+        User u = new User(0, email, hashedpassword);
 
         try (Connection con = getConnection()) {
             new CreateUserDAO(con, u).access();
