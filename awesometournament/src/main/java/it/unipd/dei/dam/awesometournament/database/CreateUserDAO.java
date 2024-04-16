@@ -7,9 +7,9 @@ import java.sql.SQLException;
 
 import it.unipd.dei.dam.awesometournament.resources.entities.User;
 
-public class CreateUserDAO extends AbstractDAO {
+public class CreateUserDAO extends AbstractDAO<Integer> {
 
-    private static final String STATEMENT = "INSERT INTO public.\"users\" (email, password) VALUES (?, ?)";
+    private static final String STATEMENT = "INSERT INTO public.\"users\" (email, password) VALUES (?, ?) RETURNING *";
 
     private final User user;
 
@@ -30,19 +30,18 @@ public class CreateUserDAO extends AbstractDAO {
         p.setString(1, user.getEmail());
         p.setString(2, user.getPassword());
         try {
-            p.executeUpdate();
-            ResultSet rs = p.getGeneratedKeys();
+            ResultSet rs = p.executeQuery();
 
-            LOGGER.info("reading resultset");
-            while(rs.next()) {
-                LOGGER.info("Resultset "+rs.getLong(1));
-            }
-            
+            rs.next();
+            this.outputParam = rs.getInt("id");
+
             LOGGER.info("user stored in the database");
             p.close();
         }
         catch (SQLException e) {
+            e.printStackTrace();
             LOGGER.error("can't insert user");
+            this.outputParam = null;
         }
     }
     

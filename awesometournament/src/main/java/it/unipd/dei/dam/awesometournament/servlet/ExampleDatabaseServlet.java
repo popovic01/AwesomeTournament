@@ -34,8 +34,14 @@ public class ExampleDatabaseServlet extends AbstractDatabaseServlet{
         User u = new User(0, email, hashedpassword);
 
         try (Connection con = getConnection()) {
-            new CreateUserDAO(con, u).access();
-            resp.getWriter().println("added!");
+            CreateUserDAO cud = new CreateUserDAO(con, u);
+            cud.access();
+            Integer newId = cud.getOutputParam();
+            if(newId != null) {
+                resp.getWriter().println(newId);
+            } else {
+                resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
