@@ -38,7 +38,7 @@ public class GetPlayerDAO extends AbstractDAO {
                     rs.getString("name"),
                     rs.getString("surname"),
                     rs.getInt("team_id"),
-                    (PlayerPosition)rs.getObject("position"),
+                    PlayerPosition.db2enum(rs.getString("position")),
                     rs.getString("medical_certificate"),
                     rs.getDate("date_of_birth"));
                 playerTeam.add(player);

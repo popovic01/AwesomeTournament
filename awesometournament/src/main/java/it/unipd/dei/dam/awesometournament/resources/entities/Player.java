@@ -1,16 +1,30 @@
 package it.unipd.dei.dam.awesometournament.resources.entities;
 
 import java.sql.Date;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import it.unipd.dei.dam.awesometournament.resources.enums.PlayerPosition;
 
 public class Player {
+    @JsonProperty("id")
     private int id;
+    @JsonProperty("name")
     private String name;
+    @JsonProperty("surname")
     private String surname;
+    @JsonProperty("team_id")
     private int teamId;
+    @JsonProperty("position")
     private PlayerPosition position;
+    @JsonProperty("medical_certificate")
     private String medicalCertificate;
+    @JsonProperty("date_of_birth")
     private Date dateOfBirth;
+
+    @JsonCreator
+    public Player(){}
 
     public Player(int id, String name, String surname, int teamId, PlayerPosition position, String medicalCertificate, Date dateOfBirth) {
         this.id = id;
@@ -76,5 +90,18 @@ public class Player {
 
     public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
+    }
+
+    @Override
+    public String toString() {
+        return "Player{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", teamId=" + teamId +
+                ", position=" + position +
+                ", medicalCertificate='" + medicalCertificate + '\'' +
+                ", dateOfBirth=" + dateOfBirth +
+                '}';
     }
 }
