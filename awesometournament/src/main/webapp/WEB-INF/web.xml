@@ -29,6 +29,16 @@
 		<servlet-class>it.unipd.dei.dam.awesometournament.servlet.DebugCreateUserServlet</servlet-class>
 	</servlet>
 
+	<filter>
+		<filter-name>Logged</filter-name>
+		<filter-class>it.unipd.dei.dam.awesometournament.filter.LoggedFilter</filter-class>
+	</filter>
+	<!-- TODO enable this to use authentication for the /api subpath -->
+	<!-- <filter-mapping>
+		<filter-name>Logged</filter-name>
+		<url-pattern>/api/*</url-pattern>
+	</filter-mapping> -->
+
 	<servlet-mapping>
 		<servlet-name>Hello</servlet-name>
 		<url-pattern>/hello</url-pattern>
