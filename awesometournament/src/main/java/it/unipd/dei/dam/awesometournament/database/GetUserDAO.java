@@ -5,11 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.apache.taglibs.standard.tag.common.core.NullAttributeException;
-
 import it.unipd.dei.dam.awesometournament.resources.entities.User;
 
-public class GetUserDAO extends AbstractDAO {
+public class GetUserDAO extends AbstractDAO<User> {
 
     private static final String BYEMAIL_STATEMENT =
         "SELECT * FROM public.\"users\" WHERE email = ?;";
@@ -74,6 +72,7 @@ public class GetUserDAO extends AbstractDAO {
                 User user = new User(id, email, password);
 
                 this.outputParam = user;
+                return;
             }
         } catch (SQLException e) {
             LOGGER.error("sql exception");

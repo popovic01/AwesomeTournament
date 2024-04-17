@@ -8,12 +8,10 @@ import it.unipd.dei.dam.awesometournament.database.CreateUserDAO;
 import it.unipd.dei.dam.awesometournament.resources.entities.User;
 import it.unipd.dei.dam.awesometournament.utils.Hashing;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet("/db")
-public class ExampleDatabaseServlet extends AbstractDatabaseServlet{
+public class DebugCreateUserServlet extends AbstractDatabaseServlet{
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.getWriter().println("Hello!");

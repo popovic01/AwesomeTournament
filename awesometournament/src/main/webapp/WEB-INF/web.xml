@@ -20,10 +20,23 @@
 		<servlet-name>User</servlet-name>
 		<servlet-class>it.unipd.dei.dam.awesometournament.servlet.UserServlet</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>TournamentMatches</servlet-name>
+		<servlet-class>it.unipd.dei.dam.awesometournament.servlet.TournamentMatchesServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>DebugCreateUser</servlet-name>
+		<servlet-class>it.unipd.dei.dam.awesometournament.servlet.DebugCreateUserServlet</servlet-class>
+	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>Hello</servlet-name>
 		<url-pattern>/hello</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<!-- TODO This shouldn't be part of the final release. -->
+		<servlet-name>DebugCreateUser</servlet-name>
+		<url-pattern>/debug/createuser</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>Player</servlet-name>
@@ -38,11 +51,6 @@
 		<servlet-name>User</servlet-name>
 		<url-pattern>/api/user/*</url-pattern>
 	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>TournamentMatches</servlet-name>
-		<servlet-class>it.unipd.dei.dam.awesometournament.servlet.TournamentMatchesServlet</servlet-class>
-	</servlet>
 	<servlet-mapping>
 		<servlet-name>TournamentMatches</servlet-name>
 		<url-pattern>/api/tournaments/matches/*</url-pattern>
