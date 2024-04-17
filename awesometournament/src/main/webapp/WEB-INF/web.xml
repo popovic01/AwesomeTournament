@@ -38,4 +38,13 @@
 		<servlet-name>User</servlet-name>
 		<url-pattern>/api/user/*</url-pattern>
 	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>TournamentMatches</servlet-name>
+		<servlet-class>it.unipd.dei.dam.awesometournament.servlet.TournamentMatchesServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>TournamentMatches</servlet-name>
+		<url-pattern>/api/tournaments/matches/*</url-pattern>
+	</servlet-mapping>
 </web-app>
