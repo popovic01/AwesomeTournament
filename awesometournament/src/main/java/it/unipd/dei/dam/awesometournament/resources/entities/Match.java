@@ -109,5 +109,19 @@ public class Match {
     public void setIsFinished(boolean finished) {
         isFinished = finished;
     }
+
+    @Override
+    public String toString() {
+        return id +
+                ", " + team1Id +
+                ", " + team2Id +
+                ", " + tournamentId +
+                ", " + team1Score +
+                ", " + team2Score +
+                ", " + result +
+                ", " + referee +
+                ", " + matchDate +
+                ", " + isFinished;
+    }
 }
 
