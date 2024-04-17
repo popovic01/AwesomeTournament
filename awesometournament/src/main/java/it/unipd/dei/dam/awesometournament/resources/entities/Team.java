@@ -1,11 +1,22 @@
 package it.unipd.dei.dam.awesometournament.resources.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Team {
     
+    @JsonProperty("id")
     private int id;
+
+    @JsonProperty("name")
     private String name;
+
+    @JsonProperty("logo")
     private String logo;
+
+    @JsonProperty("creatorUserId")
     private int creatorUserId;
+
+    @JsonProperty("tournamentId")
     private int tournamentId;
 
     public Team(int id, String name, String logo, int creatorUserId, int tournamentId) {

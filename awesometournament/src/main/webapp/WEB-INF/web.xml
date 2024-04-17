@@ -13,6 +13,10 @@
 		<servlet-class>it.unipd.dei.dam.awesometournament.servlet.PlayerServlet</servlet-class>
 	</servlet>
 	<servlet>
+		<servlet-name>Team</servlet-name>
+		<servlet-class>it.unipd.dei.dam.awesometournament.servlet.TeamServlet</servlet-class>
+	</servlet>
+	<servlet>
 		<servlet-name>Login</servlet-name>
 		<servlet-class>it.unipd.dei.dam.awesometournament.servlet.LoginServlet</servlet-class>
 	</servlet>
@@ -51,6 +55,10 @@
 	<servlet-mapping>
 		<servlet-name>Player</servlet-name>
 		<url-pattern>/api/players/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Team</servlet-name>
+		<url-pattern>/api/teams/*</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>Login</servlet-name>
