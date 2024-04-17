@@ -38,7 +38,7 @@ public class RestMatcherServlet extends AbstractDatabaseServlet {
         }
 
         public Entry(String pattern, Handler handler) {
-            String newptn = pattern.replaceAll("\\*", "(*\\\\d+)"); //replace * with a regex group
+            String newptn = pattern.replaceAll("\\*", "(\\\\d+)"); //replace * with a regex group
             LOGGER.info("new pattern is " + newptn);
             this.pattern = Pattern.compile(newptn);
             this.handler = handler;
