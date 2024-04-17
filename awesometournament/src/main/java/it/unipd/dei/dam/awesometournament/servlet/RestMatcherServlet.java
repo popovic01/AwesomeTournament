@@ -54,7 +54,7 @@ public class RestMatcherServlet extends AbstractDatabaseServlet {
                 if (matcher.groupCount() > 0) {
                     params = new String[matcher.groupCount()];
                     for (int i = 0; i < matcher.groupCount(); i++) {
-                        params[i] = matcher.group(i);
+                        params[i] = matcher.group(i+1);
                         LOGGER.info("param is" + params[i]);
                     }
 
