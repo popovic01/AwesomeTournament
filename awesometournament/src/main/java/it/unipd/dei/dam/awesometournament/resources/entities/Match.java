@@ -1,7 +1,8 @@
 package it.unipd.dei.dam.awesometournament.resources.entities;
 
-import java.sql.Timestamp;
 import it.unipd.dei.dam.awesometournament.resources.enums.MatchResult;
+
+import java.sql.Timestamp;
 
 public class Match {
     private int id;
@@ -101,11 +102,12 @@ public class Match {
         this.matchDate = matchDate;
     }
 
-    public boolean isFinished() {
+    public boolean getIsFinished() {
         return isFinished;
     }
 
-    public void setFinished(boolean finished) {
+    public void setIsFinished(boolean finished) {
         isFinished = finished;
     }
 }
+
