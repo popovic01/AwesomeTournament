@@ -32,6 +32,10 @@
 		<servlet-name>DebugCreateUser</servlet-name>
 		<servlet-class>it.unipd.dei.dam.awesometournament.servlet.DebugCreateUserServlet</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>RestMatcher</servlet-name>
+		<servlet-class>it.unipd.dei.dam.awesometournament.servlet.RestMatcherServlet</servlet-class>
+	</servlet>
 
 	<filter>
 		<filter-name>Logged</filter-name>
@@ -54,20 +58,24 @@
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>Player</servlet-name>
-		<url-pattern>/api/players/*</url-pattern>
+		<url-pattern>/legacyapi/players/*</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>Team</servlet-name>
-		<url-pattern>/api/teams/*</url-pattern>
+		<url-pattern>/legacyapi/teams/*</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
-		<servlet-name>Login</servlet-name>
-		<url-pattern>/auth/login</url-pattern>
+		<servlet-name>RestMatcher</servlet-name>
+		<url-pattern>/api/*</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<!-- TODO This shouldn't be part of the final release. -->
 		<servlet-name>User</servlet-name>
-		<url-pattern>/api/user/*</url-pattern>
+		<url-pattern>/legacyapi/user/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Login</servlet-name>
+		<url-pattern>/auth/login</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>TournamentMatches</servlet-name>

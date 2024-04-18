@@ -8,11 +8,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet("/router")
 public class RestMatcherServlet extends AbstractDatabaseServlet {
 
     public enum Method {
@@ -41,7 +39,7 @@ public class RestMatcherServlet extends AbstractDatabaseServlet {
         public Entry(String pattern, boolean partialMatch, Handler handler) {
             this.partialMatch = partialMatch;
             String newptn = pattern.replaceAll("\\*", "(\\\\d+)"); // replace * with a regex group
-            if(partialMatch)
+            if (partialMatch)
                 newptn = newptn + ".*";
             this.pattern = Pattern.compile(newptn);
             this.handler = handler;
@@ -73,25 +71,25 @@ public class RestMatcherServlet extends AbstractDatabaseServlet {
                     }
                 }
                 runEntries.add(new EntryPair(e, params));
-                if(!e.partialMatch)
+                if (!e.partialMatch)
                     break;
             }
         }
         // the last we found must be a full match
-        if(runEntries.size() == 0) {
+        if (runEntries.size() == 0) {
             LOGGER.info("no matches");
             res.sendError(HttpServletResponse.SC_NOT_FOUND, "path not found");
             return;
         }
-        if(runEntries.get(runEntries.size()-1).entry.partialMatch) {
+        if (runEntries.get(runEntries.size() - 1).entry.partialMatch) {
             LOGGER.info("last match partial");
             res.sendError(HttpServletResponse.SC_NOT_FOUND, "path not found");
             return;
         }
-        for(EntryPair e: runEntries) {
+        for (EntryPair e : runEntries) {
             Entry entry = e.entry;
             Result result = entry.handler.handle(method, req, res, getConnection(), e.params);
-            if(result == Result.STOP)
+            if (result == Result.STOP)
                 break;
         }
     }
@@ -136,13 +134,25 @@ public class RestMatcherServlet extends AbstractDatabaseServlet {
                 return Result.CONTINUE;
             }
         }));
+        entries.add(new Entry("/test/*/prova/*", false, new Handler() {
+            @Override
+            public Result handle(Method method, HttpServletRequest req, HttpServletResponse res, Connection connection,
+                    String[] params) {
+                try {
+                    res.getWriter().println("param1: " + params[0] + " param2: " + params[1]);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return Result.STOP;
+            }
+        }));
         entries.add(new Entry("/test/*", false, new Handler() {
             @Override
             public Result handle(Method method, HttpServletRequest req, HttpServletResponse res, Connection connection,
                     String[] params) {
                 try {
                     res.getWriter().println("welcome to the test/id!");
-                    res.getWriter().println("param is "+params[0]);
+                    res.getWriter().println("param is " + params[0]);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -151,10 +161,15 @@ public class RestMatcherServlet extends AbstractDatabaseServlet {
         }));
     }
 
+    private String getSubpath(HttpServletRequest req) {
+        String url = req.getPathInfo();
+        return url;
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            this.execute(Method.GET, req.getParameter("path"), req, resp);
+            this.execute(Method.GET, getSubpath(req), req, resp);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -163,7 +178,7 @@ public class RestMatcherServlet extends AbstractDatabaseServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            this.execute(Method.POST, req.getParameter("path"), req, resp);
+            this.execute(Method.POST, getSubpath(req), req, resp);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -172,7 +187,7 @@ public class RestMatcherServlet extends AbstractDatabaseServlet {
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            this.execute(Method.PUT, req.getParameter("path"), req, resp);
+            this.execute(Method.PUT, getSubpath(req), req, resp);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -181,7 +196,7 @@ public class RestMatcherServlet extends AbstractDatabaseServlet {
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            this.execute(Method.DELETE, req.getParameter("path"), req, resp);
+            this.execute(Method.DELETE, getSubpath(req), req, resp);
         } catch (Exception e) {
             e.printStackTrace();
         }
