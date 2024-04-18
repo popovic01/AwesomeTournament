@@ -3,17 +3,14 @@ package it.unipd.dei.dam.awesometournament.database;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.List;
 
 import it.unipd.dei.dam.awesometournament.resources.entities.Player;
 import it.unipd.dei.dam.awesometournament.resources.enums.PlayerPosition;
 
-public class GetPlayerDAO extends AbstractDAO {
+public class GetPlayerDAO extends AbstractDAO<Player> {
 
-    private static final String STATEMENT = "SELECT p.*, t.name AS team_name FROM public.players p " +
-                                            "INNER JOIN public.teams t ON p.team_id = t.id " +
-                                            "WHERE p.id = (?)";
+    private static final String STATEMENT = "SELECT * FROM public.players " +
+                                            "WHERE p.id = ?";
 
     private final int id;
 

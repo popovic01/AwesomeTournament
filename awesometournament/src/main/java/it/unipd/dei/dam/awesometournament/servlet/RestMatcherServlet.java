@@ -17,13 +17,13 @@ public class RestMatcherServlet extends AbstractDatabaseServlet {
         GET, POST, DELETE, PUT
     }
 
-    private enum Result {
+    public enum Result {
         CONTINUE, STOP
     }
 
     public interface Handler {
         public Result handle(Method method, HttpServletRequest req, HttpServletResponse res, Connection connection,
-                String[] params);
+                String[] params) throws ServletException, IOException;
     }
 
     private class Entry {

@@ -11,9 +11,9 @@ import it.unipd.dei.dam.awesometournament.resources.enums.PlayerPosition;
 public class UpdatePlayerDAO extends AbstractDAO {
 
     private static final String STATEMENT = "UPDATE public.players " +
-                                            "SET name = (?), surname = (?), team_id = (?), position = (?), " +
-                                            "medical_certificate = (?), date_of_birth = (?) " +
-                                            "WHERE id = (?)";
+                                            "SET name = ?, surname = ?, team_id = ?, position = ?, " +
+                                            "medical_certificate = ?, date_of_birth = ? " +
+                                            "WHERE id = ?";
 
     private final Player player;
 
