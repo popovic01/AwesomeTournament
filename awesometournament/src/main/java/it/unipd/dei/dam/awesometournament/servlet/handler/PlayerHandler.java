@@ -45,6 +45,7 @@ public class PlayerHandler implements Handler {
             objectMapper.setDateFormat(new StdDateFormat());
             int playerId = Integer.parseInt(params[0]);
             Player player;
+            Integer result;
 
             try {
                 switch (method) {
@@ -69,13 +70,23 @@ public class PlayerHandler implements Handler {
                         player.setId(playerId);
                         LOGGER.info(player.toString());
                         UpdatePlayerDAO updatePlayerDAO = new UpdatePlayerDAO(connection, player);
-                        updatePlayerDAO.access();
+                        result = (Integer) updatePlayerDAO.access().getOutputParam();
+                        if (result == 1) {
+                            res.setStatus(HttpServletResponse.SC_OK);
+                        } else {
+                            res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        }
                         break;
                     case DELETE:
                         LogContext.setAction(Actions.DELETE_PLAYER);
                         LOGGER.info("Received DELETE request");
                         DeletePlayerDAO deletePlayerDAO = new DeletePlayerDAO(connection, playerId);
-                        deletePlayerDAO.access();
+                        result = (Integer) deletePlayerDAO.access().getOutputParam();
+                        if (result == 1) {
+                            res.setStatus(HttpServletResponse.SC_OK);
+                        } else {
+                            res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        }
                         break;
                     default:
                         return Result.STOP;

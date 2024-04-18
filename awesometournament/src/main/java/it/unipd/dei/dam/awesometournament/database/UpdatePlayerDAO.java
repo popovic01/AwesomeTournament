@@ -8,7 +8,7 @@ import java.sql.Types;
 import it.unipd.dei.dam.awesometournament.resources.entities.Player;
 import it.unipd.dei.dam.awesometournament.resources.enums.PlayerPosition;
 
-public class UpdatePlayerDAO extends AbstractDAO {
+public class UpdatePlayerDAO extends AbstractDAO<Integer> {
 
     private static final String STATEMENT = "UPDATE public.players " +
                                             "SET name = ?, surname = ?, team_id = ?, position = ?, " +
@@ -43,6 +43,7 @@ public class UpdatePlayerDAO extends AbstractDAO {
             int res = p.executeUpdate();
             if (res == 1) LOGGER.info("Player successfully updated");
             else LOGGER.info("Something went wrong %d", res);
+            this.outputParam = res; // 1 if success, 0 otherwise
         } finally {
             if (p != null) p.close();
             if (rs != null) rs.close();

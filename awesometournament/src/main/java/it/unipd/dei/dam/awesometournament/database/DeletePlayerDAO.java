@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-public class DeletePlayerDAO extends AbstractDAO {
+public class DeletePlayerDAO extends AbstractDAO<Integer> {
 
     private static final String STATEMENT = "DELETE FROM public.players " +
                                             "WHERE id = ?";
@@ -26,6 +26,7 @@ public class DeletePlayerDAO extends AbstractDAO {
             int res = p.executeUpdate();
             if (res == 1) LOGGER.info("Player successfully deleted");
             else LOGGER.info("Something went wrong %d", res);
+            this.outputParam = res; // 1 if success, 0 otherwise
         } finally {
             if (p != null) p.close();
             if (rs != null) rs.close();
