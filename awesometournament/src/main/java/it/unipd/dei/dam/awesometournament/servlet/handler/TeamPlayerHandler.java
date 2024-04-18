@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.util.StdDateFormat;
 
 import it.unipd.dei.dam.awesometournament.servlet.RestMatcherServlet.*;
+import it.unipd.dei.dam.awesometournament.database.CreateTeamPlayerDAO;
 import it.unipd.dei.dam.awesometournament.database.GetTeamPlayerDAO;
 import it.unipd.dei.dam.awesometournament.resources.Actions;
 import it.unipd.dei.dam.awesometournament.resources.LogContext;
@@ -24,6 +25,16 @@ public class TeamPlayerHandler implements Handler {
     protected final static Logger LOGGER = LogManager.getLogger(PlayerHandler.class,
             StringFormatterMessageFactory.INSTANCE);
 
+    String getRequestBody(HttpServletRequest req) throws IOException{
+        StringBuilder requestBody = new StringBuilder();
+        BufferedReader reader = req.getReader();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            requestBody.append(line);
+        }
+        return requestBody.toString();
+    }
+
     @Override
     public Result handle(Method method, HttpServletRequest req, HttpServletResponse res, Connection connection,
             String[] params) throws ServletException, IOException {
@@ -37,7 +48,7 @@ public class TeamPlayerHandler implements Handler {
             try {
                 switch (method) {
                     case GET:
-                        LogContext.setAction(Actions.GET_PLAYER);
+                        LogContext.setAction(Actions.GET_TEAM_PLAYER);
                         LOGGER.info("Received GET request");
                         GetTeamPlayerDAO getTeamPlayerDAO = new GetTeamPlayerDAO(connection, teamId);
                         ArrayList<Player> players = getTeamPlayerDAO.access().getOutputParam();
@@ -46,6 +57,23 @@ public class TeamPlayerHandler implements Handler {
                             res.getWriter().println(objectMapper.writeValueAsString(players));
                         } else {
                             res.sendError(HttpServletResponse.SC_NOT_FOUND, "No players in team " + teamId);
+                        }
+                        break;
+                    case POST:
+                        LogContext.setAction(Actions.POST_TEAM_PLAYER);
+                        LOGGER.info("Received POST request");
+                        String requestBody = getRequestBody(req);
+                        LOGGER.info(requestBody);
+                        Player player = (Player) objectMapper.readValue(requestBody, Player.class);
+                        player.setTeamId(teamId);
+                        LOGGER.info(player.toString());
+                        CreateTeamPlayerDAO createTeamPlayerDAO = new CreateTeamPlayerDAO(connection, player);
+                        Integer newId = (Integer) createTeamPlayerDAO.access().getOutputParam();
+                        if (newId != null) {
+                            LOGGER.info("Player created with id %d", newId);
+                            res.setStatus(HttpServletResponse.SC_CREATED);
+                        } else {
+                            res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         }
                         break;
                     default:

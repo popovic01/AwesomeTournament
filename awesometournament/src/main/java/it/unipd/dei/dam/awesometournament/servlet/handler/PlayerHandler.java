@@ -73,7 +73,7 @@ public class PlayerHandler implements Handler {
                         break;
                     case DELETE:
                         LogContext.setAction(Actions.DELETE_PLAYER);
-                        LOGGER.info("Receved DELETE request");
+                        LOGGER.info("Received DELETE request");
                         DeletePlayerDAO deletePlayerDAO = new DeletePlayerDAO(connection, playerId);
                         deletePlayerDAO.access();
                         break;
