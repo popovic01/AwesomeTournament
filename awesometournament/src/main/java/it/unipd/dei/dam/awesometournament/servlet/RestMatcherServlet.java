@@ -112,6 +112,18 @@ public class RestMatcherServlet extends AbstractDatabaseServlet {
                 return Result.CONTINUE;
             }
         }));
+        entries.add(new Entry("/test", true, new Handler() {
+            @Override
+            public Result handle(Method method, HttpServletRequest req, HttpServletResponse res, Connection connection,
+                    String[] params) {
+                try {
+                    res.getWriter().println("test father node");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return Result.CONTINUE;
+            }
+        }));
         entries.add(new Entry("/test", false, new Handler() {
             @Override
             public Result handle(Method method, HttpServletRequest req, HttpServletResponse res, Connection connection,
