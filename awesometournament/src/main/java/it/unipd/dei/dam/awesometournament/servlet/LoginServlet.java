@@ -69,13 +69,13 @@ public class LoginServlet extends AbstractDatabaseServlet {
             User user = dao.getOutputParam();
             LOGGER.info(user);
             if(user == null) {
-                resp.sendError(HttpServletResponse.SC_NOT_FOUND, "user not found");
+                resp.sendError(HttpServletResponse.SC_UNAUTHORIZED, "user not found");
                 return;
             }
             // compare the password
             String hashedinput = Hashing.hashPassword(password);
             if(!hashedinput.equals(user.getPassword())) {
-                resp.sendError(HttpServletResponse.SC_NOT_FOUND, "wrong password");
+                resp.sendError(HttpServletResponse.SC_UNAUTHORIZED, "wrong password");
                 return;
             }
             // create session for the user
