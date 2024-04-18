@@ -18,13 +18,12 @@ public class GetUserDAO extends AbstractDAO<User> {
     private final String email;
     private final Integer id;
 
-
     public GetUserDAO (final Connection con, final String email) {
         super(con);
 
         if (email == null) {
-            LOGGER.error("name cannot be null");
-            throw new NullPointerException();
+            LOGGER.error("Email cannot be null");
+            throw new NullPointerException("Email cannot be null");
         }
 
         this.email = email;
@@ -35,22 +34,22 @@ public class GetUserDAO extends AbstractDAO<User> {
         super(con);
 
         if (id == null) {
-            LOGGER.error("id cannot be null");
-            throw new NullPointerException();
+            LOGGER.error("Id cannot be null");
+            throw new NullPointerException("Id cannot be null");
         }
 
         this.id = id;
-        this.email= null;
+        this.email = null;
     }
 
 
     @Override
     protected void doAccess() throws Exception {
-        if(this.id != null) {
+        if (this.id != null) {
             this.doAccessId();
             return;
         }
-        if(this.email != null) {
+        if (this.email != null) {
             this.doAccessEmail();
             return;
         }
@@ -59,12 +58,12 @@ public class GetUserDAO extends AbstractDAO<User> {
     }
 
     private void doAccessEmail() {
-        LOGGER.info("accessing with email");
+        LOGGER.info("Accessing with email");
         try (PreparedStatement p = con.prepareStatement(BYEMAIL_STATEMENT)) {
             p.setString(1, email);
             ResultSet rs = p.executeQuery();
 
-            if(rs.next()) {
+            if (rs.next()) {
                 int id = rs.getInt("id");
                 String email = rs.getString("email");
                 String password = rs.getString("password");
@@ -75,18 +74,18 @@ public class GetUserDAO extends AbstractDAO<User> {
                 return;
             }
         } catch (SQLException e) {
-            LOGGER.error("sql exception");
+            LOGGER.error("Sql exception: " + e.getMessage());
         }
         this.outputParam = null;
     }
 
     private void doAccessId() {
-        LOGGER.info("accessing with id");
+        LOGGER.info("Accessing with id");
         try (PreparedStatement p = con.prepareStatement(BYID_STATEMENT)) {
             p.setInt(1, id);
             ResultSet rs = p.executeQuery();
 
-            if(rs.next()) {
+            if (rs.next()) {
                 int id = rs.getInt("id");
                 String email = rs.getString("email");
                 String password = rs.getString("password");
@@ -97,7 +96,7 @@ public class GetUserDAO extends AbstractDAO<User> {
                 return;
             }
         } catch (SQLException e) {
-            LOGGER.error("sql exception");
+            LOGGER.error("Sql exception: " + e.getMessage());
         }
         this.outputParam = null;
     }
