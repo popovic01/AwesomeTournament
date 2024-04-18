@@ -10,7 +10,7 @@ import it.unipd.dei.dam.awesometournament.resources.enums.PlayerPosition;
 public class GetPlayerDAO extends AbstractDAO<Player> {
 
     private static final String STATEMENT = "SELECT * FROM public.players " +
-                                            "WHERE p.id = ?";
+                                            "WHERE id = ?";
 
     private final int id;
 

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import it.unipd.dei.dam.awesometournament.servlet.handler.PlayerHandler;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -159,6 +160,7 @@ public class RestMatcherServlet extends AbstractDatabaseServlet {
                 return Result.CONTINUE;
             }
         }));
+        entries.add(new Entry("/players/*", false, new PlayerHandler()));
     }
 
     private String getSubpath(HttpServletRequest req) {
