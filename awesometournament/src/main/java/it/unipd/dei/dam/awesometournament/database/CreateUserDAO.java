@@ -16,9 +16,9 @@ public class CreateUserDAO extends AbstractDAO<Integer> {
     public CreateUserDAO(final Connection con, final User user) {
         super(con);
 
-        if(user == null) {
-            LOGGER.error("user cannot be null");
-            throw new NullPointerException();
+        if (user == null) {
+            LOGGER.error("User cannot be null");
+            throw new NullPointerException("User cannot be null");
         }
 
         this.user = user;
@@ -35,12 +35,12 @@ public class CreateUserDAO extends AbstractDAO<Integer> {
             rs.next();
             this.outputParam = rs.getInt("id");
 
-            LOGGER.info("user stored in the database");
+            LOGGER.info("User has been successfully stored in the database");
             p.close();
         }
         catch (SQLException e) {
             e.printStackTrace();
-            LOGGER.error("can't insert user");
+            LOGGER.error("Error while saving user in the database: " + e.getMessage());
             this.outputParam = null;
         }
     }
