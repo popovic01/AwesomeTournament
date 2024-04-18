@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.util.StdDateFormat;
 
 import it.unipd.dei.dam.awesometournament.servlet.RestMatcherServlet.*;
+import it.unipd.dei.dam.awesometournament.database.DeletePlayerDAO;
 import it.unipd.dei.dam.awesometournament.database.GetPlayerDAO;
 import it.unipd.dei.dam.awesometournament.database.UpdatePlayerDAO;
 import it.unipd.dei.dam.awesometournament.resources.Actions;
@@ -23,58 +24,67 @@ import org.apache.logging.log4j.message.StringFormatterMessageFactory;
 public class PlayerHandler implements Handler {
     protected final static Logger LOGGER = LogManager.getLogger(PlayerHandler.class,
             StringFormatterMessageFactory.INSTANCE);
+
+    String getRequestBody(HttpServletRequest req) throws IOException{
+        StringBuilder requestBody = new StringBuilder();
+        BufferedReader reader = req.getReader();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            requestBody.append(line);
+        }
+        return requestBody.toString();
+    }
+
     @Override
     public Result handle(Method method, HttpServletRequest req, HttpServletResponse res, Connection connection,
             String[] params) throws ServletException, IOException {
+
             LogContext.setIPAddress(req.getRemoteAddr());
-            switch (method) {
-                case GET:
-                    LogContext.setAction(Actions.GET_PLAYER);
-                    LOGGER.info("Received GET request");
-                    try {
-                        int playerId = Integer.parseInt(params[0]);
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.setDateFormat(new StdDateFormat());
+            int playerId = Integer.parseInt(params[0]);
+            Player player;
+
+            try {
+                switch (method) {
+                    case GET:
+                        LogContext.setAction(Actions.GET_PLAYER);
+                        LOGGER.info("Received GET request");
                         GetPlayerDAO getPlayerDAO = new GetPlayerDAO(connection, playerId);
-                        Player player = (Player) getPlayerDAO.access().getOutputParam();
+                        player = (Player) getPlayerDAO.access().getOutputParam();
                         if (player != null) {
-                            ObjectMapper objectMapper = new ObjectMapper();
-                            objectMapper.setDateFormat(new StdDateFormat());
                             res.setContentType("application/json");
                             res.getWriter().println(objectMapper.writeValueAsString(player));
                         } else {
                             res.sendError(HttpServletResponse.SC_NOT_FOUND, "The player doesn't exist");
                         }
-                    } catch (NumberFormatException e) {
-                        res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Player ID must be an integer");
-                    } catch (SQLException e) {
-                        res.sendError(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
-                    }
-                    return Result.CONTINUE;
-                case PUT:
-                    LogContext.setAction(Actions.PUT_PLAYER);
-                    LOGGER.info("Received PUT request");
-                    try {
-                        int playerId = Integer.parseInt(params[0]);
-                        ObjectMapper objectMapper = new ObjectMapper();
-                        StringBuilder requestBody = new StringBuilder();
-                        try (BufferedReader reader = req.getReader()) {
-                            String line;
-                            while ((line = reader.readLine()) != null) {
-                                requestBody.append(line);
-                            }
-                        }
-                        LOGGER.info(requestBody.toString());
-                        Player player = (Player) objectMapper.readValue(requestBody.toString(), Player.class);
+                        break;
+                    case PUT:
+                        LogContext.setAction(Actions.PUT_PLAYER);
+                        LOGGER.info("Received PUT request");
+                        String requestBody = getRequestBody(req);
+                        LOGGER.info(requestBody);
+                        player = (Player) objectMapper.readValue(requestBody, Player.class);
                         player.setId(playerId);
                         LOGGER.info(player.toString());
                         UpdatePlayerDAO updatePlayerDAO = new UpdatePlayerDAO(connection, player);
                         updatePlayerDAO.access();
-                    } catch (NumberFormatException e) {
-                        res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Player ID must be an integer");
-                    } catch (SQLException e) {
-                        res.sendError(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
-                    }
-                default:
-                    return Result.STOP;
+                        break;
+                    case DELETE:
+                        LogContext.setAction(Actions.DELETE_PLAYER);
+                        LOGGER.info("Receved DELETE request");
+                        DeletePlayerDAO deletePlayerDAO = new DeletePlayerDAO(connection, playerId);
+                        deletePlayerDAO.access();
+                        break;
+                    default:
+                        return Result.STOP;
+                }
+            } catch (NumberFormatException e) {
+                res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Player ID must be an integer");
+            } catch (SQLException e) {
+                res.sendError(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
             }
+            return Result.CONTINUE;
         }
 }
