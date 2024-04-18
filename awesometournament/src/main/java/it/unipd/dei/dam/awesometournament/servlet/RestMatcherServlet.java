@@ -15,7 +15,7 @@ import jakarta.servlet.http.HttpServletResponse;
 @WebServlet("/router")
 public class RestMatcherServlet extends AbstractDatabaseServlet {
 
-    private enum Method {
+    public enum Method {
         GET, POST, DELETE, PUT
     }
 
@@ -23,7 +23,7 @@ public class RestMatcherServlet extends AbstractDatabaseServlet {
         CONTINUE, STOP
     }
 
-    private interface Handler {
+    public interface Handler {
         public Result handle(Method method, HttpServletRequest req, HttpServletResponse res, Connection connection,
                 String[] params);
     }
@@ -112,12 +112,25 @@ public class RestMatcherServlet extends AbstractDatabaseServlet {
                 return Result.CONTINUE;
             }
         }));
-        entries.add(new Entry("/test/*", false, new Handler() {
+        entries.add(new Entry("/test", false, new Handler() {
             @Override
             public Result handle(Method method, HttpServletRequest req, HttpServletResponse res, Connection connection,
                     String[] params) {
                 try {
                     res.getWriter().println("welcome to the test!");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return Result.CONTINUE;
+            }
+        }));
+        entries.add(new Entry("/test/*", false, new Handler() {
+            @Override
+            public Result handle(Method method, HttpServletRequest req, HttpServletResponse res, Connection connection,
+                    String[] params) {
+                try {
+                    res.getWriter().println("welcome to the test/id!");
+                    res.getWriter().println("param is "+params[0]);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -130,6 +143,33 @@ public class RestMatcherServlet extends AbstractDatabaseServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             this.execute(Method.GET, req.getParameter("path"), req, resp);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try {
+            this.execute(Method.POST, req.getParameter("path"), req, resp);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try {
+            this.execute(Method.PUT, req.getParameter("path"), req, resp);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try {
+            this.execute(Method.DELETE, req.getParameter("path"), req, resp);
         } catch (Exception e) {
             e.printStackTrace();
         }
