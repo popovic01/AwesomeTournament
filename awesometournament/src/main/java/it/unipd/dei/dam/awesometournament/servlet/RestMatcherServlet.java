@@ -8,6 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import it.unipd.dei.dam.awesometournament.servlet.handler.PlayerHandler;
+import it.unipd.dei.dam.awesometournament.servlet.handler.SessionHandler;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -31,11 +32,6 @@ public class RestMatcherServlet extends AbstractDatabaseServlet {
         public Pattern pattern;
         public Handler handler;
         public boolean partialMatch;
-
-        public Entry(Pattern pattern, Handler handler) {
-            this.pattern = pattern;
-            this.handler = handler;
-        }
 
         public Entry(String pattern, boolean partialMatch, Handler handler) {
             this.partialMatch = partialMatch;
@@ -99,67 +95,7 @@ public class RestMatcherServlet extends AbstractDatabaseServlet {
 
     public RestMatcherServlet() {
         entries = new ArrayList<>();
-        entries.add(new Entry("/", true, new Handler() {
-            @Override
-            public Result handle(Method method, HttpServletRequest req, HttpServletResponse res, Connection connection,
-                    String[] params) {
-                try {
-                    res.getWriter().println("welcome to the root!");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                return Result.CONTINUE;
-            }
-        }));
-        entries.add(new Entry("/test", true, new Handler() {
-            @Override
-            public Result handle(Method method, HttpServletRequest req, HttpServletResponse res, Connection connection,
-                    String[] params) {
-                try {
-                    res.getWriter().println("test father node");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                return Result.CONTINUE;
-            }
-        }));
-        entries.add(new Entry("/test", false, new Handler() {
-            @Override
-            public Result handle(Method method, HttpServletRequest req, HttpServletResponse res, Connection connection,
-                    String[] params) {
-                try {
-                    res.getWriter().println("welcome to the test!");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                return Result.CONTINUE;
-            }
-        }));
-        entries.add(new Entry("/test/*/prova/*", false, new Handler() {
-            @Override
-            public Result handle(Method method, HttpServletRequest req, HttpServletResponse res, Connection connection,
-                    String[] params) {
-                try {
-                    res.getWriter().println("param1: " + params[0] + " param2: " + params[1]);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                return Result.STOP;
-            }
-        }));
-        entries.add(new Entry("/test/*", false, new Handler() {
-            @Override
-            public Result handle(Method method, HttpServletRequest req, HttpServletResponse res, Connection connection,
-                    String[] params) {
-                try {
-                    res.getWriter().println("welcome to the test/id!");
-                    res.getWriter().println("param is " + params[0]);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                return Result.CONTINUE;
-            }
-        }));
+        entries.add(new Entry("/", true, new SessionHandler()));
         entries.add(new Entry("/players/*", false, new PlayerHandler()));
     }
 
@@ -204,3 +140,60 @@ public class RestMatcherServlet extends AbstractDatabaseServlet {
         }
     }
 }
+
+/*
+ * Examples of handlers:
+ * 
+ * 
+        entries.add(new Entry("/", true, new Handler() {
+            @Override
+            public Result handle(Method method, HttpServletRequest req, HttpServletResponse res, Connection connection,
+                    String[] params) {
+                try {
+                    res.getWriter().println("welcome to the root!");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return Result.CONTINUE;
+            }
+        }));
+        entries.add(new Entry("/test", true, new Handler() {
+            @Override
+            public Result handle(Method method, HttpServletRequest req, HttpServletResponse res, Connection connection,
+                    String[] params) {
+                try {
+                    res.getWriter().println("test father node");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return Result.CONTINUE;
+            }
+        }));
+        entries.add(new Entry("/test", false, new Handler() {
+            @Override
+            public Result handle(Method method, HttpServletRequest req, HttpServletResponse res, Connection connection,
+                    String[] params) {
+                try {
+                    res.getWriter().println("welcome to the test!");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return Result.CONTINUE;
+            }
+        }));
+        entries.add(new Entry("/test/*", false, new Handler() {
+            @Override
+            public Result handle(Method method, HttpServletRequest req, HttpServletResponse res, Connection connection,
+                    String[] params) {
+                try {
+                    res.getWriter().println("welcome to the test/id!");
+                    res.getWriter().println("param is " + params[0]);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return Result.CONTINUE;
+            }
+        }));
+ * 
+ * 
+ */

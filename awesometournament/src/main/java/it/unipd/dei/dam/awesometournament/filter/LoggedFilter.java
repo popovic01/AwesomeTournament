@@ -65,7 +65,8 @@ public class LoggedFilter implements Filter {
         }
 
         // I set some attributes the next servlet might want to use
-        req.setAttribute("email", session.getAttribute("email"));
+        req.setAttribute("session_email", session.getAttribute("email"));
+        req.setAttribute("session_id", session.getAttribute("id"));
 
         LOGGER.info("filter passed");
         // go to the next step
