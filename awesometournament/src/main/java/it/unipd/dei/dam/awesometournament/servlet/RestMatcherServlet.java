@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 
 import it.unipd.dei.dam.awesometournament.servlet.handler.PlayerHandler;
 import it.unipd.dei.dam.awesometournament.servlet.handler.SessionHandler;
+import it.unipd.dei.dam.awesometournament.servlet.handler.TeamPlayerHandler;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -97,6 +98,7 @@ public class RestMatcherServlet extends AbstractDatabaseServlet {
         entries = new ArrayList<>();
         entries.add(new Entry("/", true, new SessionHandler()));
         entries.add(new Entry("/players/*", false, new PlayerHandler()));
+        entries.add(new Entry("/teams/*/players", false, new TeamPlayerHandler()));
     }
 
     private String getSubpath(HttpServletRequest req) {
