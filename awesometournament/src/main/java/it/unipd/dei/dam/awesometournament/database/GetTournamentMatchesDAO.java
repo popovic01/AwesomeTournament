@@ -18,17 +18,17 @@ import java.util.List;
 
 public class GetTournamentMatchesDAO extends AbstractDAO<List<Match>> {
 
-    private static final String STATEMENT = "SELECT * FROM public.\"matches\" WHERE tournament_id = (SELECT id FROM public.\"tournaments\" WHERE token = ?)";
-    private final String tournamentToken;
+    private static final String STATEMENT = "SELECT * FROM public.\"matches\" WHERE tournament_id = ?";
+    private final int tournamentId;
 
     /**
      * Creates a new DAO object.
      *
      * @param con the connection to be used for accessing the database.
      */
-    public GetTournamentMatchesDAO(final Connection con, final String tournamentToken) {
+    public GetTournamentMatchesDAO(final Connection con, final int tournamentId) {
         super(con);
-        this.tournamentToken = tournamentToken;
+        this.tournamentId = tournamentId;
     }
 
     @Override
@@ -41,7 +41,7 @@ public class GetTournamentMatchesDAO extends AbstractDAO<List<Match>> {
 
         try {
             pstmt = con.prepareStatement(STATEMENT);
-            pstmt.setString(1, this.tournamentToken);
+            pstmt.setInt(1, this.tournamentId);
 
             rs = pstmt.executeQuery();
 
@@ -51,7 +51,7 @@ public class GetTournamentMatchesDAO extends AbstractDAO<List<Match>> {
                                 rs.getInt("id"),
                                 rs.getInt("team1_id"),
                                 rs.getInt("team2_id"),
-                                //Just to be consistent, I could hard code TournamentID here.
+                                //Just to be consistent, I could hard code tournamentId here.
                                 rs.getInt("tournament_id"),
                                 rs.getInt("team1_score"),
                                 rs.getInt("team2_score"),
