@@ -22,7 +22,7 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.message.StringFormatterMessageFactory;
 
 public class TeamPlayerHandler implements Handler {
-    protected final static Logger LOGGER = LogManager.getLogger(PlayerHandler.class,
+    protected final static Logger LOGGER = LogManager.getLogger(TeamPlayerHandler.class,
             StringFormatterMessageFactory.INSTANCE);
 
     String getRequestBody(HttpServletRequest req) throws IOException{
@@ -35,7 +35,7 @@ public class TeamPlayerHandler implements Handler {
         return requestBody.toString();
     }
     
-    void getPlayersFromTeam (HttpServletResponse res, Connection connection, int teamId) throws ServletException, IOException, SQLException{
+    void getPlayersFromTeam (HttpServletRequest req, HttpServletResponse res, Connection connection, int teamId) throws ServletException, IOException, SQLException{
         LogContext.setAction(Actions.GET_TEAM_PLAYER);
         LOGGER.info("Received GET request");
         GetTeamPlayerDAO getTeamPlayerDAO = new GetTeamPlayerDAO(connection, teamId);
@@ -81,7 +81,7 @@ public class TeamPlayerHandler implements Handler {
             try {
                 switch (method) {
                     case GET:
-                        getPlayersFromTeam(res, connection, teamId);
+                        getPlayersFromTeam(req, res, connection, teamId);
                         break;
                     case POST:
                         postPlayer(req, res, connection, teamId);

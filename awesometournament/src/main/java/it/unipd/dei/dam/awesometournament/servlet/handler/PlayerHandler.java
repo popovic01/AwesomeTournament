@@ -35,7 +35,7 @@ public class PlayerHandler implements Handler {
         return requestBody.toString();
     }
 
-    void getPlayer (HttpServletResponse res, Connection connection, int playerId) throws ServletException, IOException, SQLException{
+    void getPlayer (HttpServletRequest req, HttpServletResponse res, Connection connection, int playerId) throws ServletException, IOException, SQLException{
         LogContext.setAction(Actions.GET_PLAYER);
         LOGGER.info("Received GET request");
         GetPlayerDAO getPlayerDAO = new GetPlayerDAO(connection, playerId);
@@ -69,7 +69,7 @@ public class PlayerHandler implements Handler {
         }
     }
 
-    void deletePlayer (HttpServletResponse res, Connection connection, int playerId) throws ServletException, IOException, SQLException{
+    void deletePlayer (HttpServletRequest req, HttpServletResponse res, Connection connection, int playerId) throws ServletException, IOException, SQLException{
         LogContext.setAction(Actions.DELETE_PLAYER);
         LOGGER.info("Received DELETE request");
         DeletePlayerDAO deletePlayerDAO = new DeletePlayerDAO(connection, playerId);
@@ -92,13 +92,13 @@ public class PlayerHandler implements Handler {
             try {
                 switch (method) {
                     case GET:
-                        getPlayer(res, connection, playerId);
+                        getPlayer(req, res, connection, playerId);
                         break;
                     case PUT:
                         putPlayer(req, res, connection, playerId);
                         break;
                     case DELETE:
-                        deletePlayer(res, connection, playerId);
+                        deletePlayer(req, res, connection, playerId);
                         break;
                     default:
                         return Result.STOP;
