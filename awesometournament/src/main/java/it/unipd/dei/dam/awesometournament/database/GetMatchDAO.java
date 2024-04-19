@@ -42,9 +42,9 @@ public class GetMatchDAO extends AbstractDAO{
                     rs.getBoolean("is_finished")
                     );
                 
-                LOGGER.info("Player with id %d found", this.matchId);
+                LOGGER.info("Match with id %d found", this.matchId);
             } else {
-                LOGGER.info("Player with id %d doesn't exist", this.matchId);
+                LOGGER.info("Match with id %d doesn't exist", this.matchId);
             }
         } finally {
             if (p != null) p.close();

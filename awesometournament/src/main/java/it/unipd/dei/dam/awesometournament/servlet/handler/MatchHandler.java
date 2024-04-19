@@ -61,7 +61,7 @@ public class MatchHandler implements Handler{
                             res.setContentType("application/json");
                             res.getWriter().println(objectMapper.writeValueAsString(match));
                         } else {
-                            res.sendError(HttpServletResponse.SC_NOT_FOUND, "The player doesn't exist");
+                            res.sendError(HttpServletResponse.SC_NOT_FOUND, "The match doesn't exist");
                         }
 
                         break;
@@ -93,7 +93,7 @@ public class MatchHandler implements Handler{
                         return Result.STOP;
                 }
             } catch (NumberFormatException e) {
-                res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Player ID must be an integer");
+                res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Match ID must be an integer");
             } catch (SQLException e) {
                 res.sendError(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
             }
