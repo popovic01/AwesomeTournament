@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import it.unipd.dei.dam.awesometournament.database.DeleteTeamDAO;
 import it.unipd.dei.dam.awesometournament.database.UpdateTeamDAO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -41,18 +42,17 @@ public class TeamServlet extends AbstractDatabaseServlet{
 
                     GetTeamDAO getTeamDAO = new GetTeamDAO(connection, teamId);
                     getTeamDAO.access();
-                    Team team = (Team) getTeamDAO.getOutputParam();
+                    Team team = getTeamDAO.getOutputParam();
 
                     if(team != null) {
                         ObjectMapper om = new ObjectMapper();
                         resp.getWriter().print(om.writeValueAsString(team));
                     } else {
                         resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Team not found");
-
                     }
 
                 } catch (NumberFormatException e) {
-                    resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Player ID must be an integer");
+                    resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Team ID must be an integer");
                 } catch (SQLException e) {
                     resp.sendError(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
                 }
@@ -89,11 +89,12 @@ public class TeamServlet extends AbstractDatabaseServlet{
                     Connection connection = getConnection();
                     UpdateTeamDAO dao = new UpdateTeamDAO(connection, team);
                     dao.access();
-                    String result = dao.getOutputParam();
-                    if (result == "Error") {
-                        resp.getWriter().println("Something went wrong");
+
+                    int result = dao.getOutputParam();
+                    if (result == 1) {
+                        resp.getWriter().print("Team " + team.getName() + " successfully updated");
                     } else {
-                        resp.getWriter().println("Team " + result + " successfully updated");
+                        resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Team not found");
                     }
                 } catch (NumberFormatException e) {
                     resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Team ID must be an integer");
@@ -106,4 +107,39 @@ public class TeamServlet extends AbstractDatabaseServlet{
         }
     }
 
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        LogContext.setIPAddress(req.getRemoteAddr());
+        LogContext.setAction(Actions.DELETE_TEAM);
+
+        LOGGER.info("Received delete request");
+        String url = req.getPathInfo();
+        if (url != null) {
+            String[] urlParts = url.split("/");
+            if (urlParts.length != 2) {
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid URL format");
+            } else {
+                try {
+                    int id = Integer.parseInt(urlParts[1]);
+                    Connection connection = getConnection();
+
+                    DeleteTeamDAO dao = new DeleteTeamDAO(connection, id);
+                    dao.access();
+
+                    int result = dao.getOutputParam();
+                    if (result == 1) {
+                        resp.getWriter().print("Team successfully deleted");
+                    } else {
+                        resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Team not found");
+                    }
+                } catch (NumberFormatException e) {
+                    resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Team ID must be an integer");
+                } catch (SQLException e) {
+                    resp.sendError(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+                }
+            }
+        } else {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid URL format");
+        }
+    }
 }
