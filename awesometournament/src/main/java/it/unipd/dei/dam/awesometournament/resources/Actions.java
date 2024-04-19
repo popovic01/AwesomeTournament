@@ -10,4 +10,5 @@ public final class Actions {
     public static final String GET_TEAM = "GET_TEAM";
     public static final String PUT_MATCH = "PUT_MATCH";
     public static final String GET_MATCH = "GET_MATCH";
+    public static final String GET_RANKING = "GET_RANKING";
 }
