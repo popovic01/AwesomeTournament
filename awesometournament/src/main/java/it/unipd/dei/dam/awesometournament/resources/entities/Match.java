@@ -4,17 +4,33 @@ import it.unipd.dei.dam.awesometournament.resources.enums.MatchResult;
 
 import java.sql.Timestamp;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Match {
+    @JsonProperty ("id")
     private int id;
+    @JsonProperty ("team1Id")
     private int team1Id;
+    @JsonProperty ("team2Id")
     private int team2Id;
+    @JsonProperty ("tournamentId")
     private int tournamentId;
-    private Integer team1Score; // allows null values
-    private Integer team2Score; // allows null values
+    @JsonProperty ("team1Score")
+    private Integer team1Score;
+    @JsonProperty ("team2Score")
+    private Integer team2Score;
+    @JsonProperty ("result")
     private MatchResult result;
+    @JsonProperty ("referee")
     private String referee;
+    @JsonProperty ("matchDate")
     private Timestamp matchDate;
+    @JsonProperty ("isFinished")
     private boolean isFinished;
+
+    @JsonCreator
+    public Match(){}
 
     public Match(int id, int team1Id, int team2Id, int tournamentId, Integer team1Score, Integer team2Score,
                  MatchResult result, String referee, Timestamp matchDate, boolean isFinished) {

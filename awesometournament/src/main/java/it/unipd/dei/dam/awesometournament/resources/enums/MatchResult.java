@@ -3,8 +3,11 @@ package it.unipd.dei.dam.awesometournament.resources.enums;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public enum MatchResult {
+    @JsonProperty ("team1")
     TEAM1,
+    @JsonProperty ("team2")
     TEAM2,
+    @JsonProperty ("draw")
     DRAW;
 
     public static MatchResult db2enum(String dbValue) {
