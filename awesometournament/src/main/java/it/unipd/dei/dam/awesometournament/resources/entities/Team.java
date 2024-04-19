@@ -19,6 +19,10 @@ public class Team {
     @JsonProperty("tournamentId")
     private int tournamentId;
 
+    public Team() {
+
+    }
+
     public Team(int id, String name, String logo, int creatorUserId, int tournamentId) {
         this.id = id;
         this.name = name;
