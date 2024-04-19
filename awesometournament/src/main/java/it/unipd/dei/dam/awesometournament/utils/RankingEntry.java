@@ -10,4 +10,16 @@ public class RankingEntry {
         this.points = points;
         this.matchesPlayed = matchesPlayed;
     }
+
+    public String getTeamName() {
+        return teamName;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public int getMatchesPlayed () {
+        return matchesPlayed;
+    }
 }

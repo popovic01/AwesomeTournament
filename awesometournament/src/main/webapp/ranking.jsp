@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="it.unipd.dei.dam.awesometournament.utils.RankingEntry" %>
+<%@ page import="java.util.ArrayList" %>
 
   <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     <!DOCTYPE html>
@@ -27,9 +28,9 @@
           <tbody>
               <% for (RankingEntry entry : ranking) { %>
                   <tr>
-                      <td><%= entry.teamName() %></td>
-                      <td><%= entry.points() %></td>
-                      <td><%= entry.matchesPlayed() %></td>
+                      <td><%= entry.getTeamName() %></td>
+                      <td><%= entry.getPoints() %></td>
+                      <td><%= entry.getMatchesPlayed() %></td>
                   </tr>
               <% } %>
           </tbody>

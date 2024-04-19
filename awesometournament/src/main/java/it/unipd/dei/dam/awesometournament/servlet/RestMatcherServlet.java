@@ -103,7 +103,6 @@ public class RestMatcherServlet extends AbstractDatabaseServlet {
         entries.add(new Entry("/matches/*", false, new MatchHandler()));
         entries.add(new Entry("/players/*", false, new PlayerHandler()));
         entries.add(new Entry("/teams/*/players", false, new TeamPlayerHandler()));
-        entries.add(new Entry("/tournaments/*/matches", false, new TournamentMatchesHandler()));
     }
 
     private String getSubpath(HttpServletRequest req) {
