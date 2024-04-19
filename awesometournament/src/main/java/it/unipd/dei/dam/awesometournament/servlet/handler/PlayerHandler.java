@@ -35,58 +35,70 @@ public class PlayerHandler implements Handler {
         return requestBody.toString();
     }
 
+    void getPlayer (HttpServletResponse res, Connection connection, int playerId) throws ServletException, IOException, SQLException{
+        LogContext.setAction(Actions.GET_PLAYER);
+        LOGGER.info("Received GET request");
+        GetPlayerDAO getPlayerDAO = new GetPlayerDAO(connection, playerId);
+        Player player = (Player) getPlayerDAO.access().getOutputParam();
+        if (player != null) {
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.setDateFormat(new StdDateFormat());
+            res.setContentType("application/json");
+            res.getWriter().println(objectMapper.writeValueAsString(player));
+        } else {
+            res.sendError(HttpServletResponse.SC_NOT_FOUND, "The player doesn't exist");
+        }
+    }
+    
+    void putPlayer (HttpServletRequest req, HttpServletResponse res, Connection connection, int playerId) throws ServletException, IOException, SQLException{
+        LogContext.setAction(Actions.PUT_PLAYER);
+        LOGGER.info("Received PUT request");
+        String requestBody = getRequestBody(req);
+        LOGGER.info(requestBody);
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.setDateFormat(new StdDateFormat());
+        Player player = (Player) objectMapper.readValue(requestBody, Player.class);
+        player.setId(playerId);
+        LOGGER.info(player.toString());
+        UpdatePlayerDAO updatePlayerDAO = new UpdatePlayerDAO(connection, player);
+        Integer result = (Integer) updatePlayerDAO.access().getOutputParam();
+        if (result == 1) {
+            res.setStatus(HttpServletResponse.SC_OK);
+        } else {
+            res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    void deletePlayer (HttpServletResponse res, Connection connection, int playerId) throws ServletException, IOException, SQLException{
+        LogContext.setAction(Actions.DELETE_PLAYER);
+        LOGGER.info("Received DELETE request");
+        DeletePlayerDAO deletePlayerDAO = new DeletePlayerDAO(connection, playerId);
+        Integer result = (Integer) deletePlayerDAO.access().getOutputParam();
+        if (result == 1) {
+            res.setStatus(HttpServletResponse.SC_OK);
+        } else {
+            res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @Override
     public Result handle(Method method, HttpServletRequest req, HttpServletResponse res, Connection connection,
             String[] params) throws ServletException, IOException {
 
             LogContext.setIPAddress(req.getRemoteAddr());
 
-            ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.setDateFormat(new StdDateFormat());
             int playerId = Integer.parseInt(params[0]);
-            Player player;
-            Integer result;
 
             try {
                 switch (method) {
                     case GET:
-                        LogContext.setAction(Actions.GET_PLAYER);
-                        LOGGER.info("Received GET request");
-                        GetPlayerDAO getPlayerDAO = new GetPlayerDAO(connection, playerId);
-                        player = (Player) getPlayerDAO.access().getOutputParam();
-                        if (player != null) {
-                            res.setContentType("application/json");
-                            res.getWriter().println(objectMapper.writeValueAsString(player));
-                        } else {
-                            res.sendError(HttpServletResponse.SC_NOT_FOUND, "The player doesn't exist");
-                        }
+                        getPlayer(res, connection, playerId);
                         break;
                     case PUT:
-                        LogContext.setAction(Actions.PUT_PLAYER);
-                        LOGGER.info("Received PUT request");
-                        String requestBody = getRequestBody(req);
-                        LOGGER.info(requestBody);
-                        player = (Player) objectMapper.readValue(requestBody, Player.class);
-                        player.setId(playerId);
-                        LOGGER.info(player.toString());
-                        UpdatePlayerDAO updatePlayerDAO = new UpdatePlayerDAO(connection, player);
-                        result = (Integer) updatePlayerDAO.access().getOutputParam();
-                        if (result == 1) {
-                            res.setStatus(HttpServletResponse.SC_OK);
-                        } else {
-                            res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                        }
+                        putPlayer(req, res, connection, playerId);
                         break;
                     case DELETE:
-                        LogContext.setAction(Actions.DELETE_PLAYER);
-                        LOGGER.info("Received DELETE request");
-                        DeletePlayerDAO deletePlayerDAO = new DeletePlayerDAO(connection, playerId);
-                        result = (Integer) deletePlayerDAO.access().getOutputParam();
-                        if (result == 1) {
-                            res.setStatus(HttpServletResponse.SC_OK);
-                        } else {
-                            res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                        }
+                        deletePlayer(res, connection, playerId);
                         break;
                     default:
                         return Result.STOP;

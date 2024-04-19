@@ -34,6 +34,41 @@ public class TeamPlayerHandler implements Handler {
         }
         return requestBody.toString();
     }
+    
+    void getPlayersFromTeam (HttpServletResponse res, Connection connection, int teamId) throws ServletException, IOException, SQLException{
+        LogContext.setAction(Actions.GET_TEAM_PLAYER);
+        LOGGER.info("Received GET request");
+        GetTeamPlayerDAO getTeamPlayerDAO = new GetTeamPlayerDAO(connection, teamId);
+        ArrayList<Player> players = getTeamPlayerDAO.access().getOutputParam();
+        if (players.size() != 0) {
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.setDateFormat(new StdDateFormat());
+            res.setContentType("application/json");
+            res.getWriter().println(objectMapper.writeValueAsString(players));
+        } else {
+            res.sendError(HttpServletResponse.SC_NOT_FOUND, "No players in team " + teamId);
+        }
+    }
+
+    void postPlayer (HttpServletRequest req, HttpServletResponse res, Connection connection, int teamId) throws ServletException, IOException, SQLException{
+        LogContext.setAction(Actions.POST_TEAM_PLAYER);
+        LOGGER.info("Received POST request");
+        String requestBody = getRequestBody(req);
+        LOGGER.info(requestBody);
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.setDateFormat(new StdDateFormat());
+        Player player = (Player) objectMapper.readValue(requestBody, Player.class);
+        player.setTeamId(teamId);
+        LOGGER.info(player.toString());
+        CreateTeamPlayerDAO createTeamPlayerDAO = new CreateTeamPlayerDAO(connection, player);
+        Integer newId = (Integer) createTeamPlayerDAO.access().getOutputParam();
+        if (newId != null) {
+            LOGGER.info("Player created with id %d", newId);
+            res.setStatus(HttpServletResponse.SC_CREATED);
+        } else {
+            res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
+    }
 
     @Override
     public Result handle(Method method, HttpServletRequest req, HttpServletResponse res, Connection connection,
@@ -41,40 +76,15 @@ public class TeamPlayerHandler implements Handler {
 
             LogContext.setIPAddress(req.getRemoteAddr());
 
-            ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.setDateFormat(new StdDateFormat());
             int teamId = Integer.parseInt(params[0]);
 
             try {
                 switch (method) {
                     case GET:
-                        LogContext.setAction(Actions.GET_TEAM_PLAYER);
-                        LOGGER.info("Received GET request");
-                        GetTeamPlayerDAO getTeamPlayerDAO = new GetTeamPlayerDAO(connection, teamId);
-                        ArrayList<Player> players = getTeamPlayerDAO.access().getOutputParam();
-                        if (players.size() != 0) {
-                            res.setContentType("application/json");
-                            res.getWriter().println(objectMapper.writeValueAsString(players));
-                        } else {
-                            res.sendError(HttpServletResponse.SC_NOT_FOUND, "No players in team " + teamId);
-                        }
+                        getPlayersFromTeam(res, connection, teamId);
                         break;
                     case POST:
-                        LogContext.setAction(Actions.POST_TEAM_PLAYER);
-                        LOGGER.info("Received POST request");
-                        String requestBody = getRequestBody(req);
-                        LOGGER.info(requestBody);
-                        Player player = (Player) objectMapper.readValue(requestBody, Player.class);
-                        player.setTeamId(teamId);
-                        LOGGER.info(player.toString());
-                        CreateTeamPlayerDAO createTeamPlayerDAO = new CreateTeamPlayerDAO(connection, player);
-                        Integer newId = (Integer) createTeamPlayerDAO.access().getOutputParam();
-                        if (newId != null) {
-                            LOGGER.info("Player created with id %d", newId);
-                            res.setStatus(HttpServletResponse.SC_CREATED);
-                        } else {
-                            res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                        }
+                        postPlayer(req, res, connection, teamId);
                         break;
                     default:
                         return Result.STOP;
