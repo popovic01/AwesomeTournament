@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.util.StdDateFormat;
 
+import it.unipd.dei.dam.awesometournament.database.GetMatchDAO;
 import it.unipd.dei.dam.awesometournament.database.UpdateMatchDAO;
 import it.unipd.dei.dam.awesometournament.resources.Actions;
 import it.unipd.dei.dam.awesometournament.resources.LogContext;
@@ -50,6 +51,19 @@ public class MatchHandler implements Handler{
         try {
                 switch (method) {
                     case GET:
+                        LogContext.setAction(Actions.PUT_MATCH);
+                        LOGGER.info("Received GET request");
+
+                        GetMatchDAO getMatchDAO = new GetMatchDAO(connection, matchId);
+                        match = (Match) getMatchDAO.access().getOutputParam();
+
+                        if (match != null) {
+                            res.setContentType("application/json");
+                            res.getWriter().println(objectMapper.writeValueAsString(match));
+                        } else {
+                            res.sendError(HttpServletResponse.SC_NOT_FOUND, "The player doesn't exist");
+                        }
+
                         break;
                     case PUT:
                         LogContext.setAction(Actions.PUT_MATCH);
