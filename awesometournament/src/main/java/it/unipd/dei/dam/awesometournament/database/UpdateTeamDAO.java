@@ -1,25 +1,19 @@
 package it.unipd.dei.dam.awesometournament.database;
 
 import it.unipd.dei.dam.awesometournament.resources.entities.Team;
+import jakarta.servlet.http.HttpServletResponse;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
-public class UpdateTeamDAO extends AbstractDAO<String>  {
+public class UpdateTeamDAO extends AbstractDAO<Integer>  {
 
     private String STATEMENT;
     private final Team team;
 
     public UpdateTeamDAO(final Connection con, final Team team) {
         super(con);
-        LOGGER.error(team);
-        LOGGER.error(team.getName());
-        if (team == null) {
-            LOGGER.error("Team cannot be null");
-            throw new NullPointerException("Team cannot be null");
-        }
         this.team = team;
-        LOGGER.error(this.team);
     }
 
     @Override
@@ -43,12 +37,10 @@ public class UpdateTeamDAO extends AbstractDAO<String>  {
                 p.setInt(2, this.team.getId());
             }
 
-            p.executeUpdate();
-            LOGGER.info("Team successfully updated");
-            this.outputParam = this.team.getName();
+            int result = p.executeUpdate();
+            this.outputParam = result;
         } catch (Exception e) {
             LOGGER.error("Something went wrong: " + e.getMessage());
-            this.outputParam = "Error";
             throw e;
         }
         finally {
