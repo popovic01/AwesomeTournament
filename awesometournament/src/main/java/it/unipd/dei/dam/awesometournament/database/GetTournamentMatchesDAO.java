@@ -55,7 +55,7 @@ public class GetTournamentMatchesDAO extends AbstractDAO<List<Match>> {
                                 rs.getInt("tournament_id"),
                                 rs.getInt("team1_score"),
                                 rs.getInt("team2_score"),
-                                rs.getString("result") != null ? MatchResult.valueOf(rs.getString("result")) : null,
+                                rs.getString("result") != null ? MatchResult.db2enum(rs.getString("result")) : null,
                                 rs.getString("referee"),
                                 rs.getTimestamp("match_date"),
                                 rs.getBoolean("is_finished")
