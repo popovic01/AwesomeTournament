@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import it.unipd.dei.dam.awesometournament.servlet.handler.MatchHandler;
 import it.unipd.dei.dam.awesometournament.servlet.handler.PlayerHandler;
 import it.unipd.dei.dam.awesometournament.servlet.handler.SessionHandler;
 import it.unipd.dei.dam.awesometournament.servlet.handler.TeamPlayerHandler;
@@ -99,6 +100,7 @@ public class RestMatcherServlet extends AbstractDatabaseServlet {
     public RestMatcherServlet() {
         entries = new ArrayList<>();
         entries.add(new Entry("/", true, new SessionHandler()));
+        entries.add(new Entry("/matches/*", false, new MatchHandler()));
         entries.add(new Entry("/players/*", false, new PlayerHandler()));
         entries.add(new Entry("/teams/*/players", false, new TeamPlayerHandler()));
         entries.add(new Entry("/tournaments/*/matches", false, new TournamentMatchesHandler()));
