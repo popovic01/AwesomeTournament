@@ -20,9 +20,9 @@ CREATE TABLE public.tournaments (
         min_players INT NOT NULL,
         starting_players INT NOT NULL,
         max_substitutions INT NOT NULL,
-        deadline TIMESTAMP WITH TIME ZONE,
-        start_date TIMESTAMP WITH TIME ZONE,
-        creation_date TIMESTAMP WITH TIME ZONE,
+        deadline TIMESTAMP WITH TIME ZONE NOT NULL,
+        start_date TIMESTAMP WITH TIME ZONE NULL,
+        creation_date TIMESTAMP WITH TIME ZONE NOT NULL,
         logo VARCHAR NULL,
         is_finished BOOLEAN NOT NULL,
         FOREIGN KEY (creator_user_id) REFERENCES "users" (id)
