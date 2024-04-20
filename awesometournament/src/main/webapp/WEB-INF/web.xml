@@ -11,6 +11,16 @@
 		<filter-class>it.unipd.dei.dam.awesometournament.filter.LoggedFilter</filter-class>
 	</filter>
 
+
+	<servlet>
+		<servlet-name>Home</servlet-name>
+		<servlet-class>it.unipd.dei.dam.awesometournament.servlet.HomeServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Home</servlet-name>
+		<url-pattern>/home</url-pattern>
+	</servlet-mapping>
+
 	<servlet>
 		<servlet-name>RestMatcher</servlet-name>
 		<servlet-class>it.unipd.dei.dam.awesometournament.servlet.RestMatcherServlet</servlet-class>

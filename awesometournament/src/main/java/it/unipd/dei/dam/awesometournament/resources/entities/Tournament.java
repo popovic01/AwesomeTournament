@@ -150,4 +150,12 @@ public class Tournament {
         isFinished = finished;
     }
 
+    @Override
+    public String toString() {
+        return "Tournament [id=" + id + ", name=" + name + ", token=" + token + ", creatorUserId=" + creatorUserId
+                + ", maxTeams=" + maxTeams + ", maxPlayers=" + maxPlayers + ", minPlayers=" + minPlayers
+                + ", startingPlayers=" + startingPlayers + ", maxSubstitutions=" + maxSubstitutions + ", deadline="
+                + deadline + ", startDate=" + startDate + ", creationDate=" + creationDate + ", logo=" + logo
+                + ", isFinished=" + isFinished + "]";
+    }
 }
