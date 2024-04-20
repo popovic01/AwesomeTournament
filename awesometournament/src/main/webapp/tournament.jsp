@@ -52,11 +52,20 @@
 </head>
 <body>
     <div class="container">
-        <h1>AwesomeTournament</h1>
+        <h1>AwesomeTournaments</h1>
         <div>
             <div>
                 <c:out value="${tournament}"/>
             </div>
+        </div>
+        <div>
+            <ul>
+                <c:forEach var="match" items="${matches}">
+                    <li>
+                        <c:out value="${match}"/>
+                    </li>
+                </c:forEach>
+            </ul>
         </div>
     </div>
 </body>
