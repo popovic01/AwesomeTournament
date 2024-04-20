@@ -2,10 +2,11 @@ package it.unipd.dei.dam.awesometournament.utils;
 
 import it.unipd.dei.dam.awesometournament.utils.ResponseStatus;
 
-public class ResponsePackage {
+public class ResponsePackage<T> {
     
     private ResponseStatus status;
     private String message;
+    private T data;
 
     public ResponsePackage() {
         this.status = ResponseStatus.OK;
@@ -16,6 +17,16 @@ public class ResponsePackage {
         this.status = status;
         this.message = message;
     }
+
+    public ResponsePackage(T data, ResponseStatus status, String message) {
+        this.data = data;
+        this.status = status;
+        this.message = message;
+    }
+
+    public T getData() { return data; }
+
+    public void setData(T data) { this.data = data; }
 
     public ResponseStatus getStatus() {
         return status;
