@@ -70,11 +70,8 @@ public class EventHandler implements Handler {
     @Override
     public Result handle(Method method, HttpServletRequest req, HttpServletResponse res, Connection connection,
                          String[] params) throws ServletException, IOException {
-
         LogContext.setIPAddress(req.getRemoteAddr());
-
         int playerId = Integer.parseInt(params[0]);
-
         try {
             switch (method) {
                 case GET:

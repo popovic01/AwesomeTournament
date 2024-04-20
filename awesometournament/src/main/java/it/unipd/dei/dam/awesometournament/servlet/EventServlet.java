@@ -54,7 +54,6 @@ public class EventServlet extends AbstractDatabaseServlet {
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-
         String url = req.getPathInfo();
         if (url != null) {
             String[] urlParts = url.split("/"); // urlParts[0] = ""
@@ -69,7 +68,6 @@ public class EventServlet extends AbstractDatabaseServlet {
                     Connection connection = getConnection();
                     UpdateEventDAO updateEventDAO = new UpdateEventDAO(connection, updatedEvent);
                     updateEventDAO.access();
-
                 } catch (NumberFormatException e) {
                     resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Event ID must be an integer");
                 } catch (SQLException e) {

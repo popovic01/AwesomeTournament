@@ -1,48 +1,28 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="it.unipd.dei.dam.awesometournament.resources.entities.Event" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Event Details</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
-        .container {
-            max-width: 600px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-        .event-details {
-            margin-bottom: 10px;
-            padding: 10px;
-            background-color: #f9f9f9;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-        .label {
-            font-weight: bold;
-        }
-    </style>
+    <title>Player Information</title>
 </head>
 <body>
-<div class="container">
-    <h1>Event Details</h1>
-    <div class="event-details">
-        <!-- Aggiungi dettagli dell'evento se necessario -->
-    </div>
-</div>
+<h1>Event Details</h1>
+<%
+    Event event = (Event) request.getAttribute("event");
+    if (event != null) {
+%>
+<p>Type: <%= event.getType() %></p>
+<p>Time: <%= event.getTime() %></p>
+<!-- Altri dettagli dell'evento se necessario -->
+<%
+} else {
+%>
+<p>Event not find</p>
+<%
+    }
+%>
 </body>
 </html>
