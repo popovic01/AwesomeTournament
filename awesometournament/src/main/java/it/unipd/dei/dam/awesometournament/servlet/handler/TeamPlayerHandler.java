@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.util.StdDateFormat;
 
+import it.unipd.dei.dam.awesometournament.servlet.RestMatcherHandler;
 import it.unipd.dei.dam.awesometournament.servlet.RestMatcherServlet.*;
 import it.unipd.dei.dam.awesometournament.database.CreateTeamPlayerDAO;
 import it.unipd.dei.dam.awesometournament.database.GetTeamPlayerDAO;
@@ -21,7 +22,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.message.StringFormatterMessageFactory;
 
-public class TeamPlayerHandler implements Handler {
+public class TeamPlayerHandler extends RestMatcherHandler {
     protected final static Logger LOGGER = LogManager.getLogger(TeamPlayerHandler.class,
             StringFormatterMessageFactory.INSTANCE);
 
@@ -35,10 +36,10 @@ public class TeamPlayerHandler implements Handler {
         return requestBody.toString();
     }
     
-    void getPlayersFromTeam (HttpServletRequest req, HttpServletResponse res, Connection connection, int teamId) throws ServletException, IOException, SQLException{
+    void getPlayersFromTeam (HttpServletRequest req, HttpServletResponse res, int teamId) throws ServletException, IOException, SQLException{
         LogContext.setAction(Actions.GET_TEAM_PLAYER);
         LOGGER.info("Received GET request");
-        GetTeamPlayerDAO getTeamPlayerDAO = new GetTeamPlayerDAO(connection, teamId);
+        GetTeamPlayerDAO getTeamPlayerDAO = new GetTeamPlayerDAO(getConnection(), teamId);
         ArrayList<Player> players = getTeamPlayerDAO.access().getOutputParam();
         if (players.size() != 0) {
             ObjectMapper objectMapper = new ObjectMapper();
@@ -50,7 +51,7 @@ public class TeamPlayerHandler implements Handler {
         }
     }
 
-    void postPlayer (HttpServletRequest req, HttpServletResponse res, Connection connection, int teamId) throws ServletException, IOException, SQLException{
+    void postPlayer (HttpServletRequest req, HttpServletResponse res, int teamId) throws ServletException, IOException, SQLException{
         LogContext.setAction(Actions.POST_TEAM_PLAYER);
         LOGGER.info("Received POST request");
         String requestBody = getRequestBody(req);
@@ -60,7 +61,7 @@ public class TeamPlayerHandler implements Handler {
         Player player = (Player) objectMapper.readValue(requestBody, Player.class);
         player.setTeamId(teamId);
         LOGGER.info(player.toString());
-        CreateTeamPlayerDAO createTeamPlayerDAO = new CreateTeamPlayerDAO(connection, player);
+        CreateTeamPlayerDAO createTeamPlayerDAO = new CreateTeamPlayerDAO(getConnection(), player);
         Integer newId = (Integer) createTeamPlayerDAO.access().getOutputParam();
         if (newId != null) {
             LOGGER.info("Player created with id %d", newId);
@@ -71,7 +72,7 @@ public class TeamPlayerHandler implements Handler {
     }
 
     @Override
-    public Result handle(Method method, HttpServletRequest req, HttpServletResponse res, Connection connection,
+    public Result handle(Method method, HttpServletRequest req, HttpServletResponse res,
             String[] params) throws ServletException, IOException {
 
             LogContext.setIPAddress(req.getRemoteAddr());
@@ -81,10 +82,10 @@ public class TeamPlayerHandler implements Handler {
             try {
                 switch (method) {
                     case GET:
-                        getPlayersFromTeam(req, res, connection, teamId);
+                        getPlayersFromTeam(req, res, teamId);
                         break;
                     case POST:
-                        postPlayer(req, res, connection, teamId);
+                        postPlayer(req, res, teamId);
                         break;
                     default:
                         return Result.STOP;

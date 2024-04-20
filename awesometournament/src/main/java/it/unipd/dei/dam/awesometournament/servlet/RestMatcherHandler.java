@@ -1,0 +1,28 @@
+package it.unipd.dei.dam.awesometournament.servlet;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+
+import javax.sql.DataSource;
+
+import it.unipd.dei.dam.awesometournament.servlet.RestMatcherServlet.Method;
+import it.unipd.dei.dam.awesometournament.servlet.RestMatcherServlet.Result;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+public abstract class RestMatcherHandler {
+    private DataSource dataSource = null;
+
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
+    protected Connection getConnection() throws SQLException {
+        return this.dataSource.getConnection();
+    }
+
+    public abstract Result handle(Method method, HttpServletRequest req, HttpServletResponse res,
+            String[] params) throws ServletException, IOException;
+}

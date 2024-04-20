@@ -17,7 +17,7 @@ import it.unipd.dei.dam.awesometournament.database.GetTournamentMatchesDAO;
 import it.unipd.dei.dam.awesometournament.resources.Actions;
 import it.unipd.dei.dam.awesometournament.resources.LogContext;
 import it.unipd.dei.dam.awesometournament.resources.entities.Match;
-import it.unipd.dei.dam.awesometournament.servlet.RestMatcherServlet.Handler;
+import it.unipd.dei.dam.awesometournament.servlet.RestMatcherHandler;
 import it.unipd.dei.dam.awesometournament.servlet.RestMatcherServlet.Method;
 import it.unipd.dei.dam.awesometournament.servlet.RestMatcherServlet.Result;
 
@@ -25,7 +25,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-public class TournamentMatchesHandler implements Handler {
+public class TournamentMatchesHandler extends RestMatcherHandler {
     protected final static Logger LOGGER = LogManager.getLogger(PlayerHandler.class,
             StringFormatterMessageFactory.INSTANCE);
 
@@ -40,7 +40,7 @@ public class TournamentMatchesHandler implements Handler {
     }
 
     @Override
-    public Result handle(Method method, HttpServletRequest req, HttpServletResponse res, Connection connection,
+    public Result handle(Method method, HttpServletRequest req, HttpServletResponse res,
             String[] params) throws ServletException, IOException {
         
             LogContext.setIPAddress(req.getRemoteAddr());
@@ -53,7 +53,7 @@ public class TournamentMatchesHandler implements Handler {
                     case GET:
                         LogContext.setAction(Actions.GET_TOURNAMENT_MATCHES);
                         LOGGER.info("Received GET request");
-                        GetTournamentMatchesDAO getTournamentMatchesDAO = new GetTournamentMatchesDAO(connection,
+                        GetTournamentMatchesDAO getTournamentMatchesDAO = new GetTournamentMatchesDAO(getConnection(),
                                 tournamentId);
                         List<Match> matches = getTournamentMatchesDAO.access().getOutputParam();
                         if (matches.size() != 0) {

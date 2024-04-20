@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.util.StdDateFormat;
 
+import it.unipd.dei.dam.awesometournament.servlet.RestMatcherHandler;
 import it.unipd.dei.dam.awesometournament.servlet.RestMatcherServlet.*;
 import it.unipd.dei.dam.awesometournament.database.DeleteEventDAO;
 import it.unipd.dei.dam.awesometournament.database.GetEventDAO;
@@ -17,7 +18,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-public class EventHandler implements Handler {
+public class EventHandler extends RestMatcherHandler {
 
     String getRequestBody(HttpServletRequest req) throws IOException{
         StringBuilder requestBody = new StringBuilder();
@@ -29,8 +30,8 @@ public class EventHandler implements Handler {
         return requestBody.toString();
     }
 
-    void getEvent (HttpServletRequest req, HttpServletResponse res, Connection connection, int id) throws ServletException, IOException, SQLException{
-        GetEventDAO getEventDAO = new GetEventDAO(connection, id);
+    void getEvent (HttpServletRequest req, HttpServletResponse res, int id) throws ServletException, IOException, SQLException{
+        GetEventDAO getEventDAO = new GetEventDAO(getConnection(), id);
         Event event = (Event) getEventDAO.access().getOutputParam();
         if (event != null) {
             ObjectMapper objectMapper = new ObjectMapper();
@@ -42,13 +43,13 @@ public class EventHandler implements Handler {
         }
     }
 
-    void putEvent (HttpServletRequest req, HttpServletResponse res, Connection connection, int id) throws ServletException, IOException, SQLException{
+    void putEvent (HttpServletRequest req, HttpServletResponse res, int id) throws ServletException, IOException, SQLException{
         String requestBody = getRequestBody(req);
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setDateFormat(new StdDateFormat());
         Event event = (Event) objectMapper.readValue(requestBody, Event.class);
         event.setId(id);
-        UpdateEventDAO updateEventDAO = new UpdateEventDAO(connection, event);
+        UpdateEventDAO updateEventDAO = new UpdateEventDAO(getConnection(), event);
         Integer result = (Integer) updateEventDAO.access().getOutputParam();
         if (result == 1) {
             res.setStatus(HttpServletResponse.SC_OK);
@@ -57,8 +58,8 @@ public class EventHandler implements Handler {
         }
     }
 
-    void deleteEvent (HttpServletRequest req, HttpServletResponse res, Connection connection, int id) throws ServletException, IOException, SQLException{
-        DeleteEventDAO deleteEventDAO = new DeleteEventDAO(connection, id);
+    void deleteEvent (HttpServletRequest req, HttpServletResponse res, int id) throws ServletException, IOException, SQLException{
+        DeleteEventDAO deleteEventDAO = new DeleteEventDAO(getConnection(), id);
         Integer result = (Integer) deleteEventDAO.access().getOutputParam();
         if (result == 1) {
             res.setStatus(HttpServletResponse.SC_OK);
@@ -68,20 +69,20 @@ public class EventHandler implements Handler {
     }
 
     @Override
-    public Result handle(Method method, HttpServletRequest req, HttpServletResponse res, Connection connection,
+    public Result handle(Method method, HttpServletRequest req, HttpServletResponse res,
                          String[] params) throws ServletException, IOException {
         LogContext.setIPAddress(req.getRemoteAddr());
         int playerId = Integer.parseInt(params[0]);
         try {
             switch (method) {
                 case GET:
-                    getEvent(req, res, connection, playerId);
+                    getEvent(req, res, playerId);
                     break;
                 case PUT:
-                    putEvent(req, res, connection, playerId);
+                    putEvent(req, res, playerId);
                     break;
                 case DELETE:
-                    deleteEvent(req, res, connection, playerId);
+                    deleteEvent(req, res, playerId);
                     break;
                 default:
                     return Result.STOP;

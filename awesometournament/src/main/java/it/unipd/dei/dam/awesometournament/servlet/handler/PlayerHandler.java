@@ -1,12 +1,12 @@
 package it.unipd.dei.dam.awesometournament.servlet.handler;
 
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.io.BufferedReader;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.util.StdDateFormat;
 
+import it.unipd.dei.dam.awesometournament.servlet.RestMatcherHandler;
 import it.unipd.dei.dam.awesometournament.servlet.RestMatcherServlet.*;
 import it.unipd.dei.dam.awesometournament.database.DeletePlayerDAO;
 import it.unipd.dei.dam.awesometournament.database.GetPlayerDAO;
@@ -21,7 +21,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.message.StringFormatterMessageFactory;
 
-public class PlayerHandler implements Handler {
+public class PlayerHandler extends RestMatcherHandler{
     protected final static Logger LOGGER = LogManager.getLogger(PlayerHandler.class,
             StringFormatterMessageFactory.INSTANCE);
 
@@ -35,10 +35,10 @@ public class PlayerHandler implements Handler {
         return requestBody.toString();
     }
 
-    void getPlayer (HttpServletRequest req, HttpServletResponse res, Connection connection, int playerId) throws ServletException, IOException, SQLException{
+    void getPlayer (HttpServletRequest req, HttpServletResponse res, int playerId) throws ServletException, IOException, SQLException{
         LogContext.setAction(Actions.GET_PLAYER);
         LOGGER.info("Received GET request");
-        GetPlayerDAO getPlayerDAO = new GetPlayerDAO(connection, playerId);
+        GetPlayerDAO getPlayerDAO = new GetPlayerDAO(getConnection(), playerId);
         Player player = (Player) getPlayerDAO.access().getOutputParam();
         if (player != null) {
             ObjectMapper objectMapper = new ObjectMapper();
@@ -50,7 +50,7 @@ public class PlayerHandler implements Handler {
         }
     }
     
-    void putPlayer (HttpServletRequest req, HttpServletResponse res, Connection connection, int playerId) throws ServletException, IOException, SQLException{
+    void putPlayer (HttpServletRequest req, HttpServletResponse res, int playerId) throws ServletException, IOException, SQLException{
         LogContext.setAction(Actions.PUT_PLAYER);
         LOGGER.info("Received PUT request");
         String requestBody = getRequestBody(req);
@@ -60,7 +60,7 @@ public class PlayerHandler implements Handler {
         Player player = (Player) objectMapper.readValue(requestBody, Player.class);
         player.setId(playerId);
         LOGGER.info(player.toString());
-        UpdatePlayerDAO updatePlayerDAO = new UpdatePlayerDAO(connection, player);
+        UpdatePlayerDAO updatePlayerDAO = new UpdatePlayerDAO(getConnection(), player);
         Integer result = (Integer) updatePlayerDAO.access().getOutputParam();
         if (result == 1) {
             res.setStatus(HttpServletResponse.SC_OK);
@@ -69,10 +69,10 @@ public class PlayerHandler implements Handler {
         }
     }
 
-    void deletePlayer (HttpServletRequest req, HttpServletResponse res, Connection connection, int playerId) throws ServletException, IOException, SQLException{
+    void deletePlayer (HttpServletRequest req, HttpServletResponse res, int playerId) throws ServletException, IOException, SQLException{
         LogContext.setAction(Actions.DELETE_PLAYER);
         LOGGER.info("Received DELETE request");
-        DeletePlayerDAO deletePlayerDAO = new DeletePlayerDAO(connection, playerId);
+        DeletePlayerDAO deletePlayerDAO = new DeletePlayerDAO(getConnection(), playerId);
         Integer result = (Integer) deletePlayerDAO.access().getOutputParam();
         if (result == 1) {
             res.setStatus(HttpServletResponse.SC_OK);
@@ -82,7 +82,7 @@ public class PlayerHandler implements Handler {
     }
 
     @Override
-    public Result handle(Method method, HttpServletRequest req, HttpServletResponse res, Connection connection,
+    public Result handle(Method method, HttpServletRequest req, HttpServletResponse res,
             String[] params) throws ServletException, IOException {
 
             LogContext.setIPAddress(req.getRemoteAddr());
@@ -92,13 +92,13 @@ public class PlayerHandler implements Handler {
             try {
                 switch (method) {
                     case GET:
-                        getPlayer(req, res, connection, playerId);
+                        getPlayer(req, res, playerId);
                         break;
                     case PUT:
-                        putPlayer(req, res, connection, playerId);
+                        putPlayer(req, res, playerId);
                         break;
                     case DELETE:
-                        deletePlayer(req, res, connection, playerId);
+                        deletePlayer(req, res, playerId);
                         break;
                     default:
                         return Result.STOP;

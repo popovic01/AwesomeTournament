@@ -1,7 +1,6 @@
 package it.unipd.dei.dam.awesometournament.servlet.handler;
 
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.io.BufferedReader;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,7 +11,7 @@ import it.unipd.dei.dam.awesometournament.database.UpdateMatchDAO;
 import it.unipd.dei.dam.awesometournament.resources.Actions;
 import it.unipd.dei.dam.awesometournament.resources.LogContext;
 import it.unipd.dei.dam.awesometournament.resources.entities.Match;
-import it.unipd.dei.dam.awesometournament.servlet.RestMatcherServlet.Handler;
+import it.unipd.dei.dam.awesometournament.servlet.RestMatcherHandler;
 import it.unipd.dei.dam.awesometournament.servlet.RestMatcherServlet.Method;
 import it.unipd.dei.dam.awesometournament.servlet.RestMatcherServlet.Result;
 import jakarta.servlet.ServletException;
@@ -22,7 +21,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.message.StringFormatterMessageFactory;
 
-public class MatchHandler implements Handler{
+public class MatchHandler extends RestMatcherHandler{
 
     protected final static Logger LOGGER = LogManager.getLogger(PlayerHandler.class,
             StringFormatterMessageFactory.INSTANCE);
@@ -38,7 +37,7 @@ public class MatchHandler implements Handler{
     }
     
     @Override
-    public Result handle(Method method, HttpServletRequest req, HttpServletResponse res, Connection connection,
+    public Result handle(Method method, HttpServletRequest req, HttpServletResponse res,
             String[] params) throws ServletException, IOException {
         
         LogContext.setIPAddress(req.getRemoteAddr());
@@ -54,7 +53,7 @@ public class MatchHandler implements Handler{
                         LogContext.setAction(Actions.PUT_MATCH);
                         LOGGER.info("Received GET request");
 
-                        GetMatchDAO getMatchDAO = new GetMatchDAO(connection, matchId);
+                        GetMatchDAO getMatchDAO = new GetMatchDAO(getConnection(), matchId);
                         match = (Match) getMatchDAO.access().getOutputParam();
 
                         if (match != null) {
@@ -77,7 +76,7 @@ public class MatchHandler implements Handler{
                         match.setResult(null);  
                         LOGGER.info(match.toString());
 
-                        UpdateMatchDAO updateMatchDAO = new UpdateMatchDAO(connection, match);
+                        UpdateMatchDAO updateMatchDAO = new UpdateMatchDAO(getConnection(), match);
                         result = (Integer) updateMatchDAO.access().getOutputParam();
 
                         if (result == 1) {
