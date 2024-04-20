@@ -4,91 +4,44 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">
 	<display-name>Archetype Created Web Application</display-name>
-	<servlet>
-		<servlet-name>Hello</servlet-name>
-		<servlet-class>it.unipd.dei.dam.awesometournament.servlet.ExampleServlet</servlet-class>
-	</servlet>
-	<servlet>
-		<servlet-name>Player</servlet-name>
-		<servlet-class>it.unipd.dei.dam.awesometournament.servlet.PlayerServlet</servlet-class>
-	</servlet>
-	<servlet>
-		<servlet-name>Team</servlet-name>
-		<servlet-class>it.unipd.dei.dam.awesometournament.servlet.TeamServlet</servlet-class>
-	</servlet>
-	<servlet>
-		<servlet-name>Login</servlet-name>
-		<servlet-class>it.unipd.dei.dam.awesometournament.servlet.LoginServlet</servlet-class>
-	</servlet>
-	<servlet>
-		<servlet-name>Signup</servlet-name>
-		<servlet-class>it.unipd.dei.dam.awesometournament.servlet.SignupServlet</servlet-class>
-	</servlet>
-	<servlet>
-		<servlet-name>User</servlet-name>
-		<servlet-class>it.unipd.dei.dam.awesometournament.servlet.UserServlet</servlet-class>
-	</servlet>
-	<servlet>
-		<servlet-name>TournamentMatches</servlet-name>
-		<servlet-class>it.unipd.dei.dam.awesometournament.servlet.TournamentMatchesServlet</servlet-class>
-	</servlet>
-	<servlet>
-		<servlet-name>DebugCreateUser</servlet-name>
-		<servlet-class>it.unipd.dei.dam.awesometournament.servlet.DebugCreateUserServlet</servlet-class>
-	</servlet>
-	<servlet>
-		<servlet-name>RestMatcher</servlet-name>
-		<servlet-class>it.unipd.dei.dam.awesometournament.servlet.RestMatcherServlet</servlet-class>
-	</servlet>
-	<servlet>
-		<servlet-name>Ranking</servlet-name>
-		<servlet-class>it.unipd.dei.dam.awesometournament.servlet.RankingServlet</servlet-class>
-	</servlet>
+
 
 	<filter>
 		<filter-name>Logged</filter-name>
 		<filter-class>it.unipd.dei.dam.awesometournament.filter.LoggedFilter</filter-class>
 	</filter>
-	<!-- TODO enable this to use authentication for the /api subpath -->
-	<!-- <filter-mapping>
-		<filter-name>Logged</filter-name>
-		<url-pattern>/api/*</url-pattern>
-	</filter-mapping> -->
 
-	<servlet-mapping>
-		<servlet-name>Hello</servlet-name>
-		<url-pattern>/hello</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<!-- TODO This shouldn't be part of the final release. -->
-		<servlet-name>DebugCreateUser</servlet-name>
-		<url-pattern>/debug/createuser</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>Player</servlet-name>
-		<url-pattern>/legacyapi/players/*</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>Team</servlet-name>
-		<url-pattern>/legacyapi/teams/*</url-pattern>
-	</servlet-mapping>
+	<servlet>
+		<servlet-name>RestMatcher</servlet-name>
+		<servlet-class>it.unipd.dei.dam.awesometournament.servlet.RestMatcherServlet</servlet-class>
+	</servlet>
 	<servlet-mapping>
 		<servlet-name>RestMatcher</servlet-name>
 		<url-pattern>/api/*</url-pattern>
 	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>Ranking</servlet-name>
+		<servlet-class>it.unipd.dei.dam.awesometournament.servlet.RankingServlet</servlet-class>
+	</servlet>
 	<servlet-mapping>
 		<servlet-name>Ranking</servlet-name>
 		<url-pattern>/ranking/tournaments/*</url-pattern>
 	</servlet-mapping>
-	<servlet-mapping>
-		<!-- TODO This shouldn't be part of the final release. -->
-		<servlet-name>User</servlet-name>
-		<url-pattern>/legacyapi/user/*</url-pattern>
-	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>Login</servlet-name>
+		<servlet-class>it.unipd.dei.dam.awesometournament.servlet.LoginServlet</servlet-class>
+	</servlet>
 	<servlet-mapping>
 		<servlet-name>Login</servlet-name>
 		<url-pattern>/auth/login</url-pattern>
 	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>Signup</servlet-name>
+		<servlet-class>it.unipd.dei.dam.awesometournament.servlet.SignupServlet</servlet-class>
+	</servlet>
 	<servlet-mapping>
 		<servlet-name>Signup</servlet-name>
 		<url-pattern>/auth/signup</url-pattern>
