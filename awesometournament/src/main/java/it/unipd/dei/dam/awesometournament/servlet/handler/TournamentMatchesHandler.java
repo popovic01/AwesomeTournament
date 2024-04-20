@@ -51,7 +51,7 @@ public class TournamentMatchesHandler implements Handler {
             try {
                 switch (method) {
                     case GET:
-                        LogContext.setAction(Actions.GET_TEAM_PLAYER);
+                        LogContext.setAction(Actions.GET_TOURNAMENT_MATCHES);
                         LOGGER.info("Received GET request");
                         GetTournamentMatchesDAO getTournamentMatchesDAO = new GetTournamentMatchesDAO(connection,
                                 tournamentId);
