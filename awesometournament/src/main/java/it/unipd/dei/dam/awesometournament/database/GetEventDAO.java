@@ -10,7 +10,7 @@ import it.unipd.dei.dam.awesometournament.resources.enums.EventType;
 
 public class GetEventDAO extends AbstractDAO<Event> {
 
-    private static final String STATEMENT = "SELECT * FROM events " +
+    private static final String STATEMENT = "SELECT * FROM public.events " +
             "WHERE id = ?";
 
     private final int id;
