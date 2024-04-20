@@ -38,6 +38,15 @@
 		<url-pattern>/tournament/*</url-pattern>
 	</servlet-mapping>
 
+	<servlet>
+		<servlet-name>Match</servlet-name>
+		<servlet-class>it.unipd.dei.dam.awesometournament.servlet.MatchServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Match</servlet-name>
+		<url-pattern>/match/*</url-pattern>
+	</servlet-mapping>
+
 
 	<servlet>
 		<servlet-name>RestMatcher</servlet-name>

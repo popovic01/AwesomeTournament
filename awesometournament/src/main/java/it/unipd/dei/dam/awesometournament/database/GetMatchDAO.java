@@ -5,7 +5,7 @@ import java.sql.*;
 import it.unipd.dei.dam.awesometournament.resources.entities.Match;
 import it.unipd.dei.dam.awesometournament.resources.enums.MatchResult;
 
-public class GetMatchDAO extends AbstractDAO{
+public class GetMatchDAO extends AbstractDAO<Match> {
 
     private static final String STATEMENT = "SELECT * FROM public.matches WHERE id = ?";
 
