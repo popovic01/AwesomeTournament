@@ -22,6 +22,16 @@
 	</servlet-mapping>
 
 	<servlet>
+		<servlet-name>Tournament</servlet-name>
+		<servlet-class>it.unipd.dei.dam.awesometournament.servlet.TournamentServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Tournament</servlet-name>
+		<url-pattern>/tournament/*</url-pattern>
+	</servlet-mapping>
+
+
+	<servlet>
 		<servlet-name>RestMatcher</servlet-name>
 		<servlet-class>it.unipd.dei.dam.awesometournament.servlet.RestMatcherServlet</servlet-class>
 	</servlet>

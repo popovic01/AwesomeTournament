@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AwesomeTournaments - Home</title>
+    <title>AwesomeTournaments - Tournament</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -36,7 +36,6 @@
             background-color: #f9f9f9;
             border-radius: 5px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            cursor: pointer;
         }
         li:hover {
             background-color: #e9e9e9;
@@ -53,26 +52,12 @@
 </head>
 <body>
     <div class="container">
-        <h1>AwesomeTournaments</h1>
-        <ul>
-            <c:forEach var="tournament" items="${tournaments}">
-                <li>
-                    <div class="tournament-name">
-                        <c:out value="${tournament.getName()}"/>
-                    </div>
-                    <div class="tournament-details">
-                        <c:out value="${tournament.getCreationDate()}"/>
-                    </div>
-                    <div class="tournament-details">
-                        <c:out value="${tournament.getStartingPlayers()}"/> players per team.
-                    </div>
-                    <c:url value="/tournament/" var="base"/>
-                    <div class="tournament-details">
-                        <a href = "${base}${tournament.getId()}"/>detail</a>
-                    </div>
-                </li>
-            </c:forEach>
-        </ul>
+        <h1>AwesomeTournament</h1>
+        <div>
+            <div>
+                <c:out value="${tournament}"/>
+            </div>
+        </div>
     </div>
 </body>
 </html>
