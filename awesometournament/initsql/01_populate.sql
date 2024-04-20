@@ -2,16 +2,16 @@
 
 -- Inserting users
 INSERT INTO public.users (email, password) VALUES
-  ('user1@example.com', 'password1'),
-  ('user2@example.com', 'password2'),
-  ('user3@example.com', 'password3'),
-  ('user4@example.com', 'password4'),
-  ('user5@example.com', 'password5'),
-  ('user6@example.com', 'password6'),
-  ('user7@example.com', 'password7'),
-  ('user8@example.com', 'password8'),
-  ('user9@example.com', 'password9'),
-  ('user10@example.com', 'password10');
+  ('user1@example.com', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8'),
+  ('user2@example.com', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8'),
+  ('user3@example.com', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8'),
+  ('user4@example.com', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8'),
+  ('user5@example.com', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8'),
+  ('user6@example.com', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8'),
+  ('user7@example.com', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8'),
+  ('user8@example.com', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8'),
+  ('user9@example.com', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8'),
+  ('user10@example.com', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8');
 
 -- Inserting Serie A championship
 INSERT INTO public.tournaments (name, token, creator_user_id, max_teams, max_players, min_players, starting_players, max_substitutions, deadline, creation_date, is_finished)
@@ -107,6 +107,34 @@ INSERT INTO public.matches (team1_id, team2_id, tournament_id, team1_score, team
   (8, 9, 1, 1, 3, 'team2', 'Martin Atkinson', '2024-08-24 17:45:00', true),
   -- Match 10: Torino vs. AC Milan
   (10, 1, 1, 2, 1, 'team1', 'Anthony Taylor', '2024-08-25 18:30:00', true);
+
+-- Inserting scheduled but not yet played matches with existing referees
+INSERT INTO public.matches (team1_id, team2_id, tournament_id, match_date, referee, is_finished) VALUES
+  -- Scheduled match 11: AC Milan vs. Juventus
+  (1, 3, 1, '2024-09-01 17:00:00', 'Michael Fabbri', false),
+  -- Scheduled match 12: AS Roma vs. Inter Milan
+  (4, 2, 1, '2024-09-02 19:45:00', 'Daniele Doveri', false),
+  -- Scheduled match 13: Lazio vs. Napoli
+  (6, 5, 1, '2024-09-03 15:30:00', 'Gianpaolo Calvarese', false),
+  -- Scheduled match 14: Fiorentina vs. Torino
+  (8, 10, 1, '2024-09-04 20:00:00', 'Martin Atkinson', false),
+  -- Scheduled match 15: Sampdoria vs. Atalanta
+  (9, 7, 1, '2024-09-05 18:15:00', 'Anthony Taylor', false),
+  -- Scheduled match 16: Inter Milan vs. Lazio
+  (2, 6, 1, '2024-09-06 16:30:00', 'Michael Fabbri', false);
+
+-- Inserting matches that aren't scheduled yet with existing referees
+INSERT INTO public.matches (team1_id, team2_id, tournament_id, referee, is_finished) VALUES
+  -- Unscheduled match 17: Juventus vs. Napoli
+  (3, 5, 1, 'Daniele Doveri', false),
+  -- Unscheduled match 18: Atalanta vs. AC Milan
+  (7, 1, 1, 'Gianpaolo Calvarese', false),
+  -- Unscheduled match 19: Torino vs. AS Roma
+  (10, 4, 1, 'Martin Atkinson', false),
+  -- Unscheduled match 20: Inter Milan vs. Fiorentina
+  (2, 8, 1, 'Anthony Taylor', false),
+  -- Unscheduled match 21: Lazio vs. Sampdoria
+  (6, 9, 1, 'Michael Fabbri', false);
 
 -- Inserting events for Serie A matches
 INSERT INTO public.events (match_id, player_id, type, time) VALUES
