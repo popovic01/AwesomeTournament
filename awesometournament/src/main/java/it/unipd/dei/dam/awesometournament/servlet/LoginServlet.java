@@ -16,6 +16,7 @@ import it.unipd.dei.dam.awesometournament.resources.LogContext;
 import it.unipd.dei.dam.awesometournament.resources.entities.User;
 import it.unipd.dei.dam.awesometournament.utils.BodyTools;
 import it.unipd.dei.dam.awesometournament.utils.Hashing;
+import it.unipd.dei.dam.awesometournament.utils.SessionHelpers;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -29,7 +30,10 @@ public class LoginServlet extends AbstractDatabaseServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         LogContext.setIPAddress(req.getRemoteAddr());
 
-        LOGGER.info("get");
+        if(SessionHelpers.isLogged(req)) {
+            resp.sendRedirect("/");
+            return;
+        }
 
         req.getRequestDispatcher("/login.jsp").forward(req, resp);
     }
@@ -82,7 +86,8 @@ public class LoginServlet extends AbstractDatabaseServlet {
             HttpSession session = req.getSession(true);
             session.setAttribute("id", user.getId());
             session.setAttribute("email", user.getEmail());
-            resp.getWriter().println("Succesfully logged in");
+
+            resp.sendRedirect("/");
         } catch (SQLException e) {
             e.printStackTrace();
         }

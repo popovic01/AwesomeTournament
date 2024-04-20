@@ -11,6 +11,14 @@
 		<filter-class>it.unipd.dei.dam.awesometournament.filter.LoggedFilter</filter-class>
 	</filter>
 
+	<servlet>
+		<servlet-name>Index</servlet-name>
+		<servlet-class>it.unipd.dei.dam.awesometournament.servlet.IndexServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Index</servlet-name>
+		<url-pattern></url-pattern>
+	</servlet-mapping>
 
 	<servlet>
 		<servlet-name>Home</servlet-name>
@@ -65,5 +73,13 @@
 	<servlet-mapping>
 		<servlet-name>Signup</servlet-name>
 		<url-pattern>/auth/signup</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>Logout</servlet-name>
+		<servlet-class>it.unipd.dei.dam.awesometournament.servlet.LogoutServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Logout</servlet-name>
+		<url-pattern>/auth/logout</url-pattern>
 	</servlet-mapping>
 </web-app>

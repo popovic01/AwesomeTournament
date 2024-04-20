@@ -14,9 +14,11 @@ import it.unipd.dei.dam.awesometournament.resources.LogContext;
 import it.unipd.dei.dam.awesometournament.resources.entities.User;
 import it.unipd.dei.dam.awesometournament.utils.BodyTools;
 import it.unipd.dei.dam.awesometournament.utils.Hashing;
+import it.unipd.dei.dam.awesometournament.utils.SessionHelpers;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 public class SignupServlet extends AbstractDatabaseServlet {
     protected final static Logger LOGGER = LogManager.getLogger(SignupServlet.class,
@@ -26,6 +28,10 @@ public class SignupServlet extends AbstractDatabaseServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         LogContext.setIPAddress(req.getRemoteAddr());
 
+        if(SessionHelpers.isLogged(req)) {
+            resp.sendRedirect("/");
+            return;
+        }
 
         req.getRequestDispatcher("/signup.jsp").forward(req, resp);
     }
@@ -69,7 +75,8 @@ public class SignupServlet extends AbstractDatabaseServlet {
                 resp.sendError(HttpServletResponse.SC_CONFLICT, "can't create new user");
                 return;
             }
-            resp.getWriter().println("Succesfully signed up");
+
+            resp.sendRedirect("/");
         } catch (SQLException e) {
             e.printStackTrace();
         }
