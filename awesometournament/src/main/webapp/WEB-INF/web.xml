@@ -82,4 +82,17 @@
 		<servlet-name>Logout</servlet-name>
 		<url-pattern>/auth/logout</url-pattern>
 	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>CreateTournamentMatches</servlet-name>
+		<servlet-class>it.unipd.dei.dam.awesometournament.servlet.CreateTournamentMatchesServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CreateTournamentMatches</servlet-name>
+		<url-pattern>/matches/tournaments/*</url-pattern>
+	</servlet-mapping>
+
+	<listener>
+		<listener-class>it.unipd.dei.dam.awesometournament.listeners.JobSchedulerContextListener</listener-class>
+	</listener>
 </web-app>
