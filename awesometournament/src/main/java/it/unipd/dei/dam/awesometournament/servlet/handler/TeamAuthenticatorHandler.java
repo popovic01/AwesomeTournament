@@ -34,6 +34,8 @@ public class TeamAuthenticatorHandler extends RestMatcherHandler {
         switch (method) {
             case GET:
                 return RestMatcherServlet.Result.CONTINUE;
+            case POST: //improve this!!!
+                return RestMatcherServlet.Result.CONTINUE;
             case DELETE:
                 if (!SessionHelpers.isLogged(req)) {
                     LOGGER.info("User not logged in");
@@ -102,7 +104,6 @@ public class TeamAuthenticatorHandler extends RestMatcherHandler {
                     return RestMatcherServlet.Result.STOP;
                 }
             }
-
         }
         return RestMatcherServlet.Result.STOP;
     }
