@@ -9,11 +9,14 @@ import it.unipd.dei.dam.awesometournament.servlet.RestMatcherHandler;
 import it.unipd.dei.dam.awesometournament.servlet.RestMatcherServlet.*;
 import it.unipd.dei.dam.awesometournament.database.DeletePlayerDAO;
 import it.unipd.dei.dam.awesometournament.database.GetPlayerDAO;
+import it.unipd.dei.dam.awesometournament.database.GetTeamDAO;
 import it.unipd.dei.dam.awesometournament.database.UpdatePlayerDAO;
 import it.unipd.dei.dam.awesometournament.resources.Actions;
 import it.unipd.dei.dam.awesometournament.resources.LogContext;
 import it.unipd.dei.dam.awesometournament.resources.entities.Player;
+import it.unipd.dei.dam.awesometournament.resources.entities.Team;
 import it.unipd.dei.dam.awesometournament.utils.BodyTools;
+import it.unipd.dei.dam.awesometournament.utils.SessionHelpers;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -71,6 +74,24 @@ public class PlayerHandler extends RestMatcherHandler{
         }
     }
 
+    private boolean isUserAuthorized(HttpServletRequest req, int playerId) throws SQLException {
+        if (!SessionHelpers.isLogged(req))
+            return false;
+
+        LOGGER.info("User logged");
+        int userId = SessionHelpers.getId(req);
+        GetPlayerDAO getPlayerDAO = new GetPlayerDAO(getConnection(), playerId);
+        Player player = (Player) getPlayerDAO.access().getOutputParam();
+        GetTeamDAO getTeamDAO = new GetTeamDAO(getConnection(), player.getTeamId());
+        Team team = (Team) getTeamDAO.access().getOutputParam();
+
+        if (team.getCreatorUserId() != userId)
+            return false;
+
+        LOGGER.info("User authorized");
+        return true;
+    }
+
     @Override
     public Result handle(Method method, HttpServletRequest req, HttpServletResponse res,
             String[] params) throws ServletException, IOException {
@@ -85,9 +106,19 @@ public class PlayerHandler extends RestMatcherHandler{
                         getPlayer(req, res, playerId);
                         break;
                     case PUT:
+                        if (!isUserAuthorized(req, playerId)) {
+                            LOGGER.info("User unauthorized");
+                            res.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                            return Result.STOP;
+                        }
                         putPlayer(req, res, playerId);
                         break;
                     case DELETE:
+                        if (!isUserAuthorized(req, playerId)) {
+                            LOGGER.info("User unauthorized");
+                            res.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                            return Result.STOP;
+                        }
                         deletePlayer(req, res, playerId);
                         break;
                     default:

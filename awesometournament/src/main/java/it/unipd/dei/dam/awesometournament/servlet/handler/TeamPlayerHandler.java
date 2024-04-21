@@ -11,11 +11,14 @@ import com.fasterxml.jackson.databind.util.StdDateFormat;
 import it.unipd.dei.dam.awesometournament.servlet.RestMatcherHandler;
 import it.unipd.dei.dam.awesometournament.servlet.RestMatcherServlet.*;
 import it.unipd.dei.dam.awesometournament.utils.BodyTools;
+import it.unipd.dei.dam.awesometournament.utils.SessionHelpers;
 import it.unipd.dei.dam.awesometournament.database.CreateTeamPlayerDAO;
+import it.unipd.dei.dam.awesometournament.database.GetTeamDAO;
 import it.unipd.dei.dam.awesometournament.database.GetTeamPlayerDAO;
 import it.unipd.dei.dam.awesometournament.resources.Actions;
 import it.unipd.dei.dam.awesometournament.resources.LogContext;
 import it.unipd.dei.dam.awesometournament.resources.entities.Player;
+import it.unipd.dei.dam.awesometournament.resources.entities.Team;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -62,6 +65,22 @@ public class TeamPlayerHandler extends RestMatcherHandler {
         }
     }
 
+    private boolean isUserAuthorized(HttpServletRequest req, int teamId) throws SQLException {
+        if (!SessionHelpers.isLogged(req))
+            return false;
+
+        LOGGER.info("User logged");
+        int userId = SessionHelpers.getId(req);
+        GetTeamDAO getTeamDAO = new GetTeamDAO(getConnection(), teamId);
+        Team team = (Team) getTeamDAO.access().getOutputParam();
+
+        if (team.getCreatorUserId() != userId)
+            return false;
+
+        LOGGER.info("User authorized");
+        return true;
+    }
+
     @Override
     public Result handle(Method method, HttpServletRequest req, HttpServletResponse res,
             String[] params) throws ServletException, IOException {
@@ -76,6 +95,11 @@ public class TeamPlayerHandler extends RestMatcherHandler {
                         getPlayersFromTeam(req, res, teamId);
                         break;
                     case POST:
+                        if (!isUserAuthorized(req, teamId)) {
+                            LOGGER.info("User unauthorized");
+                            res.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                            return Result.STOP;
+                        }
                         postPlayer(req, res, teamId);
                         break;
                     default:
