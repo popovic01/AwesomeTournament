@@ -11,7 +11,6 @@ import it.unipd.dei.dam.awesometournament.servlet.RestMatcherHandler;
 import it.unipd.dei.dam.awesometournament.servlet.RestMatcherServlet.*;
 import it.unipd.dei.dam.awesometournament.resources.Actions;
 import it.unipd.dei.dam.awesometournament.resources.LogContext;
-import it.unipd.dei.dam.awesometournament.resources.entities.Player;
 import it.unipd.dei.dam.awesometournament.utils.BodyTools;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,10 +20,10 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.message.StringFormatterMessageFactory;
 
 public class TournamentHandler extends RestMatcherHandler {
-    protected final static Logger LOGGER = LogManager.getLogger(PlayerHandler.class,
+    protected final static Logger LOGGER = LogManager.getLogger(TournamentHandler.class,
             StringFormatterMessageFactory.INSTANCE);
 
-    void postTournament (HttpServletRequest req, HttpServletResponse res, int tournamentId) throws ServletException, IOException, SQLException{
+    void postTournament (HttpServletRequest req, HttpServletResponse res) throws IOException, SQLException{
         LogContext.setAction(Actions.POST_TOURNAMENT);
         LOGGER.info("Received POST request");
 
@@ -35,7 +34,6 @@ public class TournamentHandler extends RestMatcherHandler {
         objectMapper.setDateFormat(new StdDateFormat());
 
         Tournament tournament = objectMapper.readValue(requestBody, Tournament.class);
-        tournament.setId(tournamentId);
         LOGGER.info(tournament.toString());
 
         CreateTournamentDAO createTournamentDAO = new CreateTournamentDAO(getConnection(), tournament);
@@ -43,12 +41,11 @@ public class TournamentHandler extends RestMatcherHandler {
         if (newId != null) {
             LOGGER.info("Tournament created with id %d", newId);
             res.setStatus(HttpServletResponse.SC_CREATED);
-        } else {
-            res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
+        else res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
     }
 
-    void getTournament (HttpServletRequest req, HttpServletResponse res, int tournamentID) throws ServletException, IOException, SQLException{
+    void getTournament (HttpServletRequest req, HttpServletResponse res, int tournamentID) throws IOException, SQLException{
         LogContext.setAction(Actions.GET_TOURNAMENT);
         LOGGER.info("Received GET request");
 
@@ -63,7 +60,7 @@ public class TournamentHandler extends RestMatcherHandler {
         else res.sendError(HttpServletResponse.SC_NOT_FOUND, "The tournament doesn't exist");
     }
 
-    void putTournament (HttpServletRequest req, HttpServletResponse res, int tournamentId) throws ServletException, IOException, SQLException{
+    void putTournament (HttpServletRequest req, HttpServletResponse res, int tournamentId) throws IOException, SQLException {
         LogContext.setAction(Actions.PUT_TOURNAMENT);
         LOGGER.info("Received PUT request");
 
@@ -77,25 +74,20 @@ public class TournamentHandler extends RestMatcherHandler {
         tournament.setId(tournamentId);
 
         LOGGER.info(tournament.toString());
-        UpdateTournamentDAO updatePlayerDAO = new UpdateTournamentDAO(getConnection(), tournament);
-        Integer result = (Integer) updatePlayerDAO.access().getOutputParam();
-        if (result == 1) {
-            res.setStatus(HttpServletResponse.SC_OK);
-        } else {
-            res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-        }
+
+        UpdateTournamentDAO updateTournamentDAO = new UpdateTournamentDAO(getConnection(), tournament);
+        Integer result = updateTournamentDAO.access().getOutputParam();
+        if (result == 1) res.setStatus(HttpServletResponse.SC_OK);
+        else res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
     }
 
-    void deleteTournament (HttpServletRequest req, HttpServletResponse res, int playerId) throws ServletException, IOException, SQLException{
-        LogContext.setAction(Actions.DELETE_PLAYER);
+    void deleteTournament (HttpServletRequest req, HttpServletResponse res, int tournamentId) throws IOException, SQLException{
+        LogContext.setAction(Actions.DELETE_TOURNAMENT);
         LOGGER.info("Received DELETE request");
-        DeletePlayerDAO deletePlayerDAO = new DeletePlayerDAO(getConnection(), playerId);
-        Integer result = (Integer) deletePlayerDAO.access().getOutputParam();
-        if (result == 1) {
-            res.setStatus(HttpServletResponse.SC_OK);
-        } else {
-            res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-        }
+        DeleteTournamentDAO deleteTournamentDAO = new DeleteTournamentDAO(getConnection(), tournamentId);
+        Integer result = deleteTournamentDAO.access().getOutputParam();
+        if (result == 1) res.setStatus(HttpServletResponse.SC_OK);
+        else res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
     }
 
     @Override
@@ -103,20 +95,23 @@ public class TournamentHandler extends RestMatcherHandler {
                          String[] params) throws ServletException, IOException {
 
         LogContext.setIPAddress(req.getRemoteAddr());
-
-        int tournamentId = Integer.parseInt(params[0]);
+        int tournamentId;
 
         try {
             switch (method) {
                 case POST:
-                    postTournament(req, res, tournamentId);
+                    postTournament(req, res);
+                    break;
                 case GET:
+                    tournamentId = Integer.parseInt(params[0]);
                     getTournament(req, res, tournamentId);
                     break;
                 case PUT:
+                    tournamentId = Integer.parseInt(params[0]);
                     putTournament(req, res, tournamentId);
                     break;
                 case DELETE:
+                    tournamentId = Integer.parseInt(params[0]);
                     deleteTournament(req, res, tournamentId);
                     break;
                 default:

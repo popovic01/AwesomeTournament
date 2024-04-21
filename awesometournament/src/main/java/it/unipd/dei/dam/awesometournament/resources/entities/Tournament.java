@@ -1,23 +1,43 @@
 package it.unipd.dei.dam.awesometournament.resources.entities;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.sql.Timestamp;
 
 public class Tournament {
 
+    @JsonProperty("id")
     private int id;
+    @JsonProperty("name")
     private String name;
+    @JsonProperty("token")
     private String token;
+    @JsonProperty("creatorUserId")
     private int creatorUserId;
+    @JsonProperty("maxTeams")
     private int maxTeams;
+    @JsonProperty("maxPlayers")
     private int maxPlayers;
+    @JsonProperty("minPlayers")
     private int minPlayers;
+    @JsonProperty("startingPlayers")
     private int startingPlayers;
+    @JsonProperty("maxSubstitutions")
     private int maxSubstitutions;
+    @JsonProperty("deadline")
     private Timestamp deadline;
+    @JsonProperty("startDate")
     private Timestamp startDate;
+    @JsonProperty("creationDate")
     private Timestamp creationDate;
+    @JsonProperty("logo")
     private String logo;
+    @JsonProperty("isFinished")
     private boolean isFinished;
+
+    @JsonCreator
+    public Tournament(){}
 
     public Tournament(int id, String name, String token, int creatorUserId, int maxTeams, int maxPlayers,
                       int minPlayers, int startingPlayers, int maxSubstitutions, Timestamp deadline,

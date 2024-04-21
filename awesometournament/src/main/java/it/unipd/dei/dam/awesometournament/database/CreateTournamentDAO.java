@@ -9,8 +9,8 @@ import java.sql.ResultSet;
 public class CreateTournamentDAO extends AbstractDAO<Integer> {
     private static final String STATEMENT = "INSERT INTO public.tournaments " +
             "(name, token, creator_user_id, max_teams, max_players, min_players, starting_players," +
-            "max_substitutions, deadline, creation_date, logo, is_finished) " +
-            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING *";
+            "max_substitutions, deadline, start_date, creation_date, logo, is_finished) " +
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING *";
 
     private final Tournament tournament;
 
@@ -47,7 +47,7 @@ public class CreateTournamentDAO extends AbstractDAO<Integer> {
             rs = p.executeQuery();
             if (rs.next()) {
                 this.outputParam = rs.getInt("id");
-                LOGGER.info("Player successfully created");
+                LOGGER.info("Tournament successfully created");
             }
             else {
                 LOGGER.info("Something went wrong");
