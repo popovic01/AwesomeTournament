@@ -6,7 +6,7 @@ import java.util.List;
 
 import it.unipd.dei.dam.awesometournament.resources.entities.Team;
 
-public class GetTournamentTeamsDAO extends AbstractDAO{
+public class GetTournamentTeamsDAO extends AbstractDAO<List<Team>> {
     private static final String STATEMENT = "SELECT * FROM public.\"teams\" WHERE tournament_id = ?";
     private final int tournamentId;
 
@@ -41,13 +41,13 @@ public class GetTournamentTeamsDAO extends AbstractDAO{
                                 rs.getString("name"),
                                 rs.getString("logo"),
                                 rs.getInt("creator_user_id"),
-                                rs.getInt("tournament_id")
-                        )
-                );
+                                rs.getInt("tournament_id")));
             }
         } finally {
-            if(rs != null) rs.close();
-            if(p != null) p.close();
+            if (rs != null)
+                rs.close();
+            if (p != null)
+                p.close();
         }
         this.outputParam = teams;
     }
