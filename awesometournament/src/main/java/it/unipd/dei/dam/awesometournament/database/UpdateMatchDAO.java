@@ -5,7 +5,7 @@ import it.unipd.dei.dam.awesometournament.resources.enums.MatchResult;
 
 import java.sql.*;
 
-public class UpdateMatchDAO extends AbstractDAO {
+public class UpdateMatchDAO extends AbstractDAO<Integer> {
 
     private String STATEMENT;
     private final Match match;

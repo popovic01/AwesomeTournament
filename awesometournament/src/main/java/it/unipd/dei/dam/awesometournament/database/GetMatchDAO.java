@@ -1,6 +1,8 @@
 package it.unipd.dei.dam.awesometournament.database;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 import it.unipd.dei.dam.awesometournament.resources.entities.Match;
 import it.unipd.dei.dam.awesometournament.resources.enums.MatchResult;
@@ -41,7 +43,7 @@ public class GetMatchDAO extends AbstractDAO<Match> {
                     rs.getTimestamp("match_date"),
                     rs.getBoolean("is_finished")
                     );
-                
+
                 LOGGER.info("Match with id %d found", this.matchId);
             } else {
                 LOGGER.info("Match with id %d doesn't exist", this.matchId);

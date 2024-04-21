@@ -1,7 +1,5 @@
 package it.unipd.dei.dam.awesometournament.database;
 
-import it.unipd.dei.dam.awesometournament.resources.entities.Team;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 

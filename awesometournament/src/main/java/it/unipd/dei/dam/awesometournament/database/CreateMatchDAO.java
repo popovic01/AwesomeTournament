@@ -7,8 +7,7 @@ import java.sql.SQLException;
 
 import it.unipd.dei.dam.awesometournament.resources.entities.Match;
 
-
-public class CreateMatchDAO extends AbstractDAO{
+public class CreateMatchDAO extends AbstractDAO<Integer>{
     private static final String STATEMENT = "INSERT INTO public.\"matches\" (team1_id, team2_id, tournament_id, team1_score, team2_score, result, referee, match_date, is_finished) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING *";
     private final Match match;
 
@@ -52,5 +51,4 @@ public class CreateMatchDAO extends AbstractDAO{
             this.outputParam = null;
         }
     }
-
 }

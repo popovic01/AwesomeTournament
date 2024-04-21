@@ -3,30 +3,18 @@ package it.unipd.dei.dam.awesometournament.database;
 import it.unipd.dei.dam.awesometournament.resources.entities.Match;
 import it.unipd.dei.dam.awesometournament.resources.enums.MatchResult;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-
-/**
- * Class to retrieve all the Matches related to
- * a given Tournament.
- *
- * @author Andrea Bruttomesso 2120933
- * @version 1.0
- * @since 1.0
- */
 
 public class GetTournamentMatchesDAO extends AbstractDAO<List<Match>> {
 
     private static final String STATEMENT = "SELECT * FROM public.\"matches\" WHERE tournament_id = ?";
     private final int tournamentId;
 
-    /**
-     * Creates a new DAO object.
-     *
-     * @param con the connection to be used for accessing the database.
-     */
-    public GetTournamentMatchesDAO(final Connection con, final int tournamentId) {
+    GetTournamentMatchesDAO(final Connection con, final int tournamentId) {
         super(con);
         this.tournamentId = tournamentId;
     }
@@ -34,16 +22,16 @@ public class GetTournamentMatchesDAO extends AbstractDAO<List<Match>> {
     @Override
     protected void doAccess() throws Exception {
 
-        PreparedStatement pstmt = null;
+        PreparedStatement p = null;
         ResultSet rs = null;
 
         final List<Match> matches = new ArrayList<Match>();
 
         try {
-            pstmt = con.prepareStatement(STATEMENT);
-            pstmt.setInt(1, this.tournamentId);
+            p = con.prepareStatement(STATEMENT);
+            p.setInt(1, this.tournamentId);
 
-            rs = pstmt.executeQuery();
+            rs = p.executeQuery();
 
             while (rs.next()) {
                 matches.add(
@@ -51,7 +39,6 @@ public class GetTournamentMatchesDAO extends AbstractDAO<List<Match>> {
                                 rs.getInt("id"),
                                 rs.getInt("team1_id"),
                                 rs.getInt("team2_id"),
-                                //Just to be consistent, I could hard code tournamentId here.
                                 rs.getInt("tournament_id"),
                                 rs.getInt("team1_score"),
                                 rs.getInt("team2_score"),
@@ -64,7 +51,7 @@ public class GetTournamentMatchesDAO extends AbstractDAO<List<Match>> {
             }
         } finally {
             if(rs != null) rs.close();
-            if(pstmt != null) pstmt.close();
+            if(p != null) p.close();
         }
         this.outputParam = matches;
     }

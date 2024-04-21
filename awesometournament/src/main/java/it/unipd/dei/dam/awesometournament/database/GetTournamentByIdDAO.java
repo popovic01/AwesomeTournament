@@ -4,8 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
 
 import it.unipd.dei.dam.awesometournament.resources.entities.Tournament;
 
@@ -15,11 +13,16 @@ public class GetTournamentByIdDAO extends AbstractDAO<Tournament> {
 
     private int id;
 
+    public GetTournamentByIdDAO(final Connection con, int id) {
+        super(con);
+        this.id = id;
+    }
+
     @Override
     protected void doAccess() throws Exception {
-        PreparedStatement ps = con.prepareStatement(STATEMENT);
-        ps.setInt(1, id);
-        ResultSet rs = ps.executeQuery();
+        PreparedStatement p = con.prepareStatement(STATEMENT);
+        p.setInt(1, id);
+        ResultSet rs = p.executeQuery();
 
         if (rs.next()) {
             int id = rs.getInt("id");
@@ -41,16 +44,10 @@ public class GetTournamentByIdDAO extends AbstractDAO<Tournament> {
                     minPlayers, startingPlayers, maxSubstitutions, deadline,
                     startDate, creationDate, logo, isFinished);
 
-            outputParam = t;
+            this.outputParam = t;
         } else {
-            outputParam = null;
+            this.outputParam = null;
         }
 
     }
-
-    public GetTournamentByIdDAO(final Connection con, int id) {
-        super(con);
-        this.id = id;
-    }
-
 }

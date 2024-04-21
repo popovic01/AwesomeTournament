@@ -15,8 +15,8 @@ public class GetTournamentsDAO extends AbstractDAO<List<Tournament>> {
 
     @Override
     protected void doAccess() throws Exception {
-        PreparedStatement ps = con.prepareStatement(STATEMENT);
-        ResultSet rs = ps.executeQuery();
+        PreparedStatement p = con.prepareStatement(STATEMENT);
+        ResultSet rs = p.executeQuery();
 
         ArrayList<Tournament> res = new ArrayList<>();
         while (rs.next()) {
@@ -43,7 +43,7 @@ public class GetTournamentsDAO extends AbstractDAO<List<Tournament>> {
             res.add(t);
         }
 
-        outputParam = res;
+        this.outputParam = res;
     }
 
     public GetTournamentsDAO(final Connection con) {

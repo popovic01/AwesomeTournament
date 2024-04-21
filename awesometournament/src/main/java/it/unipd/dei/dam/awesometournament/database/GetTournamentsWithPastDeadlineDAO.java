@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GetTournamentsWithPastDeadlineDAO extends AbstractDAO{
+public class GetTournamentsWithPastDeadlineDAO extends AbstractDAO<List<Integer>>{
 
     private static final String STATEMENT = "SELECT * FROM public.tournaments WHERE deadline BETWEEN (current_timestamp AT TIME ZONE 'UTC') - interval '24 hours' AND (current_timestamp AT TIME ZONE 'UTC')";
 
