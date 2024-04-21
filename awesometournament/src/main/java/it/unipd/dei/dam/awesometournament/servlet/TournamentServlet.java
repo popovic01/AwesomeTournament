@@ -14,8 +14,10 @@ import org.apache.logging.log4j.message.StringFormatterMessageFactory;
 
 import it.unipd.dei.dam.awesometournament.database.GetTournamentByIdDAO;
 import it.unipd.dei.dam.awesometournament.database.GetTournamentMatchesDAO;
+import it.unipd.dei.dam.awesometournament.database.GetTournamentTeamsDAO;
 import it.unipd.dei.dam.awesometournament.resources.LogContext;
 import it.unipd.dei.dam.awesometournament.resources.entities.Match;
+import it.unipd.dei.dam.awesometournament.resources.entities.Team;
 import it.unipd.dei.dam.awesometournament.resources.entities.Tournament;
 
 public class TournamentServlet extends AbstractDatabaseServlet{
@@ -43,8 +45,14 @@ public class TournamentServlet extends AbstractDatabaseServlet{
                 GetTournamentMatchesDAO matchesDAO = new GetTournamentMatchesDAO(getConnection(), id);
                 matchesDAO.access();
                 List<Match> matches = matchesDAO.getOutputParam();
+
+                GetTournamentTeamsDAO teamsDao = new GetTournamentTeamsDAO(getConnection(), id);
+                teamsDao.access();
+                List<Team> teams = teamsDao.getOutputParam();
+
                 req.setAttribute("tournament", tournament);
                 req.setAttribute("matches", matches);
+                req.setAttribute("teams", teams);
 
                 req.getRequestDispatcher("/tournament.jsp").forward(req, resp);
             } catch (SQLException e) {

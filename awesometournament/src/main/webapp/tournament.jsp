@@ -59,10 +59,23 @@
             </div>
         </div>
         <div>
+            Matches:
             <ul>
                 <c:forEach var="match" items="${matches}">
                     <li>
                         <c:out value="${match}"/>
+                        <a href="<c:url value="/match/${match.getId()}"/>">more...</a>
+                    </li>
+                </c:forEach>
+            </ul>
+        </div>
+        <div>
+            Teams:
+            <ul>
+                <c:forEach var="team" items="${teams}">
+                    <li>
+                        <c:out value="${team}"/>
+                        <a href="<c:url value="/team/${team.getId()}"/>">more...</a>
                     </li>
                 </c:forEach>
             </ul>

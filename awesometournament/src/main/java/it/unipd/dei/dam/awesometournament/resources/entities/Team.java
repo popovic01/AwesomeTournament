@@ -70,4 +70,10 @@ public class Team {
     public void setTournamentId(int tournamentId) {
         this.tournamentId = tournamentId;
     }
+
+    @Override
+    public String toString() {
+        return "Team [id=" + id + ", name=" + name + ", logo=" + logo + ", creatorUserId=" + creatorUserId
+                + ", tournamentId=" + tournamentId + "]";
+    }
 }
