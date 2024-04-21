@@ -19,6 +19,7 @@ import it.unipd.dei.dam.awesometournament.resources.LogContext;
 import it.unipd.dei.dam.awesometournament.resources.entities.Match;
 import it.unipd.dei.dam.awesometournament.resources.entities.Team;
 import it.unipd.dei.dam.awesometournament.resources.entities.Tournament;
+import it.unipd.dei.dam.awesometournament.utils.SessionHelpers;
 
 public class TournamentServlet extends AbstractDatabaseServlet{
     protected final static Logger LOGGER = LogManager.getLogger(TournamentServlet.class,
@@ -40,6 +41,13 @@ public class TournamentServlet extends AbstractDatabaseServlet{
                 if(tournament == null) {
                     resp.sendError(HttpServletResponse.SC_NOT_FOUND);
                     return;
+                }
+
+                if(SessionHelpers.isLogged(req)) {
+                    int loggedId = SessionHelpers.getId(req);
+                    if(loggedId == tournament.getCreatorUserId()) {
+                        req.setAttribute("owner", true);
+                    }
                 }
 
                 GetTournamentMatchesDAO matchesDAO = new GetTournamentMatchesDAO(getConnection(), id);

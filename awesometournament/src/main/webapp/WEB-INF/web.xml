@@ -47,6 +47,14 @@
 		<url-pattern>/match/*</url-pattern>
 	</servlet-mapping>
 
+	<servlet>
+		<servlet-name>Team</servlet-name>
+		<servlet-class>it.unipd.dei.dam.awesometournament.servlet.TeamServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Team</servlet-name>
+		<url-pattern>/team/*</url-pattern>
+	</servlet-mapping>
 
 	<servlet>
 		<servlet-name>RestMatcher</servlet-name>

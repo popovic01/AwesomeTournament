@@ -68,8 +68,8 @@
             </div>
         </div>
         <c:if test="${owner}">
-            <div>
-                You are the admin of the tournament this match belongs to!
+            <div style="color: red;">
+                You are the admin of the tournament this match belongs to
             </div>
             <form id="updateForm">
                 <label for="team1Score">Team 1 Score:</label><br>

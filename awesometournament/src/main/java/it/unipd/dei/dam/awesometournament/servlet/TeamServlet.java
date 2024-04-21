@@ -1,183 +1,75 @@
 package it.unipd.dei.dam.awesometournament.servlet;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
-import it.unipd.dei.dam.awesometournament.database.DeleteTeamDAO;
-import it.unipd.dei.dam.awesometournament.database.UpdateTeamDAO;
-import it.unipd.dei.dam.awesometournament.utils.ResponsePackage;
-import it.unipd.dei.dam.awesometournament.utils.ResponseStatus;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.message.StringFormatterMessageFactory;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import it.unipd.dei.dam.awesometournament.database.GetTeamDAO;
-import it.unipd.dei.dam.awesometournament.resources.Actions;
-import it.unipd.dei.dam.awesometournament.resources.LogContext;
-import it.unipd.dei.dam.awesometournament.resources.entities.Team;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-public class TeamServlet extends AbstractDatabaseServlet {
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.message.StringFormatterMessageFactory;
+
+import it.unipd.dei.dam.awesometournament.database.GetMatchDAO;
+import it.unipd.dei.dam.awesometournament.database.GetTeamDAO;
+import it.unipd.dei.dam.awesometournament.database.GetTournamentByIdDAO;
+import it.unipd.dei.dam.awesometournament.database.GetTournamentMatchesDAO;
+import it.unipd.dei.dam.awesometournament.resources.LogContext;
+import it.unipd.dei.dam.awesometournament.resources.entities.Match;
+import it.unipd.dei.dam.awesometournament.resources.entities.Team;
+import it.unipd.dei.dam.awesometournament.resources.entities.Tournament;
+import it.unipd.dei.dam.awesometournament.utils.SessionHelpers;
+
+public class TeamServlet extends AbstractDatabaseServlet{
     protected final static Logger LOGGER = LogManager.getLogger(TeamServlet.class,
             StringFormatterMessageFactory.INSTANCE);
-
-    private ResponsePackage response;
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         LogContext.setIPAddress(req.getRemoteAddr());
-        LogContext.setAction(Actions.GET_TEAM);
 
-        String url = req.getPathInfo();
-        ObjectMapper om = new ObjectMapper();
-        if (url != null) {
-            String[] urlParts = url.split("/"); // urlParts[0] = ""
-            if (urlParts.length != 2) {
-                response = new ResponsePackage(ResponseStatus.BAD_REQUEST,
-                        "Invalid URL format")  ;
-                resp.getWriter().print(om.writeValueAsString(response));
-            } else {
-                try {
-                    int teamId = Integer.parseInt(urlParts[1]);
-                    Connection connection = getConnection();
+        String path = req.getPathInfo();
 
-                    GetTeamDAO getTeamDAO = new GetTeamDAO(connection, teamId);
-                    getTeamDAO.access();
-                    Team team = getTeamDAO.getOutputParam();
+        String[] parts = path.split("/");
 
-                    if (team != null) {
-                        response = new ResponsePackage(team, ResponseStatus.OK,
-                                "Team found");
-                    } else {
-                        response = new ResponsePackage(ResponseStatus.NOT_FOUND,
-                                "Team not found");
-                    }
-                    resp.getWriter().print(om.writeValueAsString(response));
-
-                } catch (NumberFormatException e) {
-                    response = new ResponsePackage(ResponseStatus.BAD_REQUEST,
-                            "Team ID must be an integer");
-                    resp.getWriter().print(om.writeValueAsString(response));
-                } catch (SQLException e) {
-                    response = new ResponsePackage(ResponseStatus.SERVICE_UNAVAILABLE,
-                            "Something went wrong: " + e.getMessage())  ;
-                    resp.getWriter().print(om.writeValueAsString(response));
+        if(parts.length == 2) {
+            int id = Integer.parseInt(parts[1]);
+            try {
+                GetTeamDAO dao = new GetTeamDAO(getConnection(), id);
+                dao.access();
+                Team team = dao.getOutputParam();
+                if(team == null) {
+                    resp.sendError(HttpServletResponse.SC_NOT_FOUND);
+                    return;
                 }
-            }
-        } else {
-            response = new ResponsePackage(ResponseStatus.BAD_REQUEST,
-                    "Invalid URL format")  ;
-            resp.getWriter().print(om.writeValueAsString(response));
-        }
-    }
+                req.setAttribute("team", team);
 
-    @Override
-    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        LogContext.setIPAddress(req.getRemoteAddr());
-        LogContext.setAction(Actions.PUT_TEAM);
+                if(SessionHelpers.isLogged(req)) {
+                    GetTournamentByIdDAO tournamentByIdDAO = new GetTournamentByIdDAO(getConnection(), team.getTournamentId());
+                    tournamentByIdDAO.access();
+                    Tournament tournament = tournamentByIdDAO.getOutputParam();
 
-        LOGGER.info("Received put request");
-        ObjectMapper om = new ObjectMapper();
-        String url = req.getPathInfo();
-        if (url != null) {
-            String[] urlParts = url.split("/");
-            if (urlParts.length != 2) {
-                response = new ResponsePackage(ResponseStatus.BAD_REQUEST,
-                        "Invalid URL format")  ;
-                resp.getWriter().print(om.writeValueAsString(response));
-            } else {
-                try {
-                    int teamId = Integer.parseInt(urlParts[1]);
-                    ObjectMapper objectMapper = new ObjectMapper();
-                    StringBuilder requestBody = new StringBuilder();
-                    try (BufferedReader reader = req.getReader()) {
-                        String line;
-                        while ((line = reader.readLine()) != null) {
-                            requestBody.append(line);
-                        }
+                    int userId = SessionHelpers.getId(req);
+                    if(userId == tournament.getCreatorUserId()) {
+                        // the user is the admin of the tournament
+                        req.setAttribute("tournamentOwner", true);
                     }
-                    Team team = objectMapper.readValue(requestBody.toString(), Team.class);
-                    team.setId(teamId);
-                    Connection connection = getConnection();
-                    UpdateTeamDAO dao = new UpdateTeamDAO(connection, team);
-                    dao.access();
-
-                    int result = dao.getOutputParam();
-                    if (result == 1) {
-                        response = new ResponsePackage(ResponseStatus.OK,
-                                "Team " + team.getName() + " successfully updated");
-                    } else {
-                        response = new ResponsePackage(ResponseStatus.NOT_FOUND,
-                                "Team not found");
+                    
+                    if(userId == team.getCreatorUserId()) {
+                        // the user is the creator of the team
+                        req.setAttribute("teamOwner", true);
                     }
-                    resp.getWriter().print(om.writeValueAsString(response));
-                } catch (NumberFormatException e) {
-                    response = new ResponsePackage(ResponseStatus.BAD_REQUEST,
-                            "Team ID must be an integer");
-                    resp.getWriter().print(om.writeValueAsString(response));
-                } catch (SQLException e) {
-                    response = new ResponsePackage(ResponseStatus.SERVICE_UNAVAILABLE,
-                            "Something went wrong: " + e.getMessage())  ;
-                    resp.getWriter().print(om.writeValueAsString(response));
                 }
+
+                req.getRequestDispatcher("/team.jsp").forward(req, resp);
+            } catch (SQLException e) {
+                LOGGER.info(e.getMessage());
+                resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             }
         } else {
-            response = new ResponsePackage(ResponseStatus.BAD_REQUEST,
-                    "Invalid URL format")  ;
-            resp.getWriter().print(om.writeValueAsString(response));
+            resp.sendError(HttpServletResponse.SC_NOT_FOUND);
         }
     }
-
-    @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        LogContext.setIPAddress(req.getRemoteAddr());
-        LogContext.setAction(Actions.DELETE_TEAM);
-
-        LOGGER.info("Received delete request");
-        ObjectMapper om = new ObjectMapper();
-        String url = req.getPathInfo();
-        if (url != null) {
-            String[] urlParts = url.split("/");
-            if (urlParts.length != 2) {
-                response = new ResponsePackage(ResponseStatus.BAD_REQUEST,
-                        "Invalid URL format")  ;
-                resp.getWriter().print(om.writeValueAsString(response));
-            } else {
-                try {
-                    int id = Integer.parseInt(urlParts[1]);
-                    Connection connection = getConnection();
-
-                    DeleteTeamDAO dao = new DeleteTeamDAO(connection, id);
-                    dao.access();
-
-                    int result = dao.getOutputParam();
-                    if (result == 1) {
-                        response = new ResponsePackage(ResponseStatus.OK,
-                                "Team successfully deleted");
-                    } else {
-                        response = new ResponsePackage(ResponseStatus.NOT_FOUND,
-                                "Team not found");
-                    }
-                    resp.getWriter().print(om.writeValueAsString(response));
-                } catch (NumberFormatException e) {
-                    response = new ResponsePackage(ResponseStatus.BAD_REQUEST,
-                            "Team ID must be an integer")  ;
-                    resp.getWriter().print(om.writeValueAsString(response));
-                } catch (SQLException e) {
-                    response = new ResponsePackage(ResponseStatus.SERVICE_UNAVAILABLE,
-                            "Something went wrong: " + e.getMessage())  ;
-                    resp.getWriter().print(om.writeValueAsString(response));                }
-            }
-        } else {
-            response = new ResponsePackage(ResponseStatus.BAD_REQUEST,
-                    "Invalid URL format")  ;
-            resp.getWriter().print(om.writeValueAsString(response));
-        }
-    }
+    
 }

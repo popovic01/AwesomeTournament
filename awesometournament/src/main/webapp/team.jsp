@@ -1,8 +1,10 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,6 +16,7 @@
             padding: 0;
             background-color: #f4f4f4;
         }
+
         .container {
             max-width: 800px;
             margin: 20px auto;
@@ -22,14 +25,17 @@
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
+
         h1 {
             text-align: center;
             color: #333;
         }
+
         ul {
             list-style-type: none;
             padding: 0;
         }
+
         li {
             margin-bottom: 10px;
             padding: 10px;
@@ -37,54 +43,42 @@
             border-radius: 5px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
+
         li:hover {
             background-color: #e9e9e9;
         }
+
         .tournament-name {
             font-size: 1.2em;
             font-weight: bold;
             color: #333;
         }
+
         .tournament-details {
             color: #666;
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <h1>AwesomeTournaments</h1>
         <div>
             <div>
-                <c:out value="${tournament}"/>
+                <c:out value="${team}" />
             </div>
         </div>
-        <c:if test="${owner}">
+        <c:if test="${tournamentOwner}">
             <div style="color: red;">
-                You are the admin of this tournament
+                You are the admin of the tournament this team belongs to
             </div>
         </c:if>
-        <div>
-            Matches:
-            <ul>
-                <c:forEach var="match" items="${matches}">
-                    <li>
-                        <c:out value="${match}"/>
-                        <a href="<c:url value="/match/${match.getId()}"/>">more...</a>
-                    </li>
-                </c:forEach>
-            </ul>
-        </div>
-        <div>
-            Teams:
-            <ul>
-                <c:forEach var="team" items="${teams}">
-                    <li>
-                        <c:out value="${team}"/>
-                        <a href="<c:url value="/team/${team.getId()}"/>">more...</a>
-                    </li>
-                </c:forEach>
-            </ul>
-        </div>
+        <c:if test="${teamOwner}">
+            <div style="color: red;">
+                You are the admin of this team
+            </div>
+        </c:if>
     </div>
 </body>
+
 </html>
