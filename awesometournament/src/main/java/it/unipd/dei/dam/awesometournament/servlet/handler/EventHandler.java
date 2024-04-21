@@ -14,6 +14,7 @@ import it.unipd.dei.dam.awesometournament.database.GetEventDAO;
 import it.unipd.dei.dam.awesometournament.database.UpdateEventDAO;
 import it.unipd.dei.dam.awesometournament.resources.LogContext;
 import it.unipd.dei.dam.awesometournament.resources.entities.Event;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -24,6 +25,7 @@ public class EventHandler extends RestMatcherHandler {
         LogContext.setAction(Actions.GET_EVENT);
         GetEventDAO getEventDAO = new GetEventDAO(getConnection(), id);
         Event event = (Event) getEventDAO.access().getOutputParam();
+
         if (event != null) {
             ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.setDateFormat(new StdDateFormat());
@@ -64,18 +66,19 @@ public class EventHandler extends RestMatcherHandler {
     @Override
     public Result handle(Method method, HttpServletRequest req, HttpServletResponse res,
                          String[] params) throws ServletException, IOException {
-        LogContext.setIPAddress(req.getRemoteAddr());
-        int playerId = Integer.parseInt(params[0]);
+        LogContext.setIPAddress(req.getRemoteAddr());        
+        int eventId = Integer.parseInt(params[0]);
+
         try {
             switch (method) {
                 case GET:
-                    getEvent(req, res, playerId);
+                    getEvent(req, res, eventId);
                     break;
                 case PUT:
-                    putEvent(req, res, playerId);
+                    putEvent(req, res, eventId);
                     break;
                 case DELETE:
-                    deleteEvent(req, res, playerId);
+                    deleteEvent(req, res, eventId);
                     break;
                 default:
                     return Result.STOP;
