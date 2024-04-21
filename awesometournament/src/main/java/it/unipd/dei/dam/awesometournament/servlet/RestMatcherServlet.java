@@ -3,21 +3,12 @@ package it.unipd.dei.dam.awesometournament.servlet;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.sql.DataSource;
-
-import it.unipd.dei.dam.awesometournament.servlet.handler.MatchAuthenticatorHandler;
-import it.unipd.dei.dam.awesometournament.servlet.handler.MatchHandler;
-import it.unipd.dei.dam.awesometournament.servlet.handler.PlayerHandler;
-import it.unipd.dei.dam.awesometournament.servlet.handler.SessionHandler;
-import it.unipd.dei.dam.awesometournament.servlet.handler.TeamPlayerHandler;
-import it.unipd.dei.dam.awesometournament.servlet.handler.TournamentMatchesHandler;
+import it.unipd.dei.dam.awesometournament.servlet.handler.*;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -122,6 +113,7 @@ public class RestMatcherServlet extends AbstractDatabaseServlet {
         entries.add(new Entry("/players/*", false, factoryHandler(PlayerHandler.class)));
         entries.add(new Entry("/tournaments/*/matches", false, factoryHandler(TournamentMatchesHandler.class)));
         entries.add(new Entry("/teams/*/players", false, factoryHandler(TeamPlayerHandler.class)));
+        entries.add(new Entry("/teams/*", false, factoryHandler(TeamHandler.class)));
     }
 
     private String getSubpath(HttpServletRequest req) {
