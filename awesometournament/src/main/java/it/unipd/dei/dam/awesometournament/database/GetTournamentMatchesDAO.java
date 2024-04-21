@@ -14,7 +14,7 @@ public class GetTournamentMatchesDAO extends AbstractDAO<List<Match>> {
     private static final String STATEMENT = "SELECT * FROM public.\"matches\" WHERE tournament_id = ?";
     private final int tournamentId;
 
-    GetTournamentMatchesDAO(final Connection con, final int tournamentId) {
+    public GetTournamentMatchesDAO(final Connection con, final int tournamentId) {
         super(con);
         this.tournamentId = tournamentId;
     }
