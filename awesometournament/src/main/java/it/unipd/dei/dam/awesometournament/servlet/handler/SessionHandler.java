@@ -26,8 +26,8 @@ public class SessionHandler extends RestMatcherHandler {
             String[] params) throws ServletException, IOException {
 
         HttpSession session = req.getSession(false);
-        Integer sessionId;
-        String sessionEmail;
+        Integer sessionId = null;
+        String sessionEmail = null;
         ObjectMapper om = new ObjectMapper();
         ResponsePackage response;
 
@@ -38,7 +38,9 @@ public class SessionHandler extends RestMatcherHandler {
                 sessionEmail = (String) session.getAttribute("email");
 
                 LOGGER.info("Found session: id = " + sessionId + " email = " + sessionEmail);
-            } else {
+            } else if (req.getHeader("session_id") != null &&
+                            req.getParameter("session_email") != null) {
+                //remove this at some point!!!
                 //if there is no session we retrieve values from headers
                 sessionId = Integer.parseInt(req.getHeader("session_id"));
                 sessionEmail = req.getHeader("session_email");
@@ -49,13 +51,10 @@ public class SessionHandler extends RestMatcherHandler {
             if (sessionId != null && sessionEmail != null) {
                 req.setAttribute("session_id", sessionId);
                 req.setAttribute("session_email", sessionEmail);
-                return Result.CONTINUE;
             }
-            response = new ResponsePackage(ResponseStatus.INTERNAL_SERVER_ERROR, "Session not found");
-            res.getWriter().print(om.writeValueAsString(response));
-            return Result.STOP;
+            return Result.CONTINUE;
         } catch (Exception e) {
-            LOGGER.error("Something went wrong: {}", e.getMessage());
+            LOGGER.error("Something went wrong: " + e.getMessage());
             response = new ResponsePackage(ResponseStatus.INTERNAL_SERVER_ERROR, e.getMessage());
             res.getWriter().print(om.writeValueAsString(response));
             return Result.STOP;
