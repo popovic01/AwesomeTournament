@@ -67,6 +67,15 @@
 	</servlet-mapping>
 
 	<servlet>
+		<servlet-name>Player</servlet-name>
+		<servlet-class>it.unipd.dei.dam.awesometournament.servlet.PlayerServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Player</servlet-name>
+		<url-pattern>/players/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
 		<servlet-name>Login</servlet-name>
 		<servlet-class>it.unipd.dei.dam.awesometournament.servlet.LoginServlet</servlet-class>
 	</servlet>
