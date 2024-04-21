@@ -1,10 +1,8 @@
 package it.unipd.dei.dam.awesometournament.servlet.handler;
 
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
-import java.io.BufferedReader;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.util.StdDateFormat;
@@ -35,23 +33,11 @@ public class TournamentMatchesHandler extends RestMatcherHandler {
         
             LogContext.setIPAddress(req.getRemoteAddr());
 
-            ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.setDateFormat(new StdDateFormat());
             int tournamentId = Integer.parseInt(params[0]);
             try {
                 switch (method) {
                     case GET:
-                        LogContext.setAction(Actions.GET_TOURNAMENT_MATCHES);
-                        LOGGER.info("Received GET request");
-                        GetTournamentMatchesDAO getTournamentMatchesDAO = new GetTournamentMatchesDAO(getConnection(),
-                                tournamentId);
-                        List<Match> matches = getTournamentMatchesDAO.access().getOutputParam();
-                        if (matches.size() != 0) {
-                            res.setContentType("application/json");
-                            res.getWriter().println(objectMapper.writeValueAsString(matches));
-                        } else {
-                            res.sendError(HttpServletResponse.SC_NOT_FOUND, "No matches in tournament " + tournamentId);
-                        }
+                        getTournamentMatches(req, res, tournamentId);
                         break;
                     default:
                         return Result.STOP;
@@ -64,4 +50,23 @@ public class TournamentMatchesHandler extends RestMatcherHandler {
             return Result.CONTINUE;
     }
     
+
+    private void getTournamentMatches(HttpServletRequest req, HttpServletResponse res, int tournamentId)
+            throws ServletException, IOException, SQLException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.setDateFormat(new StdDateFormat());
+
+        LogContext.setAction(Actions.GET_TOURNAMENT_MATCHES);
+        LOGGER.info("Received GET request");
+
+        GetTournamentMatchesDAO getTournamentMatchesDAO = new GetTournamentMatchesDAO(getConnection(), tournamentId);
+        List<Match> matches = getTournamentMatchesDAO.access().getOutputParam();
+
+        if (matches.size() != 0) {
+            res.setContentType("application/json");
+            res.getWriter().println(objectMapper.writeValueAsString(matches));
+        } else {
+            res.sendError(HttpServletResponse.SC_NOT_FOUND, "No matches in tournament " + tournamentId);
+        }
+    }
 }
