@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.util.StdDateFormat;
 
 import it.unipd.dei.dam.awesometournament.servlet.RestMatcherHandler;
 import it.unipd.dei.dam.awesometournament.servlet.RestMatcherServlet.*;
+import it.unipd.dei.dam.awesometournament.utils.BodyTools;
 import it.unipd.dei.dam.awesometournament.database.CreateTeamPlayerDAO;
 import it.unipd.dei.dam.awesometournament.database.GetTeamPlayerDAO;
 import it.unipd.dei.dam.awesometournament.resources.Actions;
@@ -44,7 +45,7 @@ public class TeamPlayerHandler extends RestMatcherHandler {
     void postPlayer (HttpServletRequest req, HttpServletResponse res, int teamId) throws ServletException, IOException, SQLException{
         LogContext.setAction(Actions.POST_TEAM_PLAYER);
         LOGGER.info("Received POST request");
-        String requestBody = getRequestBody(req);
+        String requestBody = BodyTools.getRequestBody(req);
         LOGGER.info(requestBody);
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setDateFormat(new StdDateFormat());

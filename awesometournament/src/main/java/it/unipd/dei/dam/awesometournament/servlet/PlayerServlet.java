@@ -5,16 +5,19 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.util.StdDateFormat;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.message.StringFormatterMessageFactory;
 
+import it.unipd.dei.dam.awesometournament.database.DeletePlayerDAO;
 import it.unipd.dei.dam.awesometournament.database.GetPlayerDAO;
 import it.unipd.dei.dam.awesometournament.database.UpdatePlayerDAO;
 import it.unipd.dei.dam.awesometournament.resources.Actions;
 import it.unipd.dei.dam.awesometournament.resources.LogContext;
 import it.unipd.dei.dam.awesometournament.resources.entities.Player;
+import it.unipd.dei.dam.awesometournament.utils.BodyTools;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -28,7 +31,7 @@ public class PlayerServlet extends AbstractDatabaseServlet {
         LogContext.setIPAddress(req.getRemoteAddr());
         LogContext.setAction(Actions.GET_PLAYER);
 
-        LOGGER.info("Received get request");
+        LOGGER.info("Received GET request");
 
         String url = req.getPathInfo();
         if (url != null) {
@@ -64,7 +67,7 @@ public class PlayerServlet extends AbstractDatabaseServlet {
         LogContext.setIPAddress(req.getRemoteAddr());
         LogContext.setAction(Actions.PUT_PLAYER);
 
-        LOGGER.info("Received put request");
+        LOGGER.info("Received PUT request");
         String url = req.getPathInfo();
         if (url != null) {
             String[] urlParts = url.split("/"); // urlParts[0] = ""
@@ -73,21 +76,54 @@ public class PlayerServlet extends AbstractDatabaseServlet {
             } else {
                 try {
                     int playerId = Integer.parseInt(urlParts[1]);
+                    String requestBody = BodyTools.getRequestBody(req);
+                    LOGGER.info(requestBody);
                     ObjectMapper objectMapper = new ObjectMapper();
-                    StringBuilder requestBody = new StringBuilder();
-                    try (BufferedReader reader = req.getReader()) {
-                        String line;
-                        while ((line = reader.readLine()) != null) {
-                            requestBody.append(line);
-                        }
-                    }
-                    LOGGER.info(requestBody.toString());
-                    Player player = (Player) objectMapper.readValue(requestBody.toString(), Player.class); // se rompe qua
+                    objectMapper.setDateFormat(new StdDateFormat());
+                    Player player = (Player) objectMapper.readValue(requestBody.toString(), Player.class);
                     player.setId(playerId);
                     LOGGER.info(player.toString());
                     Connection connection = getConnection();
                     UpdatePlayerDAO updatePlayerDAO = new UpdatePlayerDAO(connection, player);
-                    updatePlayerDAO.access();
+                    Integer result = (Integer) updatePlayerDAO.access().getOutputParam();
+                    if (result == 1) {
+                        resp.setStatus(HttpServletResponse.SC_OK);
+                    } else {
+                        resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                    }
+                } catch (NumberFormatException e) {
+                    resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Player ID must be an integer");
+                } catch (SQLException e) {
+                    resp.sendError(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+                }
+            }
+        } else {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid URL format");
+        }
+    }
+
+    @Override
+    protected void doDelete (HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        LogContext.setIPAddress(req.getRemoteAddr());
+        LogContext.setAction(Actions.DELETE_PLAYER);
+
+        LOGGER.info("Received DELETE request");
+        String url = req.getPathInfo();
+        if (url != null) {
+            String[] urlParts = url.split("/"); // urlParts[0] = ""
+            if (urlParts.length != 2) {
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid URL format");
+            } else {
+                try {
+                    int playerId = Integer.parseInt(urlParts[1]);
+                    Connection connection = getConnection();
+                    DeletePlayerDAO deletePlayerDAO = new DeletePlayerDAO(connection, playerId);
+                    Integer result = (Integer) deletePlayerDAO.access().getOutputParam();
+                    if (result == 1) {
+                        resp.setStatus(HttpServletResponse.SC_OK);
+                    } else {
+                        resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                    }
                 } catch (NumberFormatException e) {
                     resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Player ID must be an integer");
                 } catch (SQLException e) {

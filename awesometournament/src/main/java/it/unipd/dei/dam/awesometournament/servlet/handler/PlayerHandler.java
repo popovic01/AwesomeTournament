@@ -2,7 +2,6 @@ package it.unipd.dei.dam.awesometournament.servlet.handler;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.io.BufferedReader;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.util.StdDateFormat;
 
@@ -14,6 +13,7 @@ import it.unipd.dei.dam.awesometournament.database.UpdatePlayerDAO;
 import it.unipd.dei.dam.awesometournament.resources.Actions;
 import it.unipd.dei.dam.awesometournament.resources.LogContext;
 import it.unipd.dei.dam.awesometournament.resources.entities.Player;
+import it.unipd.dei.dam.awesometournament.utils.BodyTools;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -43,7 +43,7 @@ public class PlayerHandler extends RestMatcherHandler{
     void putPlayer (HttpServletRequest req, HttpServletResponse res, int playerId) throws ServletException, IOException, SQLException{
         LogContext.setAction(Actions.PUT_PLAYER);
         LOGGER.info("Received PUT request");
-        String requestBody = getRequestBody(req);
+        String requestBody = BodyTools.getRequestBody(req);
         LOGGER.info(requestBody);
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setDateFormat(new StdDateFormat());

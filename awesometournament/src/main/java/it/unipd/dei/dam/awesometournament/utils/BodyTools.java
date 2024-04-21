@@ -1,10 +1,13 @@
 package it.unipd.dei.dam.awesometournament.utils;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 public class BodyTools {
     public static Map<String, String> parsePostBody(BufferedReader reader) throws Exception{
@@ -25,6 +28,16 @@ public class BodyTools {
             }
         }
         return formData;
+    }
+    
+    public static String getRequestBody(HttpServletRequest req) throws IOException {
+        StringBuilder requestBody = new StringBuilder();
+        BufferedReader reader = req.getReader();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            requestBody.append(line);
+        }
+        return requestBody.toString();
     }
     
 }

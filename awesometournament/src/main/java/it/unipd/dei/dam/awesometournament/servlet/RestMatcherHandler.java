@@ -24,16 +24,6 @@ public abstract class RestMatcherHandler {
         return this.dataSource.getConnection();
     }
 
-    protected String getRequestBody(HttpServletRequest req) throws IOException {
-        StringBuilder requestBody = new StringBuilder();
-        BufferedReader reader = req.getReader();
-        String line;
-        while ((line = reader.readLine()) != null) {
-            requestBody.append(line);
-        }
-        return requestBody.toString();
-    }
-
     public abstract Result handle(Method method, HttpServletRequest req, HttpServletResponse res,
             String[] params) throws ServletException, IOException;
 }

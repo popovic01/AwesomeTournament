@@ -14,6 +14,7 @@ import it.unipd.dei.dam.awesometournament.resources.entities.Match;
 import it.unipd.dei.dam.awesometournament.servlet.RestMatcherHandler;
 import it.unipd.dei.dam.awesometournament.servlet.RestMatcherServlet.Method;
 import it.unipd.dei.dam.awesometournament.servlet.RestMatcherServlet.Result;
+import it.unipd.dei.dam.awesometournament.utils.BodyTools;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -58,7 +59,7 @@ public class MatchHandler extends RestMatcherHandler{
                         LogContext.setAction(Actions.PUT_MATCH);
                         LOGGER.info("Received PUT request");
 
-                        String requestBody = getRequestBody(req);
+                        String requestBody = BodyTools.getRequestBody(req);
                         LOGGER.info(requestBody);
 
                         match = (Match) objectMapper.readValue(requestBody, Match.class);

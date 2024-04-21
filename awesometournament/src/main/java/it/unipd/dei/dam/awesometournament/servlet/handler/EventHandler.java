@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.util.StdDateFormat;
 
 import it.unipd.dei.dam.awesometournament.servlet.RestMatcherHandler;
 import it.unipd.dei.dam.awesometournament.servlet.RestMatcherServlet.*;
+import it.unipd.dei.dam.awesometournament.utils.BodyTools;
 import it.unipd.dei.dam.awesometournament.database.DeleteEventDAO;
 import it.unipd.dei.dam.awesometournament.database.GetEventDAO;
 import it.unipd.dei.dam.awesometournament.database.UpdateEventDAO;
@@ -34,7 +35,7 @@ public class EventHandler extends RestMatcherHandler {
     }
 
     void putEvent (HttpServletRequest req, HttpServletResponse res, int id) throws ServletException, IOException, SQLException{
-        String requestBody = getRequestBody(req);
+        String requestBody = BodyTools.getRequestBody(req);
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setDateFormat(new StdDateFormat());
         Event event = (Event) objectMapper.readValue(requestBody, Event.class);

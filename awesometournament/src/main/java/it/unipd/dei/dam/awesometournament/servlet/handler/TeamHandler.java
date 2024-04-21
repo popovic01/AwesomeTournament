@@ -9,6 +9,7 @@ import it.unipd.dei.dam.awesometournament.resources.LogContext;
 import it.unipd.dei.dam.awesometournament.resources.entities.Team;
 import it.unipd.dei.dam.awesometournament.servlet.RestMatcherHandler;
 import it.unipd.dei.dam.awesometournament.servlet.RestMatcherServlet;
+import it.unipd.dei.dam.awesometournament.utils.BodyTools;
 import it.unipd.dei.dam.awesometournament.utils.ResponsePackage;
 import it.unipd.dei.dam.awesometournament.utils.ResponseStatus;
 import jakarta.servlet.ServletException;
@@ -47,7 +48,7 @@ public class TeamHandler extends RestMatcherHandler {
 
     void putTeam (HttpServletRequest req, HttpServletResponse res, int teamId) throws ServletException, IOException, SQLException{
         LOGGER.info("Received PUT request");
-        String requestBody = getRequestBody(req);
+        String requestBody = BodyTools.getRequestBody(req);
         LOGGER.info(requestBody);
         om = new ObjectMapper();
         Team team = om.readValue(requestBody, Team.class);
