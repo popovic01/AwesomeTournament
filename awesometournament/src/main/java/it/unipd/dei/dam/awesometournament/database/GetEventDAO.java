@@ -23,20 +23,20 @@ public class GetEventDAO extends AbstractDAO<Event> {
     @Override
     protected void doAccess() throws SQLException {
         PreparedStatement statement = null;
-        ResultSet resultSet = null;
+        ResultSet rs = null;
         Event event = null;
 
         try {
             statement = con.prepareStatement(STATEMENT);
             statement.setInt(1, id);
-            resultSet = statement.executeQuery();
-            if (resultSet.next()) {
+            rs = statement.executeQuery();
+            if (rs.next()) {
                 event = new Event(
-                        resultSet.getInt("id"),
-                        resultSet.getInt("match_id"),
-                        resultSet.getInt("player_id"),
-                        EventType.valueOf(resultSet.getString("type")),
-                        resultSet.getInt("time")
+                        rs.getInt("id"),
+                        rs.getInt("match_id"),
+                        rs.getInt("player_id"),
+                        EventType.db2enum(rs.getString("type")),
+                        rs.getInt("time")
                 );
                 LOGGER.info("Event with id {} found", id);
             } else {
@@ -44,8 +44,8 @@ public class GetEventDAO extends AbstractDAO<Event> {
             }
         } finally {
             if (statement != null) statement.close();
-            if (resultSet != null) resultSet.close();
+            if (rs != null) rs.close();
         }
-        outputParam = event;
+        this.outputParam = event;
     }
 }

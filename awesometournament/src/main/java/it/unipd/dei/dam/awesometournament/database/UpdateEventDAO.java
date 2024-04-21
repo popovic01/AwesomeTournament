@@ -3,8 +3,10 @@ package it.unipd.dei.dam.awesometournament.database;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Types;
 
 import it.unipd.dei.dam.awesometournament.resources.entities.Event;
+import it.unipd.dei.dam.awesometournament.resources.enums.EventType;
 
 public class UpdateEventDAO extends AbstractDAO<Integer> {
 
@@ -25,25 +27,25 @@ public class UpdateEventDAO extends AbstractDAO<Integer> {
 
     @Override
     protected void doAccess() throws SQLException {
-        PreparedStatement statement = null;
+        PreparedStatement p = null;
 
         try {
-            statement = con.prepareStatement(STATEMENT);
-            statement.setInt(1, event.getMatchId());
-            statement.setInt(2, event.getPlayerId());
-            statement.setString(3, event.getType().name());
-            statement.setInt(4, event.getTime());
-            statement.setInt(5, event.getId());
+            p = con.prepareStatement(STATEMENT);
+            p.setInt(1, event.getMatchId());
+            p.setInt(2, event.getPlayerId());
+            p.setObject(3, EventType.enum2db(event.getType()), Types.OTHER);
+            p.setInt(4, event.getTime());
+            p.setInt(5, event.getId());
 
-            int result = statement.executeUpdate();
+            int result = p.executeUpdate();
             if (result == 1) {
                 LOGGER.info("Event successfully updated");
             } else {
                 LOGGER.info("Something went wrong during event update: {}", result);
             }
-            outputParam = result; // 1 if success, 0 otherwise
+            this.outputParam = result; // 1 if success, 0 otherwise
         } finally {
-            if (statement != null) statement.close();
+            if (p != null) p.close();
         }
     }
 }
