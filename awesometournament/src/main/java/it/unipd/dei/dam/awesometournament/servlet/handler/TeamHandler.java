@@ -51,15 +51,16 @@ public class TeamHandler extends RestMatcherHandler {
         String requestBody = BodyTools.getRequestBody(req);
         LOGGER.info(requestBody);
         om = new ObjectMapper();
+
         Team team = om.readValue(requestBody, Team.class);
         team.setId(teamId);
-        LOGGER.info(team.toString());
+
         UpdateTeamDAO dao = new UpdateTeamDAO(getConnection(), team);
         Integer result = dao.access().getOutputParam();
 
         if (result == 1) {
             response = new ResponsePackage(ResponseStatus.OK,
-                    "Team " + team.getName() + " successfully updated");
+                    "Team successfully updated");
         } else {
             response = new ResponsePackage(ResponseStatus.NOT_FOUND,
                     "Team not found");
@@ -113,7 +114,7 @@ public class TeamHandler extends RestMatcherHandler {
                     "Team ID must be an integer");
             res.getWriter().print(om.writeValueAsString(response));
         } catch (SQLException e) {
-            response = new ResponsePackage(ResponseStatus.SERVICE_UNAVAILABLE,
+            response = new ResponsePackage(ResponseStatus.INTERNAL_SERVER_ERROR,
                     "Something went wrong: " + e.getMessage())  ;
             res.getWriter().print(om.writeValueAsString(response));
         }
