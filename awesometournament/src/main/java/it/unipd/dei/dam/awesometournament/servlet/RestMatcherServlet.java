@@ -111,6 +111,7 @@ public class RestMatcherServlet extends AbstractDatabaseServlet {
         entries.add(new Entry("/matches/*", true, factoryHandler(MatchAuthenticatorHandler.class)));
         entries.add(new Entry("/matches/*", false, factoryHandler(MatchHandler.class)));
         entries.add(new Entry("/players/*", false, factoryHandler(PlayerHandler.class)));
+        entries.add(new Entry("/tournaments/*", false, factoryHandler(TournamentHandler.class)));
         entries.add(new Entry("/tournaments/*/matches", false, factoryHandler(TournamentMatchesHandler.class)));
         entries.add(new Entry("/teams/*/players", false, factoryHandler(TeamPlayerHandler.class)));
         entries.add(new Entry("/teams/*", true, factoryHandler(TeamAuthenticatorHandler.class)));
