@@ -20,16 +20,6 @@ import jakarta.servlet.http.HttpServletResponse;
 
 public class EventHandler extends RestMatcherHandler {
 
-    String getRequestBody(HttpServletRequest req) throws IOException{
-        StringBuilder requestBody = new StringBuilder();
-        BufferedReader reader = req.getReader();
-        String line;
-        while ((line = reader.readLine()) != null) {
-            requestBody.append(line);
-        }
-        return requestBody.toString();
-    }
-
     void getEvent (HttpServletRequest req, HttpServletResponse res, int id) throws ServletException, IOException, SQLException{
         GetEventDAO getEventDAO = new GetEventDAO(getConnection(), id);
         Event event = (Event) getEventDAO.access().getOutputParam();

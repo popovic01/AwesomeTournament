@@ -105,5 +105,4 @@ public abstract class AbstractDatabaseServlet extends HttpServlet {
 	public DataSource getDataSource() {
 		return ds;
 	}
-
 }

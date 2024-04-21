@@ -25,16 +25,6 @@ import org.apache.logging.log4j.message.StringFormatterMessageFactory;
 public class TeamPlayerHandler extends RestMatcherHandler {
     protected final static Logger LOGGER = LogManager.getLogger(TeamPlayerHandler.class,
             StringFormatterMessageFactory.INSTANCE);
-
-    String getRequestBody(HttpServletRequest req) throws IOException{
-        StringBuilder requestBody = new StringBuilder();
-        BufferedReader reader = req.getReader();
-        String line;
-        while ((line = reader.readLine()) != null) {
-            requestBody.append(line);
-        }
-        return requestBody.toString();
-    }
     
     void getPlayersFromTeam (HttpServletRequest req, HttpServletResponse res, int teamId) throws ServletException, IOException, SQLException{
         LogContext.setAction(Actions.GET_TEAM_PLAYER);

@@ -25,16 +25,6 @@ public class PlayerHandler extends RestMatcherHandler{
     protected final static Logger LOGGER = LogManager.getLogger(PlayerHandler.class,
             StringFormatterMessageFactory.INSTANCE);
 
-    String getRequestBody(HttpServletRequest req) throws IOException{
-        StringBuilder requestBody = new StringBuilder();
-        BufferedReader reader = req.getReader();
-        String line;
-        while ((line = reader.readLine()) != null) {
-            requestBody.append(line);
-        }
-        return requestBody.toString();
-    }
-
     void getPlayer (HttpServletRequest req, HttpServletResponse res, int playerId) throws ServletException, IOException, SQLException{
         LogContext.setAction(Actions.GET_PLAYER);
         LOGGER.info("Received GET request");
