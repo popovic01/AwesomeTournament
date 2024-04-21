@@ -39,7 +39,7 @@ public class SessionHandler extends RestMatcherHandler {
 
                 LOGGER.info("Found session: id = " + sessionId + " email = " + sessionEmail);
             } else if (req.getHeader("session_id") != null &&
-                            req.getParameter("session_email") != null) {
+                            req.getHeader("session_email") != null) {
                 //remove this at some point!!!
                 //if there is no session we retrieve values from headers
                 sessionId = Integer.parseInt(req.getHeader("session_id"));
