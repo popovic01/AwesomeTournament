@@ -1,25 +1,30 @@
 package it.unipd.dei.dam.awesometournament.utils;
 
+import it.unipd.dei.dam.awesometournament.servlet.handler.SessionHandler;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.message.StringFormatterMessageFactory;
 
 public class SessionHelpers {
     static class NotLoggedException extends RuntimeException{}
 
+    protected static final Logger LOGGER = LogManager.getLogger(SessionHandler.class,
+            StringFormatterMessageFactory.INSTANCE);
+
     public static boolean isLogged(HttpServletRequest req) {
-        HttpSession session = req.getSession();
-        if(session != null && session.getAttribute("id") != null) {
+        LOGGER.info(req.getAttribute("session_id")); //set in SessionHandler
+        LOGGER.info(req.getAttribute("session_email")); //set in SessionHandler
+        if (req.getAttribute("session_id") != null) {
             return true;
         }
         return false;
     }
 
     public static int getId(HttpServletRequest req) throws NotLoggedException {
-        if(!isLogged(req)) {
+        if (!isLogged(req)) {
             throw new NotLoggedException();
         }
-
-        HttpSession session = req.getSession();
-        return (int) session.getAttribute("id");
+        return (int) req.getAttribute("session_id");
     }
 }
