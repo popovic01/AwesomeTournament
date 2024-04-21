@@ -1,12 +1,11 @@
 package it.unipd.dei.dam.awesometournament.servlet.handler;
 
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.SQLException;
-import java.io.BufferedReader;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.util.StdDateFormat;
 
+import it.unipd.dei.dam.awesometournament.resources.Actions;
 import it.unipd.dei.dam.awesometournament.servlet.RestMatcherHandler;
 import it.unipd.dei.dam.awesometournament.servlet.RestMatcherServlet.*;
 import it.unipd.dei.dam.awesometournament.utils.BodyTools;
@@ -22,6 +21,7 @@ import jakarta.servlet.http.HttpServletResponse;
 public class EventHandler extends RestMatcherHandler {
 
     void getEvent (HttpServletRequest req, HttpServletResponse res, int id) throws ServletException, IOException, SQLException{
+        LogContext.setAction(Actions.GET_EVENT);
         GetEventDAO getEventDAO = new GetEventDAO(getConnection(), id);
         Event event = (Event) getEventDAO.access().getOutputParam();
         if (event != null) {
@@ -30,11 +30,12 @@ public class EventHandler extends RestMatcherHandler {
             res.setContentType("application/json");
             res.getWriter().println(objectMapper.writeValueAsString(event));
         } else {
-            res.sendError(HttpServletResponse.SC_NOT_FOUND, "The player doesn't exist");
+            res.sendError(HttpServletResponse.SC_NOT_FOUND, "The event doesn't exist");
         }
     }
 
     void putEvent (HttpServletRequest req, HttpServletResponse res, int id) throws ServletException, IOException, SQLException{
+        LogContext.setAction(Actions.PUT_EVENT);
         String requestBody = BodyTools.getRequestBody(req);
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setDateFormat(new StdDateFormat());
@@ -50,6 +51,7 @@ public class EventHandler extends RestMatcherHandler {
     }
 
     void deleteEvent (HttpServletRequest req, HttpServletResponse res, int id) throws ServletException, IOException, SQLException{
+        LogContext.setAction(Actions.DELETE_EVENT);
         DeleteEventDAO deleteEventDAO = new DeleteEventDAO(getConnection(), id);
         Integer result = (Integer) deleteEventDAO.access().getOutputParam();
         if (result == 1) {

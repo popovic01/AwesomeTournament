@@ -14,4 +14,7 @@ public final class Actions {
     public static final String GET_MATCH = "GET_MATCH";
     public static final String GET_RANKING = "GET_RANKING";
     public static final String PUT_MATCHES = "PUT_MATCHES";
+    public static final String GET_EVENT = "GET_EVENT";
+    public static final String PUT_EVENT = "PUT_EVENT";
+    public static final String DELETE_EVENT = "DELETE_EVENT";
 }
