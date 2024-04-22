@@ -12,6 +12,7 @@ import it.unipd.dei.dam.awesometournament.servlet.RestMatcherServlet.*;
 import it.unipd.dei.dam.awesometournament.resources.Actions;
 import it.unipd.dei.dam.awesometournament.resources.LogContext;
 import it.unipd.dei.dam.awesometournament.utils.BodyTools;
+import it.unipd.dei.dam.awesometournament.utils.SessionHelpers;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -90,6 +91,19 @@ public class TournamentHandler extends RestMatcherHandler {
         else res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
     }
 
+    private boolean isUserAuthorized(HttpServletRequest req, int tournamentId) throws SQLException {
+        if (!SessionHelpers.isLogged(req)) return false;
+
+        LOGGER.info("User logged");
+        int userId = SessionHelpers.getId(req);
+        GetTournamentByIdDAO getTournamentByIdDAO = new GetTournamentByIdDAO(getConnection(), tournamentId);
+        Tournament tournament = getTournamentByIdDAO.access().getOutputParam();
+
+        if (tournament.getCreatorUserId() != userId) return false;
+        LOGGER.info("User authorized");
+        return true;
+    }
+
     @Override
     public Result handle(Method method, HttpServletRequest req, HttpServletResponse res,
                          String[] params) throws ServletException, IOException {
@@ -99,19 +113,29 @@ public class TournamentHandler extends RestMatcherHandler {
 
         try {
             switch (method) {
-                case POST:
-                    postTournament(req, res);
-                    break;
                 case GET:
                     tournamentId = Integer.parseInt(params[0]);
                     getTournament(req, res, tournamentId);
                     break;
+                case POST:
+                    postTournament(req, res);
+                    break;
                 case PUT:
                     tournamentId = Integer.parseInt(params[0]);
+                    if (!isUserAuthorized(req, tournamentId)) {
+                        LOGGER.info("User unauthorized");
+                        res.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                        return Result.STOP;
+                    }
                     putTournament(req, res, tournamentId);
                     break;
                 case DELETE:
                     tournamentId = Integer.parseInt(params[0]);
+                    if (!isUserAuthorized(req, tournamentId)) {
+                        LOGGER.info("User unauthorized");
+                        res.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                        return Result.STOP;
+                    }
                     deleteTournament(req, res, tournamentId);
                     break;
                 default:
