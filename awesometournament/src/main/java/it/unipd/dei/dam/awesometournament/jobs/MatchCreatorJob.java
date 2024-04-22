@@ -55,10 +55,6 @@ public class MatchCreatorJob {
         }
     }
 
-    /*
-    * The connection pool to the database.
-    * !!! SEE IF CAN BE REMOVED FROM HERE
-    */
     private static DataSource ds;
 
     protected final static Connection getConnection() throws SQLException, NamingException, ServletException {
@@ -76,15 +72,13 @@ public class MatchCreatorJob {
 
 			throw new ServletException("Unable to acquire the connection pool to the database", e);
 		}
-            return ds.getConnection();
-        
+        return ds.getConnection();
     }
 
     public static List<Match> generateRoundRobinMatches(List<Team> teams, int tournamentId) {
         List<Match> matches = new ArrayList<>();
 
         int numTeams = teams.size();
-        // Generate matches for each pair of teams
 
         for (int i = 0; i < numTeams; i++) {
                 for (int j = i + 1; j < numTeams; j++) {
@@ -118,7 +112,6 @@ public class MatchCreatorJob {
                         ));
                 }
         }
-
         return matches;
     }
 }
