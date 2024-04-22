@@ -15,6 +15,8 @@ public final class Actions {
     public static final String POST_TEAM = "POST_TEAM";
     public static final String PUT_TEAM = "PUT_TEAM";
     public static final String DELETE_TEAM = "DELETE_TEAM";
+    public static final String GET_TEAMS_FOR_TOURNAMENT = "GET_TEAMS_FOR_TOURNAMENT";
+    public static final String POST_TEAM_FOR_TOURNAMENT = "POST_TEAM_FOR_TOURNAMENT";
     public static final String PUT_MATCH = "PUT_MATCH";
     public static final String GET_MATCH = "GET_MATCH";
     public static final String GET_RANKING = "GET_RANKING";

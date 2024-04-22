@@ -2,7 +2,6 @@ package it.unipd.dei.dam.awesometournament.servlet.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
-import it.unipd.dei.dam.awesometournament.database.CreateTeamDAO;
 import it.unipd.dei.dam.awesometournament.database.DeleteTeamDAO;
 import it.unipd.dei.dam.awesometournament.database.GetTeamDAO;
 import it.unipd.dei.dam.awesometournament.database.UpdateTeamDAO;
@@ -44,28 +43,6 @@ public class TeamHandler extends RestMatcherHandler {
         } else {
             response = new ResponsePackage(ResponseStatus.NOT_FOUND,
                     "Team not found");
-        }
-        res.getWriter().print(om.writeValueAsString(response));
-    }
-
-    void addTeam (HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException, SQLException {
-        LOGGER.info("Received POST request");
-        String requestBody = BodyTools.getRequestBody(req);
-        LOGGER.info(requestBody);
-        om = new ObjectMapper();
-
-        Team team = om.readValue(requestBody, Team.class);
-        //check if there is a team with the same name!!!
-        CreateTeamDAO dao = new CreateTeamDAO(getConnection(), team);
-        int result = dao.access().getOutputParam();
-        team.setId(result);
-
-        if (result != 0) {
-            response = new ResponsePackage(team, ResponseStatus.OK,
-                    "Team successfully added");
-        } else {
-            response = new ResponsePackage(ResponseStatus.INTERNAL_SERVER_ERROR,
-                    "Something went wrong");
         }
         res.getWriter().print(om.writeValueAsString(response));
     }
@@ -129,10 +106,6 @@ public class TeamHandler extends RestMatcherHandler {
                 case DELETE:
                     deleteTeam(req, res, teamId);
                     LogContext.setAction(Actions.DELETE_TEAM);
-                    break;
-                case POST:
-                    addTeam(req, res);
-                    LogContext.setAction(Actions.POST_TEAM);
                     break;
                 default:
                     return RestMatcherServlet.Result.STOP;
