@@ -3,7 +3,7 @@ package it.unipd.dei.dam.awesometournament.servlet.handler;
 import java.io.IOException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import it.unipd.dei.dam.awesometournament.utils.ResponsePackage;
+import it.unipd.dei.dam.awesometournament.utils.ResponsePackageNoData;
 import it.unipd.dei.dam.awesometournament.utils.ResponseStatus;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -29,7 +29,7 @@ public class SessionHandler extends RestMatcherHandler {
         Integer sessionId = null;
         String sessionEmail = null;
         ObjectMapper om = new ObjectMapper();
-        ResponsePackage response;
+        ResponsePackageNoData response;
 
         try {
             //if there is a session
@@ -55,7 +55,7 @@ public class SessionHandler extends RestMatcherHandler {
             return Result.CONTINUE;
         } catch (Exception e) {
             LOGGER.error("Something went wrong: " + e.getMessage());
-            response = new ResponsePackage(ResponseStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+            response = new ResponsePackageNoData(ResponseStatus.INTERNAL_SERVER_ERROR, e.getMessage());
             res.getWriter().print(om.writeValueAsString(response));
             return Result.STOP;
         }

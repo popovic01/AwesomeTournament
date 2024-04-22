@@ -12,6 +12,7 @@ import it.unipd.dei.dam.awesometournament.servlet.RestMatcherHandler;
 import it.unipd.dei.dam.awesometournament.servlet.RestMatcherServlet;
 import it.unipd.dei.dam.awesometournament.utils.BodyTools;
 import it.unipd.dei.dam.awesometournament.utils.ResponsePackage;
+import it.unipd.dei.dam.awesometournament.utils.ResponsePackageNoData;
 import it.unipd.dei.dam.awesometournament.utils.ResponseStatus;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,7 +28,7 @@ public class TeamHandler extends RestMatcherHandler {
 
     protected final static Logger LOGGER = LogManager.getLogger(TeamHandler.class,
             StringFormatterMessageFactory.INSTANCE);
-    private ResponsePackage response;
+    private ResponsePackageNoData response;
     private ObjectMapper om;
 
     void getTeam (HttpServletRequest req, HttpServletResponse res, int teamId) throws ServletException, IOException, SQLException {
@@ -41,7 +42,7 @@ public class TeamHandler extends RestMatcherHandler {
             response = new ResponsePackage(team, ResponseStatus.OK,
                     "Team found");
         } else {
-            response = new ResponsePackage(ResponseStatus.NOT_FOUND,
+            response = new ResponsePackageNoData(ResponseStatus.NOT_FOUND,
                     "Team not found");
         }
         res.getWriter().print(om.writeValueAsString(response));
@@ -60,10 +61,10 @@ public class TeamHandler extends RestMatcherHandler {
         Integer result = dao.access().getOutputParam();
 
         if (result == 1) {
-            response = new ResponsePackage(ResponseStatus.OK,
+            response = new ResponsePackageNoData(ResponseStatus.OK,
                     "Team successfully updated");
         } else {
-            response = new ResponsePackage(ResponseStatus.NOT_FOUND,
+            response = new ResponsePackageNoData(ResponseStatus.NOT_FOUND,
                     "Team not found");
         }
         res.getWriter().print(om.writeValueAsString(response));
@@ -75,10 +76,10 @@ public class TeamHandler extends RestMatcherHandler {
         Integer result = deleteTeamDAO.access().getOutputParam();
 
         if (result == 1) {
-            response = new ResponsePackage(ResponseStatus.OK,
+            response = new ResponsePackageNoData(ResponseStatus.OK,
                     "Team successfully deleted");
         } else {
-            response = new ResponsePackage(ResponseStatus.NOT_FOUND,
+            response = new ResponsePackageNoData(ResponseStatus.NOT_FOUND,
                     "Team not found");
         }
         res.getWriter().print(om.writeValueAsString(response));
@@ -111,15 +112,15 @@ public class TeamHandler extends RestMatcherHandler {
                     return RestMatcherServlet.Result.STOP;
             }
         } catch (NumberFormatException e) {
-            response = new ResponsePackage(ResponseStatus.BAD_REQUEST,
+            response = new ResponsePackageNoData(ResponseStatus.BAD_REQUEST,
                     "Something went wrong" + e.getMessage());
             res.getWriter().print(om.writeValueAsString(response));
         } catch (InvalidFormatException e) {
-            response = new ResponsePackage(ResponseStatus.BAD_REQUEST,
+            response = new ResponsePackageNoData(ResponseStatus.BAD_REQUEST,
                     "Something went wrong: " + e.getMessage());
             res.getWriter().print(om.writeValueAsString(response));
         } catch (SQLException e) {
-            response = new ResponsePackage(ResponseStatus.INTERNAL_SERVER_ERROR,
+            response = new ResponsePackageNoData(ResponseStatus.INTERNAL_SERVER_ERROR,
                     "Something went wrong: " + e.getMessage())  ;
             res.getWriter().print(om.writeValueAsString(response));
         }

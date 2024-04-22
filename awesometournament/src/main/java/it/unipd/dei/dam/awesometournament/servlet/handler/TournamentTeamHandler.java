@@ -8,10 +8,7 @@ import it.unipd.dei.dam.awesometournament.resources.LogContext;
 import it.unipd.dei.dam.awesometournament.resources.entities.Team;
 import it.unipd.dei.dam.awesometournament.servlet.RestMatcherHandler;
 import it.unipd.dei.dam.awesometournament.servlet.RestMatcherServlet;
-import it.unipd.dei.dam.awesometournament.utils.BodyTools;
-import it.unipd.dei.dam.awesometournament.utils.ResponsePackage;
-import it.unipd.dei.dam.awesometournament.utils.ResponseStatus;
-import it.unipd.dei.dam.awesometournament.utils.SessionHelpers;
+import it.unipd.dei.dam.awesometournament.utils.*;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -27,7 +24,7 @@ public class TournamentTeamHandler extends RestMatcherHandler {
 
     protected final static Logger LOGGER = LogManager.getLogger(TournamentTeamHandler.class,
             StringFormatterMessageFactory.INSTANCE);
-    private ResponsePackage response;
+    private ResponsePackageNoData response;
     private ObjectMapper om;
 
     void getTeamsForTournament (HttpServletRequest req, HttpServletResponse res, int tournamentId) throws ServletException, IOException, SQLException {
@@ -41,7 +38,7 @@ public class TournamentTeamHandler extends RestMatcherHandler {
             response = new ResponsePackage(teams, ResponseStatus.OK,
                     "Teams for the tournament found");
         } else {
-            response = new ResponsePackage(ResponseStatus.NOT_FOUND,
+            response = new ResponsePackageNoData(ResponseStatus.NOT_FOUND,
                     "No teams in the tournament");
         }
         res.getWriter().print(om.writeValueAsString(response));
@@ -62,7 +59,7 @@ public class TournamentTeamHandler extends RestMatcherHandler {
         GetTournamentTeamsDAO getTeamsDao = new GetTournamentTeamsDAO(getConnection(), tournamentId);
         List<Team> teams = getTeamsDao.access().getOutputParam();
         if (teams.stream().anyMatch(x -> x.getName().equals(team.getName()))) {
-            response = new ResponsePackage(ResponseStatus.BAD_REQUEST,
+            response = new ResponsePackageNoData(ResponseStatus.BAD_REQUEST,
                     "Team with the same name already exists for this tournament");
             res.getWriter().print(om.writeValueAsString(response));
             return;
@@ -79,7 +76,7 @@ public class TournamentTeamHandler extends RestMatcherHandler {
             response = new ResponsePackage(team, ResponseStatus.CREATED,
                     "Team successfully added");
         } else {
-            response = new ResponsePackage(ResponseStatus.INTERNAL_SERVER_ERROR,
+            response = new ResponsePackageNoData(ResponseStatus.INTERNAL_SERVER_ERROR,
                     "Something went wrong");
         }
         res.getWriter().print(om.writeValueAsString(response));
@@ -108,29 +105,30 @@ public class TournamentTeamHandler extends RestMatcherHandler {
                     LogContext.setAction(Actions.GET_TEAMS_FOR_TOURNAMENT);
                     break;
                 case POST:
+                    //only logged in users can add a team
                     if (getIdOfLoggedInUser(req) == -1) {
                         LOGGER.info("User not logged in");
-                        response = new ResponsePackage(ResponseStatus.UNAUTHORIZED,
+                        response = new ResponsePackageNoData(ResponseStatus.UNAUTHORIZED,
                                 "User not logged in");
                         res.getWriter().print(om.writeValueAsString(response));
                         return RestMatcherServlet.Result.STOP;
                     }
-                    postTeamForTournament(req, res, tournamentId, getIdOfLoggedInUser(req));
+                    postTeamForTournament(req, res, tournamentId, 4);
                     LogContext.setAction(Actions.POST_TEAM_FOR_TOURNAMENT);
                     break;
                 default:
                     return RestMatcherServlet.Result.STOP;
             }
         } catch (NumberFormatException e) {
-            response = new ResponsePackage(ResponseStatus.BAD_REQUEST,
+            response = new ResponsePackageNoData(ResponseStatus.BAD_REQUEST,
                     "Something went wrong: " + e.getMessage());
             res.getWriter().print(om.writeValueAsString(response));
         } catch (InvalidFormatException e) {
-            response = new ResponsePackage(ResponseStatus.BAD_REQUEST,
+            response = new ResponsePackageNoData(ResponseStatus.BAD_REQUEST,
                     "Something went wrong: " + e.getMessage());
             res.getWriter().print(om.writeValueAsString(response));
         } catch (SQLException e) {
-            response = new ResponsePackage(ResponseStatus.INTERNAL_SERVER_ERROR,
+            response = new ResponsePackageNoData(ResponseStatus.INTERNAL_SERVER_ERROR,
                     "Something went wrong: " + e.getMessage())  ;
             res.getWriter().print(om.writeValueAsString(response));
         }

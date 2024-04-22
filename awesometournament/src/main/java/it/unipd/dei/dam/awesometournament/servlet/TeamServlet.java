@@ -2,7 +2,6 @@ package it.unipd.dei.dam.awesometournament.servlet;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.List;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,12 +11,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.message.StringFormatterMessageFactory;
 
-import it.unipd.dei.dam.awesometournament.database.GetMatchDAO;
 import it.unipd.dei.dam.awesometournament.database.GetTeamDAO;
 import it.unipd.dei.dam.awesometournament.database.GetTournamentByIdDAO;
-import it.unipd.dei.dam.awesometournament.database.GetTournamentMatchesDAO;
 import it.unipd.dei.dam.awesometournament.resources.LogContext;
-import it.unipd.dei.dam.awesometournament.resources.entities.Match;
 import it.unipd.dei.dam.awesometournament.resources.entities.Team;
 import it.unipd.dei.dam.awesometournament.resources.entities.Tournament;
 import it.unipd.dei.dam.awesometournament.utils.SessionHelpers;
@@ -71,5 +67,5 @@ public class TeamServlet extends AbstractDatabaseServlet{
             resp.sendError(HttpServletResponse.SC_NOT_FOUND);
         }
     }
-    
+
 }
