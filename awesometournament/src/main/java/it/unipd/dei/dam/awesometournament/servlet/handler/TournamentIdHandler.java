@@ -20,8 +20,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.message.StringFormatterMessageFactory;
 
-public class TournamentHandler extends RestMatcherHandler {
-    protected final static Logger LOGGER = LogManager.getLogger(TournamentHandler.class,
+public class TournamentIdHandler extends RestMatcherHandler {
+    protected final static Logger LOGGER = LogManager.getLogger(TournamentIdHandler.class,
             StringFormatterMessageFactory.INSTANCE);
 
     void postTournament (HttpServletRequest req, HttpServletResponse res) throws IOException, SQLException{
@@ -109,19 +109,14 @@ public class TournamentHandler extends RestMatcherHandler {
                          String[] params) throws ServletException, IOException {
 
         LogContext.setIPAddress(req.getRemoteAddr());
-        int tournamentId;
+        int tournamentId = Integer.parseInt(params[0]);
 
         try {
             switch (method) {
                 case GET:
-                    tournamentId = Integer.parseInt(params[0]);
                     getTournament(req, res, tournamentId);
                     break;
-                case POST:
-                    postTournament(req, res);
-                    break;
                 case PUT:
-                    tournamentId = Integer.parseInt(params[0]);
                     if (!isUserAuthorized(req, tournamentId)) {
                         LOGGER.info("User unauthorized");
                         res.sendError(HttpServletResponse.SC_UNAUTHORIZED);
@@ -130,7 +125,6 @@ public class TournamentHandler extends RestMatcherHandler {
                     putTournament(req, res, tournamentId);
                     break;
                 case DELETE:
-                    tournamentId = Integer.parseInt(params[0]);
                     if (!isUserAuthorized(req, tournamentId)) {
                         LOGGER.info("User unauthorized");
                         res.sendError(HttpServletResponse.SC_UNAUTHORIZED);

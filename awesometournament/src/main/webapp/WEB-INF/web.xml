@@ -75,6 +75,15 @@
 	</servlet-mapping>
 
 	<servlet>
+		<servlet-name>RankingScorers</servlet-name>
+		<servlet-class>it.unipd.dei.dam.awesometournament.servlet.RankingScorersServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>RankingScorers</servlet-name>
+		<url-pattern>/ranking/scorers/tournaments/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
 		<servlet-name>Player</servlet-name>
 		<servlet-class>it.unipd.dei.dam.awesometournament.servlet.PlayerServlet</servlet-class>
 	</servlet>
