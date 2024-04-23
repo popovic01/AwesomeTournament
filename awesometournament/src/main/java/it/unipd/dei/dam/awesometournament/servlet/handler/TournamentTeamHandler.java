@@ -106,15 +106,14 @@ public class TournamentTeamHandler extends RestMatcherHandler {
                     break;
                 case POST:
                     //only logged in users can add a team
-                    int id;
-                    if ((id = getIdOfLoggedInUser(req) )== -1) {
+                    if (getIdOfLoggedInUser(req) == -1) {
                         LOGGER.info("User not logged in");
                         response = new ResponsePackageNoData(ResponseStatus.UNAUTHORIZED,
                                 "User not logged in");
                         res.getWriter().print(om.writeValueAsString(response));
                         return RestMatcherServlet.Result.STOP;
                     }
-                    postTeamForTournament(req, res, tournamentId, id);
+                    postTeamForTournament(req, res, tournamentId, getIdOfLoggedInUser(req));
                     LogContext.setAction(Actions.POST_TEAM_FOR_TOURNAMENT);
                     break;
                 default:
