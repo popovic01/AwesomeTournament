@@ -39,8 +39,10 @@ public class TournamentMatchesHandler extends RestMatcherHandler {
                     case GET:
                         getTournamentMatches(req, res, tournamentId);
                         break;
-                    default:
+                    default: {
+                        res.sendError(HttpServletResponse.SC_NOT_FOUND);
                         return Result.STOP;
+                    }
                 }
             } catch (NumberFormatException e) {
                 res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Team ID must be an integer");
