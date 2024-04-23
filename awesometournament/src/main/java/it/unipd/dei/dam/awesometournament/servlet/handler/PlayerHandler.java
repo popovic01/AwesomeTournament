@@ -122,6 +122,7 @@ public class PlayerHandler extends RestMatcherHandler{
                         deletePlayer(req, res, playerId);
                         break;
                     default:
+                        res.sendError(HttpServletResponse.SC_NOT_FOUND, "Method not found");
                         return Result.STOP;
                 }
             } catch (NumberFormatException e) {

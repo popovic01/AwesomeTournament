@@ -103,6 +103,7 @@ public class TeamPlayerHandler extends RestMatcherHandler {
                         postPlayer(req, res, teamId);
                         break;
                     default:
+                        res.sendError(HttpServletResponse.SC_NOT_FOUND, "Method not found");
                         return Result.STOP;
                 }
             } catch (NumberFormatException e) {
