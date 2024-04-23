@@ -77,6 +77,11 @@ public class SignupServlet extends AbstractDatabaseServlet {
             return;
         }
 
+        if(!Validators.isPasswordValid(password)) {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "password not valid");
+            return;
+        }
+
         try {
             // try to create an user in the database
             String hashedPassword = Hashing.hashPassword(password);
