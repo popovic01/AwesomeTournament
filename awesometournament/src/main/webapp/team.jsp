@@ -78,6 +78,13 @@
                 You are the admin of this team
             </div>
         </c:if>
+        <div>
+          <c:forEach items="${players}" var="player">
+            <li>
+              <c:out value="${player}" />
+            </li>
+          </c:forEach>
+        </div>
     </div>
 </body>
 

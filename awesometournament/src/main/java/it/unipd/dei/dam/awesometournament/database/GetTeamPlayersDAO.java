@@ -8,14 +8,14 @@ import java.util.ArrayList;
 import it.unipd.dei.dam.awesometournament.resources.entities.Player;
 import it.unipd.dei.dam.awesometournament.resources.enums.PlayerPosition;
 
-public class GetTeamPlayerDAO extends AbstractDAO<ArrayList<Player>> {
+public class GetTeamPlayersDAO extends AbstractDAO<ArrayList<Player>> {
 
     private static final String STATEMENT = "SELECT * FROM public.players " +
                                             "WHERE team_id = ?";
 
     private final int team_id;
 
-    public GetTeamPlayerDAO(final Connection con, final int team_id) {
+    public GetTeamPlayersDAO(final Connection con, final int team_id) {
         super(con);
         this.team_id = team_id;
     }

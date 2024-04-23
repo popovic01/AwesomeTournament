@@ -2,6 +2,7 @@ package it.unipd.dei.dam.awesometournament.servlet;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,10 +13,12 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.message.StringFormatterMessageFactory;
 
 import it.unipd.dei.dam.awesometournament.database.GetTeamDAO;
+import it.unipd.dei.dam.awesometournament.database.GetTeamPlayersDAO;
 import it.unipd.dei.dam.awesometournament.database.GetTournamentByIdDAO;
 import it.unipd.dei.dam.awesometournament.resources.LogContext;
 import it.unipd.dei.dam.awesometournament.resources.entities.Team;
 import it.unipd.dei.dam.awesometournament.resources.entities.Tournament;
+import it.unipd.dei.dam.awesometournament.resources.entities.Player;
 import it.unipd.dei.dam.awesometournament.utils.SessionHelpers;
 
 public class TeamServlet extends AbstractDatabaseServlet{
@@ -57,6 +60,12 @@ public class TeamServlet extends AbstractDatabaseServlet{
                         req.setAttribute("teamOwner", true);
                     }
                 }
+
+                GetTeamPlayersDAO getTeamPlayersDAO = new GetTeamPlayersDAO(getConnection(), id);
+                getTeamPlayersDAO.access();
+                List<Player> players = getTeamPlayersDAO.getOutputParam();
+                LOGGER.info("found players: "+players.size());
+                req.setAttribute("players", players);
 
                 req.getRequestDispatcher("/team.jsp").forward(req, resp);
             } catch (SQLException e) {

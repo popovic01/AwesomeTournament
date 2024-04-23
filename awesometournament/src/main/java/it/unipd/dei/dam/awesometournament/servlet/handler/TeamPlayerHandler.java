@@ -12,7 +12,7 @@ import it.unipd.dei.dam.awesometournament.utils.BodyTools;
 import it.unipd.dei.dam.awesometournament.utils.SessionHelpers;
 import it.unipd.dei.dam.awesometournament.database.CreateTeamPlayerDAO;
 import it.unipd.dei.dam.awesometournament.database.GetTeamDAO;
-import it.unipd.dei.dam.awesometournament.database.GetTeamPlayerDAO;
+import it.unipd.dei.dam.awesometournament.database.GetTeamPlayersDAO;
 import it.unipd.dei.dam.awesometournament.resources.Actions;
 import it.unipd.dei.dam.awesometournament.resources.LogContext;
 import it.unipd.dei.dam.awesometournament.resources.entities.Player;
@@ -31,7 +31,7 @@ public class TeamPlayerHandler extends RestMatcherHandler {
     void getPlayersFromTeam (HttpServletRequest req, HttpServletResponse res, int teamId) throws ServletException, IOException, SQLException{
         LogContext.setAction(Actions.GET_TEAM_PLAYER);
         LOGGER.info("Received GET request");
-        GetTeamPlayerDAO getTeamPlayerDAO = new GetTeamPlayerDAO(getConnection(), teamId);
+        GetTeamPlayersDAO getTeamPlayerDAO = new GetTeamPlayersDAO(getConnection(), teamId);
         ArrayList<Player> players = getTeamPlayerDAO.access().getOutputParam();
         if (players.size() != 0) {
             ObjectMapper objectMapper = new ObjectMapper();
