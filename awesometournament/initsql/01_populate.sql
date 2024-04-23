@@ -325,3 +325,21 @@ INSERT INTO public.events (match_id, player_id, type, time) VALUES
   (15, 53, 'goal', 30),  -- Lucas Digne (Everton) scores
   (15, 54, 'goal', 60),  -- João Moutinho (Wolverhampton Wanderers) scores
   (15, 55, 'goal', 70);  -- Raúl Jiménez (Wolverhampton Wanderers) scores
+
+-- Inserting a new tournament without matches and with a deadline within 24 hours
+INSERT INTO public.tournaments (name, token, creator_user_id, max_teams, max_players, min_players, starting_players, max_substitutions, deadline, creation_date, is_finished)
+VALUES ('Empty Tournament', 'empty', 3, 20, 11, 7, 11, 5, NOW() - INTERVAL '1 hour', NOW(), false);
+
+-- Inserting fake teams for Premier League tournament
+INSERT INTO public.teams (name, creator_user_id, tournament_id)
+VALUES
+  ('Red Dragons FC', 1, 3),
+  ('Blue Lions FC', 2, 3),
+  ('Golden Tigers FC', 3, 3),
+  ('Silver Eagles FC', 4, 3),
+  ('Green Gators FC', 5, 3),
+  ('Black Panthers FC', 6, 3),
+  ('White Wolves FC', 7, 3),
+  ('Orange Owls FC', 8, 3),
+  ('Purple Pumas FC', 9, 3),
+  ('Yellow Yaks FC', 10, 3);
