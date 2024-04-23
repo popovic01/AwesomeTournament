@@ -186,3 +186,142 @@ INSERT INTO public.events (match_id, player_id, type, time) VALUES
   (10, 33, 'goal', 50),  -- Bremer Rodrigues (Torino) scores
   (10, 35, 'goal', 65),  -- Hakan Çalhanoğlu (AC Milan) scores
   (10, 36, 'goal', 75);  -- Rafael Leão (AC Milan) scores
+
+-- Inserting Premier League championship
+INSERT INTO public.tournaments (name, token, creator_user_id, max_teams, max_players, min_players, starting_players, max_substitutions, deadline, creation_date, is_finished)
+VALUES
+  ('Premier League 2024/2025', 'premierleague2425', 1, 20, 11, 7, 11, 5, '2024-08-01', NOW(), false);
+
+-- Inserting teams for Premier League, each inserted by a different user
+INSERT INTO public.teams (name, creator_user_id, tournament_id) VALUES
+  ('Manchester City', 1, 2),
+  ('Manchester United', 2, 2),
+  ('Liverpool', 3, 2),
+  ('Chelsea', 4, 2),
+  ('Arsenal', 5, 2),
+  ('Tottenham Hotspur', 6, 2),
+  ('Leicester City', 7, 2),
+  ('West Ham United', 8, 2),
+  ('Everton', 9, 2),
+  ('Wolverhampton Wanderers', 10, 2);
+
+-- Inserting players for each Premier League team
+-- You can add more players as needed
+INSERT INTO public.players (name, surname, team_id, position, date_of_birth) VALUES
+  -- Manchester City players
+  ('Ederson', 'Moraes', 11, 'goalkeeper', '1993-08-17'),
+  ('Ruben', 'Dias', 11, 'defender', '1997-05-14'),
+  ('Kevin', 'De Bruyne', 11, 'midfielder', '1991-06-28'),
+  ('Sergio', 'Agüero', 11, 'striker', '1988-06-02'),
+  -- Manchester United players
+  ('David', 'De Gea', 12, 'goalkeeper', '1990-11-07'),
+  ('Harry', 'Maguire', 12, 'defender', '1993-03-05'),
+  ('Bruno', 'Fernandes', 12, 'midfielder', '1994-09-08'),
+  ('Marcus', 'Rashford', 12, 'striker', '1997-10-31'),
+  -- Liverpool players
+  ('Alisson', 'Becker', 13, 'goalkeeper', '1992-10-02'),
+  ('Virgil', 'van Dijk', 13, 'defender', '1991-07-08'),
+  ('Jordan', 'Henderson', 13, 'midfielder', '1990-06-17'),
+  ('Mohamed', 'Salah', 13, 'striker', '1992-06-15'),
+  -- Chelsea players
+  ('Édouard', 'Mendy', 14, 'goalkeeper', '1992-03-01'),
+  ('Thiago', 'Silva', 14, 'defender', '1984-09-22'),
+  ('NGolo', 'Kanté', 14, 'midfielder', '1991-03-29'),
+  ('Timo', 'Werner', 14, 'striker', '1996-03-06'),
+  -- Arsenal players
+  ('Bernd', 'Leno', 15, 'goalkeeper', '1992-03-04'),
+  ('Gabriel', 'Magalhães', 15, 'defender', '1997-12-19'),
+  ('Thomas', 'Partey', 15, 'midfielder', '1993-06-13'),
+  ('Pierre-Emerick', 'Aubameyang', 15, 'striker', '1989-06-18'),
+  -- Tottenham Hotspur players
+  ('Hugo', 'Lloris', 16, 'goalkeeper', '1986-12-26'),
+  ('Toby', 'Alderweireld', 16, 'defender', '1989-03-02'),
+  ('Harry', 'Winks', 16, 'midfielder', '1996-02-02'),
+  ('Harry', 'Kane', 16, 'striker', '1993-07-28'),
+  -- Leicester City players
+  ('Kasper', 'Schmeichel', 17, 'goalkeeper', '1986-11-05'),
+  ('Wesley', 'Fofana', 17, 'defender', '2000-12-17'),
+  ('James', 'Maddison', 17, 'midfielder', '1996-11-23'),
+  ('Jamie', 'Vardy', 17, 'striker', '1987-01-11'),
+  -- West Ham United players
+  ('Łukasz', 'Fabiański', 18, 'goalkeeper', '1985-04-18'),
+  ('Angelo', 'Ogbonna', 18, 'defender', '1988-05-23'),
+  ('Declan', 'Rice', 18, 'midfielder', '1999-01-14'),
+  ('Michail', 'Antonio', 18, 'striker', '1990-03-28'),
+  -- Everton players
+  ('Jordan', 'Pickford', 19, 'goalkeeper', '1994-03-07'),
+  ('Lucas', 'Digne', 19, 'defender', '1993-07-20'),
+  ('Allan', 'Marques Loureiro', 19, 'midfielder', '1991-01-08'),
+  ('Richarlison', 'de Andrade', 19, 'striker', '1997-05-10'),
+  -- Wolverhampton Wanderers players
+  ('Rui', 'Patrício', 20, 'goalkeeper', '1988-02-15'),
+  ('Conor', 'Coady', 20, 'defender', '1993-02-25'),
+  ('João', 'Moutinho', 20, 'midfielder', '1986-09-08'),
+  ('Raúl', 'Jiménez', 20, 'striker', '1991-05-05');
+
+-- Inserting matches for Premier League (will add more as needed)
+INSERT INTO public.matches (team1_id, team2_id, tournament_id, team1_score, team2_score, result, referee, match_date, is_finished) VALUES
+  -- Match 1: Manchester City vs. Manchester United
+  (11, 12, 2, 3, 2, 'team1', 'Michael Oliver', '2024-08-15 18:00:00', true),
+  -- Match 2: Liverpool vs. Chelsea
+  (13, 14, 2, 2, 1, 'team1', 'Martin Atkinson', '2024-08-16 15:30:00', true),
+  -- Match 3: Arsenal vs. Tottenham Hotspur
+  (15, 16, 2, 1, 1, 'draw', 'Anthony Taylor', '2024-08-17 16:45:00', true),
+  -- Match 4: Leicester City vs. West Ham United
+  (17, 18, 2, 3, 1, 'team1', 'Andre Marriner', '2024-08-18 14:00:00', true),
+  -- Match 5: Everton vs. Wolverhampton Wanderers
+  (19, 20, 2, 2, 2, 'draw', 'Chris Kavanagh', '2024-08-19 17:30:00', true);
+
+-- Inserting scheduled but not yet played matches with existing referees
+INSERT INTO public.matches (team1_id, team2_id, tournament_id, match_date, referee, is_finished) VALUES
+  -- Scheduled match 11: AC Milan vs. Juventus
+  (11, 13, 2, '2024-09-01 17:00:00', 'Michael Fabbri', false),
+  -- Scheduled match 12: AS Roma vs. Inter Milan
+  (14, 12, 2, '2024-09-02 19:45:00', 'Daniele Doveri', false),
+  -- Scheduled match 13: Lazio vs. Napoli
+  (16, 15, 2, '2024-09-03 15:30:00', 'Gianpaolo Calvarese', false),
+  -- Scheduled match 14: Fiorentina vs. Torino
+  (18, 20, 2, '2024-09-04 20:00:00', 'Martin Atkinson', false),
+  -- Scheduled match 15: Sampdoria vs. Atalanta
+  (19, 17, 2, '2024-09-05 18:15:00', 'Anthony Taylor', false),
+  -- Scheduled match 16: Inter Milan vs. Lazio
+  (12, 16, 2, '2024-09-06 16:30:00', 'Michael Fabbri', false);
+
+-- Inserting matches that aren't scheduled yet with existing referees
+INSERT INTO public.matches (team1_id, team2_id, tournament_id, referee, is_finished) VALUES
+  -- Unscheduled match 17: Juventus vs. Napoli
+  (13, 15, 2, 'Daniele Doveri', false),
+  -- Unscheduled match 18: Atalanta vs. AC Milan
+  (17, 11, 2, 'Gianpaolo Calvarese', false),
+  -- Unscheduled match 19: Torino vs. AS Roma
+  (11, 14, 2, 'Martin Atkinson', false),
+  -- Unscheduled match 20: Inter Milan vs. Fiorentina
+  (12, 18, 2, 'Anthony Taylor', false),
+  -- Unscheduled match 21: Lazio vs. Sampdoria
+  (16, 19, 2, 'Michael Fabbri', false);
+
+-- Inserting events for Premier League matches (will add more as needed)
+INSERT INTO public.events (match_id, player_id, type, time) VALUES
+  -- Match 1: Manchester City vs. Manchester United
+  (11, 38, 'goal', 10),  -- Kevin De Bruyne (Manchester City) scores
+  (11, 39, 'goal', 30),  -- Sergio Agüero (Manchester City) scores
+  (11, 40, 'goal', 45),  -- Ruben Dias (Manchester City) scores
+  (11, 41, 'goal', 55),  -- Harry Maguire (Manchester United) scores
+  (11, 42, 'goal', 70),  -- Bruno Fernandes (Manchester United) scores
+  -- Match 2: Liverpool vs. Chelsea
+  (12, 43, 'goal', 25),  -- Virgil van Dijk (Liverpool) scores
+  (12, 44, 'goal', 60),  -- Mohamed Salah (Liverpool) scores
+  (12, 45, 'goal', 75),  -- N'Golo Kanté (Chelsea) scores
+  -- Match 3: Arsenal vs. Tottenham Hotspur
+  (13, 46, 'goal', 20),  -- Pierre-Emerick Aubameyang (Arsenal) scores
+  (13, 47, 'goal', 65),  -- Harry Kane (Tottenham Hotspur) scores
+  -- Match 4: Leicester City vs. West Ham United
+  (14, 48, 'goal', 15),  -- Wesley Fofana (Leicester City) scores
+  (14, 49, 'goal', 30),  -- James Maddison (Leicester City) scores
+  (14, 50, 'goal', 40),  -- Michail Antonio (West Ham United) scores
+  (14, 51, 'goal', 70),  -- Jamie Vardy (Leicester City) scores
+  -- Match 5: Everton vs. Wolverhampton Wanderers
+  (15, 52, 'goal', 5),   -- Jordan Pickford (Everton) scores
+  (15, 53, 'goal', 30),  -- Lucas Digne (Everton) scores
+  (15, 54, 'goal', 60),  -- João Moutinho (Wolverhampton Wanderers) scores
+  (15, 55, 'goal', 70);  -- Raúl Jiménez (Wolverhampton Wanderers) scores
