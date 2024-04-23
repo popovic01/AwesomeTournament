@@ -56,7 +56,7 @@ public class MatchHandler extends RestMatcherHandler{
         }
         return Result.CONTINUE;
     }
-    
+
     private void getMatch(HttpServletRequest req, HttpServletResponse res, int matchId)
             throws SQLException, JsonProcessingException, IOException {
         LogContext.setAction(Actions.PUT_MATCH);
@@ -75,7 +75,7 @@ public class MatchHandler extends RestMatcherHandler{
             res.sendError(HttpServletResponse.SC_NOT_FOUND, "The match doesn't exist");
         }
     }
-    
+
     private void updateMatch(HttpServletRequest req, HttpServletResponse res, int matchId)
             throws SQLException, JsonProcessingException, IOException {
         LogContext.setAction(Actions.PUT_MATCH);

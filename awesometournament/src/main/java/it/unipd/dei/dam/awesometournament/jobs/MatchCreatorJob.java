@@ -14,6 +14,7 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.message.StringFormatterMessageFactory;
 
 import it.unipd.dei.dam.awesometournament.database.CreateMatchDAO;
+import it.unipd.dei.dam.awesometournament.database.GetTournamentMatchesDAO;
 import it.unipd.dei.dam.awesometournament.database.GetTournamentTeamsDAO;
 import it.unipd.dei.dam.awesometournament.database.GetTournamentsWithPastDeadlineDAO;
 import it.unipd.dei.dam.awesometournament.resources.entities.Match;
@@ -35,9 +36,18 @@ public class MatchCreatorJob {
                     getConnection());
             tournamentIDs = (List<Integer>) getTournamentsWithPastDeadlineDAO.access().getOutputParam();
         } else {
-            tournamentIDs.add(tournamentId);
+            GetTournamentMatchesDAO getTournamentMatchesDAO = new GetTournamentMatchesDAO(getConnection(),
+                    tournamentId);
+            List<Match> matches = getTournamentMatchesDAO.access().getOutputParam();
+            LOGGER.info(matches.size());
+            if (matches.size() == 0) {
+                tournamentIDs.add(tournamentId);
+            } else {
+                LOGGER.error("Matches already created");
+                throw new Exception("matches already created");
+            }
         }
-        
+
         for (int id : tournamentIDs) {
             GetTournamentTeamsDAO getTournamentTeamsDAO = new GetTournamentTeamsDAO(getConnection(), id);
             List<Team> teams = (List<Team>) getTournamentTeamsDAO.access().getOutputParam();
