@@ -27,15 +27,15 @@ public class TournamentTeamHandler extends RestMatcherHandler {
     private ResponsePackageNoData response;
     private ObjectMapper om;
 
-    void getTeamsForTournament (HttpServletRequest req, HttpServletResponse res, int tournamentId) throws ServletException, IOException, SQLException {
+    void getTeamsForTournament (HttpServletResponse res, int tournamentId) throws IOException, SQLException {
         LOGGER.info("Received GET request");
         GetTournamentTeamsDAO dao = new GetTournamentTeamsDAO(getConnection(), tournamentId);
         List<Team> teams = dao.access().getOutputParam();
 
         om = new ObjectMapper();
 
-        if (teams.size() != 0) {
-            response = new ResponsePackage(teams, ResponseStatus.OK,
+        if (!teams.isEmpty()) {
+            response = new ResponsePackage<>(teams, ResponseStatus.OK,
                     "Teams for the tournament found");
         } else {
             response = new ResponsePackageNoData(ResponseStatus.NOT_FOUND,
@@ -46,7 +46,7 @@ public class TournamentTeamHandler extends RestMatcherHandler {
 
     void postTeamForTournament (HttpServletRequest req, HttpServletResponse res,
                                 int tournamentId, int userId)
-            throws ServletException, IOException, SQLException {
+            throws IOException, SQLException {
         LOGGER.info("Received POST request");
         String requestBody = BodyTools.getRequestBody(req);
         LOGGER.info(requestBody);
@@ -72,8 +72,8 @@ public class TournamentTeamHandler extends RestMatcherHandler {
         Integer result = dao.access().getOutputParam();
         team.setId(result);
         if (result != 0) {
-            LOGGER.info("Team created with id %d", result);
-            response = new ResponsePackage(team, ResponseStatus.CREATED,
+            LOGGER.info("Team created with id: " + result);
+            response = new ResponsePackage<>(team, ResponseStatus.CREATED,
                     "Team successfully added");
         } else {
             response = new ResponsePackageNoData(ResponseStatus.INTERNAL_SERVER_ERROR,
@@ -101,11 +101,11 @@ public class TournamentTeamHandler extends RestMatcherHandler {
             int tournamentId = Integer.parseInt(params[0]);
             switch (method) {
                 case GET:
-                    getTeamsForTournament(req, res, tournamentId);
+                    getTeamsForTournament(res, tournamentId);
                     LogContext.setAction(Actions.GET_TEAMS_FOR_TOURNAMENT);
                     break;
                 case POST:
-                    //only logged in users can add a team
+                    //only logged-in users can add a team
                     if (getIdOfLoggedInUser(req) == -1) {
                         LOGGER.info("User not logged in");
                         response = new ResponsePackageNoData(ResponseStatus.UNAUTHORIZED,
