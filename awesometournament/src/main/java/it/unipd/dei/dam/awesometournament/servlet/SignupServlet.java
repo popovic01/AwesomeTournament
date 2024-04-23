@@ -15,6 +15,7 @@ import it.unipd.dei.dam.awesometournament.resources.entities.User;
 import it.unipd.dei.dam.awesometournament.utils.BodyTools;
 import it.unipd.dei.dam.awesometournament.utils.Hashing;
 import it.unipd.dei.dam.awesometournament.utils.SessionHelpers;
+import it.unipd.dei.dam.awesometournament.utils.Validators;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -41,6 +42,13 @@ public class SignupServlet extends AbstractDatabaseServlet {
         LogContext.setIPAddress(req.getRemoteAddr());
         LogContext.setAction(Actions.GET_PLAYER);
 
+        // invalidate any previous session
+
+        HttpSession session = req.getSession(false);
+        if(session != null) {
+            session.invalidate();
+        }
+
         // extract email and password from the body of the request
 
         Map<String, String> map;
@@ -62,7 +70,12 @@ public class SignupServlet extends AbstractDatabaseServlet {
         LOGGER.info("email: " + email);
         LOGGER.info("password: " + password);
 
-        // try to authenticate the user
+        // try to register the user
+
+        if(!Validators.isEmail(email)) {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "email not valid");
+            return;
+        }
 
         try {
             // try to create an user in the database
