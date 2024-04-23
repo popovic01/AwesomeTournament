@@ -303,28 +303,28 @@ INSERT INTO public.matches (team1_id, team2_id, tournament_id, referee, is_finis
 -- Inserting events for Premier League matches (will add more as needed)
 INSERT INTO public.events (match_id, player_id, type, time) VALUES
   -- Match 1: Manchester City vs. Manchester United
-  (11, 38, 'goal', 10),  -- Kevin De Bruyne (Manchester City) scores
-  (11, 39, 'goal', 30),  -- Sergio Agüero (Manchester City) scores
-  (11, 40, 'goal', 45),  -- Ruben Dias (Manchester City) scores
-  (11, 41, 'goal', 55),  -- Harry Maguire (Manchester United) scores
-  (11, 42, 'goal', 70),  -- Bruno Fernandes (Manchester United) scores
+  (22, 43, 'goal', 10),  -- Kevin De Bruyne (Manchester City) scores
+  (22, 44, 'goal', 30),  -- Sergio Agüero (Manchester City) scores
+  (22, 42, 'goal', 45),  -- Ruben Dias (Manchester City) scores
+  (22, 46, 'goal', 55),  -- Harry Maguire (Manchester United) scores
+  (22, 47, 'goal', 70),  -- Bruno Fernandes (Manchester United) scores
   -- Match 2: Liverpool vs. Chelsea
-  (12, 43, 'goal', 25),  -- Virgil van Dijk (Liverpool) scores
-  (12, 44, 'goal', 60),  -- Mohamed Salah (Liverpool) scores
-  (12, 45, 'goal', 75),  -- N'Golo Kanté (Chelsea) scores
+  (23, 50, 'goal', 25),  -- Virgil van Dijk (Liverpool) scores
+  (23, 52, 'goal', 60),  -- Mohamed Salah (Liverpool) scores
+  (23, 55, 'goal', 75),  -- N'Golo Kanté (Chelsea) scores
   -- Match 3: Arsenal vs. Tottenham Hotspur
-  (13, 46, 'goal', 20),  -- Pierre-Emerick Aubameyang (Arsenal) scores
-  (13, 47, 'goal', 65),  -- Harry Kane (Tottenham Hotspur) scores
+  (24, 60, 'goal', 20),  -- Pierre-Emerick Aubameyang (Arsenal) scores
+  (24, 64, 'goal', 65),  -- Harry Kane (Tottenham Hotspur) scores
   -- Match 4: Leicester City vs. West Ham United
-  (14, 48, 'goal', 15),  -- Wesley Fofana (Leicester City) scores
-  (14, 49, 'goal', 30),  -- James Maddison (Leicester City) scores
-  (14, 50, 'goal', 40),  -- Michail Antonio (West Ham United) scores
-  (14, 51, 'goal', 70),  -- Jamie Vardy (Leicester City) scores
+  (25, 66, 'goal', 15),  -- Wesley Fofana (Leicester City) scores
+  (25, 67, 'goal', 30),  -- James Maddison (Leicester City) scores
+  (25, 72, 'goal', 40),  -- Michail Antonio (West Ham United) scores
+  (25, 68, 'goal', 70),  -- Jamie Vardy (Leicester City) scores
   -- Match 5: Everton vs. Wolverhampton Wanderers
-  (15, 52, 'goal', 5),   -- Jordan Pickford (Everton) scores
-  (15, 53, 'goal', 30),  -- Lucas Digne (Everton) scores
-  (15, 54, 'goal', 60),  -- João Moutinho (Wolverhampton Wanderers) scores
-  (15, 55, 'goal', 70);  -- Raúl Jiménez (Wolverhampton Wanderers) scores
+  (26, 73, 'goal', 5),   -- Jordan Pickford (Everton) scores
+  (26, 74, 'goal', 30),  -- Lucas Digne (Everton) scores
+  (26, 79, 'goal', 60),  -- João Moutinho (Wolverhampton Wanderers) scores
+  (26, 80, 'goal', 70);  -- Raúl Jiménez (Wolverhampton Wanderers) scores
 
 -- Inserting a new tournament without matches and with a deadline within 24 hours
 INSERT INTO public.tournaments (name, token, creator_user_id, max_teams, max_players, min_players, starting_players, max_substitutions, deadline, creation_date, is_finished)
