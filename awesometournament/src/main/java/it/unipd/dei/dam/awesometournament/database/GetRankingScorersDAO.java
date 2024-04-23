@@ -9,8 +9,7 @@ import it.unipd.dei.dam.awesometournament.utils.RankingScorersEntry;
 public class GetRankingScorersDAO extends AbstractDAO<ArrayList<RankingScorersEntry>> {
 
     private static final String STATEMENT = "SELECT p.name AS player_name, p.surname AS player_surname, " +
-                                            "COUNT(CASE WHEN e.type = 'goal' THEN 1 END) AS goals_scored, " +
-                                            "COUNT(DISTINCT e.match_id) AS matches_played " +
+                                            "COUNT(CASE WHEN e.type = 'goal' THEN 1 END) AS goals_scored " +
                                             "FROM public.tournaments t " +
                                             "JOIN public.matches m ON m.tournament_id = t.id " +
                                             "JOIN public.events e ON e.match_id = m.id " +
@@ -39,7 +38,7 @@ public class GetRankingScorersDAO extends AbstractDAO<ArrayList<RankingScorersEn
             while (rs.next()) {
                 LOGGER.info("Add player to ranking");
                 ranking.add(new RankingScorersEntry(rs.getString("player_name"), rs.getString("player_surname"),
-                        rs.getInt("goals_scored"), rs.getInt("matches_played")));
+                        rs.getInt("goals_scored")));
             }
         } finally {
             if (p != null) p.close();

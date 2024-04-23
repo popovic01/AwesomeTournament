@@ -16,7 +16,6 @@
         <th>Player Name</th>
         <th>Player Surname</th>
         <th>Goals</th>
-        <th>Matches Played</th>
     </tr>
     </thead>
     <tbody>
@@ -25,7 +24,6 @@
             <td><c:out value="${entry.getPlayerName()}"/></td>
             <td><c:out value="${entry.getPlayerSurname()}"/></td>
             <td><c:out value="${entry.getGoals()}"/></td>
-            <td><c:out value="${entry.getMatchesPlayed()}"/></td>
         </tr>
     </c:forEach>
     </tbody>

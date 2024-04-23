@@ -80,6 +80,7 @@ public class TournamentHandler extends RestMatcherHandler {
                     postTournament(req, res);
                     break;
                 default:
+                    res.sendError((HttpServletResponse.SC_NOT_FOUND), "Method not found");
                     return Result.STOP;
             }
         } catch (NumberFormatException e) {

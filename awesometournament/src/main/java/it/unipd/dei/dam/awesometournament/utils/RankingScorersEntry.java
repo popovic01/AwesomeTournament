@@ -4,13 +4,11 @@ public class RankingScorersEntry {
     String playerName;
     String playerSurname;
     int goals;
-    int matchesPlayed;
 
-    public RankingScorersEntry (String playerName, String playerSurname, int goals, int matchesPlayed) {
+    public RankingScorersEntry (String playerName, String playerSurname, int goals) {
         this.playerName = playerName;
         this.playerSurname = playerSurname;
         this.goals = goals;
-        this.matchesPlayed = matchesPlayed;
     }
 
     public String getPlayerName() {
@@ -21,9 +19,6 @@ public class RankingScorersEntry {
     }
     public int getGoals() {
         return goals;
-    }
-    public int getMatchesPlayed () {
-        return matchesPlayed;
     }
 
 }
