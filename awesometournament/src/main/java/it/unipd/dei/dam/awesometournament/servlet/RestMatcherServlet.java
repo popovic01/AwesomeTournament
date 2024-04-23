@@ -50,6 +50,11 @@ public class RestMatcherServlet extends AbstractDatabaseServlet {
     }
 
     private void execute(Method method, String path, HttpServletRequest req, HttpServletResponse res) throws Exception {
+        LOGGER.info("Rest handler path = "+path);
+        if(path == null) {
+            res.sendError(HttpServletResponse.SC_NOT_FOUND);
+            return;
+        }
         // To be executed, we need to find at least one full match!
         ArrayList<EntryPair> runEntries = new ArrayList<>();
         for (Entry e : entries) {
