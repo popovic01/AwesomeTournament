@@ -25,4 +25,6 @@ public final class Actions {
     public static final String GET_EVENT = "GET_EVENT";
     public static final String PUT_EVENT = "PUT_EVENT";
     public static final String DELETE_EVENT = "DELETE_EVENT";
+    public static final String GET_MATCH_EVENT = "GET_MATCH_EVENT";
+    public static final String POST_MATCH_EVENT = "POST_MATCH_EVENT";
 }
