@@ -124,7 +124,7 @@ public class RestMatcherServlet extends AbstractDatabaseServlet {
         entries.add(new Entry("/teams/*", true, factoryHandler(TeamAuthenticatorHandler.class)));
         entries.add(new Entry("/teams/*", false, factoryHandler(TeamHandler.class)));
         entries.add(new Entry("/events/*", false, factoryHandler(EventHandler.class)));
-        entries.add(new Entry("/matches/*/events", false, factoryHandler(EventHandler.class)));
+        entries.add(new Entry("/matches/*/events", false, factoryHandler(MatchEventHandler.class)));
     }
 
     private String getSubpath(HttpServletRequest req) {

@@ -5,10 +5,12 @@ import com.fasterxml.jackson.databind.util.StdDateFormat;
 import it.unipd.dei.dam.awesometournament.database.CreateMatchEventDAO;
 import it.unipd.dei.dam.awesometournament.database.GetMatchDAO;
 import it.unipd.dei.dam.awesometournament.database.GetMatchEventsDAO;
+import it.unipd.dei.dam.awesometournament.database.GetTeamDAO;
 import it.unipd.dei.dam.awesometournament.resources.Actions;
 import it.unipd.dei.dam.awesometournament.resources.LogContext;
 import it.unipd.dei.dam.awesometournament.resources.entities.Event;
 import it.unipd.dei.dam.awesometournament.resources.entities.Match;
+import it.unipd.dei.dam.awesometournament.resources.entities.Team;
 import it.unipd.dei.dam.awesometournament.servlet.RestMatcherHandler;
 import it.unipd.dei.dam.awesometournament.servlet.RestMatcherServlet;
 import it.unipd.dei.dam.awesometournament.utils.BodyTools;
@@ -24,10 +26,23 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+/**
+ * Handles HTTP requests related to match events.
+ */
 public class MatchEventHandler extends RestMatcherHandler {
     protected final static Logger LOGGER = LogManager.getLogger(TeamPlayerHandler.class,
             StringFormatterMessageFactory.INSTANCE);
 
+    /**
+     * Retrieves events associated with a specific match.
+     *
+     * @param req     The HTTP servlet request object.
+     * @param res     The HTTP servlet response object.
+     * @param matchId The ID of the match to retrieve events for.
+     * @throws ServletException If a servlet-specific error occurs.
+     * @throws IOException      If an I/O error occurs.
+     * @throws SQLException     If a SQL error occurs.
+     */
     void getEventsFromMatch (HttpServletRequest req, HttpServletResponse res, int matchId) throws ServletException, IOException, SQLException {
         LogContext.setAction(Actions.GET_MATCH_EVENT);
         LOGGER.info("Received GET request");
@@ -43,6 +58,16 @@ public class MatchEventHandler extends RestMatcherHandler {
         }
     }
 
+    /**
+     * Creates a new event for a specific match.
+     *
+     * @param req     The HTTP servlet request object.
+     * @param res     The HTTP servlet response object.
+     * @param matchId The ID of the match to create the event for.
+     * @throws ServletException If a servlet-specific error occurs.
+     * @throws IOException      If an I/O error occurs.
+     * @throws SQLException     If a SQL error occurs.
+     */
     void postEvent (HttpServletRequest req, HttpServletResponse res, int matchId) throws ServletException, IOException, SQLException{
         LogContext.setAction(Actions.POST_MATCH_EVENT);
         LOGGER.info("Received POST request");
@@ -63,6 +88,14 @@ public class MatchEventHandler extends RestMatcherHandler {
         }
     }
 
+    /**
+     * Checks if the user is authorized to perform actions on the match.
+     *
+     * @param req     The HTTP servlet request object.
+     * @param matchId The ID of the match to check authorization for.
+     * @return True if the user is authorized, false otherwise.
+     * @throws SQLException If a SQL error occurs.
+     */
     private boolean isUserAuthorized(HttpServletRequest req, int matchId) throws SQLException {
         if (!SessionHelpers.isLogged(req))
             return false;
@@ -72,13 +105,33 @@ public class MatchEventHandler extends RestMatcherHandler {
         GetMatchDAO getMatchDAO = new GetMatchDAO(getConnection(), matchId);
         Match match = (Match) getMatchDAO.access().getOutputParam();
 
-        //if (match.getCreatorUserId() != userId)
-        //    return false;
+        int team1Id = match.getTeam1Id();
+        GetTeamDAO getTeamDAO1 = new GetTeamDAO(getConnection(), team1Id);
+        Team team1 = (Team) getTeamDAO1.access().getOutputParam();
+
+        int team2Id = match.getTeam2Id();
+        GetTeamDAO getTeamDAO2 = new GetTeamDAO(getConnection(), team2Id);
+        Team team2 = (Team) getTeamDAO2.access().getOutputParam();
+
+        //Checks if the user is the creator of one of the teams
+        if (team1.getCreatorUserId() != userId && team2.getCreatorUserId() != userId)
+            return false;
 
         LOGGER.info("User authorized");
         return true;
     }
 
+    /**
+     * Handles HTTP requests for match events.
+     *
+     * @param method The HTTP method (GET, POST, etc.).
+     * @param req    The HTTP servlet request object.
+     * @param res    The HTTP servlet response object.
+     * @param params An array of parameters extracted from the request URL.
+     * @return The result of handling the request.
+     * @throws ServletException If a servlet-specific error occurs.
+     * @throws IOException      If an I/O error occurs.
+     */
     @Override
     public RestMatcherServlet.Result handle(RestMatcherServlet.Method method, HttpServletRequest req, HttpServletResponse res,
                                             String[] params) throws ServletException, IOException {
