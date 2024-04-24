@@ -122,15 +122,15 @@ public class MatchEventHandler extends RestMatcherHandler {
     }
 
     /**
-     * Handles HTTP requests for match events.
+     * Handles HTTP requests for match events based on the method type.
      *
      * @param method The HTTP method (GET, POST, etc.).
-     * @param req    The HTTP servlet request object.
-     * @param res    The HTTP servlet response object.
-     * @param params An array of parameters extracted from the request URL.
+     * @param req    The HttpServletRequest object representing the request.
+     * @param res    The HttpServletResponse object representing the response.
+     * @param params An array of parameters extracted from the request URI.
      * @return The result of handling the request.
      * @throws ServletException If a servlet-specific error occurs.
-     * @throws IOException      If an I/O error occurs.
+     * @throws IOException      If an I/O error occurs while processing the request.
      */
     @Override
     public RestMatcherServlet.Result handle(RestMatcherServlet.Method method, HttpServletRequest req, HttpServletResponse res,

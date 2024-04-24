@@ -21,6 +21,16 @@ import jakarta.servlet.http.HttpServletResponse;
 
 public class EventHandler extends RestMatcherHandler {
 
+    /**
+     * Retrieves an event by its ID.
+     *
+     * @param req The HttpServletRequest object representing the request.
+     * @param res The HttpServletResponse object representing the response.
+     * @param id  The ID of the event to retrieve.
+     * @throws ServletException If a servlet-specific error occurs.
+     * @throws IOException      If an I/O error occurs while processing the request.
+     * @throws SQLException     If a database error occurs.
+     */
     void getEvent (HttpServletRequest req, HttpServletResponse res, int id) throws ServletException, IOException, SQLException{
         LogContext.setAction(Actions.GET_EVENT);
         GetEventDAO getEventDAO = new GetEventDAO(getConnection(), id);
@@ -36,6 +46,16 @@ public class EventHandler extends RestMatcherHandler {
         }
     }
 
+    /**
+     * Updates an existing event.
+     *
+     * @param req The HttpServletRequest object representing the request.
+     * @param res The HttpServletResponse object representing the response.
+     * @param id  The ID of the event to update.
+     * @throws ServletException If a servlet-specific error occurs.
+     * @throws IOException      If an I/O error occurs while processing the request.
+     * @throws SQLException     If a database error occurs.
+     */
     void putEvent (HttpServletRequest req, HttpServletResponse res, int id) throws ServletException, IOException, SQLException{
         LogContext.setAction(Actions.PUT_EVENT);
         String requestBody = BodyTools.getRequestBody(req);
@@ -52,6 +72,16 @@ public class EventHandler extends RestMatcherHandler {
         }
     }
 
+    /**
+     * Deletes an event by its ID.
+     *
+     * @param req The HttpServletRequest object representing the request.
+     * @param res The HttpServletResponse object representing the response.
+     * @param id  The ID of the event to delete.
+     * @throws ServletException If a servlet-specific error occurs.
+     * @throws IOException      If an I/O error occurs while processing the request.
+     * @throws SQLException     If a database error occurs.
+     */
     void deleteEvent (HttpServletRequest req, HttpServletResponse res, int id) throws ServletException, IOException, SQLException{
         LogContext.setAction(Actions.DELETE_EVENT);
         DeleteEventDAO deleteEventDAO = new DeleteEventDAO(getConnection(), id);
@@ -63,6 +93,17 @@ public class EventHandler extends RestMatcherHandler {
         }
     }
 
+    /**
+     * Handles HTTP requests based on the method type.
+     *
+     * @param method The HTTP method of the request.
+     * @param req    The HttpServletRequest object representing the request.
+     * @param res    The HttpServletResponse object representing the response.
+     * @param params An array of parameters extracted from the request URI.
+     * @return The result of handling the request.
+     * @throws ServletException If a servlet-specific error occurs.
+     * @throws IOException      If an I/O error occurs while processing the request.
+     */
     @Override
     public Result handle(Method method, HttpServletRequest req, HttpServletResponse res,
                          String[] params) throws ServletException, IOException {
