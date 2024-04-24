@@ -34,8 +34,6 @@ public class TeamAuthenticatorHandler extends RestMatcherHandler {
         switch (method) {
             case GET:
                 return RestMatcherServlet.Result.CONTINUE;
-            case POST: //improve this!!!
-                return RestMatcherServlet.Result.CONTINUE;
             case DELETE:
                 if (!SessionHelpers.isLogged(req)) {
                     LOGGER.info("User not logged in");
@@ -54,7 +52,7 @@ public class TeamAuthenticatorHandler extends RestMatcherHandler {
                     //get the tournament to witch the team belongs
                     GetTournamentByIdDAO getTournamentByIdDAO = new GetTournamentByIdDAO(getConnection(), team.getTournamentId());
                     Tournament tournament = getTournamentByIdDAO.access().getOutputParam();
-                    //only a creator the tournament can delete a team
+                    //only a creator of the tournament can delete a team
                     if (tournament.getCreatorUserId() != loggedUserId) {
                         LOGGER.info("User not authorized");
                         response = new ResponsePackageNoData(ResponseStatus.FORBIDDEN, "User not authorized");
