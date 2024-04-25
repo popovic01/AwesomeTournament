@@ -1,6 +1,5 @@
 package it.unipd.dei.dam.awesometournament.servlet;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;

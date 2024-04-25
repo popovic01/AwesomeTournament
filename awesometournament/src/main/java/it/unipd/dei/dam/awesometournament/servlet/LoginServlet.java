@@ -1,9 +1,7 @@
 package it.unipd.dei.dam.awesometournament.servlet;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
