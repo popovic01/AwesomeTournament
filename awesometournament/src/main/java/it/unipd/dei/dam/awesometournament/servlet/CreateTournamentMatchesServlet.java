@@ -3,6 +3,9 @@ package it.unipd.dei.dam.awesometournament.servlet;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import it.unipd.dei.dam.awesometournament.utils.ResponsePackageNoData;
+import it.unipd.dei.dam.awesometournament.utils.ResponseStatus;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.message.StringFormatterMessageFactory;
@@ -21,23 +24,30 @@ public class CreateTournamentMatchesServlet extends AbstractDatabaseServlet {
 
     protected final static Logger LOGGER = LogManager.getLogger(CreateTournamentMatchesServlet.class,
             StringFormatterMessageFactory.INSTANCE);
+    ObjectMapper om;
+    ResponsePackageNoData response;
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         LogContext.setIPAddress(req.getRemoteAddr());
         LogContext.setAction(Actions.PUT_MATCHES);
+        om = new ObjectMapper();
 
         LOGGER.info("Received POST request");
         String url = req.getPathInfo();
         if (url != null) {
             String[] urlParts = url.split("/"); // urlParts[0] = ""
             if (urlParts.length != 2) {
-                resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid URL format");
+                response = new ResponsePackageNoData(ResponseStatus.BAD_REQUEST,
+                        "Invalid URL format");
+                resp.getWriter().print(om.writeValueAsString(response));
             } else {
 
                 if (!SessionHelpers.isLogged(req)) {
                     LOGGER.info("user is not logged!");
-                    resp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                    response = new ResponsePackageNoData(ResponseStatus.UNAUTHORIZED,
+                            "User not logged in");
+                    resp.getWriter().print(om.writeValueAsString(response));
                 }
 
                 int loggedId = SessionHelpers.getId(req);
@@ -51,7 +61,9 @@ public class CreateTournamentMatchesServlet extends AbstractDatabaseServlet {
 
                     if (tournament.getCreatorUserId() != loggedId) {
                         LOGGER.info("user has no access to this tournament!");
-                        resp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                        response = new ResponsePackageNoData(ResponseStatus.FORBIDDEN,
+                                "User unauthorized");
+                        resp.getWriter().print(om.writeValueAsString(response));
                         throw new ServletException("user has no access to this tournament");
                     }
                 } catch (SQLException e) {
@@ -60,9 +72,13 @@ public class CreateTournamentMatchesServlet extends AbstractDatabaseServlet {
 
                 try {
                     MatchCreatorJob.execute(tournamentId);
-                    resp.getWriter().println("Match creation job has been executed successfully.");
+                    response = new ResponsePackageNoData(ResponseStatus.OK,
+                            "Match creation job has been executed successfully");
+                    resp.getWriter().print(om.writeValueAsString(response));
                 } catch (Exception e) {
-                    resp.getWriter().println("Error executing match creation job: " + e.getMessage());
+                    response = new ResponsePackageNoData(ResponseStatus.INTERNAL_SERVER_ERROR,
+                            "Error executing match creation job: " + e.getMessage());
+                    resp.getWriter().print(om.writeValueAsString(response));
                     e.printStackTrace();
                 }
             }
