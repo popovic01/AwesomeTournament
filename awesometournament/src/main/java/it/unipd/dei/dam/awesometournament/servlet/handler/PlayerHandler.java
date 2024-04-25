@@ -108,6 +108,7 @@ public class PlayerHandler extends RestMatcherHandler{
             String[] params) throws ServletException, IOException {
 
             LogContext.setIPAddress(req.getRemoteAddr());
+            om = new ObjectMapper();
 
             int playerId = Integer.parseInt(params[0]);
 
