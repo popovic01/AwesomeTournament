@@ -24,31 +24,16 @@ public class SessionHandler extends RestMatcherHandler {
     @Override
     public Result handle(Method method, HttpServletRequest req, HttpServletResponse res,
             String[] params) throws ServletException, IOException {
-
         HttpSession session = req.getSession(false);
-        Integer sessionId = null;
-        String sessionEmail = null;
+
         ObjectMapper om = new ObjectMapper();
         ResponsePackageNoData response;
 
         try {
-            //if there is a session
             if (session != null) {
-                sessionId = (Integer) session.getAttribute("id");
-                sessionEmail = (String) session.getAttribute("email");
-
-                LOGGER.info("Found session: id = " + sessionId + " email = " + sessionEmail);
-            } else if (req.getHeader("session_id") != null &&
-                            req.getHeader("session_email") != null) {
-                //remove this at some point!!!
-                //if there is no session we retrieve values from headers
-                sessionId = Integer.parseInt(req.getHeader("session_id"));
-                sessionEmail = req.getHeader("session_email");
-
-                LOGGER.info("Found session: id = " + sessionId + " email = " + sessionEmail);
-            }
-
-            if (sessionId != null && sessionEmail != null) {
+                Integer sessionId = (Integer) session.getAttribute("id");
+                String sessionEmail = (String) session.getAttribute("email");
+                LOGGER.info("Found session id=" + sessionId + " email=" + sessionEmail);
                 req.setAttribute("session_id", sessionId);
                 req.setAttribute("session_email", sessionEmail);
             }
