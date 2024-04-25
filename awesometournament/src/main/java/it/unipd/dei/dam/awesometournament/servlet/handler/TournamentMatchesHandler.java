@@ -10,10 +10,7 @@ import com.fasterxml.jackson.databind.util.StdDateFormat;
 import it.unipd.dei.dam.awesometournament.utils.ResponsePackageNoData;
 import it.unipd.dei.dam.awesometournament.utils.ResponsePackage;
 import it.unipd.dei.dam.awesometournament.utils.ResponseStatus;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.message.StringFormatterMessageFactory;
-
+import it.unipd.dei.dam.awesometournament.database.GetTournamentMatchesByIsFinishedDAO;
 import it.unipd.dei.dam.awesometournament.database.GetTournamentMatchesDAO;
 import it.unipd.dei.dam.awesometournament.resources.Actions;
 import it.unipd.dei.dam.awesometournament.resources.LogContext;
@@ -21,6 +18,10 @@ import it.unipd.dei.dam.awesometournament.resources.entities.Match;
 import it.unipd.dei.dam.awesometournament.servlet.RestMatcherHandler;
 import it.unipd.dei.dam.awesometournament.servlet.RestMatcherServlet.Method;
 import it.unipd.dei.dam.awesometournament.servlet.RestMatcherServlet.Result;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.message.StringFormatterMessageFactory;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -72,8 +73,19 @@ public class TournamentMatchesHandler extends RestMatcherHandler {
         LogContext.setAction(Actions.GET_TOURNAMENT_MATCHES);
         LOGGER.info("Received GET request");
 
-        GetTournamentMatchesDAO getTournamentMatchesDAO = new GetTournamentMatchesDAO(getConnection(), tournamentId);
-        List<Match> matches = getTournamentMatchesDAO.access().getOutputParam();
+        List<Match> matches = null;
+
+        Boolean isFinished = req.getParameter("isFinished") != null ? Boolean.parseBoolean(req.getParameter("isFinished")) : null;
+        
+        if (isFinished != null) {
+            GetTournamentMatchesByIsFinishedDAO getTournamentMatchesByIsFinishedDAO = new GetTournamentMatchesByIsFinishedDAO(
+                    getConnection(), tournamentId, isFinished);
+            matches = getTournamentMatchesByIsFinishedDAO.access().getOutputParam();
+        } else {
+            GetTournamentMatchesDAO getTournamentMatchesDAO = new GetTournamentMatchesDAO(getConnection(),
+                    tournamentId);
+            matches = getTournamentMatchesDAO.access().getOutputParam();
+        }
 
         if (matches.size() != 0) {
             response = new ResponsePackage<>(matches, ResponseStatus.OK,
