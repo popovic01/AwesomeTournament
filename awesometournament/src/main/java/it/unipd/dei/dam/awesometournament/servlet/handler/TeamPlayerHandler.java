@@ -9,6 +9,9 @@ import com.fasterxml.jackson.databind.util.StdDateFormat;
 import it.unipd.dei.dam.awesometournament.servlet.RestMatcherHandler;
 import it.unipd.dei.dam.awesometournament.servlet.RestMatcherServlet.*;
 import it.unipd.dei.dam.awesometournament.utils.BodyTools;
+import it.unipd.dei.dam.awesometournament.utils.ResponsePackageNoData;
+import it.unipd.dei.dam.awesometournament.utils.ResponsePackage;
+import it.unipd.dei.dam.awesometournament.utils.ResponseStatus;
 import it.unipd.dei.dam.awesometournament.utils.SessionHelpers;
 import it.unipd.dei.dam.awesometournament.database.CreateTeamPlayerDAO;
 import it.unipd.dei.dam.awesometournament.database.GetTeamDAO;
@@ -27,19 +30,23 @@ import org.apache.logging.log4j.message.StringFormatterMessageFactory;
 public class TeamPlayerHandler extends RestMatcherHandler {
     protected final static Logger LOGGER = LogManager.getLogger(TeamPlayerHandler.class,
             StringFormatterMessageFactory.INSTANCE);
-    
+    ObjectMapper om;
+    ResponsePackageNoData response;
+
     void getPlayersFromTeam (HttpServletRequest req, HttpServletResponse res, int teamId) throws ServletException, IOException, SQLException{
         LogContext.setAction(Actions.GET_TEAM_PLAYER);
         LOGGER.info("Received GET request");
         GetTeamPlayersDAO getTeamPlayerDAO = new GetTeamPlayersDAO(getConnection(), teamId);
         ArrayList<Player> players = getTeamPlayerDAO.access().getOutputParam();
         if (players.size() != 0) {
-            ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.setDateFormat(new StdDateFormat());
-            res.setContentType("application/json");
-            res.getWriter().println(objectMapper.writeValueAsString(players));
+            om.setDateFormat(new StdDateFormat());
+            response = new ResponsePackage<>
+                    (players, ResponseStatus.OK, "Players found");
+            res.getWriter().print(om.writeValueAsString(response));
         } else {
-            res.sendError(HttpServletResponse.SC_NOT_FOUND, "No players in team " + teamId);
+            response = new ResponsePackageNoData
+                    (ResponseStatus.OK, "No players in team " + teamId);
+            res.getWriter().print(om.writeValueAsString(response));
         }
     }
 
@@ -48,18 +55,22 @@ public class TeamPlayerHandler extends RestMatcherHandler {
         LOGGER.info("Received POST request");
         String requestBody = BodyTools.getRequestBody(req);
         LOGGER.info(requestBody);
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.setDateFormat(new StdDateFormat());
-        Player player = (Player) objectMapper.readValue(requestBody, Player.class);
+        om.setDateFormat(new StdDateFormat());
+        Player player = (Player) om.readValue(requestBody, Player.class);
         player.setTeamId(teamId);
         LOGGER.info(player.toString());
         CreateTeamPlayerDAO createTeamPlayerDAO = new CreateTeamPlayerDAO(getConnection(), player);
         Integer newId = (Integer) createTeamPlayerDAO.access().getOutputParam();
         if (newId != null) {
             LOGGER.info("Player created with id %d", newId);
-            res.setStatus(HttpServletResponse.SC_CREATED);
+            response = new ResponsePackage<>
+                    (player, ResponseStatus.CREATED, "Player created");
+            res.getWriter().print(om.writeValueAsString(response));
         } else {
-            res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response = new ResponsePackageNoData
+                    (ResponseStatus.INTERNAL_SERVER_ERROR,
+                            "Something went wrong");
+            res.getWriter().print(om.writeValueAsString(response));
         }
     }
 
@@ -84,6 +95,7 @@ public class TeamPlayerHandler extends RestMatcherHandler {
             String[] params) throws ServletException, IOException {
 
             LogContext.setIPAddress(req.getRemoteAddr());
+            om = new ObjectMapper();
 
             int teamId = Integer.parseInt(params[0]);
 
@@ -95,19 +107,27 @@ public class TeamPlayerHandler extends RestMatcherHandler {
                     case POST:
                         if (!isUserAuthorized(req, teamId)) {
                             LOGGER.info("User unauthorized");
-                            res.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                            response = new ResponsePackageNoData(ResponseStatus.FORBIDDEN,
+                                    "User unauthorized");
+                            res.getWriter().print(om.writeValueAsString(response));
                             return Result.STOP;
                         }
                         postPlayer(req, res, teamId);
                         break;
                     default:
-                        res.sendError(HttpServletResponse.SC_NOT_FOUND, "Method not found");
+                        response = new ResponsePackageNoData(ResponseStatus.METHOD_NOT_ALLOWED,
+                                "Method not allowed");
+                        res.getWriter().print(om.writeValueAsString(response));
                         return Result.STOP;
                 }
             } catch (NumberFormatException e) {
-                res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Team ID must be an integer");
+                response = new ResponsePackageNoData
+                        (ResponseStatus.BAD_REQUEST, "ID must be an integer");
+                res.getWriter().print(om.writeValueAsString(response));
             } catch (SQLException e) {
-                res.sendError(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+                response = new ResponsePackageNoData
+                        (ResponseStatus.INTERNAL_SERVER_ERROR, "Something went wrong: " + e.getMessage());
+                res.getWriter().print(om.writeValueAsString(response));
             }
             return Result.CONTINUE;
         }

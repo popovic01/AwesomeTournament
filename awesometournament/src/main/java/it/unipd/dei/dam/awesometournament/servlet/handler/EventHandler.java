@@ -15,11 +15,17 @@ import it.unipd.dei.dam.awesometournament.database.UpdateEventDAO;
 import it.unipd.dei.dam.awesometournament.resources.LogContext;
 import it.unipd.dei.dam.awesometournament.resources.entities.Event;
 
+import it.unipd.dei.dam.awesometournament.utils.ResponsePackageNoData;
+import it.unipd.dei.dam.awesometournament.utils.ResponsePackage;
+import it.unipd.dei.dam.awesometournament.utils.ResponseStatus;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 public class EventHandler extends RestMatcherHandler {
+
+    ObjectMapper om;
+    ResponsePackageNoData response;
 
     /**
      * Retrieves an event by its ID.
@@ -37,12 +43,14 @@ public class EventHandler extends RestMatcherHandler {
         Event event = (Event) getEventDAO.access().getOutputParam();
 
         if (event != null) {
-            ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.setDateFormat(new StdDateFormat());
-            res.setContentType("application/json");
-            res.getWriter().println(objectMapper.writeValueAsString(event));
+            om.setDateFormat(new StdDateFormat());
+            response = new ResponsePackage<>(event, ResponseStatus.OK,
+                    "Event found");
+            res.getWriter().print(om.writeValueAsString(response));
         } else {
-            res.sendError(HttpServletResponse.SC_NOT_FOUND, "The event doesn't exist");
+            response = new ResponsePackageNoData(ResponseStatus.OK,
+                    "Event not found");
+            res.getWriter().print(om.writeValueAsString(response));
         }
     }
 
@@ -59,16 +67,19 @@ public class EventHandler extends RestMatcherHandler {
     void putEvent (HttpServletRequest req, HttpServletResponse res, int id) throws ServletException, IOException, SQLException{
         LogContext.setAction(Actions.PUT_EVENT);
         String requestBody = BodyTools.getRequestBody(req);
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.setDateFormat(new StdDateFormat());
-        Event event = (Event) objectMapper.readValue(requestBody, Event.class);
+        om.setDateFormat(new StdDateFormat());
+        Event event = (Event) om.readValue(requestBody, Event.class);
         event.setId(id);
         UpdateEventDAO updateEventDAO = new UpdateEventDAO(getConnection(), event);
         Integer result = (Integer) updateEventDAO.access().getOutputParam();
         if (result == 1) {
-            res.setStatus(HttpServletResponse.SC_OK);
+            response = new ResponsePackageNoData(ResponseStatus.OK,
+                    "Event updated");
+            res.getWriter().print(om.writeValueAsString(response));
         } else {
-            res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response = new ResponsePackageNoData(ResponseStatus.INTERNAL_SERVER_ERROR,
+                    "Something went wrong");
+            res.getWriter().print(om.writeValueAsString(response));
         }
     }
 
@@ -87,10 +98,13 @@ public class EventHandler extends RestMatcherHandler {
         DeleteEventDAO deleteEventDAO = new DeleteEventDAO(getConnection(), id);
         Integer result = (Integer) deleteEventDAO.access().getOutputParam();
         if (result == 1) {
-            res.setStatus(HttpServletResponse.SC_OK);
+            response = new ResponsePackageNoData(ResponseStatus.OK,
+                    "Event deleted");
+            res.getWriter().print(om.writeValueAsString(response));
         } else {
-            res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-        }
+            response = new ResponsePackageNoData(ResponseStatus.INTERNAL_SERVER_ERROR,
+                    "Something went wrong");
+            res.getWriter().print(om.writeValueAsString(response));        }
     }
 
     /**
@@ -107,7 +121,9 @@ public class EventHandler extends RestMatcherHandler {
     @Override
     public Result handle(Method method, HttpServletRequest req, HttpServletResponse res,
                          String[] params) throws ServletException, IOException {
-        LogContext.setIPAddress(req.getRemoteAddr());        
+        LogContext.setIPAddress(req.getRemoteAddr());
+        om = new ObjectMapper();
+
         int eventId = Integer.parseInt(params[0]);
 
         try {
@@ -125,9 +141,13 @@ public class EventHandler extends RestMatcherHandler {
                     return Result.STOP;
             }
         } catch (NumberFormatException e) {
-            res.sendError(HttpServletResponse.SC_BAD_REQUEST, "ID must be an integer");
+            response = new ResponsePackageNoData(ResponseStatus.BAD_REQUEST,
+                    "ID must be an integer");
+            res.getWriter().print(om.writeValueAsString(response));
         } catch (SQLException e) {
-            res.sendError(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+            response = new ResponsePackageNoData(ResponseStatus.INTERNAL_SERVER_ERROR,
+                    "Something went wrong: " + e.getMessage());
+            res.getWriter().print(om.writeValueAsString(response));
         }
         return Result.CONTINUE;
     }

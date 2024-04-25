@@ -3,7 +3,6 @@ package it.unipd.dei.dam.awesometournament.servlet.handler;
 import java.io.IOException;
 import java.sql.SQLException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.util.StdDateFormat;
 
 import it.unipd.dei.dam.awesometournament.servlet.RestMatcherHandler;
 import it.unipd.dei.dam.awesometournament.servlet.RestMatcherServlet.*;
@@ -16,6 +15,9 @@ import it.unipd.dei.dam.awesometournament.resources.LogContext;
 import it.unipd.dei.dam.awesometournament.resources.entities.Player;
 import it.unipd.dei.dam.awesometournament.resources.entities.Team;
 import it.unipd.dei.dam.awesometournament.utils.BodyTools;
+import it.unipd.dei.dam.awesometournament.utils.ResponsePackage;
+import it.unipd.dei.dam.awesometournament.utils.ResponsePackageNoData;
+import it.unipd.dei.dam.awesometournament.utils.ResponseStatus;
 import it.unipd.dei.dam.awesometournament.utils.SessionHelpers;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,6 +29,8 @@ import org.apache.logging.log4j.message.StringFormatterMessageFactory;
 public class PlayerHandler extends RestMatcherHandler{
     protected final static Logger LOGGER = LogManager.getLogger(PlayerHandler.class,
             StringFormatterMessageFactory.INSTANCE);
+    ObjectMapper om;
+    ResponsePackageNoData response;
 
     void getPlayer (HttpServletRequest req, HttpServletResponse res, int playerId) throws ServletException, IOException, SQLException{
         LogContext.setAction(Actions.GET_PLAYER);
@@ -34,12 +38,13 @@ public class PlayerHandler extends RestMatcherHandler{
         GetPlayerDAO getPlayerDAO = new GetPlayerDAO(getConnection(), playerId);
         Player player = (Player) getPlayerDAO.access().getOutputParam();
         if (player != null) {
-            ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.setDateFormat(new StdDateFormat());
-            res.setContentType("application/json");
-            res.getWriter().println(objectMapper.writeValueAsString(player));
+            response = new ResponsePackage<>(player, ResponseStatus.OK,
+                    "Player found");
+            res.getWriter().print(om.writeValueAsString(response));
         } else {
-            res.sendError(HttpServletResponse.SC_NOT_FOUND, "The player doesn't exist");
+            response = new ResponsePackageNoData(ResponseStatus.NOT_FOUND,
+                    "Player not found");
+            res.getWriter().print(om.writeValueAsString(response));
         }
     }
     
@@ -48,17 +53,19 @@ public class PlayerHandler extends RestMatcherHandler{
         LOGGER.info("Received PUT request");
         String requestBody = BodyTools.getRequestBody(req);
         LOGGER.info(requestBody);
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.setDateFormat(new StdDateFormat());
-        Player player = (Player) objectMapper.readValue(requestBody, Player.class);
+        Player player = (Player) om.readValue(requestBody, Player.class);
         player.setId(playerId);
         LOGGER.info(player.toString());
         UpdatePlayerDAO updatePlayerDAO = new UpdatePlayerDAO(getConnection(), player);
         Integer result = (Integer) updatePlayerDAO.access().getOutputParam();
         if (result == 1) {
-            res.setStatus(HttpServletResponse.SC_OK);
+            response = new ResponsePackageNoData(ResponseStatus.OK,
+                    "Player updated");
+            res.getWriter().print(om.writeValueAsString(response));
         } else {
-            res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response = new ResponsePackageNoData(ResponseStatus.INTERNAL_SERVER_ERROR,
+                    "Something went wrong");
+            res.getWriter().print(om.writeValueAsString(response));
         }
     }
 
@@ -68,9 +75,13 @@ public class PlayerHandler extends RestMatcherHandler{
         DeletePlayerDAO deletePlayerDAO = new DeletePlayerDAO(getConnection(), playerId);
         Integer result = (Integer) deletePlayerDAO.access().getOutputParam();
         if (result == 1) {
-            res.setStatus(HttpServletResponse.SC_OK);
+            response = new ResponsePackageNoData(ResponseStatus.OK,
+                    "Player deleted");
+            res.getWriter().print(om.writeValueAsString(response));
         } else {
-            res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response = new ResponsePackageNoData(ResponseStatus.INTERNAL_SERVER_ERROR,
+                    "Something went wrong");
+            res.getWriter().print(om.writeValueAsString(response));
         }
     }
 
@@ -108,7 +119,9 @@ public class PlayerHandler extends RestMatcherHandler{
                     case PUT:
                         if (!isUserAuthorized(req, playerId)) {
                             LOGGER.info("User unauthorized");
-                            res.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                            response = new ResponsePackageNoData(ResponseStatus.FORBIDDEN,
+                                    "User unauthorized");
+                            res.getWriter().print(om.writeValueAsString(response));
                             return Result.STOP;
                         }
                         putPlayer(req, res, playerId);
@@ -116,19 +129,26 @@ public class PlayerHandler extends RestMatcherHandler{
                     case DELETE:
                         if (!isUserAuthorized(req, playerId)) {
                             LOGGER.info("User unauthorized");
-                            res.sendError(HttpServletResponse.SC_UNAUTHORIZED);
-                            return Result.STOP;
+                            response = new ResponsePackageNoData(ResponseStatus.FORBIDDEN,
+                                    "User unauthorized");
+                            res.getWriter().print(om.writeValueAsString(response));                            return Result.STOP;
                         }
                         deletePlayer(req, res, playerId);
                         break;
                     default:
-                        res.sendError(HttpServletResponse.SC_NOT_FOUND, "Method not found");
+                        response = new ResponsePackageNoData(ResponseStatus.METHOD_NOT_ALLOWED,
+                                "Method not allowed");
+                        res.getWriter().print(om.writeValueAsString(response));
                         return Result.STOP;
                 }
             } catch (NumberFormatException e) {
-                res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Player ID must be an integer");
+                response = new ResponsePackageNoData(ResponseStatus.BAD_REQUEST,
+                        "ID must be an integer");
+                res.getWriter().print(om.writeValueAsString(response));
             } catch (SQLException e) {
-                res.sendError(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+                response = new ResponsePackageNoData(ResponseStatus.INTERNAL_SERVER_ERROR,
+                        "Something went wrong: " + e.getMessage());
+                res.getWriter().print(om.writeValueAsString(response));
             }
             return Result.CONTINUE;
         }

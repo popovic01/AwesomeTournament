@@ -14,6 +14,9 @@ import it.unipd.dei.dam.awesometournament.resources.entities.Team;
 import it.unipd.dei.dam.awesometournament.servlet.RestMatcherHandler;
 import it.unipd.dei.dam.awesometournament.servlet.RestMatcherServlet;
 import it.unipd.dei.dam.awesometournament.utils.BodyTools;
+import it.unipd.dei.dam.awesometournament.utils.ResponsePackageNoData;
+import it.unipd.dei.dam.awesometournament.utils.ResponsePackage;
+import it.unipd.dei.dam.awesometournament.utils.ResponseStatus;
 import it.unipd.dei.dam.awesometournament.utils.SessionHelpers;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,8 +33,10 @@ import java.util.ArrayList;
  * Handles HTTP requests related to match events.
  */
 public class MatchEventHandler extends RestMatcherHandler {
-    protected final static Logger LOGGER = LogManager.getLogger(TeamPlayerHandler.class,
+    protected final static Logger LOGGER = LogManager.getLogger(MatchEventHandler.class,
             StringFormatterMessageFactory.INSTANCE);
+    ObjectMapper om;
+    ResponsePackageNoData response;
 
     /**
      * Retrieves events associated with a specific match.
@@ -49,12 +54,14 @@ public class MatchEventHandler extends RestMatcherHandler {
         GetMatchEventsDAO getMatchEventDAO = new GetMatchEventsDAO(getConnection(), matchId);
         ArrayList<Event> events = getMatchEventDAO.access().getOutputParam();
         if (events.size() != 0) {
-            ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.setDateFormat(new StdDateFormat());
-            res.setContentType("application/json");
-            res.getWriter().println(objectMapper.writeValueAsString(events));
+            om.setDateFormat(new StdDateFormat());
+            response = new ResponsePackage<>(events, ResponseStatus.OK,
+                    "Events found");
+            res.getWriter().print(om.writeValueAsString(response));
         } else {
-            res.sendError(HttpServletResponse.SC_NOT_FOUND, "No events in match " + matchId);
+            response = new ResponsePackageNoData(ResponseStatus.OK,
+                    "No events in match " + matchId);
+            res.getWriter().print(om.writeValueAsString(response));
         }
     }
 
@@ -73,18 +80,21 @@ public class MatchEventHandler extends RestMatcherHandler {
         LOGGER.info("Received POST request");
         String requestBody = BodyTools.getRequestBody(req);
         LOGGER.info(requestBody);
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.setDateFormat(new StdDateFormat());
-        Event event = (Event) objectMapper.readValue(requestBody, Event.class);
+        om.setDateFormat(new StdDateFormat());
+        Event event = (Event) om.readValue(requestBody, Event.class);
         event.setMatchId(matchId);
         LOGGER.info(event.toString());
         CreateMatchEventDAO createMatchEventDAO = new CreateMatchEventDAO(getConnection(), event);
         Integer newId = (Integer) createMatchEventDAO.access().getOutputParam();
         if (newId != null) {
             LOGGER.info("Event created with id %d", newId);
-            res.setStatus(HttpServletResponse.SC_CREATED);
+            response = new ResponsePackage<>(event, ResponseStatus.CREATED,
+                    "Event created");
+            res.getWriter().print(om.writeValueAsString(response));
         } else {
-            res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response = new ResponsePackageNoData(ResponseStatus.INTERNAL_SERVER_ERROR,
+                    "Something went wrong");
+            res.getWriter().print(om.writeValueAsString(response));
         }
     }
 
@@ -137,6 +147,7 @@ public class MatchEventHandler extends RestMatcherHandler {
                                             String[] params) throws ServletException, IOException {
 
         LogContext.setIPAddress(req.getRemoteAddr());
+        om = new ObjectMapper();
 
         int matchId = Integer.parseInt(params[0]);
 
@@ -148,19 +159,27 @@ public class MatchEventHandler extends RestMatcherHandler {
                 case POST:
                     if (!isUserAuthorized(req, matchId)) {
                         LOGGER.info("User unauthorized");
-                        res.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                        response = new ResponsePackageNoData(ResponseStatus.FORBIDDEN,
+                                "User unauthorized");
+                        res.getWriter().print(om.writeValueAsString(response));
                         return RestMatcherServlet.Result.STOP;
                     }
                     postEvent(req, res, matchId);
                     break;
                 default:
-                    res.sendError(HttpServletResponse.SC_NOT_FOUND, "Method not found");
+                    response = new ResponsePackageNoData(ResponseStatus.METHOD_NOT_ALLOWED,
+                            "Method not allowed");
+                    res.getWriter().print(om.writeValueAsString(response));
                     return RestMatcherServlet.Result.STOP;
             }
         } catch (NumberFormatException e) {
-            res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Match ID must be an integer");
+            response = new ResponsePackageNoData(ResponseStatus.BAD_REQUEST,
+                    "ID must be an integer");
+            res.getWriter().print(om.writeValueAsString(response));
         } catch (SQLException e) {
-            res.sendError(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+            response = new ResponsePackageNoData(ResponseStatus.INTERNAL_SERVER_ERROR,
+                    "Something went wrong: " + e.getMessage());
+            res.getWriter().print(om.writeValueAsString(response));
         }
         return RestMatcherServlet.Result.CONTINUE;
     }

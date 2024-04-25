@@ -12,6 +12,9 @@ import it.unipd.dei.dam.awesometournament.servlet.RestMatcherServlet.*;
 import it.unipd.dei.dam.awesometournament.resources.Actions;
 import it.unipd.dei.dam.awesometournament.resources.LogContext;
 import it.unipd.dei.dam.awesometournament.utils.BodyTools;
+import it.unipd.dei.dam.awesometournament.utils.ResponsePackageNoData;
+import it.unipd.dei.dam.awesometournament.utils.ResponsePackage;
+import it.unipd.dei.dam.awesometournament.utils.ResponseStatus;
 import it.unipd.dei.dam.awesometournament.utils.SessionHelpers;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,6 +26,8 @@ import org.apache.logging.log4j.message.StringFormatterMessageFactory;
 public class TournamentIdHandler extends RestMatcherHandler {
     protected final static Logger LOGGER = LogManager.getLogger(TournamentIdHandler.class,
             StringFormatterMessageFactory.INSTANCE);
+    ObjectMapper om;
+    ResponsePackageNoData response;
 
     void postTournament (HttpServletRequest req, HttpServletResponse res) throws IOException, SQLException{
         LogContext.setAction(Actions.POST_TOURNAMENT);
@@ -31,19 +36,24 @@ public class TournamentIdHandler extends RestMatcherHandler {
         String requestBody = BodyTools.getRequestBody(req);
         LOGGER.info(requestBody);
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.setDateFormat(new StdDateFormat());
+        om.setDateFormat(new StdDateFormat());
 
-        Tournament tournament = objectMapper.readValue(requestBody, Tournament.class);
+        Tournament tournament = om.readValue(requestBody, Tournament.class);
         LOGGER.info(tournament.toString());
 
         CreateTournamentDAO createTournamentDAO = new CreateTournamentDAO(getConnection(), tournament);
         Integer newId = createTournamentDAO.access().getOutputParam();
         if (newId != null) {
             LOGGER.info("Tournament created with id %d", newId);
-            res.setStatus(HttpServletResponse.SC_CREATED);
+            response = new ResponsePackage<>(tournament, ResponseStatus.CREATED,
+                    "Tournament created");
+            res.getWriter().print(om.writeValueAsString(response));
         }
-        else res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        else {
+            response = new ResponsePackageNoData(ResponseStatus.INTERNAL_SERVER_ERROR,
+                    "Something went wrong");
+            res.getWriter().print(om.writeValueAsString(response));
+        }
     }
 
     void getTournament (HttpServletRequest req, HttpServletResponse res, int tournamentID) throws IOException, SQLException{
@@ -54,11 +64,15 @@ public class TournamentIdHandler extends RestMatcherHandler {
         Tournament tournament = getTournamentDAO.access().getOutputParam();
 
         if (tournament != null) {
-            ObjectMapper objectMapper = new ObjectMapper();
-            res.setContentType("application/json");
-            res.getWriter().println(objectMapper.writeValueAsString(tournament));
+            response = new ResponsePackage<>(tournament, ResponseStatus.OK,
+                    "Tournament found");
+            res.getWriter().print(om.writeValueAsString(response));
         }
-        else res.sendError(HttpServletResponse.SC_NOT_FOUND, "The tournament doesn't exist");
+        else {
+            response = new ResponsePackageNoData(ResponseStatus.NOT_FOUND,
+                    "Tournament not found");
+            res.getWriter().print(om.writeValueAsString(response));
+        }
     }
 
     void putTournament (HttpServletRequest req, HttpServletResponse res, int tournamentId) throws IOException, SQLException {
@@ -68,18 +82,25 @@ public class TournamentIdHandler extends RestMatcherHandler {
         String requestBody = BodyTools.getRequestBody(req);
         LOGGER.info(requestBody);
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.setDateFormat(new StdDateFormat());
+        om.setDateFormat(new StdDateFormat());
 
-        Tournament tournament = objectMapper.readValue(requestBody, Tournament.class);
+        Tournament tournament = om.readValue(requestBody, Tournament.class);
         tournament.setId(tournamentId);
 
         LOGGER.info(tournament.toString());
 
         UpdateTournamentDAO updateTournamentDAO = new UpdateTournamentDAO(getConnection(), tournament);
         Integer result = updateTournamentDAO.access().getOutputParam();
-        if (result == 1) res.setStatus(HttpServletResponse.SC_OK);
-        else res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        if (result == 1) {
+            response = new ResponsePackageNoData(ResponseStatus.OK,
+                    "Tournament updated");
+            res.getWriter().print(om.writeValueAsString(response));
+        }
+        else {
+            response = new ResponsePackageNoData(ResponseStatus.INTERNAL_SERVER_ERROR,
+                    "Something went wrong");
+            res.getWriter().print(om.writeValueAsString(response));
+        }
     }
 
     void deleteTournament (HttpServletRequest req, HttpServletResponse res, int tournamentId) throws IOException, SQLException{
@@ -87,8 +108,16 @@ public class TournamentIdHandler extends RestMatcherHandler {
         LOGGER.info("Received DELETE request");
         DeleteTournamentDAO deleteTournamentDAO = new DeleteTournamentDAO(getConnection(), tournamentId);
         Integer result = deleteTournamentDAO.access().getOutputParam();
-        if (result == 1) res.setStatus(HttpServletResponse.SC_OK);
-        else res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        if (result == 1) {
+            response = new ResponsePackageNoData(ResponseStatus.OK,
+                    "Tournament deleted");
+            res.getWriter().print(om.writeValueAsString(response));
+        }
+        else {
+            response = new ResponsePackageNoData(ResponseStatus.INTERNAL_SERVER_ERROR,
+                    "Something went wrong");
+            res.getWriter().print(om.writeValueAsString(response));
+        }
     }
 
     private boolean isUserAuthorized(HttpServletRequest req, int tournamentId) throws SQLException {
@@ -109,6 +138,7 @@ public class TournamentIdHandler extends RestMatcherHandler {
                          String[] params) throws ServletException, IOException {
 
         LogContext.setIPAddress(req.getRemoteAddr());
+        om = new ObjectMapper();
         int tournamentId = Integer.parseInt(params[0]);
 
         try {
@@ -119,7 +149,9 @@ public class TournamentIdHandler extends RestMatcherHandler {
                 case PUT:
                     if (!isUserAuthorized(req, tournamentId)) {
                         LOGGER.info("User unauthorized");
-                        res.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                        response = new ResponsePackageNoData(ResponseStatus.FORBIDDEN,
+                                "User unauthorized");
+                        res.getWriter().print(om.writeValueAsString(response));
                         return Result.STOP;
                     }
                     putTournament(req, res, tournamentId);
@@ -127,7 +159,9 @@ public class TournamentIdHandler extends RestMatcherHandler {
                 case DELETE:
                     if (!isUserAuthorized(req, tournamentId)) {
                         LOGGER.info("User unauthorized");
-                        res.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                        response = new ResponsePackageNoData(ResponseStatus.FORBIDDEN,
+                                "User unauthorized");
+                        res.getWriter().print(om.writeValueAsString(response));
                         return Result.STOP;
                     }
                     deleteTournament(req, res, tournamentId);
@@ -136,9 +170,13 @@ public class TournamentIdHandler extends RestMatcherHandler {
                     return Result.STOP;
             }
         } catch (NumberFormatException e) {
-            res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Tournament ID must be an integer");
+            response = new ResponsePackageNoData(ResponseStatus.BAD_REQUEST,
+                    "ID must be an integer");
+            res.getWriter().print(om.writeValueAsString(response));
         } catch (SQLException e) {
-            res.sendError(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+            response = new ResponsePackageNoData(ResponseStatus.INTERNAL_SERVER_ERROR,
+                    "Something went wrong" + e.getMessage());
+            res.getWriter().print(om.writeValueAsString(response));
         }
         return Result.CONTINUE;
     }

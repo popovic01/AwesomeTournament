@@ -1,9 +1,11 @@
 package it.unipd.dei.dam.awesometournament.servlet.handler;
 
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.SQLException;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import it.unipd.dei.dam.awesometournament.utils.ResponsePackageNoData;
+import it.unipd.dei.dam.awesometournament.utils.ResponseStatus;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.message.StringFormatterMessageFactory;
@@ -24,10 +26,15 @@ public class MatchAuthenticatorHandler extends RestMatcherHandler{
 
 	protected static final Logger LOGGER = LogManager.getLogger(MatchAuthenticatorHandler.class,
 			StringFormatterMessageFactory.INSTANCE);
+    ObjectMapper om;
+    ResponsePackageNoData response;
 
     @Override
     public Result handle(Method method, HttpServletRequest req, HttpServletResponse res,
             String[] params) throws ServletException, IOException {
+
+        om = new ObjectMapper();
+
         switch (method) {
             case GET:
                 return Result.CONTINUE;
@@ -36,7 +43,9 @@ public class MatchAuthenticatorHandler extends RestMatcherHandler{
             case PUT: {
                 if (!SessionHelpers.isLogged(req)) {
                     LOGGER.info("user is not logged!");
-                    res.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                    response = new ResponsePackageNoData(ResponseStatus.UNAUTHORIZED,
+                            "User not logged in");
+                    res.getWriter().print(om.writeValueAsString(response));
                     return Result.STOP;
                 }
 
@@ -53,8 +62,9 @@ public class MatchAuthenticatorHandler extends RestMatcherHandler{
                     Tournament t = dao2.getOutputParam();
                     LOGGER.info("tournament is "+t);
                     if (t.getCreatorUserId() != loggedId) {
-                        res.sendError(HttpServletResponse.SC_UNAUTHORIZED);
-                        return Result.STOP;
+                        response = new ResponsePackageNoData(ResponseStatus.FORBIDDEN,
+                                "User unauthorized");
+                        res.getWriter().print(om.writeValueAsString(response));                        return Result.STOP;
                     }
                     return Result.CONTINUE;
 

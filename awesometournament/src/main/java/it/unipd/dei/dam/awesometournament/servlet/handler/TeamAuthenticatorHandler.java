@@ -24,13 +24,15 @@ public class TeamAuthenticatorHandler extends RestMatcherHandler {
 
     protected static final Logger LOGGER = LogManager.getLogger(TeamAuthenticatorHandler.class,
             StringFormatterMessageFactory.INSTANCE);
-    ObjectMapper om = new ObjectMapper();
+    ObjectMapper om;
     ResponsePackageNoData response;
     int loggedUserId;
 
     @Override
     public RestMatcherServlet.Result handle(RestMatcherServlet.Method method, HttpServletRequest req, HttpServletResponse res,
                                             String[] params) throws ServletException, IOException {
+        om = new ObjectMapper();
+
         switch (method) {
             case GET:
                 return RestMatcherServlet.Result.CONTINUE;

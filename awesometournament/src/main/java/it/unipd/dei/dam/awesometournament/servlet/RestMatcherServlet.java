@@ -8,13 +8,19 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import it.unipd.dei.dam.awesometournament.servlet.handler.*;
+import it.unipd.dei.dam.awesometournament.utils.ResponsePackageNoData;
+import it.unipd.dei.dam.awesometournament.utils.ResponseStatus;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 public class RestMatcherServlet extends AbstractDatabaseServlet {
+
+    ObjectMapper om = new ObjectMapper();
+    ResponsePackageNoData response;
 
     public enum Method {
         GET, POST, DELETE, PUT
@@ -52,7 +58,9 @@ public class RestMatcherServlet extends AbstractDatabaseServlet {
     private void execute(Method method, String path, HttpServletRequest req, HttpServletResponse res) throws Exception {
         LOGGER.info("Rest handler path = "+path);
         if(path == null) {
-            res.sendError(HttpServletResponse.SC_NOT_FOUND);
+            response = new ResponsePackageNoData(ResponseStatus.NOT_FOUND,
+                    "Something went wrong");
+            res.getWriter().print(om.writeValueAsString(response));
             return;
         }
         // To be executed, we need to find at least one full match!
@@ -76,12 +84,16 @@ public class RestMatcherServlet extends AbstractDatabaseServlet {
         // the last we found must be a full match
         if (runEntries.size() == 0) {
             LOGGER.info("no matches");
-            res.sendError(HttpServletResponse.SC_NOT_FOUND, "path not found");
+            response = new ResponsePackageNoData(ResponseStatus.NOT_FOUND,
+                    "Path not found");
+            res.getWriter().print(om.writeValueAsString(response));
             return;
         }
         if (runEntries.get(runEntries.size() - 1).entry.partialMatch) {
             LOGGER.info("last match partial");
-            res.sendError(HttpServletResponse.SC_NOT_FOUND, "path not found");
+            response = new ResponsePackageNoData(ResponseStatus.NOT_FOUND,
+                    "Path not found");
+            res.getWriter().print(om.writeValueAsString(response));
             return;
         }
         for (EntryPair e : runEntries) {
