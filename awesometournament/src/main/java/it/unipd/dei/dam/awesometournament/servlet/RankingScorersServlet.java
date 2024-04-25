@@ -31,9 +31,7 @@ public class RankingScorersServlet extends AbstractDatabaseServlet{
         String url = req.getPathInfo();
         if (url != null) {
             String[] urlParts = url.split("/"); // urlParts[0] = ""
-            if (urlParts.length != 2) {
-                resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid URL format");
-            }
+            if (urlParts.length != 2) resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid URL format");
             else {
                 try {
                     int tournamentId = Integer.parseInt(urlParts[1]);

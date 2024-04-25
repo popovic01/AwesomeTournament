@@ -29,33 +29,6 @@ public class TournamentIdHandler extends RestMatcherHandler {
     ObjectMapper om;
     ResponsePackageNoData response;
 
-    void postTournament (HttpServletRequest req, HttpServletResponse res) throws IOException, SQLException{
-        LogContext.setAction(Actions.POST_TOURNAMENT);
-        LOGGER.info("Received POST request");
-
-        String requestBody = BodyTools.getRequestBody(req);
-        LOGGER.info(requestBody);
-
-        om.setDateFormat(new StdDateFormat());
-
-        Tournament tournament = om.readValue(requestBody, Tournament.class);
-        LOGGER.info(tournament.toString());
-
-        CreateTournamentDAO createTournamentDAO = new CreateTournamentDAO(getConnection(), tournament);
-        Integer newId = createTournamentDAO.access().getOutputParam();
-        if (newId != null) {
-            LOGGER.info("Tournament created with id %d", newId);
-            response = new ResponsePackage<>(tournament, ResponseStatus.CREATED,
-                    "Tournament created");
-            res.getWriter().print(om.writeValueAsString(response));
-        }
-        else {
-            response = new ResponsePackageNoData(ResponseStatus.INTERNAL_SERVER_ERROR,
-                    "Something went wrong");
-            res.getWriter().print(om.writeValueAsString(response));
-        }
-    }
-
     void getTournament (HttpServletRequest req, HttpServletResponse res, int tournamentID) throws IOException, SQLException{
         LogContext.setAction(Actions.GET_TOURNAMENT);
         LOGGER.info("Received GET request");
@@ -64,13 +37,11 @@ public class TournamentIdHandler extends RestMatcherHandler {
         Tournament tournament = getTournamentDAO.access().getOutputParam();
 
         if (tournament != null) {
-            response = new ResponsePackage<>(tournament, ResponseStatus.OK,
-                    "Tournament found");
+            response = new ResponsePackage<>(tournament, ResponseStatus.OK, "Tournament found");
             res.getWriter().print(om.writeValueAsString(response));
         }
         else {
-            response = new ResponsePackageNoData(ResponseStatus.NOT_FOUND,
-                    "Tournament not found");
+            response = new ResponsePackageNoData(ResponseStatus.NOT_FOUND, "Tournament not found");
             res.getWriter().print(om.writeValueAsString(response));
         }
     }
@@ -92,13 +63,11 @@ public class TournamentIdHandler extends RestMatcherHandler {
         UpdateTournamentDAO updateTournamentDAO = new UpdateTournamentDAO(getConnection(), tournament);
         Integer result = updateTournamentDAO.access().getOutputParam();
         if (result == 1) {
-            response = new ResponsePackageNoData(ResponseStatus.OK,
-                    "Tournament updated");
+            response = new ResponsePackageNoData(ResponseStatus.OK, "Tournament updated");
             res.getWriter().print(om.writeValueAsString(response));
         }
         else {
-            response = new ResponsePackageNoData(ResponseStatus.INTERNAL_SERVER_ERROR,
-                    "Something went wrong");
+            response = new ResponsePackageNoData(ResponseStatus.INTERNAL_SERVER_ERROR, "Something went wrong");
             res.getWriter().print(om.writeValueAsString(response));
         }
     }
@@ -106,16 +75,15 @@ public class TournamentIdHandler extends RestMatcherHandler {
     void deleteTournament (HttpServletRequest req, HttpServletResponse res, int tournamentId) throws IOException, SQLException{
         LogContext.setAction(Actions.DELETE_TOURNAMENT);
         LOGGER.info("Received DELETE request");
+
         DeleteTournamentDAO deleteTournamentDAO = new DeleteTournamentDAO(getConnection(), tournamentId);
         Integer result = deleteTournamentDAO.access().getOutputParam();
         if (result == 1) {
-            response = new ResponsePackageNoData(ResponseStatus.OK,
-                    "Tournament deleted");
+            response = new ResponsePackageNoData(ResponseStatus.OK, "Tournament deleted");
             res.getWriter().print(om.writeValueAsString(response));
         }
         else {
-            response = new ResponsePackageNoData(ResponseStatus.INTERNAL_SERVER_ERROR,
-                    "Something went wrong");
+            response = new ResponsePackageNoData(ResponseStatus.INTERNAL_SERVER_ERROR, "Something went wrong");
             res.getWriter().print(om.writeValueAsString(response));
         }
     }
@@ -149,8 +117,7 @@ public class TournamentIdHandler extends RestMatcherHandler {
                 case PUT:
                     if (!isUserAuthorized(req, tournamentId)) {
                         LOGGER.info("User unauthorized");
-                        response = new ResponsePackageNoData(ResponseStatus.FORBIDDEN,
-                                "User unauthorized");
+                        response = new ResponsePackageNoData(ResponseStatus.FORBIDDEN, "User unauthorized");
                         res.getWriter().print(om.writeValueAsString(response));
                         return Result.STOP;
                     }
@@ -159,8 +126,7 @@ public class TournamentIdHandler extends RestMatcherHandler {
                 case DELETE:
                     if (!isUserAuthorized(req, tournamentId)) {
                         LOGGER.info("User unauthorized");
-                        response = new ResponsePackageNoData(ResponseStatus.FORBIDDEN,
-                                "User unauthorized");
+                        response = new ResponsePackageNoData(ResponseStatus.FORBIDDEN, "User unauthorized");
                         res.getWriter().print(om.writeValueAsString(response));
                         return Result.STOP;
                     }
