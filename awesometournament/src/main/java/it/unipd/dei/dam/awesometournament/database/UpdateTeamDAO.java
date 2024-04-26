@@ -29,7 +29,7 @@ public class UpdateTeamDAO extends AbstractDAO<Integer>  {
                 STATEMENT = "UPDATE public.teams SET logo = ? WHERE id = ?";
                 p = con.prepareStatement(STATEMENT);
 
-                p.setString(1, this.team.getLogo());
+                p.setBinaryStream(1, this.team.getLogo());
                 p.setInt(2, this.team.getId());
             }
 

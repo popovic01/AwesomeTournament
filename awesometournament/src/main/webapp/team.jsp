@@ -70,7 +70,9 @@
         </div>
 
         <h2>File Upload</h2>
+
         <form method="POST" action="upload" enctype="multipart/form-data" >
+            <input type="hidden" name="teamId" value="${team.getId()}">
             File:
             <input type="file" name="file" id="file" /> <br/>
             <input type="submit" value="Upload" name="upload" id="upload" /> <br/>

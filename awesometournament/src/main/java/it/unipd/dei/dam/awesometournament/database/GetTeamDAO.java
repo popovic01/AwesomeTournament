@@ -31,7 +31,7 @@ public class GetTeamDAO extends AbstractDAO<Team> {
                 team = new Team(
                     rs.getInt("id"),
                     rs.getString("name"),
-                    rs.getString("logo"),
+                    rs.getBinaryStream("logo"),
                     rs.getInt("creator_user_id"),
                     rs.getInt("tournament_id")
                 );

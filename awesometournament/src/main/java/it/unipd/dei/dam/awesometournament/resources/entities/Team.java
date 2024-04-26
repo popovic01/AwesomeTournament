@@ -1,5 +1,7 @@
 package it.unipd.dei.dam.awesometournament.resources.entities;
 
+import java.io.InputStream;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Team {
@@ -11,7 +13,7 @@ public class Team {
     private String name;
 
     @JsonProperty("logo")
-    private String logo;
+    private InputStream logo;
 
     @JsonProperty("creatorUserId")
     private int creatorUserId;
@@ -23,7 +25,7 @@ public class Team {
 
     }
 
-    public Team(int id, String name, String logo, int creatorUserId, int tournamentId) {
+    public Team(int id, String name, InputStream logo, int creatorUserId, int tournamentId) {
         this.id = id;
         this.name = name;
         this.logo = logo;
@@ -47,11 +49,11 @@ public class Team {
         this.name = name;
     }
 
-    public String getLogo() {
+    public InputStream getLogo() {
         return logo;
     }
 
-    public void setLogo(String logo) {
+    public void setLogo(InputStream logo) {
         this.logo = logo;
     }
 

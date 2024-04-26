@@ -23,7 +23,7 @@ public class CreateTeamDAO extends AbstractDAO<Integer>
             p = con.prepareStatement(STATEMENT);
 
             p.setString(1, team.getName());
-            p.setString(2, team.getLogo());
+            p.setBinaryStream(2, team.getLogo());
             p.setInt(3, team.getCreatorUserId());
             p.setInt(4, team.getTournamentId());
 
