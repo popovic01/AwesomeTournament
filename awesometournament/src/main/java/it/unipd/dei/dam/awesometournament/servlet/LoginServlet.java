@@ -20,6 +20,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
+/**
+ * Servlet implementation for user login functionality.
+ */
 public class LoginServlet extends AbstractDatabaseServlet {
     protected final static Logger LOGGER = LogManager.getLogger(LoginServlet.class,
             StringFormatterMessageFactory.INSTANCE);

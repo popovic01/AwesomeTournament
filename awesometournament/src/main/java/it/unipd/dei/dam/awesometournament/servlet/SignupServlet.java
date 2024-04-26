@@ -21,6 +21,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
+/**
+ * Servlet implementation for user registration (signup) functionality.
+ */
 public class SignupServlet extends AbstractDatabaseServlet {
     protected final static Logger LOGGER = LogManager.getLogger(SignupServlet.class,
             StringFormatterMessageFactory.INSTANCE);

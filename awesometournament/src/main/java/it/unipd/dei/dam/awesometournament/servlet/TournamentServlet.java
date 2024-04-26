@@ -21,6 +21,9 @@ import it.unipd.dei.dam.awesometournament.resources.entities.Team;
 import it.unipd.dei.dam.awesometournament.resources.entities.Tournament;
 import it.unipd.dei.dam.awesometournament.utils.SessionHelpers;
 
+/**
+ * Servlet implementation for handling tournament-related operations.
+ */
 public class TournamentServlet extends AbstractDatabaseServlet{
     protected final static Logger LOGGER = LogManager.getLogger(TournamentServlet.class,
             StringFormatterMessageFactory.INSTANCE);

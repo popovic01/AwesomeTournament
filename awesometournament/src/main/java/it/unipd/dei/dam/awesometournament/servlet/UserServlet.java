@@ -16,21 +16,25 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+/**
+ * Servlet implementation for handling user-related operations.
+ */
 public class UserServlet extends AbstractDatabaseServlet {
     protected final static Logger LOGGER = LogManager.getLogger(UserServlet.class,
             StringFormatterMessageFactory.INSTANCE);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // Setting context for logging
         LogContext.setIPAddress(req.getRemoteAddr());
         LogContext.setAction(Actions.GET_PLAYER);
 
+        // Handling URL parsing
         String url = req.getPathInfo();
         if (url == null) {
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid URL format");
             return;
         }
-
         String[] urlParts = url.split("/"); // urlParts[0] = ""
         if (urlParts.length != 2) {
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid URL format");

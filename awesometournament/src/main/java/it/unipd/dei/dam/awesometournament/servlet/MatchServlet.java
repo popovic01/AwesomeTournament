@@ -24,6 +24,7 @@ import it.unipd.dei.dam.awesometournament.utils.SessionHelpers;
 public class MatchServlet extends AbstractDatabaseServlet{
     protected final static Logger LOGGER = LogManager.getLogger(MatchServlet.class,
             StringFormatterMessageFactory.INSTANCE);
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         LogContext.setIPAddress(req.getRemoteAddr());

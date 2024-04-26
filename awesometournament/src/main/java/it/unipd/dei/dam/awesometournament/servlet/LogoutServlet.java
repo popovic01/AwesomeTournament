@@ -13,6 +13,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
+/**
+ * Servlet implementation for user logout functionality.
+ */
 public class LogoutServlet extends AbstractDatabaseServlet {
     protected final static Logger LOGGER = LogManager.getLogger(LogoutServlet.class,
             StringFormatterMessageFactory.INSTANCE);
