@@ -2,7 +2,7 @@ package it.unipd.dei.dam.awesometournament.servlet.handler;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.List;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.util.StdDateFormat;
@@ -43,13 +43,11 @@ public class TournamentHandler extends RestMatcherHandler {
         Integer newId = createTournamentDAO.access().getOutputParam();
         if (newId != null) {
             LOGGER.info("Tournament created with id %d", newId);
-            response = new ResponsePackage<>(tournament, ResponseStatus.CREATED,
-                    "Tournament created");
+            response = new ResponsePackage<Tournament>(tournament, ResponseStatus.CREATED, "Tournament created");
             res.getWriter().print(om.writeValueAsString(response));
         }
         else {
-            response = new ResponsePackageNoData(ResponseStatus.INTERNAL_SERVER_ERROR,
-                    "Something went wrong");
+            response = new ResponsePackageNoData(ResponseStatus.INTERNAL_SERVER_ERROR, "Something went wrong");
             res.getWriter().print(om.writeValueAsString(response));        }
     }
 
@@ -57,19 +55,17 @@ public class TournamentHandler extends RestMatcherHandler {
         LogContext.setAction(Actions.GET_TOURNAMENT);
         LOGGER.info("Received GET request");
 
-        GetTournamentDAO getTournamentDAO = new GetTournamentDAO(getConnection());
-        ArrayList<Tournament> tournaments = getTournamentDAO.access().getOutputParam();
+        GetTournamentsDAO getTournamentDAO = new GetTournamentsDAO(getConnection());
+        List<Tournament> tournaments = getTournamentDAO.access().getOutputParam();
 
         if (!tournaments.isEmpty()) {
             om.setDateFormat(new StdDateFormat());
-            response = new ResponsePackage<>(tournaments, ResponseStatus.OK,
-                    "Tournaments found");
+            response = new ResponsePackage<List<Tournament>>(tournaments, ResponseStatus.OK, "Tournaments found");
             res.getWriter().print(om.writeValueAsString(response));
         }
         else {
             LOGGER.info("No tournaments in the database");
-            response = new ResponsePackageNoData(ResponseStatus.OK,
-                    "No tournaments in the database");
+            response = new ResponsePackageNoData(ResponseStatus.NOT_FOUND, "No tournaments in the database");
             res.getWriter().print(om.writeValueAsString(response));
         }
     }
@@ -90,14 +86,12 @@ public class TournamentHandler extends RestMatcherHandler {
                     postTournament(req, res);
                     break;
                 default:
-                    response = new ResponsePackageNoData(ResponseStatus.METHOD_NOT_ALLOWED,
-                            "Method not allowed");
+                    response = new ResponsePackageNoData(ResponseStatus.METHOD_NOT_ALLOWED, "Method not allowed");
                     res.getWriter().print(om.writeValueAsString(response));
                     return Result.STOP;
             }
         } catch (NumberFormatException e) {
-            response = new ResponsePackageNoData(ResponseStatus.BAD_REQUEST,
-                    "ID must be an integer");
+            response = new ResponsePackageNoData(ResponseStatus.BAD_REQUEST, "ID must be an integer");
             res.getWriter().print(om.writeValueAsString(response));
         } catch (SQLException e) {
             response = new ResponsePackageNoData(ResponseStatus.INTERNAL_SERVER_ERROR,

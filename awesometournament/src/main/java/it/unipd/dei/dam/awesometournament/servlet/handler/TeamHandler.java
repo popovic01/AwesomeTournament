@@ -42,7 +42,7 @@ public class TeamHandler extends RestMatcherHandler {
         Team team = dao.access().getOutputParam();
 
         if (team != null) {
-            response = new ResponsePackage(team, ResponseStatus.OK,
+            response = new ResponsePackage<Team>(team, ResponseStatus.OK,
                     "Team found");
         } else {
             response = new ResponsePackageNoData(ResponseStatus.NOT_FOUND,

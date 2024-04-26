@@ -35,7 +35,7 @@ public class TournamentTeamHandler extends RestMatcherHandler {
         om = new ObjectMapper();
 
         if (!teams.isEmpty()) {
-            response = new ResponsePackage<>(teams, ResponseStatus.OK,
+            response = new ResponsePackage<List<Team>>(teams, ResponseStatus.OK,
                     "Teams for the tournament found");
         } else {
             response = new ResponsePackageNoData(ResponseStatus.NOT_FOUND,
@@ -73,7 +73,7 @@ public class TournamentTeamHandler extends RestMatcherHandler {
         team.setId(result);
         if (result != 0) {
             LOGGER.info("Team created with id: " + result);
-            response = new ResponsePackage<>(team, ResponseStatus.CREATED,
+            response = new ResponsePackage<Team>(team, ResponseStatus.CREATED,
                     "Team successfully added");
         } else {
             response = new ResponsePackageNoData(ResponseStatus.INTERNAL_SERVER_ERROR,

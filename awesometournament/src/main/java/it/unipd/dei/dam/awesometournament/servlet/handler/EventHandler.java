@@ -44,11 +44,11 @@ public class EventHandler extends RestMatcherHandler {
 
         if (event != null) {
             om.setDateFormat(new StdDateFormat());
-            response = new ResponsePackage<>(event, ResponseStatus.OK,
+            response = new ResponsePackage<Event>(event, ResponseStatus.OK,
                     "Event found");
             res.getWriter().print(om.writeValueAsString(response));
         } else {
-            response = new ResponsePackageNoData(ResponseStatus.OK,
+            response = new ResponsePackageNoData(ResponseStatus.NOT_FOUND,
                     "Event not found");
             res.getWriter().print(om.writeValueAsString(response));
         }

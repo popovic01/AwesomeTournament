@@ -88,11 +88,11 @@ public class TournamentMatchesHandler extends RestMatcherHandler {
         }
 
         if (matches.size() != 0) {
-            response = new ResponsePackage<>(matches, ResponseStatus.OK,
+            response = new ResponsePackage<List<Match>>(matches, ResponseStatus.OK,
                     "Matches found");
             res.getWriter().print(om.writeValueAsString(response));
         } else {
-            response = new ResponsePackageNoData(ResponseStatus.OK,
+            response = new ResponsePackageNoData(ResponseStatus.NOT_FOUND,
                     "Matches not found");
             res.getWriter().print(om.writeValueAsString(response));
         }
