@@ -21,6 +21,9 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+/**
+ * Servlet handling requests related to players.
+ */
 public class PlayerServlet extends AbstractDatabaseServlet {
     protected final static Logger LOGGER = LogManager.getLogger(PlayerServlet.class,
             StringFormatterMessageFactory.INSTANCE);
