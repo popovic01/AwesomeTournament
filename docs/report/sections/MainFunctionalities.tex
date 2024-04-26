@@ -1,12 +1,41 @@
 \section{Main Functionalities}
 %What are the main functionalities of the web app? what services does it offer and how it is organized?
 
+\noindent Every user, even if not registered on the site, can view past and present tournaments with their related match schedules, team standings,
+and top scorers’ list. Once the user register on the site and login, he gets the ability to create tournaments and manage them (changing the name, the deadline for registering a team, the logo, the starting date etc.) until their conclusion. The admin of a tournament can also delete it if needed.
 
-Our web application offers a range of functionalities tailored to provide users with a comprehensive overview of soccer tournaments, past and present, while also facilitating user interaction and administration capabilities. Key functionalities include the ability to view both present and past tournaments, with relevant details such as tables, results, and top scorers readily available for users to stay updated on the latest developments and historical data.
+\noindent More in-depth, the main functionalities are the following:
+\begin{itemize}
+    \item \textbf{Creation of a new tournament:}
+        This functionality offers an opportunity to everyone to create a football tournament. On the main page of the web app, it is possible to create an account which is required for the tournament creation. After successfully completing the sign up proccess, there are other steps which should be taken such as providing basic data about the tournament (name, logo, deadline for the team creation, the starting players, max number of players, max number of teams etc.).
+        
+        \item \textbf{Edit/deletion of a tournament:}
+        Only the tournament creator is allowed to edit (name, logo, starting date, etc.) or delete the tournament.
+        
+    \item \textbf{Creation/edit/deletion of a team for the tournament:}
+        Once the user has logged in, he can select the tournament of his interest and enroll his team by providing all the specifications needed, like the team name, the logo, etc. Only the creator of the team and the admin of the tournament are allowed to edit the team info or delete the team if needed.
+        
+    \item \textbf{Addition/edit/deletion of players:}
+        Only the team creator and the tournament admin are allowed to add, edit, or delete players to/from the team.
 
-User registration and authentication functionalities allow individuals to create accounts or log in to the application, enabling them to register teams for participation in tournaments.Administrators have the authority to create and delete tournaments as needed, ensuring flexibility in organizing and managing various soccer events.
+    \item \textbf{Creation of the draw}
+        Each tournament creator has the ability to make a draw for the tournament. There are two options for making a draw: 
+        \begin{enumerate}
+            \item After the deadline for the teams creation is met, a job is automatically started for creating a draw for the tournament, which is going to be visible on the page.
+            \item If the admin of the tournament deems the tournament is ready to start, he can manually create the games.
+        \end{enumerate}
+        
+    \item \textbf{Updating the info of a tournament's matches:}
+        Only the admin of the tournament is able to insert the result of a match that has been played, with also the main events like the scorers and the sanctions (yellow/red cards).
+        
+    \item \textbf{Follow of the tournament's matches:}
+        Another feature of the app is displaying results of the tournament matches and current statistics like team standings and top scorers' ranking. That feature is available for every active and past tournament, after choosing the particular tournament from the app's main page (the user don't have to be logged in).
 
-The application dynamically updates content such as tournament tables, results, and top scorers in real-time, ensuring that users have access to the latest information and statistics. The user interface is designed to be intuitive and responsive, catering to users across various screen sizes.
+\end{itemize}
 
-By incorporating these main functionalities, our web application aims to deliver a comprehensive and user-friendly platform for soccer enthusiasts to engage with tournaments, teams and players, while also providing administrators the tools for efficient management and organization.
+\noindent User registration and authentication functionalities allow individuals to create accounts or login to the application, enabling them to register teams for participation in tournaments. Administrators have the authority to create, update, and delete tournaments as needed, ensuring flexibility in organizing and managing various soccer events.
+
+\noindent The application dynamically updates content such as tournament tables, results, and top scorers in real-time, ensuring that users have access to the latest information and statistics. The user interface is designed to be intuitive and responsive.
+
+\noindent By incorporating these main functionalities, our web application aims to deliver a comprehensive and user-friendly platform for soccer enthusiasts to engage with tournaments, teams and players, while also providing administrators the tools for efficient management and organization.
 \newpage

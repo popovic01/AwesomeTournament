@@ -1,11 +1,19 @@
 \subsection{REST API Summary}
 
-%describe the REST API. If needed, add a few lines of text here, describing the content of the table.
+Here is the list of REST API implemented.
 
-\begin{longtable}{|p{.375\columnwidth}|p{.1\columnwidth} |p{.35\columnwidth}|p{.1\columnwidth}|} 
+\begin{longtable}{|p{.375\columnwidth}|p{.1\columnwidth} |p{.35\columnwidth}|} 
 \hline
-\textbf{URI} & \textbf{Method} & \textbf{Description} & \textbf{Filter} \\\hline
-What is the URI? & What HTTP method uses? &  Describe briefly the result of calling the URI & is it behind a filter?\\\hline
-\caption{Describe in this table your REST API}
+\textbf{URI} & \textbf{Method} & \textbf{Description}  \\\hline
+/matches & What HTTP method uses? &  Describe briefly the result of calling the URI\\ \hline
+/players & What HTTP method uses? &  Describe briefly the result of calling the URI\\ \hline
+/tournaments & What HTTP method uses? &  Describe briefly the result of calling the URI\\ \hline
+/teams & What HTTP method uses? &  Describe briefly the result of calling the URI\\ \hline
+/events & GET &  Retrieves an event by its ID\\ \hline
+/events & PUT &  Updates an existing event\\ \hline
+/events & DELETE &  Deletes an event by its ID\\ \hline
+/matches/\{matchId\}/events & GET &  Retrieves events associated with a specific match\\ \hline
+/matches/\{matchId\}/events & POST &  Creates a new event for a specific match\\ \hline
+\caption{REST API Summary}
 \label{tab:termGlossary}
 \end{longtable}
