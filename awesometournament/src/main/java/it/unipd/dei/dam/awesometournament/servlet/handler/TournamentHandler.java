@@ -43,7 +43,7 @@ public class TournamentHandler extends RestMatcherHandler {
         Integer newId = createTournamentDAO.access().getOutputParam();
         if (newId != null) {
             LOGGER.info("Tournament created with id %d", newId);
-            response = new ResponsePackage<>(tournament, ResponseStatus.CREATED, "Tournament created");
+            response = new ResponsePackage<Tournament>(tournament, ResponseStatus.CREATED, "Tournament created");
             res.getWriter().print(om.writeValueAsString(response));
         }
         else {
@@ -60,12 +60,12 @@ public class TournamentHandler extends RestMatcherHandler {
 
         if (!tournaments.isEmpty()) {
             om.setDateFormat(new StdDateFormat());
-            response = new ResponsePackage<>(tournaments, ResponseStatus.OK, "Tournaments found");
+            response = new ResponsePackage<List<Tournament>>(tournaments, ResponseStatus.OK, "Tournaments found");
             res.getWriter().print(om.writeValueAsString(response));
         }
         else {
             LOGGER.info("No tournaments in the database");
-            response = new ResponsePackageNoData(ResponseStatus.OK, "No tournaments in the database");
+            response = new ResponsePackageNoData(ResponseStatus.NOT_FOUND, "No tournaments in the database");
             res.getWriter().print(om.writeValueAsString(response));
         }
     }
@@ -90,14 +90,11 @@ public class TournamentHandler extends RestMatcherHandler {
                     res.getWriter().print(om.writeValueAsString(response));
                     return Result.STOP;
             }
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException | SQLException e) {
             response = new ResponsePackageNoData(ResponseStatus.BAD_REQUEST, "ID must be an integer");
             res.getWriter().print(om.writeValueAsString(response));
-        } catch (SQLException e) {
-            response = new ResponsePackageNoData(ResponseStatus.INTERNAL_SERVER_ERROR,
-                    "Something went wrong: " + e.getMessage());
-            res.getWriter().print(om.writeValueAsString(response));
         }
+
         return Result.CONTINUE;
     }
 }

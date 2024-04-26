@@ -12,18 +12,43 @@ import org.apache.logging.log4j.message.StringFormatterMessageFactory;
 
 import it.unipd.dei.dam.awesometournament.database.DeletePlayerDAO;
 import it.unipd.dei.dam.awesometournament.database.GetPlayerDAO;
+import it.unipd.dei.dam.awesometournament.database.GetTeamDAO;
 import it.unipd.dei.dam.awesometournament.database.UpdatePlayerDAO;
 import it.unipd.dei.dam.awesometournament.resources.Actions;
 import it.unipd.dei.dam.awesometournament.resources.LogContext;
 import it.unipd.dei.dam.awesometournament.resources.entities.Player;
+import it.unipd.dei.dam.awesometournament.resources.entities.Team;
 import it.unipd.dei.dam.awesometournament.utils.BodyTools;
+import it.unipd.dei.dam.awesometournament.utils.SessionHelpers;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+/**
+ * Servlet handling requests related to players.
+ */
 public class PlayerServlet extends AbstractDatabaseServlet {
     protected final static Logger LOGGER = LogManager.getLogger(PlayerServlet.class,
             StringFormatterMessageFactory.INSTANCE);
+
+    private boolean isUserAuthorized(HttpServletRequest req, int playerId) throws SQLException {
+        if (!SessionHelpers.isLogged(req))
+            return false;
+
+        LOGGER.info("User logged");
+        int userId = SessionHelpers.getId(req);
+        GetPlayerDAO getPlayerDAO = new GetPlayerDAO(getConnection(), playerId);
+        Player player = (Player) getPlayerDAO.access().getOutputParam();
+        GetTeamDAO getTeamDAO = new GetTeamDAO(getConnection(), player.getTeamId());
+        Team team = (Team) getTeamDAO.access().getOutputParam();
+
+        if (team.getCreatorUserId() != userId)
+            return false;
+
+        LOGGER.info("User authorized");
+        return true;
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -75,11 +100,16 @@ public class PlayerServlet extends AbstractDatabaseServlet {
             } else {
                 try {
                     int playerId = Integer.parseInt(urlParts[1]);
+                    if (!isUserAuthorized(req, playerId)) {
+                        LOGGER.info("User unauthorized");
+                        resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                        return;
+                    }
                     String requestBody = BodyTools.getRequestBody(req);
                     LOGGER.info(requestBody);
-                    ObjectMapper objectMapper = new ObjectMapper();
-                    objectMapper.setDateFormat(new StdDateFormat());
-                    Player player = (Player) objectMapper.readValue(requestBody.toString(), Player.class);
+                    ObjectMapper om = new ObjectMapper();
+                    om.setDateFormat(new StdDateFormat());
+                    Player player = (Player) om.readValue(requestBody.toString(), Player.class);
                     player.setId(playerId);
                     LOGGER.info(player.toString());
                     Connection connection = getConnection();
@@ -115,6 +145,11 @@ public class PlayerServlet extends AbstractDatabaseServlet {
             } else {
                 try {
                     int playerId = Integer.parseInt(urlParts[1]);
+                    if (!isUserAuthorized(req, playerId)) {
+                        LOGGER.info("User unauthorized");
+                        resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                        return;
+                    }
                     Connection connection = getConnection();
                     DeletePlayerDAO deletePlayerDAO = new DeletePlayerDAO(connection, playerId);
                     Integer result = (Integer) deletePlayerDAO.access().getOutputParam();

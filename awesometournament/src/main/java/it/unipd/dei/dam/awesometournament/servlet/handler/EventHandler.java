@@ -44,11 +44,11 @@ public class EventHandler extends RestMatcherHandler {
 
         if (event != null) {
             om.setDateFormat(new StdDateFormat());
-            response = new ResponsePackage<>(event, ResponseStatus.OK,
+            response = new ResponsePackage<Event>(event, ResponseStatus.OK,
                     "Event found");
             res.getWriter().print(om.writeValueAsString(response));
         } else {
-            response = new ResponsePackageNoData(ResponseStatus.OK,
+            response = new ResponsePackageNoData(ResponseStatus.NOT_FOUND,
                     "Event not found");
             res.getWriter().print(om.writeValueAsString(response));
         }
@@ -140,15 +140,12 @@ public class EventHandler extends RestMatcherHandler {
                 default:
                     return Result.STOP;
             }
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException | SQLException e) {
             response = new ResponsePackageNoData(ResponseStatus.BAD_REQUEST,
                     "ID must be an integer");
             res.getWriter().print(om.writeValueAsString(response));
-        } catch (SQLException e) {
-            response = new ResponsePackageNoData(ResponseStatus.INTERNAL_SERVER_ERROR,
-                    "Something went wrong: " + e.getMessage());
-            res.getWriter().print(om.writeValueAsString(response));
         }
+
         return Result.CONTINUE;
     }
 }

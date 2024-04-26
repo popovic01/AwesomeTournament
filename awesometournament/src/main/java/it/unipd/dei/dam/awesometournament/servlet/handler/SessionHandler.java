@@ -12,6 +12,7 @@ import org.apache.logging.log4j.message.StringFormatterMessageFactory;
 import it.unipd.dei.dam.awesometournament.servlet.RestMatcherHandler;
 import it.unipd.dei.dam.awesometournament.servlet.RestMatcherServlet.Method;
 import it.unipd.dei.dam.awesometournament.servlet.RestMatcherServlet.Result;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

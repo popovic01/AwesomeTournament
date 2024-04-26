@@ -3,6 +3,7 @@ package it.unipd.dei.dam.awesometournament.servlet.handler;
 import java.io.IOException;
 import java.sql.SQLException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.util.StdDateFormat;
 
 import it.unipd.dei.dam.awesometournament.servlet.RestMatcherHandler;
 import it.unipd.dei.dam.awesometournament.servlet.RestMatcherServlet.*;
@@ -19,9 +20,11 @@ import it.unipd.dei.dam.awesometournament.utils.ResponsePackage;
 import it.unipd.dei.dam.awesometournament.utils.ResponsePackageNoData;
 import it.unipd.dei.dam.awesometournament.utils.ResponseStatus;
 import it.unipd.dei.dam.awesometournament.utils.SessionHelpers;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.message.StringFormatterMessageFactory;
@@ -38,7 +41,7 @@ public class PlayerHandler extends RestMatcherHandler{
         GetPlayerDAO getPlayerDAO = new GetPlayerDAO(getConnection(), playerId);
         Player player = (Player) getPlayerDAO.access().getOutputParam();
         if (player != null) {
-            response = new ResponsePackage<>(player, ResponseStatus.OK,
+            response = new ResponsePackage<Player>(player, ResponseStatus.OK,
                     "Player found");
             res.getWriter().print(om.writeValueAsString(response));
         } else {
@@ -109,6 +112,7 @@ public class PlayerHandler extends RestMatcherHandler{
 
             LogContext.setIPAddress(req.getRemoteAddr());
             om = new ObjectMapper();
+            om.setDateFormat(new StdDateFormat());
 
             int playerId = Integer.parseInt(params[0]);
 
@@ -132,7 +136,8 @@ public class PlayerHandler extends RestMatcherHandler{
                             LOGGER.info("User unauthorized");
                             response = new ResponsePackageNoData(ResponseStatus.FORBIDDEN,
                                     "User unauthorized");
-                            res.getWriter().print(om.writeValueAsString(response));                            return Result.STOP;
+                            res.getWriter().print(om.writeValueAsString(response));
+                            return Result.STOP;
                         }
                         deletePlayer(req, res, playerId);
                         break;
@@ -142,15 +147,12 @@ public class PlayerHandler extends RestMatcherHandler{
                         res.getWriter().print(om.writeValueAsString(response));
                         return Result.STOP;
                 }
-            } catch (NumberFormatException e) {
+            } catch (NumberFormatException | SQLException e) {
                 response = new ResponsePackageNoData(ResponseStatus.BAD_REQUEST,
                         "ID must be an integer");
                 res.getWriter().print(om.writeValueAsString(response));
-            } catch (SQLException e) {
-                response = new ResponsePackageNoData(ResponseStatus.INTERNAL_SERVER_ERROR,
-                        "Something went wrong: " + e.getMessage());
-                res.getWriter().print(om.writeValueAsString(response));
             }
+
             return Result.CONTINUE;
         }
 }

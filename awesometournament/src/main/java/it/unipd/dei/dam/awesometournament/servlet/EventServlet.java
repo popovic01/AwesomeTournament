@@ -18,6 +18,9 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+/**
+ * Servlet responsible for handling requests related to events.
+ */
 public class EventServlet extends AbstractDatabaseServlet {
     protected final static Logger LOGGER = LogManager.getLogger(EventServlet.class,
             StringFormatterMessageFactory.INSTANCE);

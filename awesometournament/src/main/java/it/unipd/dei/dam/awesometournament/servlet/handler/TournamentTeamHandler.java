@@ -7,7 +7,8 @@ import it.unipd.dei.dam.awesometournament.resources.Actions;
 import it.unipd.dei.dam.awesometournament.resources.LogContext;
 import it.unipd.dei.dam.awesometournament.resources.entities.Team;
 import it.unipd.dei.dam.awesometournament.servlet.RestMatcherHandler;
-import it.unipd.dei.dam.awesometournament.servlet.RestMatcherServlet;
+import it.unipd.dei.dam.awesometournament.servlet.RestMatcherServlet.Method;
+import it.unipd.dei.dam.awesometournament.servlet.RestMatcherServlet.Result;
 import it.unipd.dei.dam.awesometournament.utils.*;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -35,7 +36,7 @@ public class TournamentTeamHandler extends RestMatcherHandler {
         om = new ObjectMapper();
 
         if (!teams.isEmpty()) {
-            response = new ResponsePackage<>(teams, ResponseStatus.OK,
+            response = new ResponsePackage<List<Team>>(teams, ResponseStatus.OK,
                     "Teams for the tournament found");
         } else {
             response = new ResponsePackageNoData(ResponseStatus.NOT_FOUND,
@@ -73,7 +74,7 @@ public class TournamentTeamHandler extends RestMatcherHandler {
         team.setId(result);
         if (result != 0) {
             LOGGER.info("Team created with id: " + result);
-            response = new ResponsePackage<>(team, ResponseStatus.CREATED,
+            response = new ResponsePackage<Team>(team, ResponseStatus.CREATED,
                     "Team successfully added");
         } else {
             response = new ResponsePackageNoData(ResponseStatus.INTERNAL_SERVER_ERROR,
@@ -91,7 +92,7 @@ public class TournamentTeamHandler extends RestMatcherHandler {
     }
 
     @Override
-    public RestMatcherServlet.Result handle(RestMatcherServlet.Method method, HttpServletRequest req, HttpServletResponse res,
+    public Result handle(Method method, HttpServletRequest req, HttpServletResponse res,
                                             String[] params) throws ServletException, IOException {
 
         LogContext.setIPAddress(req.getRemoteAddr());
@@ -111,27 +112,20 @@ public class TournamentTeamHandler extends RestMatcherHandler {
                         response = new ResponsePackageNoData(ResponseStatus.UNAUTHORIZED,
                                 "User not logged in");
                         res.getWriter().print(om.writeValueAsString(response));
-                        return RestMatcherServlet.Result.STOP;
+                        return Result.STOP;
                     }
                     postTeamForTournament(req, res, tournamentId, getIdOfLoggedInUser(req));
                     LogContext.setAction(Actions.POST_TEAM_FOR_TOURNAMENT);
                     break;
                 default:
-                    return RestMatcherServlet.Result.STOP;
+                    return Result.STOP;
             }
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException | SQLException | InvalidFormatException e) {
             response = new ResponsePackageNoData(ResponseStatus.BAD_REQUEST,
                     "Something went wrong: " + e.getMessage());
-            res.getWriter().print(om.writeValueAsString(response));
-        } catch (InvalidFormatException e) {
-            response = new ResponsePackageNoData(ResponseStatus.BAD_REQUEST,
-                    "Something went wrong: " + e.getMessage());
-            res.getWriter().print(om.writeValueAsString(response));
-        } catch (SQLException e) {
-            response = new ResponsePackageNoData(ResponseStatus.INTERNAL_SERVER_ERROR,
-                    "Something went wrong: " + e.getMessage())  ;
             res.getWriter().print(om.writeValueAsString(response));
         }
-        return RestMatcherServlet.Result.CONTINUE;
+
+        return Result.CONTINUE;
     }
 }

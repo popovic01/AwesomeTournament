@@ -28,6 +28,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.message.StringFormatterMessageFactory;
 
+/**
+ * Handles HTTP requests related to matches.
+ */
 public class MatchHandler extends RestMatcherHandler{
 
     protected final static Logger LOGGER = LogManager.getLogger(PlayerHandler.class,
@@ -35,6 +38,17 @@ public class MatchHandler extends RestMatcherHandler{
     ObjectMapper om;
     ResponsePackageNoData response;
 
+    /**
+     * Handles the request based on the provided HTTP method.
+     *
+     * @param method The HTTP method (GET, POST, etc.).
+     * @param req    The HttpServletRequest object representing the request.
+     * @param res    The HttpServletResponse object representing the response.
+     * @param params An array of parameters extracted from the request URI.
+     * @return The result of handling the request.
+     * @throws ServletException If a servlet-specific error occurs.
+     * @throws IOException      If an I/O error occurs while processing the request.
+     */
     @Override
     public Result handle(Method method, HttpServletRequest req, HttpServletResponse res,
             String[] params) throws ServletException, IOException {
@@ -54,18 +68,25 @@ public class MatchHandler extends RestMatcherHandler{
                 default:
                     return Result.STOP;
             }
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException | SQLException e) {
             response = new ResponsePackageNoData(ResponseStatus.BAD_REQUEST,
                     "ID must be an integer");
             res.getWriter().print(om.writeValueAsString(response));
-        } catch (SQLException e) {
-            response = new ResponsePackageNoData(ResponseStatus.INTERNAL_SERVER_ERROR,
-                    "Something went wrong: " + e.getMessage());
-            res.getWriter().print(om.writeValueAsString(response));
         }
+
         return Result.CONTINUE;
     }
 
+    /**
+     * Retrieves a match.
+     *
+     * @param req     The HTTP servlet request object.
+     * @param res     The HTTP servlet response object.
+     * @param matchId The ID of the match to retrieve
+     * @throws SQLException            If a database error occurs
+     * @throws JsonProcessingException If an error occurs during JSON processing
+     * @throws IOException             If an I/O error occurs
+     */
     private void getMatch(HttpServletRequest req, HttpServletResponse res, int matchId)
             throws SQLException, JsonProcessingException, IOException {
         LogContext.setAction(Actions.PUT_MATCH);
@@ -77,7 +98,7 @@ public class MatchHandler extends RestMatcherHandler{
 
         if (match != null) {
             res.getWriter().println(om.writeValueAsString(match));
-            response = new ResponsePackage<>(match, ResponseStatus.OK,
+            response = new ResponsePackage<Match>(match, ResponseStatus.OK,
                     "Match found");
         } else {
             res.getWriter().println(om.writeValueAsString(match));
@@ -86,6 +107,16 @@ public class MatchHandler extends RestMatcherHandler{
         }
     }
 
+    /**
+     * Updates a match.
+     *
+     * @param req     The HTTP servlet request object.
+     * @param res     The HTTP servlet response object.
+     * @param matchId The ID of the match to update
+     * @throws SQLException            If a database error occurs
+     * @throws JsonProcessingException If an error occurs during JSON processing
+     * @throws IOException             If an I/O error occurs
+     */
     private void updateMatch(HttpServletRequest req, HttpServletResponse res, int matchId)
             throws SQLException, JsonProcessingException, IOException {
         LogContext.setAction(Actions.PUT_MATCH);

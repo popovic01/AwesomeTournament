@@ -53,15 +53,12 @@ public class TournamentMatchesHandler extends RestMatcherHandler {
                         return Result.STOP;
                     }
                 }
-            } catch (NumberFormatException e) {
+            } catch (NumberFormatException | SQLException e) {
                 response = new ResponsePackageNoData(ResponseStatus.BAD_REQUEST,
                         "ID must be an integer");
                 res.getWriter().print(om.writeValueAsString(response));
-            } catch (SQLException e) {
-                response = new ResponsePackageNoData(ResponseStatus.INTERNAL_SERVER_ERROR,
-                        "Something went wrong: " + e.getMessage());
-                res.getWriter().print(om.writeValueAsString(response));
             }
+
             return Result.CONTINUE;
     }
     
@@ -88,11 +85,11 @@ public class TournamentMatchesHandler extends RestMatcherHandler {
         }
 
         if (matches.size() != 0) {
-            response = new ResponsePackage<>(matches, ResponseStatus.OK,
+            response = new ResponsePackage<List<Match>>(matches, ResponseStatus.OK,
                     "Matches found");
             res.getWriter().print(om.writeValueAsString(response));
         } else {
-            response = new ResponsePackageNoData(ResponseStatus.OK,
+            response = new ResponsePackageNoData(ResponseStatus.NOT_FOUND,
                     "Matches not found");
             res.getWriter().print(om.writeValueAsString(response));
         }

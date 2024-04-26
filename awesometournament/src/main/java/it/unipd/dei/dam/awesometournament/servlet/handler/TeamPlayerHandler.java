@@ -40,7 +40,7 @@ public class TeamPlayerHandler extends RestMatcherHandler {
         ArrayList<Player> players = getTeamPlayerDAO.access().getOutputParam();
         if (players.size() != 0) {
             om.setDateFormat(new StdDateFormat());
-            response = new ResponsePackage<>
+            response = new ResponsePackage<ArrayList<Player>>
                     (players, ResponseStatus.OK, "Players found");
             res.getWriter().print(om.writeValueAsString(response));
         } else {
@@ -63,7 +63,7 @@ public class TeamPlayerHandler extends RestMatcherHandler {
         Integer newId = (Integer) createTeamPlayerDAO.access().getOutputParam();
         if (newId != null) {
             LOGGER.info("Player created with id %d", newId);
-            response = new ResponsePackage<>
+            response = new ResponsePackage<Player>
                     (player, ResponseStatus.CREATED, "Player created");
             res.getWriter().print(om.writeValueAsString(response));
         } else {
@@ -96,6 +96,7 @@ public class TeamPlayerHandler extends RestMatcherHandler {
 
             LogContext.setIPAddress(req.getRemoteAddr());
             om = new ObjectMapper();
+            om.setDateFormat(new StdDateFormat());
 
             int teamId = Integer.parseInt(params[0]);
 
@@ -120,15 +121,12 @@ public class TeamPlayerHandler extends RestMatcherHandler {
                         res.getWriter().print(om.writeValueAsString(response));
                         return Result.STOP;
                 }
-            } catch (NumberFormatException e) {
+            } catch (NumberFormatException | SQLException e) {
                 response = new ResponsePackageNoData
                         (ResponseStatus.BAD_REQUEST, "ID must be an integer");
                 res.getWriter().print(om.writeValueAsString(response));
-            } catch (SQLException e) {
-                response = new ResponsePackageNoData
-                        (ResponseStatus.INTERNAL_SERVER_ERROR, "Something went wrong: " + e.getMessage());
-                res.getWriter().print(om.writeValueAsString(response));
             }
+
             return Result.CONTINUE;
         }
 }

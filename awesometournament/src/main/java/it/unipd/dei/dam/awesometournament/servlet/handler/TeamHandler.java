@@ -10,7 +10,8 @@ import it.unipd.dei.dam.awesometournament.resources.Actions;
 import it.unipd.dei.dam.awesometournament.resources.LogContext;
 import it.unipd.dei.dam.awesometournament.resources.entities.Team;
 import it.unipd.dei.dam.awesometournament.servlet.RestMatcherHandler;
-import it.unipd.dei.dam.awesometournament.servlet.RestMatcherServlet;
+import it.unipd.dei.dam.awesometournament.servlet.RestMatcherServlet.Method;
+import it.unipd.dei.dam.awesometournament.servlet.RestMatcherServlet.Result;
 import it.unipd.dei.dam.awesometournament.utils.BodyTools;
 import it.unipd.dei.dam.awesometournament.utils.ResponsePackage;
 import it.unipd.dei.dam.awesometournament.utils.ResponsePackageNoData;
@@ -42,7 +43,7 @@ public class TeamHandler extends RestMatcherHandler {
         Team team = dao.access().getOutputParam();
 
         if (team != null) {
-            response = new ResponsePackage(team, ResponseStatus.OK,
+            response = new ResponsePackage<Team>(team, ResponseStatus.OK,
                     "Team found");
         } else {
             response = new ResponsePackageNoData(ResponseStatus.NOT_FOUND,
@@ -89,7 +90,7 @@ public class TeamHandler extends RestMatcherHandler {
     }
 
     @Override
-    public RestMatcherServlet.Result handle(RestMatcherServlet.Method method, HttpServletRequest req, HttpServletResponse res,
+    public Result handle(Method method, HttpServletRequest req, HttpServletResponse res,
                                             String[] params) throws ServletException, IOException {
 
         LogContext.setIPAddress(req.getRemoteAddr());
@@ -112,21 +113,14 @@ public class TeamHandler extends RestMatcherHandler {
                     LogContext.setAction(Actions.DELETE_TEAM);
                     break;
                 default:
-                    return RestMatcherServlet.Result.STOP;
+                    return Result.STOP;
             }
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException | InvalidFormatException | SQLException e) {
             response = new ResponsePackageNoData(ResponseStatus.BAD_REQUEST,
                     "Something went wrong" + e.getMessage());
             res.getWriter().print(om.writeValueAsString(response));
-        } catch (InvalidFormatException e) {
-            response = new ResponsePackageNoData(ResponseStatus.BAD_REQUEST,
-                    "Something went wrong: " + e.getMessage());
-            res.getWriter().print(om.writeValueAsString(response));
-        } catch (SQLException e) {
-            response = new ResponsePackageNoData(ResponseStatus.INTERNAL_SERVER_ERROR,
-                    "Something went wrong: " + e.getMessage())  ;
-            res.getWriter().print(om.writeValueAsString(response));
         }
-        return RestMatcherServlet.Result.CONTINUE;
+
+        return Result.CONTINUE;
     }
 }
