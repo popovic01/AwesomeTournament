@@ -96,6 +96,7 @@ public class TeamPlayerHandler extends RestMatcherHandler {
 
             LogContext.setIPAddress(req.getRemoteAddr());
             om = new ObjectMapper();
+            om.setDateFormat(new StdDateFormat());
 
             int teamId = Integer.parseInt(params[0]);
 

@@ -3,6 +3,7 @@ package it.unipd.dei.dam.awesometournament.servlet.handler;
 import java.io.IOException;
 import java.sql.SQLException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.util.StdDateFormat;
 
 import it.unipd.dei.dam.awesometournament.servlet.RestMatcherHandler;
 import it.unipd.dei.dam.awesometournament.servlet.RestMatcherServlet.*;
@@ -109,6 +110,7 @@ public class PlayerHandler extends RestMatcherHandler{
 
             LogContext.setIPAddress(req.getRemoteAddr());
             om = new ObjectMapper();
+            om.setDateFormat(new StdDateFormat());
 
             int playerId = Integer.parseInt(params[0]);
 
@@ -132,7 +134,8 @@ public class PlayerHandler extends RestMatcherHandler{
                             LOGGER.info("User unauthorized");
                             response = new ResponsePackageNoData(ResponseStatus.FORBIDDEN,
                                     "User unauthorized");
-                            res.getWriter().print(om.writeValueAsString(response));                            return Result.STOP;
+                            res.getWriter().print(om.writeValueAsString(response));
+                            return Result.STOP;
                         }
                         deletePlayer(req, res, playerId);
                         break;
