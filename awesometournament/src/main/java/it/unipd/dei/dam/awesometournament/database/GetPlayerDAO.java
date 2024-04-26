@@ -35,7 +35,7 @@ public class GetPlayerDAO extends AbstractDAO<Player> {
                     rs.getString("surname"),
                     rs.getInt("team_id"),
                     PlayerPosition.db2enum(rs.getString("position")),
-                    rs.getString("medical_certificate"),
+                    rs.getBinaryStream("medical_certificate"),
                     rs.getDate("date_of_birth"));
 
                 LOGGER.info("Player with id %d found", this.id);

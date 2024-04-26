@@ -70,7 +70,7 @@ CREATE TABLE public.players (
         surname VARCHAR NOT NULL,
         team_id INT NOT NULL,
         position player_position NULL,
-        medical_certificate VARCHAR NULL,
+        medical_certificate BYTEA NULL,
         date_of_birth DATE NOT NULL,
         FOREIGN KEY (team_id) REFERENCES "teams" (id)
 );

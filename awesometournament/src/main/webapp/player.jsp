@@ -17,5 +17,14 @@
         <li><b>Medical Certificate:</b> <c:out value="${player.getMedicalCertificate()}"/></li>
         <li><b>Date of Birth:</b> <c:out value="${player.getDateOfBirth()}"/></li>
     </ul>
+
+    <h1>Upload Medical Certificate</h1>
+
+    <form method="POST" action="upload" enctype="multipart/form-data" >
+        <input type="hidden" name="playerId" value="${player.getId()}">
+        File:
+        <input type="file" name="medicalCertificate" id="medicalCertificate" /> <br/>
+        <input type="submit" value="Upload" name="upload" id="upload" /> <br/>
+    </form>
 </body>
 </html>
