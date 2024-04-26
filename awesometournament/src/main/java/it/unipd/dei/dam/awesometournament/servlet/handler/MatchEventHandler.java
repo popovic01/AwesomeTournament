@@ -55,7 +55,7 @@ public class MatchEventHandler extends RestMatcherHandler {
         ArrayList<Event> events = getMatchEventDAO.access().getOutputParam();
         if (events.size() != 0) {
             om.setDateFormat(new StdDateFormat());
-            response = new ResponsePackage<>(events, ResponseStatus.OK,
+            response = new ResponsePackage<ArrayList<Event>>(events, ResponseStatus.OK,
                     "Events found");
             res.getWriter().print(om.writeValueAsString(response));
         } else {
@@ -88,7 +88,7 @@ public class MatchEventHandler extends RestMatcherHandler {
         Integer newId = (Integer) createMatchEventDAO.access().getOutputParam();
         if (newId != null) {
             LOGGER.info("Event created with id %d", newId);
-            response = new ResponsePackage<>(event, ResponseStatus.CREATED,
+            response = new ResponsePackage<Event>(event, ResponseStatus.CREATED,
                     "Event created");
             res.getWriter().print(om.writeValueAsString(response));
         } else {

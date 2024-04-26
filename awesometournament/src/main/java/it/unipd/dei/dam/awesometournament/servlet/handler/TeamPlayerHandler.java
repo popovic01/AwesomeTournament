@@ -40,7 +40,7 @@ public class TeamPlayerHandler extends RestMatcherHandler {
         ArrayList<Player> players = getTeamPlayerDAO.access().getOutputParam();
         if (players.size() != 0) {
             om.setDateFormat(new StdDateFormat());
-            response = new ResponsePackage<>
+            response = new ResponsePackage<ArrayList<Player>>
                     (players, ResponseStatus.OK, "Players found");
             res.getWriter().print(om.writeValueAsString(response));
         } else {
@@ -63,7 +63,7 @@ public class TeamPlayerHandler extends RestMatcherHandler {
         Integer newId = (Integer) createTeamPlayerDAO.access().getOutputParam();
         if (newId != null) {
             LOGGER.info("Player created with id %d", newId);
-            response = new ResponsePackage<>
+            response = new ResponsePackage<Player>
                     (player, ResponseStatus.CREATED, "Player created");
             res.getWriter().print(om.writeValueAsString(response));
         } else {

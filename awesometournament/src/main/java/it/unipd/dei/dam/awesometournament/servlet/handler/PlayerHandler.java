@@ -39,7 +39,7 @@ public class PlayerHandler extends RestMatcherHandler{
         GetPlayerDAO getPlayerDAO = new GetPlayerDAO(getConnection(), playerId);
         Player player = (Player) getPlayerDAO.access().getOutputParam();
         if (player != null) {
-            response = new ResponsePackage<>(player, ResponseStatus.OK,
+            response = new ResponsePackage<Player>(player, ResponseStatus.OK,
                     "Player found");
             res.getWriter().print(om.writeValueAsString(response));
         } else {

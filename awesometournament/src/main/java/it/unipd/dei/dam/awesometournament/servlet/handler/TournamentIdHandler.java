@@ -37,7 +37,7 @@ public class TournamentIdHandler extends RestMatcherHandler {
         Tournament tournament = getTournamentDAO.access().getOutputParam();
 
         if (tournament != null) {
-            response = new ResponsePackage<>(tournament, ResponseStatus.OK, "Tournament found");
+            response = new ResponsePackage<Tournament>(tournament, ResponseStatus.OK, "Tournament found");
             res.getWriter().print(om.writeValueAsString(response));
         }
         else {

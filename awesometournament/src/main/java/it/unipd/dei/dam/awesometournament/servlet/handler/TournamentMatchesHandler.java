@@ -88,7 +88,7 @@ public class TournamentMatchesHandler extends RestMatcherHandler {
         }
 
         if (matches.size() != 0) {
-            response = new ResponsePackage<>(matches, ResponseStatus.OK,
+            response = new ResponsePackage<List<Match>>(matches, ResponseStatus.OK,
                     "Matches found");
             res.getWriter().print(om.writeValueAsString(response));
         } else {

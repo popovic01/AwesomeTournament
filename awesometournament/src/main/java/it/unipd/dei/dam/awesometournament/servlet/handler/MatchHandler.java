@@ -77,7 +77,7 @@ public class MatchHandler extends RestMatcherHandler{
 
         if (match != null) {
             res.getWriter().println(om.writeValueAsString(match));
-            response = new ResponsePackage<>(match, ResponseStatus.OK,
+            response = new ResponsePackage<Match>(match, ResponseStatus.OK,
                     "Match found");
         } else {
             res.getWriter().println(om.writeValueAsString(match));

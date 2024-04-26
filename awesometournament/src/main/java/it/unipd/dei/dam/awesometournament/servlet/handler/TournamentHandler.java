@@ -43,7 +43,7 @@ public class TournamentHandler extends RestMatcherHandler {
         Integer newId = createTournamentDAO.access().getOutputParam();
         if (newId != null) {
             LOGGER.info("Tournament created with id %d", newId);
-            response = new ResponsePackage<>(tournament, ResponseStatus.CREATED, "Tournament created");
+            response = new ResponsePackage<Tournament>(tournament, ResponseStatus.CREATED, "Tournament created");
             res.getWriter().print(om.writeValueAsString(response));
         }
         else {
@@ -60,7 +60,7 @@ public class TournamentHandler extends RestMatcherHandler {
 
         if (!tournaments.isEmpty()) {
             om.setDateFormat(new StdDateFormat());
-            response = new ResponsePackage<>(tournaments, ResponseStatus.OK, "Tournaments found");
+            response = new ResponsePackage<List<Tournament>>(tournaments, ResponseStatus.OK, "Tournaments found");
             res.getWriter().print(om.writeValueAsString(response));
         }
         else {
