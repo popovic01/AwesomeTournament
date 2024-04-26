@@ -1,13 +1,18 @@
 package it.unipd.dei.dam.awesometournament.servlet;
 
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.List;
 
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import jakarta.servlet.http.Part;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.message.StringFormatterMessageFactory;
@@ -21,9 +26,12 @@ import it.unipd.dei.dam.awesometournament.resources.entities.Tournament;
 import it.unipd.dei.dam.awesometournament.resources.entities.Player;
 import it.unipd.dei.dam.awesometournament.utils.SessionHelpers;
 
+@WebServlet(name = "FileUploadServlet", urlPatterns = {"/upload"})
+@MultipartConfig
 public class TeamServlet extends AbstractDatabaseServlet{
     protected final static Logger LOGGER = LogManager.getLogger(TeamServlet.class,
             StringFormatterMessageFactory.INSTANCE);
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         LogContext.setIPAddress(req.getRemoteAddr());
@@ -77,4 +85,92 @@ public class TeamServlet extends AbstractDatabaseServlet{
         }
     }
 
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+
+        // Create path components to save the file
+        final Part filePart = request.getPart("file");
+        final String fileName = getFileName(filePart);
+        LOGGER.info("file name: " + fileName);
+
+        OutputStream out = null;
+        InputStream filecontent = null;
+        final PrintWriter writer = response.getWriter();
+        //destination path
+        String path = "C:\\Users\\Milica Popovic\\IdeaProjects\\wa2324-dam\\awesometournament\\src\\main\\resources\\uploads";
+        File folder = new File(path);
+        LOGGER.info(path);
+        Files.createDirectories(Paths.get(path));
+
+        // Check if the folder exists
+        if (!folder.exists()) {
+            LOGGER.info("Folder does not exist.");
+            return;
+        }
+
+        // Check if the folder is a directory
+        if (!folder.isDirectory()) {
+            LOGGER.info("Path is not a folder.");
+            return;
+        }
+
+        // Check if the folder is readable
+        if (!folder.canRead()) {
+            LOGGER.info("Folder is not readable.");
+            return;
+        }
+
+        // Check if the folder is writable
+        if (!folder.canWrite()) {
+            LOGGER.info("Folder is not writable.");
+            return;
+        }
+        try {
+            out = new FileOutputStream(path + "\\"
+                    + fileName);
+            filecontent = filePart.getInputStream();
+
+            int read = 0;
+            final byte[] bytes = new byte[1024];
+            LOGGER.info(filecontent);
+            LOGGER.info(bytes.length);
+
+            while ((read = filecontent.read(bytes)) != -1) {
+                out.write(bytes, 0, read);
+                LOGGER.info(read);
+            }
+            writer.println("New file " + fileName + " created at " + path);
+            LOGGER.info("File uploaded");
+        } catch (Exception e) {
+            LOGGER.info("You either did not specify a file to upload or are "
+                    + "trying to upload a file to a protected or nonexistent "
+                    + "location.");
+            LOGGER.info("<br/> ERROR: " + e.getMessage());
+
+            LOGGER.info("Problems during file upload. Error: " +
+                    e.getMessage());
+        } finally {
+            if (out != null) {
+                out.close();
+            }
+            if (filecontent != null) {
+                filecontent.close();
+            }
+            if (writer != null) {
+                writer.close();
+            }
+        }
+    }
+
+    private String getFileName(final Part part) {
+        for (String content : part.getHeader("content-disposition").split(";")) {
+            if (content.trim().startsWith("filename")) {
+                return content.substring(
+                        content.indexOf('=') + 1).trim().replace("\"", "");
+            }
+        }
+        return null;
+    }
 }
