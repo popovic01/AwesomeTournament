@@ -31,11 +31,11 @@ public class GetMatchEventsDAO extends AbstractDAO<ArrayList<Event>>{
             rs = p.executeQuery();
             while (rs.next()) {
                 events.add(new Event(
-                        rs.getInt("event_id"),
+                        rs.getInt("id"),
                         rs.getInt("match_id"),
                         rs.getInt("player_id"),
-                        EventType.db2enum(rs.getString("event_type")),
-                        rs.getInt("event_time")
+                        EventType.db2enum(rs.getString("type")),
+                        rs.getInt("time")
                 ));
 
                 LOGGER.info("Event in match %d found", this.match_id);
