@@ -1,39 +1,101 @@
 \subsection{REST API Details}
 
-We report here (?) \textbf{DA DECIDERE} different type of resources that our web applications handle\\
-\textbf{Insert new player}
+We report here 3 different type of resources that our web applications handle\\
+\textbf{Creation of a player}
+
+The following endpoint allows the team owner to add a new player to the team.
 \begin{itemize}
-    \item URL: \texttt{the URL to retrieve it}
-    \item Method: \texttt{Method to retrieve it}
-    \item URL Parameters:
-    \item Data Parameters: 
+    \item URL: \texttt{api/teams/[team]/players}
+    \item Method: \texttt{POST}
+    \item URL Parameters: - [team]: the identifier of the team to which the player will belong
+    \item Data Parameters: \texttt{\{"name": player\_name, "surname": player\_surname, "team\_id": player\_team\_id, "position": player\_position, "medical\_certificate": player\_medical\_certificate, "date\_of\_birth": player\_date\_of\_birth\}}
     \item Success Response:
+    \begin{itemize}
+        \item Code: 201
+            \begin{itemize}
+                \item Content: \texttt{\{ "result": "Resource created" \}}
+            \end{itemize}
+    \end{itemize}
     \item Error Response:
+    \begin{itemize}
+        \item Code: 302
+            \begin{itemize}
+                \item Content: \texttt{\{ "error": \{ "code": 302, "message": "User not logged in" \} \}}
+            \end{itemize}
+
+        \item Code: 400
+            \begin{itemize}
+                \item Content: \texttt{\{ "error": \{ "code": 400, "message": "Wrong request format" \} \}}
+            \end{itemize}
+
+        \item Code: 403
+            \begin{itemize}
+                \item Content: \texttt{\{ "error": \{ "code": 403, "message": "User doesn't have the necessary permissions" \} \}}
+            \end{itemize}
+
+        \item Code: 503
+            \begin{itemize}
+                \item Content: \texttt{\{ "error": \{ "code": 503, "message": "Server not ready" \} \}}
+            \end{itemize}
+    \end{itemize}
 \end{itemize}
-\textbf{Delete an event}
+
+
+\textbf{Get a list of all the players in a team}
+
+The following endpoint returns the list of all the players belonging to a team.
 \begin{itemize}
-    \item URL: \texttt{the URL to retrieve it}
-    \item Method: \texttt{Method to retrieve it}
-    \item URL Parameters:
-    \item Data Parameters: 
+    \item URL: \texttt{api/teams/[team]/players}
+    \item Method: \texttt{GET}
+    \item URL Parameters: - [team]: the identifier of the team
+    \item Data Parameters: no data params needed
     \item Success Response:
+    \begin{itemize}
+        \item Code: 200
+            \begin{itemize}
+                \item Content: \texttt{[ \{”ID”: player1\_ID, ”name”: player1\_name, ”surname”: player1\_surname, ”team\_id”: player1\_team\_id, ”position”: player1\_position, ”medical\_certificate”: player1\_medical\_certificate, ”date\_of\_birth”: player1\_date\_of\_birth\}, ... ]}
+            \end{itemize}
+    \end{itemize}
     \item Error Response:
+    \begin{itemize}
+        \item Code: 204
+        \begin{itemize}
+            \item Content: \texttt{\{ "error": \{ "code": 204, "message": "No content" \} \}}
+        \end{itemize}
+
+        \item Code: 503
+        \begin{itemize}
+            \item Content: \texttt{\{ "error": \{ "code": 503, "message": "Server not ready" \} \}}
+        \end{itemize}
+    \end{itemize}
 \end{itemize}
-\textbf{Get a list of all the matches within a tournament}
+
+\textbf{Get player fields}
+
+The following endpoint returns all the fields of a player.
 \begin{itemize}
-    \item URL: \texttt{the URL to retrieve it}
-    \item Method: \texttt{Method to retrieve it}
-    \item URL Parameters:
-    \item Data Parameters: 
-    \item Success Response:
+    \item URL: \texttt{api/players/[player]}
+    \item Method: \texttt{GET}
+    \item URL Parameters: - [player]: the identifier of the player
+    \item Data Parameters: no data params needed
+     \item Success Response:
+    \begin{itemize}
+        \item Code: 200
+            \begin{itemize}
+                \item Content: \texttt{\{"ID": player\_ID, "name": player\_name, "surname": player\_surname, \\ "team\_id": player\_team\_id, "position": player\_position, \\
+                "medical\_certificate": player\_medical\_certificate, "date\_of\_birth": player\_date\_of\_birth\}}
+            \end{itemize}
+    \end{itemize}
     \item Error Response:
-\end{itemize}
-\textbf{...}
-\begin{itemize}
-    \item URL: \texttt{the URL to retrieve it}
-    \item Method: \texttt{Method to retrieve it}
-    \item URL Parameters:
-    \item Data Parameters: 
-    \item Success Response:
-    \item Error Response:
+    \begin{itemize}
+        \item Code: 404
+        \begin{itemize}
+            \item Content: \texttt{\{ "error": \{ "code": 404, "message": "Not found" \} \}}
+        \end{itemize}
+
+        \item Code: 503
+        \begin{itemize}
+            \item Content: \texttt{\{ "error": \{ "code": 503, "message": "Server not ready" \} \}}
+        \end{itemize}
+    \end{itemize}
 \end{itemize}
