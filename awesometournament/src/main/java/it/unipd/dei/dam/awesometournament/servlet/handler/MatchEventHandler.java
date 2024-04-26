@@ -59,7 +59,7 @@ public class MatchEventHandler extends RestMatcherHandler {
                     "Events found");
             res.getWriter().print(om.writeValueAsString(response));
         } else {
-            response = new ResponsePackageNoData(ResponseStatus.OK,
+            response = new ResponsePackageNoData(ResponseStatus.NOT_FOUND,
                     "No events in match " + matchId);
             res.getWriter().print(om.writeValueAsString(response));
         }

@@ -65,7 +65,7 @@ public class TournamentHandler extends RestMatcherHandler {
         }
         else {
             LOGGER.info("No tournaments in the database");
-            response = new ResponsePackageNoData(ResponseStatus.OK, "No tournaments in the database");
+            response = new ResponsePackageNoData(ResponseStatus.NOT_FOUND, "No tournaments in the database");
             res.getWriter().print(om.writeValueAsString(response));
         }
     }

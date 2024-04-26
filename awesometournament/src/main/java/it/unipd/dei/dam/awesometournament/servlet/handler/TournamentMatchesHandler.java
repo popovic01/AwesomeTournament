@@ -92,7 +92,7 @@ public class TournamentMatchesHandler extends RestMatcherHandler {
                     "Matches found");
             res.getWriter().print(om.writeValueAsString(response));
         } else {
-            response = new ResponsePackageNoData(ResponseStatus.OK,
+            response = new ResponsePackageNoData(ResponseStatus.NOT_FOUND,
                     "Matches not found");
             res.getWriter().print(om.writeValueAsString(response));
         }
