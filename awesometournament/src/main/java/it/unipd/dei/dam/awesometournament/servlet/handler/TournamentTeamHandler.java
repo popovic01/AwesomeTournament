@@ -120,19 +120,12 @@ public class TournamentTeamHandler extends RestMatcherHandler {
                 default:
                     return Result.STOP;
             }
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException | SQLException | InvalidFormatException e) {
             response = new ResponsePackageNoData(ResponseStatus.BAD_REQUEST,
                     "Something went wrong: " + e.getMessage());
-            res.getWriter().print(om.writeValueAsString(response));
-        } catch (InvalidFormatException e) {
-            response = new ResponsePackageNoData(ResponseStatus.BAD_REQUEST,
-                    "Something went wrong: " + e.getMessage());
-            res.getWriter().print(om.writeValueAsString(response));
-        } catch (SQLException e) {
-            response = new ResponsePackageNoData(ResponseStatus.INTERNAL_SERVER_ERROR,
-                    "Something went wrong: " + e.getMessage())  ;
             res.getWriter().print(om.writeValueAsString(response));
         }
+
         return Result.CONTINUE;
     }
 }
