@@ -7,7 +7,8 @@ import it.unipd.dei.dam.awesometournament.database.GetTournamentByIdDAO;
 import it.unipd.dei.dam.awesometournament.resources.entities.Team;
 import it.unipd.dei.dam.awesometournament.resources.entities.Tournament;
 import it.unipd.dei.dam.awesometournament.servlet.RestMatcherHandler;
-import it.unipd.dei.dam.awesometournament.servlet.RestMatcherServlet;
+import it.unipd.dei.dam.awesometournament.servlet.RestMatcherServlet.Method;
+import it.unipd.dei.dam.awesometournament.servlet.RestMatcherServlet.Result;
 import it.unipd.dei.dam.awesometournament.utils.ResponsePackageNoData;
 import it.unipd.dei.dam.awesometournament.utils.ResponseStatus;
 import it.unipd.dei.dam.awesometournament.utils.SessionHelpers;
@@ -32,19 +33,19 @@ public class TeamAuthenticatorHandler extends RestMatcherHandler {
     int loggedUserId;
 
     @Override
-    public RestMatcherServlet.Result handle(RestMatcherServlet.Method method, HttpServletRequest req, HttpServletResponse res,
+    public Result handle(Method method, HttpServletRequest req, HttpServletResponse res,
                                             String[] params) throws ServletException, IOException {
         om = new ObjectMapper();
 
         switch (method) {
             case GET:
-                return RestMatcherServlet.Result.CONTINUE;
+                return Result.CONTINUE;
             case DELETE:
                 if (!SessionHelpers.isLogged(req)) {
                     LOGGER.info("User not logged in");
                     response = new ResponsePackageNoData(ResponseStatus.UNAUTHORIZED, "User not logged in");
                     res.getWriter().print(om.writeValueAsString(response));
-                    return RestMatcherServlet.Result.STOP;
+                    return Result.STOP;
                 }
 
                 loggedUserId = SessionHelpers.getId(req);
@@ -62,22 +63,22 @@ public class TeamAuthenticatorHandler extends RestMatcherHandler {
                         LOGGER.info("User not authorized");
                         response = new ResponsePackageNoData(ResponseStatus.FORBIDDEN, "User not authorized");
                         res.getWriter().print(om.writeValueAsString(response));
-                        return RestMatcherServlet.Result.STOP;
+                        return Result.STOP;
                     }
-                    return RestMatcherServlet.Result.CONTINUE;
+                    return Result.CONTINUE;
 
                 } catch (SQLException e) {
                     response = new ResponsePackageNoData
                             (ResponseStatus.INTERNAL_SERVER_ERROR, "Something went wrong: " + e.getMessage());
                     res.getWriter().print(om.writeValueAsString(response));
-                    return RestMatcherServlet.Result.STOP;
+                    return Result.STOP;
                 }
             case PUT: {
                 if (!SessionHelpers.isLogged(req)) {
                     LOGGER.info("User not authorized");
                     response = new ResponsePackageNoData(ResponseStatus.UNAUTHORIZED, "User not authorized");
                     res.getWriter().print(om.writeValueAsString(response));
-                    return RestMatcherServlet.Result.STOP;
+                    return Result.STOP;
                 }
 
                 loggedUserId = SessionHelpers.getId(req);
@@ -96,19 +97,19 @@ public class TeamAuthenticatorHandler extends RestMatcherHandler {
                         LOGGER.info("User not authorized");
                         response = new ResponsePackageNoData(ResponseStatus.FORBIDDEN, "User not authorized");
                         res.getWriter().print(om.writeValueAsString(response));
-                        return RestMatcherServlet.Result.STOP;
+                        return Result.STOP;
                     }
-                    return RestMatcherServlet.Result.CONTINUE;
+                    return Result.CONTINUE;
 
                 } catch (SQLException e) {
                     response = new ResponsePackageNoData
                             (ResponseStatus.INTERNAL_SERVER_ERROR, "Something went wrong: " + e.getMessage());
                     res.getWriter().print(om.writeValueAsString(response));
-                    return RestMatcherServlet.Result.STOP;
+                    return Result.STOP;
                 }
             }
         }
-        return RestMatcherServlet.Result.STOP;
+        return Result.STOP;
     }
 
 }

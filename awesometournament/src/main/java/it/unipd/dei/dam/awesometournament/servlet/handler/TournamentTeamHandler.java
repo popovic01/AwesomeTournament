@@ -7,7 +7,8 @@ import it.unipd.dei.dam.awesometournament.resources.Actions;
 import it.unipd.dei.dam.awesometournament.resources.LogContext;
 import it.unipd.dei.dam.awesometournament.resources.entities.Team;
 import it.unipd.dei.dam.awesometournament.servlet.RestMatcherHandler;
-import it.unipd.dei.dam.awesometournament.servlet.RestMatcherServlet;
+import it.unipd.dei.dam.awesometournament.servlet.RestMatcherServlet.Method;
+import it.unipd.dei.dam.awesometournament.servlet.RestMatcherServlet.Result;
 import it.unipd.dei.dam.awesometournament.utils.*;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -91,7 +92,7 @@ public class TournamentTeamHandler extends RestMatcherHandler {
     }
 
     @Override
-    public RestMatcherServlet.Result handle(RestMatcherServlet.Method method, HttpServletRequest req, HttpServletResponse res,
+    public Result handle(Method method, HttpServletRequest req, HttpServletResponse res,
                                             String[] params) throws ServletException, IOException {
 
         LogContext.setIPAddress(req.getRemoteAddr());
@@ -111,13 +112,13 @@ public class TournamentTeamHandler extends RestMatcherHandler {
                         response = new ResponsePackageNoData(ResponseStatus.UNAUTHORIZED,
                                 "User not logged in");
                         res.getWriter().print(om.writeValueAsString(response));
-                        return RestMatcherServlet.Result.STOP;
+                        return Result.STOP;
                     }
                     postTeamForTournament(req, res, tournamentId, getIdOfLoggedInUser(req));
                     LogContext.setAction(Actions.POST_TEAM_FOR_TOURNAMENT);
                     break;
                 default:
-                    return RestMatcherServlet.Result.STOP;
+                    return Result.STOP;
             }
         } catch (NumberFormatException e) {
             response = new ResponsePackageNoData(ResponseStatus.BAD_REQUEST,
@@ -132,6 +133,6 @@ public class TournamentTeamHandler extends RestMatcherHandler {
                     "Something went wrong: " + e.getMessage())  ;
             res.getWriter().print(om.writeValueAsString(response));
         }
-        return RestMatcherServlet.Result.CONTINUE;
+        return Result.CONTINUE;
     }
 }

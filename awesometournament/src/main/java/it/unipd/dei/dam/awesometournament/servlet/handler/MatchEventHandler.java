@@ -2,6 +2,7 @@ package it.unipd.dei.dam.awesometournament.servlet.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.util.StdDateFormat;
+
 import it.unipd.dei.dam.awesometournament.database.CreateMatchEventDAO;
 import it.unipd.dei.dam.awesometournament.database.GetMatchDAO;
 import it.unipd.dei.dam.awesometournament.database.GetMatchEventsDAO;
@@ -12,15 +13,18 @@ import it.unipd.dei.dam.awesometournament.resources.entities.Event;
 import it.unipd.dei.dam.awesometournament.resources.entities.Match;
 import it.unipd.dei.dam.awesometournament.resources.entities.Team;
 import it.unipd.dei.dam.awesometournament.servlet.RestMatcherHandler;
-import it.unipd.dei.dam.awesometournament.servlet.RestMatcherServlet;
+import it.unipd.dei.dam.awesometournament.servlet.RestMatcherServlet.Method;
+import it.unipd.dei.dam.awesometournament.servlet.RestMatcherServlet.Result;
 import it.unipd.dei.dam.awesometournament.utils.BodyTools;
 import it.unipd.dei.dam.awesometournament.utils.ResponsePackageNoData;
 import it.unipd.dei.dam.awesometournament.utils.ResponsePackage;
 import it.unipd.dei.dam.awesometournament.utils.ResponseStatus;
 import it.unipd.dei.dam.awesometournament.utils.SessionHelpers;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.message.StringFormatterMessageFactory;
@@ -143,7 +147,7 @@ public class MatchEventHandler extends RestMatcherHandler {
      * @throws IOException      If an I/O error occurs while processing the request.
      */
     @Override
-    public RestMatcherServlet.Result handle(RestMatcherServlet.Method method, HttpServletRequest req, HttpServletResponse res,
+    public Result handle(Method method, HttpServletRequest req, HttpServletResponse res,
                                             String[] params) throws ServletException, IOException {
 
         LogContext.setIPAddress(req.getRemoteAddr());
@@ -162,7 +166,7 @@ public class MatchEventHandler extends RestMatcherHandler {
                         response = new ResponsePackageNoData(ResponseStatus.FORBIDDEN,
                                 "User unauthorized");
                         res.getWriter().print(om.writeValueAsString(response));
-                        return RestMatcherServlet.Result.STOP;
+                        return Result.STOP;
                     }
                     postEvent(req, res, matchId);
                     break;
@@ -170,7 +174,7 @@ public class MatchEventHandler extends RestMatcherHandler {
                     response = new ResponsePackageNoData(ResponseStatus.METHOD_NOT_ALLOWED,
                             "Method not allowed");
                     res.getWriter().print(om.writeValueAsString(response));
-                    return RestMatcherServlet.Result.STOP;
+                    return Result.STOP;
             }
         } catch (NumberFormatException e) {
             response = new ResponsePackageNoData(ResponseStatus.BAD_REQUEST,
@@ -181,6 +185,6 @@ public class MatchEventHandler extends RestMatcherHandler {
                     "Something went wrong: " + e.getMessage());
             res.getWriter().print(om.writeValueAsString(response));
         }
-        return RestMatcherServlet.Result.CONTINUE;
+        return Result.CONTINUE;
     }
 }
