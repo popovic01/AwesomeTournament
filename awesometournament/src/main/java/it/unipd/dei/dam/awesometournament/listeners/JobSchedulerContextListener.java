@@ -17,6 +17,12 @@ import org.apache.logging.log4j.message.StringFormatterMessageFactory;
 
 import it.unipd.dei.dam.awesometournament.jobs.MatchCreatorJob;
 
+/**
+ * Listens for servlet context events to initialize and destroy the job scheduler.
+ * 
+ * NOTE: this is meant to be working in a real-life web application where the server
+ * is running 24/7.
+ */
 public class JobSchedulerContextListener implements ServletContextListener {
 
     protected final static Logger LOGGER = LogManager.getLogger(ServletContextListener.class,
@@ -24,39 +30,46 @@ public class JobSchedulerContextListener implements ServletContextListener {
 
     private ScheduledExecutorService scheduler;
 
+    /**
+     * Initializes the job scheduler when the servlet context is initialized.
+     *
+     * @param sce The ServletContextEvent object representing the servlet context initialization event.
+     */
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        // Initialize scheduler
         scheduler = Executors.newSingleThreadScheduledExecutor();
-        
-        // Calculate initial delay until next midnight
+
         long initialDelay = calculateInitialDelayUntilMidnight();
 
-        // Schedule the job to run daily at midnight
         scheduler.scheduleAtFixedRate(() -> {
-            // Execute your job here
             try {
                 MatchCreatorJob.execute(-1);
             } catch (Exception e) {
-                // TODO Auto-generated catch block
                 LOGGER.info(e); 
             }
         }, initialDelay, 24, TimeUnit.HOURS);
-
     }
 
+    /**
+     * Destroys the job scheduler when the servlet context is destroyed.
+     *
+     * @param sce The ServletContextEvent object representing the servlet context destruction event.
+     */
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
-        // Shutdown scheduler
         if (scheduler != null) {
             scheduler.shutdown();
         }
     }
 
+    /**
+     * Calculates the initial delay until midnight from the current time.
+     *
+     * @return The initial delay in seconds until midnight from the current time.
+     */
     private long calculateInitialDelayUntilMidnight() {
-        // Calculate the initial delay until the next midnight
         LocalDateTime now = LocalDateTime.now();
-        LocalDateTime nextMidnight = now.with(LocalTime.MAX).plusDays(1); // Next midnight
+        LocalDateTime nextMidnight = now.with(LocalTime.MAX).plusDays(1);
         Duration durationUntilNextMidnight = Duration.between(now, nextMidnight);
         return durationUntilNextMidnight.toSeconds();
     }

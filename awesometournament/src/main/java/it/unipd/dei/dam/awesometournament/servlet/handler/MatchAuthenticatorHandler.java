@@ -23,6 +23,10 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+/**
+ * Handles HTTP requests related to match authentication.
+ * Extends the RestMatcherHandler class.
+ */
 public class MatchAuthenticatorHandler extends RestMatcherHandler{
 
 	protected static final Logger LOGGER = LogManager.getLogger(MatchAuthenticatorHandler.class,
@@ -30,6 +34,18 @@ public class MatchAuthenticatorHandler extends RestMatcherHandler{
     ObjectMapper om;
     ResponsePackageNoData response;
 
+    /**
+     * Handles HTTP requests related to match authentication.
+     * Extends the RestMatcherHandler class.
+     *
+     * @param method The HTTP method of the request.
+     * @param req    The HttpServletRequest object representing the request.
+     * @param res    The HttpServletResponse object representing the response.
+     * @param params An array of String objects representing request parameters.
+     * @return Result.CONTINUE if the operation should continue, Result.STOP otherwise.
+     * @throws ServletException If an exception occurs while processing the request.
+     * @throws IOException      If an I/O exception occurs while processing the request.
+     */
     @Override
     public Result handle(Method method, HttpServletRequest req, HttpServletResponse res,
             String[] params) throws ServletException, IOException {
@@ -65,18 +81,16 @@ public class MatchAuthenticatorHandler extends RestMatcherHandler{
                     if (t.getCreatorUserId() != loggedId) {
                         response = new ResponsePackageNoData(ResponseStatus.FORBIDDEN,
                                 "User unauthorized");
-                        res.getWriter().print(om.writeValueAsString(response));                        return Result.STOP;
+                        res.getWriter().print(om.writeValueAsString(response));
+                        return Result.STOP;
                     }
                     return Result.CONTINUE;
 
                 } catch (SQLException e) {
                     return Result.STOP;
                 }
-
             }
-
         }
         return Result.STOP;
     }
-
 }

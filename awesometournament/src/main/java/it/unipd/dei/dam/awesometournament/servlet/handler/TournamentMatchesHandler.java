@@ -27,12 +27,27 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+/**
+ * Handles HTTP requests related to tournament matches.
+ * Extends the RestMatcherHandler class.
+ */
 public class TournamentMatchesHandler extends RestMatcherHandler {
     protected final static Logger LOGGER = LogManager.getLogger(PlayerHandler.class,
             StringFormatterMessageFactory.INSTANCE);
     ObjectMapper om;
     ResponsePackageNoData response;
 
+    /**
+     * Handles HTTP requests for tournament matches.
+     *
+     * @param method   The HTTP method of the request.
+     * @param req      The HttpServletRequest object representing the request.
+     * @param res      The HttpServletResponse object representing the response.
+     * @param params   An array of String objects representing request parameters.
+     * @return Result.CONTINUE if the operation should continue, Result.STOP otherwise.
+     * @throws ServletException If an exception occurs while processing the request.
+     * @throws IOException      If an I/O exception occurs while processing the request.
+     */
     @Override
     public Result handle(Method method, HttpServletRequest req, HttpServletResponse res,
             String[] params) throws ServletException, IOException {
@@ -64,8 +79,17 @@ public class TournamentMatchesHandler extends RestMatcherHandler {
             }
             return Result.CONTINUE;
     }
-    
 
+    /**
+     * Retrieves tournament matches.
+     *
+     * @param req         The HttpServletRequest object representing the request.
+     * @param res         The HttpServletResponse object representing the response.
+     * @param tournamentId The ID of the tournament for which matches are to be retrieved.
+     * @throws ServletException If an exception occurs while processing the request.
+     * @throws IOException      If an I/O exception occurs while processing the request.
+     * @throws SQLException     If a database access error occurs while processing the request.
+     */
     private void getTournamentMatches(HttpServletRequest req, HttpServletResponse res, int tournamentId)
             throws ServletException, IOException, SQLException {
         om.setDateFormat(new StdDateFormat());

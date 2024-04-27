@@ -2,14 +2,35 @@ package it.unipd.dei.dam.awesometournament.resources.enums;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * Represents the result of a match.
+ */
 public enum MatchResult {
-    @JsonProperty ("team1")
+    /**
+     * The first team won the match.
+     */
+    @JsonProperty("team1")
     TEAM1,
-    @JsonProperty ("team2")
+
+    /**
+     * The second team won the match.
+     */
+    @JsonProperty("team2")
     TEAM2,
-    @JsonProperty ("draw")
+
+    /**
+     * The match ended in a draw.
+     */
+    @JsonProperty("draw")
     DRAW;
 
+    /**
+     * Converts a database value to the corresponding enum.
+     *
+     * @param dbValue The database value to convert.
+     * @return The MatchResult enum corresponding to the database value.
+     * @throws IllegalArgumentException If the database value is unknown.
+     */
     public static MatchResult db2enum(String dbValue) {
         if (dbValue == null)
             return null;
@@ -24,7 +45,14 @@ public enum MatchResult {
                 throw new IllegalArgumentException("Unknown database value: " + dbValue);
         }
     }
-    
+
+    /**
+     * Converts an enum value to the corresponding database value.
+     *
+     * @param enumValue The enum value to convert.
+     * @return The database value corresponding to the enum value.
+     * @throws IllegalArgumentException If the enum value is unknown.
+     */
     public static String enum2db(MatchResult enumValue) {
         if (enumValue == null) return null;
         switch(enumValue) {
