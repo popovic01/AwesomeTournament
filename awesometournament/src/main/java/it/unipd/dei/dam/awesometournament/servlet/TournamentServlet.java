@@ -1,12 +1,16 @@
 package it.unipd.dei.dam.awesometournament.servlet;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.List;
 
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,6 +19,7 @@ import org.apache.logging.log4j.message.StringFormatterMessageFactory;
 import it.unipd.dei.dam.awesometournament.database.GetTournamentByIdDAO;
 import it.unipd.dei.dam.awesometournament.database.GetTournamentMatchesDAO;
 import it.unipd.dei.dam.awesometournament.database.GetTournamentTeamsDAO;
+import it.unipd.dei.dam.awesometournament.database.UpdateTournamentDAO;
 import it.unipd.dei.dam.awesometournament.resources.LogContext;
 import it.unipd.dei.dam.awesometournament.resources.entities.Match;
 import it.unipd.dei.dam.awesometournament.resources.entities.Team;
@@ -24,6 +29,8 @@ import it.unipd.dei.dam.awesometournament.utils.SessionHelpers;
 /**
  * Servlet implementation for handling tournament-related operations.
  */
+@WebServlet(name = "LogoUploadServlet", urlPatterns = {"/uploadLogo"})
+@MultipartConfig
 public class TournamentServlet extends AbstractDatabaseServlet{
     protected final static Logger LOGGER = LogManager.getLogger(TournamentServlet.class,
             StringFormatterMessageFactory.INSTANCE);
@@ -73,6 +80,49 @@ public class TournamentServlet extends AbstractDatabaseServlet{
         } else {
             resp.sendError(HttpServletResponse.SC_NOT_FOUND);
         }
+    }
+    
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        InputStream inputStream = null; // input stream of the upload file
+
+        // obtains the upload file part in this multipart request
+        Part logo = req.getPart("logo");
+        if (logo != null) {
+            // prints out some information for debugging
+            LOGGER.info(logo.getName());
+            LOGGER.info(logo.getSize());
+            LOGGER.info(logo.getContentType());
+
+            // obtains input stream of the upload file
+            inputStream = logo.getInputStream();
+        }
+
+        try {
+            int tournamentId = Integer.parseInt(req.getParameter("tournamentId"));
+            if (!SessionHelpers.isLogged(req)) {
+                LOGGER.info("User unauthorized");
+                resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                return;
+            }
+
+            GetTournamentByIdDAO getTournamentByIdDAO = new GetTournamentByIdDAO(getConnection(), tournamentId);
+            Tournament tournament = getTournamentByIdDAO.access().getOutputParam();
+            tournament.setLogo(inputStream);
+            UpdateTournamentDAO updateTournamentDAO = new UpdateTournamentDAO(getConnection(), tournament);
+            Integer result = (Integer) updateTournamentDAO.access().getOutputParam();
+            if (result == 1) {
+                resp.setStatus(HttpServletResponse.SC_OK);
+                resp.getWriter().print("Logo Uploaded!");
+            } else {
+                resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            }
+        } catch (NumberFormatException e) {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Player ID must be an integer");
+        } catch (SQLException e) {
+            resp.sendError(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+        }
+
     }
     
 }

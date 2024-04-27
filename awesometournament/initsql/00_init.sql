@@ -23,7 +23,7 @@ CREATE TABLE public.tournaments (
         deadline TIMESTAMP WITH TIME ZONE NOT NULL,
         start_date TIMESTAMP WITH TIME ZONE NULL,
         creation_date TIMESTAMP WITH TIME ZONE NOT NULL,
-        logo VARCHAR NULL,
+        logo BYTEA NULL,
         is_finished BOOLEAN NOT NULL,
         FOREIGN KEY (creator_user_id) REFERENCES "users" (id)
 );

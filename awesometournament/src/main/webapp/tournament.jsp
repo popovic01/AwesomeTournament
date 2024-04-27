@@ -86,5 +86,11 @@
             </ul>
         </div>
     </div>
+    <form method="POST" action="upload" enctype="multipart/form-data" >
+        <input type="hidden" name="tournamentId" value="${tournament.getId()}">
+        File:
+        <input type="file" name="logo" id="logo" /> <br/>
+        <input type="submit" value="Upload" name="upload" id="upload" /> <br/>
+    </form>
 </body>
 </html>

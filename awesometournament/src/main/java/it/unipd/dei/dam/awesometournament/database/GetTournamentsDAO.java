@@ -1,5 +1,6 @@
 package it.unipd.dei.dam.awesometournament.database;
 
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -32,7 +33,7 @@ public class GetTournamentsDAO extends AbstractDAO<List<Tournament>> {
             Timestamp deadline = rs.getTimestamp("deadline");
             Timestamp startDate = rs.getTimestamp("start_date");
             Timestamp creationDate = rs.getTimestamp("creation_date");
-            String logo = rs.getString("logo");
+            InputStream logo = rs.getBinaryStream("logo");
             boolean isFinished = rs.getBoolean("is_finished");
 
             Tournament t = new Tournament(id, name, token, creatorUserId, maxTeams, maxPlayers,

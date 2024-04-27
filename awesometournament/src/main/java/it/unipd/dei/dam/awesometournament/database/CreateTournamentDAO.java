@@ -41,7 +41,7 @@ public class CreateTournamentDAO extends AbstractDAO<Integer> {
             p.setTimestamp(9, tournament.getDeadline());
             p.setTimestamp(10, tournament.getStartDate());
             p.setTimestamp(11, tournament.getCreationDate());
-            p.setString(12, tournament.getLogo());
+            p.setBinaryStream(12, tournament.getLogo());
             p.setBoolean(13, tournament.getIsFinished());
 
             rs = p.executeQuery();

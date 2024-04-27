@@ -41,7 +41,7 @@ public class UpdateTournamentDAO extends AbstractDAO<Integer> {
             t.setTimestamp(9, tournament.getDeadline());
             t.setTimestamp(10, tournament.getStartDate());
             t.setTimestamp(11, tournament.getCreationDate());
-            t.setString(12, tournament.getLogo());
+            t.setBinaryStream(12, tournament.getLogo());
             t.setBoolean(13, tournament.getIsFinished());
             t.setInt(14, tournament.getId());
 

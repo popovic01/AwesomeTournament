@@ -3,6 +3,7 @@ package it.unipd.dei.dam.awesometournament.resources.entities;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.io.InputStream;
 import java.sql.Timestamp;
 
 public class Tournament {
@@ -32,7 +33,7 @@ public class Tournament {
     @JsonProperty("creationDate")
     private Timestamp creationDate;
     @JsonProperty("logo")
-    private String logo;
+    private InputStream logo;
     @JsonProperty("isFinished")
     private boolean isFinished;
 
@@ -41,7 +42,7 @@ public class Tournament {
 
     public Tournament(int id, String name, String token, int creatorUserId, int maxTeams, int maxPlayers,
                       int minPlayers, int startingPlayers, int maxSubstitutions, Timestamp deadline,
-                      Timestamp startDate, Timestamp creationDate, String logo, boolean isFinished) {
+                      Timestamp startDate, Timestamp creationDate, InputStream logo, boolean isFinished) {
         this.id = id;
         this.name = name;
         this.token = token;
@@ -154,11 +155,11 @@ public class Tournament {
         this.creationDate = creationDate;
     }
 
-    public String getLogo() {
+    public InputStream getLogo() {
         return logo;
     }
 
-    public void setLogo(String logo) {
+    public void setLogo(InputStream logo) {
         this.logo = logo;
     }
 
