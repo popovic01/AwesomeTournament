@@ -5,11 +5,27 @@ import it.unipd.dei.dam.awesometournament.resources.entities.Tournament;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
+/**
+ * DAO class for updating tournament information in the database.
+ */
 public class UpdateTournamentDAO extends AbstractDAO<Integer> {
+    /**
+     * The SQL statement used to update tournament information.
+     */
     private static String STATEMENT;
 
+    /**
+     * The tournament object containing the updated information.
+     */
     private final Tournament tournament;
 
+    /**
+     * Constructs a new UpdateTournamentDAO object with the specified connection and tournament.
+     *
+     * @param con        the database connection
+     * @param tournament the tournament object containing the updated information
+     * @throws NullPointerException if the tournament object is null
+     */
     public UpdateTournamentDAO(final Connection con, final Tournament tournament) {
         super(con);
         if (tournament == null) {
@@ -19,6 +35,11 @@ public class UpdateTournamentDAO extends AbstractDAO<Integer> {
         this.tournament = tournament;
     }
 
+    /**
+     * Executes the update operation to update tournament information in the database.
+     *
+     * @throws Exception if an error occurs during the database operation
+     */
     @Override
     protected void doAccess() throws Exception {
         PreparedStatement t = null;

@@ -6,14 +6,30 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+/**
+ * DAO class for creating a new tournament in the database.
+ */
 public class CreateTournamentDAO extends AbstractDAO<Integer> {
+    /**
+     * The SQL statement used to insert a new tournament into the database.
+     */
     private static final String STATEMENT = "INSERT INTO public.tournaments " +
             "(name, token, creator_user_id, max_teams, max_players, min_players, starting_players," +
             "max_substitutions, deadline, start_date, creation_date, logo, is_finished) " +
             "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING *";
 
+    /**
+     * The tournament object containing the information of the tournament to be created.
+     */
     private final Tournament tournament;
 
+    /**
+     * Constructs a new CreateTournamentDAO object with the specified connection and tournament.
+     *
+     * @param con        the database connection
+     * @param tournament the tournament object containing the information of the tournament to be created
+     * @throws NullPointerException if the tournament object is null
+     */
     public CreateTournamentDAO(final Connection con, final Tournament tournament) {
         super(con);
         if (tournament == null) {
@@ -23,6 +39,11 @@ public class CreateTournamentDAO extends AbstractDAO<Integer> {
         this.tournament = tournament;
     }
 
+    /**
+     * Executes the create operation to create a new tournament in the database.
+     *
+     * @throws Exception if an error occurs during the database operation
+     */
     @Override
     protected void doAccess() throws Exception {
         PreparedStatement p = null;

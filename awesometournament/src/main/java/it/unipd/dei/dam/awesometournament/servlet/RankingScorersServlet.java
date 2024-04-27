@@ -20,12 +20,27 @@ import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * Servlet implementation for the Ranking of the scorers.
- * This servlets generates a ranking for the number of goals in a tournament.
+ * This servlet generates a ranking for the number of goals in a tournament.
  */
 public class RankingScorersServlet extends AbstractDatabaseServlet{
+
+    /**
+     * Logger for logging servlet activities.
+     */
     protected final static Logger LOGGER = LogManager.getLogger(RankingScorersServlet.class,
             StringFormatterMessageFactory.INSTANCE);
 
+
+    /**
+     * Handles HTTP GET requests.
+     * Retrieves the ranking of scorers for a specific tournament and forwards the request
+     * to the "ranking_scorers.jsp" page for display.
+     *
+     * @param req  the HttpServletRequest object containing the request parameters and attributes
+     * @param resp the HttpServletResponse object for sending the response
+     * @throws ServletException if an exception occurs during servlet processing
+     * @throws IOException      if an I/O error occurs
+     */
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         LogContext.setIPAddress(req.getRemoteAddr());
         LogContext.setAction(Actions.GET_RANKING_SCORERS);
