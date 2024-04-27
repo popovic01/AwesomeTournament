@@ -27,6 +27,9 @@ public class LoginServlet extends AbstractDatabaseServlet {
     protected final static Logger LOGGER = LogManager.getLogger(LoginServlet.class,
             StringFormatterMessageFactory.INSTANCE);
 
+    /**
+     * Shows the jsp login page
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         LogContext.setIPAddress(req.getRemoteAddr());
@@ -39,6 +42,9 @@ public class LoginServlet extends AbstractDatabaseServlet {
         req.getRequestDispatcher("/login.jsp").forward(req, resp);
     }
 
+    /**
+     * Receives the login request and tries to log the user
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         LogContext.setIPAddress(req.getRemoteAddr());
@@ -63,7 +69,7 @@ public class LoginServlet extends AbstractDatabaseServlet {
         }
 
         LOGGER.info("email: " + email);
-        LOGGER.info("password: " + password);
+        // LOGGER.info("password: " + password);
 
         // try to authenticate the user
 

@@ -71,16 +71,18 @@ public class SignupServlet extends AbstractDatabaseServlet {
         }
 
         LOGGER.info("email: " + email);
-        LOGGER.info("password: " + password);
+        // LOGGER.info("password: " + password); for debug only, clear passwords should not be present in logs
 
         // try to register the user
 
         if(!Validators.isEmail(email)) {
+            // the email is not valid
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "email not valid");
             return;
         }
 
         if(!Validators.isPasswordValid(password)) {
+            // the password is not valid
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "password not valid");
             return;
         }

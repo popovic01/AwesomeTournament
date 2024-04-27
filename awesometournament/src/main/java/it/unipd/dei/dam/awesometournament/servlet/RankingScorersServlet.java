@@ -18,6 +18,10 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+/**
+ * Servlet implementation for the Ranking of the scorers.
+ * This servlets generates a ranking for the number of goals in a tournament.
+ */
 public class RankingScorersServlet extends AbstractDatabaseServlet{
     protected final static Logger LOGGER = LogManager.getLogger(RankingScorersServlet.class,
             StringFormatterMessageFactory.INSTANCE);

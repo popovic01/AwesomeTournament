@@ -26,11 +26,14 @@ public class LogoutServlet extends AbstractDatabaseServlet {
 
         LOGGER.info("logout");
 
+        // Get a session for the user if one exists
         HttpSession session = req.getSession(false);
         if(SessionHelpers.isLogged(req)) {
+            // If the user is logged we invalidate his session
             session.invalidate();
             LOGGER.info("session invalidated");
         }
+        // Try to redirect the user to the page he came from
         String referer = req.getHeader("referer");
         if (referer != null && !referer.isEmpty()) {
             resp.sendRedirect(referer);

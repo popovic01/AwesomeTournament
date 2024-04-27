@@ -38,6 +38,7 @@ public class TeamServlet extends AbstractDatabaseServlet{
     protected final static Logger LOGGER = LogManager.getLogger(TeamServlet.class,
             StringFormatterMessageFactory.INSTANCE);
 
+    
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         LogContext.setIPAddress(req.getRemoteAddr());

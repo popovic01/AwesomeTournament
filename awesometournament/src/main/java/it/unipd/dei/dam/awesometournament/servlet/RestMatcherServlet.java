@@ -42,6 +42,9 @@ public class RestMatcherServlet extends AbstractDatabaseServlet {
 
     /**
      * Represents an entry in the routing table.
+     * 
+     * An entry has to be partial if the matching of entries should
+     * continue after this one.
      */
     private class Entry {
         public Pattern pattern;
@@ -161,6 +164,9 @@ public class RestMatcherServlet extends AbstractDatabaseServlet {
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
 
+        /*
+         * The order of the entries matter in che case partial matching.
+         */
         entries = new ArrayList<>();
         entries.add(new Entry("/", true, factoryHandler(SessionHandler.class)));
         entries.add(new Entry("/matches/*", true, factoryHandler(MatchAuthenticatorHandler.class)));
@@ -224,68 +230,3 @@ public class RestMatcherServlet extends AbstractDatabaseServlet {
         }
     }
 }
-
-/*
- * Examples of handlers:
- * 
- * 
- * entries.add(new Entry("/", true, new Handler() {
- * 
- * @Override
- * public Result handle(Method method, HttpServletRequest req,
- * HttpServletResponse res, Connection connection,
- * String[] params) {
- * try {
- * res.getWriter().println("welcome to the root!");
- * } catch (IOException e) {
- * e.printStackTrace();
- * }
- * return Result.CONTINUE;
- * }
- * }));
- * entries.add(new Entry("/test", true, new Handler() {
- * 
- * @Override
- * public Result handle(Method method, HttpServletRequest req,
- * HttpServletResponse res, Connection connection,
- * String[] params) {
- * try {
- * res.getWriter().println("test father node");
- * } catch (IOException e) {
- * e.printStackTrace();
- * }
- * return Result.CONTINUE;
- * }
- * }));
- * entries.add(new Entry("/test", false, new Handler() {
- * 
- * @Override
- * public Result handle(Method method, HttpServletRequest req,
- * HttpServletResponse res, Connection connection,
- * String[] params) {
- * try {
- * res.getWriter().println("welcome to the test!");
- * } catch (IOException e) {
- * e.printStackTrace();
- * }
- * return Result.CONTINUE;
- * }
- * }));
- * entries.add(new Entry("/test/*", false, new Handler() {
- * 
- * @Override
- * public Result handle(Method method, HttpServletRequest req,
- * HttpServletResponse res, Connection connection,
- * String[] params) {
- * try {
- * res.getWriter().println("welcome to the test/id!");
- * res.getWriter().println("param is " + params[0]);
- * } catch (IOException e) {
- * e.printStackTrace();
- * }
- * return Result.CONTINUE;
- * }
- * }));
- * 
- * 
- */
