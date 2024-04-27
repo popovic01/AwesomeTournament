@@ -31,7 +31,7 @@ CREATE TABLE public.tournaments (
 CREATE TABLE public.teams (
         id SERIAL PRIMARY KEY,
         name VARCHAR NOT NULL,
-        logo VARCHAR NULL,
+        logo BYTEA NULL,
         creator_user_id INT NOT NULL,
         tournament_id INT NOT NULL,
         FOREIGN KEY (creator_user_id) REFERENCES "users" (id),
@@ -70,7 +70,7 @@ CREATE TABLE public.players (
         surname VARCHAR NOT NULL,
         team_id INT NOT NULL,
         position player_position NULL,
-        medical_certificate VARCHAR NULL,
+        medical_certificate BYTEA NULL,
         date_of_birth DATE NOT NULL,
         FOREIGN KEY (team_id) REFERENCES "teams" (id)
 );

@@ -36,7 +36,7 @@ public class CreateTeamPlayerDAO extends AbstractDAO<Integer> {
             p.setString(2, player.getSurname());
             p.setInt(3, player.getTeamId());
             p.setObject(4, PlayerPosition.enum2db(player.getPosition()), Types.OTHER);
-            p.setString(5, player.getMedicalCertificate());
+            p.setBinaryStream(5, player.getMedicalCertificate());
             p.setDate(6, player.getDateOfBirth());
             rs = p.executeQuery();
             if (rs.next()) {

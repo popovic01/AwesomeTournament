@@ -68,6 +68,16 @@
                 <c:out value="${team}" />
             </div>
         </div>
+
+        <h2>File Upload</h2>
+
+        <form method="POST" action="upload" enctype="multipart/form-data" >
+            <input type="hidden" name="teamId" value="${team.getId()}">
+            File:
+            <input type="file" name="file" id="file" /> <br/>
+            <input type="submit" value="Upload" name="upload" id="upload" /> <br/>
+        </form>
+
         <c:if test="${tournamentOwner}">
             <div style="color: red;">
                 You are the admin of the tournament this team belongs to

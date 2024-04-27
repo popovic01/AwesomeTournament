@@ -1,20 +1,28 @@
 package it.unipd.dei.dam.awesometournament.servlet;
 
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.List;
 
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import jakarta.servlet.http.Part;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.message.StringFormatterMessageFactory;
 
+import java.sql.Connection;
+
 import it.unipd.dei.dam.awesometournament.database.GetTeamDAO;
 import it.unipd.dei.dam.awesometournament.database.GetTeamPlayersDAO;
 import it.unipd.dei.dam.awesometournament.database.GetTournamentByIdDAO;
+import it.unipd.dei.dam.awesometournament.database.UpdateTeamDAO;
 import it.unipd.dei.dam.awesometournament.resources.LogContext;
 import it.unipd.dei.dam.awesometournament.resources.entities.Team;
 import it.unipd.dei.dam.awesometournament.resources.entities.Tournament;
@@ -24,9 +32,12 @@ import it.unipd.dei.dam.awesometournament.utils.SessionHelpers;
 /**
  * Servlet responsible for handling requests related to teams.
  */
+@WebServlet(name = "FileUploadServlet", urlPatterns = {"/upload"})
+@MultipartConfig
 public class TeamServlet extends AbstractDatabaseServlet{
     protected final static Logger LOGGER = LogManager.getLogger(TeamServlet.class,
             StringFormatterMessageFactory.INSTANCE);
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         LogContext.setIPAddress(req.getRemoteAddr());
@@ -80,4 +91,40 @@ public class TeamServlet extends AbstractDatabaseServlet{
         }
     }
 
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+
+        InputStream inputStream = null; // input stream of the upload file
+
+        // obtains the upload file part in this multipart request
+        Part filePart = req.getPart("file");
+        if (filePart != null) {
+            // prints out some information for debugging
+            LOGGER.info(filePart.getName());
+            LOGGER.info(filePart.getSize());
+            LOGGER.info(filePart.getContentType());
+
+            // obtains input stream of the upload file
+            inputStream = filePart.getInputStream();
+        }
+
+        try {
+            int teamId = Integer.parseInt(req.getParameter("teamId"));
+            GetTeamDAO getTeamDAO = new GetTeamDAO(getConnection(), teamId);
+            Team team = getTeamDAO.access().getOutputParam();
+            team.setLogo(inputStream);
+            UpdateTeamDAO updateTeamDAO = new UpdateTeamDAO(getConnection(), team);
+            Integer result = (Integer) updateTeamDAO.access().getOutputParam();
+            if (result == 1) {
+                resp.setStatus(HttpServletResponse.SC_OK);
+            } else {
+                resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            }
+        } catch (NumberFormatException e) {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Player ID must be an integer");
+        } catch (SQLException e) {
+            resp.sendError(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+        }
+    }
 }

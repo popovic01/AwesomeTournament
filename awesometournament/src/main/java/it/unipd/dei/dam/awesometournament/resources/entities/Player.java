@@ -1,5 +1,6 @@
 package it.unipd.dei.dam.awesometournament.resources.entities;
 
+import java.io.InputStream;
 import java.sql.Date;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -19,14 +20,14 @@ public class Player {
     @JsonProperty("position")
     private PlayerPosition position;
     @JsonProperty("medical_certificate")
-    private String medicalCertificate;
+    private InputStream medicalCertificate;
     @JsonProperty("date_of_birth")
     private Date dateOfBirth;
 
     @JsonCreator
     public Player(){}
 
-    public Player(int id, String name, String surname, int teamId, PlayerPosition position, String medicalCertificate, Date dateOfBirth) {
+    public Player(int id, String name, String surname, int teamId, PlayerPosition position, InputStream medicalCertificate, Date dateOfBirth) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -76,11 +77,11 @@ public class Player {
         this.position = position;
     }
 
-    public String getMedicalCertificate() {
+    public InputStream getMedicalCertificate() {
         return medicalCertificate;
     }
 
-    public void setMedicalCertificate(String medicalCertificate) {
+    public void setMedicalCertificate(InputStream medicalCertificate) {
         this.medicalCertificate = medicalCertificate;
     }
 

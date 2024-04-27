@@ -37,7 +37,7 @@ public class UpdatePlayerDAO extends AbstractDAO<Integer> {
             p.setString(2, player.getSurname());
             p.setInt(3, player.getTeamId());
             p.setObject(4, PlayerPosition.enum2db(player.getPosition()), Types.OTHER);
-            p.setString(5, player.getMedicalCertificate());
+            p.setBinaryStream(5, player.getMedicalCertificate());
             p.setDate(6, player.getDateOfBirth());
             p.setInt(7, player.getId());
             int res = p.executeUpdate();

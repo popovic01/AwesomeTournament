@@ -1,6 +1,7 @@
 package it.unipd.dei.dam.awesometournament.servlet;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,12 +23,17 @@ import it.unipd.dei.dam.awesometournament.utils.BodyTools;
 import it.unipd.dei.dam.awesometournament.utils.SessionHelpers;
 
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
 
 /**
  * Servlet handling requests related to players.
  */
+@WebServlet(name = "MedicalCertificateUploadServlet", urlPatterns = {"/uploadMedicalCertificate"})
+@MultipartConfig
 public class PlayerServlet extends AbstractDatabaseServlet {
     protected final static Logger LOGGER = LogManager.getLogger(PlayerServlet.class,
             StringFormatterMessageFactory.INSTANCE);
@@ -129,6 +135,48 @@ public class PlayerServlet extends AbstractDatabaseServlet {
         } else {
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid URL format");
         }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        InputStream inputStream = null; // input stream of the upload file
+
+        // obtains the upload file part in this multipart request
+        Part medicalCertificate = req.getPart("medicalCertificate");
+        if (medicalCertificate != null) {
+            // prints out some information for debugging
+            LOGGER.info(medicalCertificate.getName());
+            LOGGER.info(medicalCertificate.getSize());
+            LOGGER.info(medicalCertificate.getContentType());
+
+            // obtains input stream of the upload file
+            inputStream = medicalCertificate.getInputStream();
+        }
+
+        try {
+            int playerId = Integer.parseInt(req.getParameter("playerId"));
+            if (!isUserAuthorized(req, playerId)) {
+                LOGGER.info("User unauthorized");
+                resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                return;
+            }
+            GetPlayerDAO getPlayerDAO = new GetPlayerDAO(getConnection(), playerId);
+            Player player = getPlayerDAO.access().getOutputParam();
+            player.setMedicalCertificate(inputStream);
+            UpdatePlayerDAO updatePlayerDAO = new UpdatePlayerDAO(getConnection(), player);
+            Integer result = (Integer) updatePlayerDAO.access().getOutputParam();
+            if (result == 1) {
+                resp.setStatus(HttpServletResponse.SC_OK);
+                resp.getWriter().print("Medical Certificate Uploaded!");
+            } else {
+                resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            }
+        } catch (NumberFormatException e) {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Player ID must be an integer");
+        } catch (SQLException e) {
+            resp.sendError(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+        }
+
     }
 
     @Override
