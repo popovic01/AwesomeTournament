@@ -38,7 +38,7 @@ public class TournamentTeamHandler extends RestMatcherHandler {
      * @throws IOException
      * @throws SQLException
      */
-    void getTeamsForTournament (HttpServletResponse res, int tournamentId) throws IOException, SQLException {
+    void getTournamentTeams(HttpServletResponse res, int tournamentId) throws IOException, SQLException {
         LOGGER.info("Received GET request");
         GetTournamentTeamsDAO dao = new GetTournamentTeamsDAO(getConnection(), tournamentId);
         List<Team> teams = dao.access().getOutputParam();
@@ -64,7 +64,7 @@ public class TournamentTeamHandler extends RestMatcherHandler {
      * @throws IOException
      * @throws SQLException
      */
-    void postTeamForTournament (HttpServletRequest req, HttpServletResponse res,
+    void postTournamentTeam (HttpServletRequest req, HttpServletResponse res,
                                 int tournamentId, int userId)
             throws IOException, SQLException {
         LOGGER.info("Received POST request");
@@ -121,8 +121,7 @@ public class TournamentTeamHandler extends RestMatcherHandler {
             int tournamentId = Integer.parseInt(params[0]);
             switch (method) {
                 case GET:
-                    getTeamsForTournament(res, tournamentId);
-                    LogContext.setAction(Actions.GET_TEAMS_FOR_TOURNAMENT);
+                    getTournamentTeams(res, tournamentId);
                     break;
                 case POST:
                     //only logged-in users can add a team
@@ -133,8 +132,7 @@ public class TournamentTeamHandler extends RestMatcherHandler {
                         res.getWriter().print(om.writeValueAsString(response));
                         return Result.STOP;
                     }
-                    postTeamForTournament(req, res, tournamentId, getIdOfLoggedInUser(req));
-                    LogContext.setAction(Actions.POST_TEAM_FOR_TOURNAMENT);
+                    postTournamentTeam(req, res, tournamentId, getIdOfLoggedInUser(req));
                     break;
                 default:
                     return Result.STOP;

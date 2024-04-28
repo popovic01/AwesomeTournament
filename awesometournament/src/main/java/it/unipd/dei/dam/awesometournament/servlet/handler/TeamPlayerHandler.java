@@ -33,7 +33,7 @@ public class TeamPlayerHandler extends RestMatcherHandler {
     ObjectMapper om;
     ResponsePackageNoData response;
 
-    void getPlayersFromTeam (HttpServletRequest req, HttpServletResponse res, int teamId) throws ServletException, IOException, SQLException{
+    void getTeamPlayers (HttpServletRequest req, HttpServletResponse res, int teamId) throws ServletException, IOException, SQLException{
         LogContext.setAction(Actions.GET_TEAM_PLAYER);
         LOGGER.info("Received GET request");
         GetTeamPlayersDAO getTeamPlayerDAO = new GetTeamPlayersDAO(getConnection(), teamId);
@@ -103,7 +103,7 @@ public class TeamPlayerHandler extends RestMatcherHandler {
             try {
                 switch (method) {
                     case GET:
-                        getPlayersFromTeam(req, res, teamId);
+                        getTeamPlayers(req, res, teamId);
                         break;
                     case POST:
                         if (!isUserAuthorized(req, teamId)) {
