@@ -1,8 +1,8 @@
 \subsection{Entity-Relationship Schema}
-%Describe here your ER schema
-The following ER schema contains 6 entities which are going to be described in details in this section.\\ \\
 
-\includegraphics[scale = 0.55]{sections/DLL/ERSchema.png}\\
+The following ER schema contains six entities which are going to be described in details in this section.\\ \\
+
+\includegraphics[scale = 0.50]{sections/DLL/ERSchema.png}\\
 \newpage
 
 \begin{enumerate}
@@ -18,4 +18,3 @@ The following ER schema contains 6 entities which are going to be described in d
 
     \item \textbf{Event:} Entity Type Event contains ID (INT), Match\_ID (INT), Player\_ID (INT), Type (Enum) and Time (DATETIME). The primary key is ID while Match\_ID is a foreign key constraint to the Match table and Player\_ID is a foreign key constraint to the Player table. Every event belongs to one match and has one Player who made the event. Type of event can be goal, yellow card or red card.
 \end{enumerate}
-\newpage
