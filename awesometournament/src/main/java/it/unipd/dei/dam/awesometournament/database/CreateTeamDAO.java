@@ -6,11 +6,25 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+/**
+ * DAO class for creating a team in the database.
+ */
 public class CreateTeamDAO extends AbstractDAO<Integer>
 {
+    /**
+     * The SQL statement used to create a team from the database.
+     */
     private static final String STATEMENT = "INSERT INTO public.teams (name, logo, creator_user_id, tournament_id) VALUES (?, ?, ?, ?) RETURNING id";
+    /**
+     * A team which should be created in the database.
+     */
     private final Team team;
 
+    /**
+     * Constructs a new CreateTeamDAO object with the specified connection and team.
+     * @param con A connection to the database.
+     * @param team A team which should be created in the database.
+     */
     public CreateTeamDAO(final Connection con, final Team team) {
         super(con);
         this.team = team;

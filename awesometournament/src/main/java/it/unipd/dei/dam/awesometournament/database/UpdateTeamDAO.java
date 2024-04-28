@@ -5,11 +5,25 @@ import it.unipd.dei.dam.awesometournament.resources.entities.Team;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
+/**
+ * DAO class for updating a team in the database.
+ */
 public class UpdateTeamDAO extends AbstractDAO<Integer>  {
 
+    /**
+     * The SQL statement used to update a team from the database.
+     */
     private String STATEMENT;
+    /**
+     * Data for a team update in the database.
+     */
     private final Team team;
 
+    /**
+     * Constructs a new UpdateTeamDAO object with the specified connection and team.
+     * @param con A connection to the database.
+     * @param team Data for a team update in the database.
+     */
     public UpdateTeamDAO(final Connection con, final Team team) {
         super(con);
         this.team = team;

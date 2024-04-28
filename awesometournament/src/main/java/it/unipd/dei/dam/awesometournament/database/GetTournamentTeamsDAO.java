@@ -6,14 +6,24 @@ import java.util.List;
 
 import it.unipd.dei.dam.awesometournament.resources.entities.Team;
 
+/**
+ * DAO class for retrieving all teams belonging to a particular tournament from the database.
+ */
 public class GetTournamentTeamsDAO extends AbstractDAO<List<Team>> {
+
+    /**
+     * The SQL statement used to retrieve all teams belonging to a particular tournament from the database.
+     */
     private static final String STATEMENT = "SELECT * FROM public.\"teams\" WHERE tournament_id = ?";
+    /**
+     * An id of a tournament for which all the teams should be retrieved from the database.
+     */
     private final int tournamentId;
 
     /**
-     * Creates a new DAO object.
-     *
-     * @param con the connection to be used for accessing the database.
+     * Constructs a new GetTournamentTeamsDAO object with the specified connection and tournamentId.
+     * @param con A connection to the database.
+     * @param tournamentId An id of a tournament for which all the teams should be retrieved from the database.
      */
     public GetTournamentTeamsDAO(final Connection con, final int tournamentId) {
         super(con);
