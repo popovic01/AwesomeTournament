@@ -2,6 +2,9 @@ package it.unipd.dei.dam.awesometournament.resources.enums;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * An enum which represents a position of a player.
+ */
 public enum PlayerPosition {
     @JsonProperty("goalkeeper")
     GOALKEEPER,

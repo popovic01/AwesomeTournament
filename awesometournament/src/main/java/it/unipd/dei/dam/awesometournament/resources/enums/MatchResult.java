@@ -3,7 +3,7 @@ package it.unipd.dei.dam.awesometournament.resources.enums;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Represents the result of a match.
+ * An enum which represents a result of a match.
  */
 public enum MatchResult {
     /**
