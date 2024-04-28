@@ -1,5 +1,8 @@
 package it.unipd.dei.dam.awesometournament.utils;
 
+/**
+ * A class which represents response with message and status.
+ */
 public class ResponsePackageNoData {
     private ResponseStatus status;
     private String message;

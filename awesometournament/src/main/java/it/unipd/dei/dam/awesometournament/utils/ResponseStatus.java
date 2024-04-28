@@ -1,5 +1,8 @@
 package it.unipd.dei.dam.awesometournament.utils;
 
+/**
+ * An enum which represents possible response statuses.
+ */
 public enum ResponseStatus {
     OK(200),
     CREATED(201),
