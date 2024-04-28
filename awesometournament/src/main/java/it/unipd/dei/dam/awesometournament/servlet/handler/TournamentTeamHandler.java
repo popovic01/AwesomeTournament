@@ -21,6 +21,9 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
+/**
+ * A handler responsible for handling requests related to teams in a tournament.
+ */
 public class TournamentTeamHandler extends RestMatcherHandler {
 
     protected final static Logger LOGGER = LogManager.getLogger(TournamentTeamHandler.class,
@@ -28,6 +31,13 @@ public class TournamentTeamHandler extends RestMatcherHandler {
     private ResponsePackageNoData response;
     private ObjectMapper om;
 
+    /**
+     * A method responsible for handling requests for retrieving all the team from the database belonging to a tournament with particular id.
+     * @param res
+     * @param tournamentId An id of a tournament for which all the teams should be retrieved from the database.
+     * @throws IOException
+     * @throws SQLException
+     */
     void getTeamsForTournament (HttpServletResponse res, int tournamentId) throws IOException, SQLException {
         LOGGER.info("Received GET request");
         GetTournamentTeamsDAO dao = new GetTournamentTeamsDAO(getConnection(), tournamentId);
@@ -45,6 +55,15 @@ public class TournamentTeamHandler extends RestMatcherHandler {
         res.getWriter().print(om.writeValueAsString(response));
     }
 
+    /**
+     * A method responsible for handling requests for creating a team in the database belonging to a tournament with particular id.
+     * @param req A body of a request which contains data for creating a team.
+     * @param res
+     * @param tournamentId An id of a tournament for which a team should be created in the database.
+     * @param userId An id of a logged-in user.
+     * @throws IOException
+     * @throws SQLException
+     */
     void postTeamForTournament (HttpServletRequest req, HttpServletResponse res,
                                 int tournamentId, int userId)
             throws IOException, SQLException {

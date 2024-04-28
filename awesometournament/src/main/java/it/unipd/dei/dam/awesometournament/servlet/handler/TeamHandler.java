@@ -28,6 +28,9 @@ import org.apache.logging.log4j.message.StringFormatterMessageFactory;
 import java.io.IOException;
 import java.sql.SQLException;
 
+/**
+ * A handler responsible for handling requests related to teams.
+ */
 public class TeamHandler extends RestMatcherHandler {
 
     protected final static Logger LOGGER = LogManager.getLogger(TeamHandler.class,
@@ -35,6 +38,15 @@ public class TeamHandler extends RestMatcherHandler {
     private ResponsePackageNoData response;
     private ObjectMapper om;
 
+    /**
+     * A method responsible for handling requests for retrieving a team from the database with particular id.
+     * @param req
+     * @param res
+     * @param teamId An id of a team which should be retrieved from the database.
+     * @throws ServletException
+     * @throws IOException
+     * @throws SQLException
+     */
     void getTeam (HttpServletRequest req, HttpServletResponse res, int teamId) throws ServletException, IOException, SQLException {
         LOGGER.info("Received GET request");
         om = new ObjectMapper();
@@ -52,6 +64,15 @@ public class TeamHandler extends RestMatcherHandler {
         res.getWriter().print(om.writeValueAsString(response));
     }
 
+    /**
+     * A method responsible for handling requests for updating a team in the database with particular id.
+     * @param req A body of a request which contains data for updating a team.
+     * @param res
+     * @param teamId An id of a team which should be updated in the database.
+     * @throws ServletException
+     * @throws IOException
+     * @throws SQLException
+     */
     void putTeam (HttpServletRequest req, HttpServletResponse res, int teamId) throws ServletException, IOException, SQLException{
         LOGGER.info("Received PUT request");
         String requestBody = BodyTools.getRequestBody(req);
@@ -74,6 +95,15 @@ public class TeamHandler extends RestMatcherHandler {
         res.getWriter().print(om.writeValueAsString(response));
     }
 
+    /**
+     * A method responsible for handling requests for deleting a team in the database with particular id.
+     * @param req
+     * @param res
+     * @param teamId An id of a team which should be deleted from the database.
+     * @throws ServletException
+     * @throws IOException
+     * @throws SQLException
+     */
     void deleteTeam (HttpServletRequest req, HttpServletResponse res, int teamId) throws ServletException, IOException, SQLException{
         LOGGER.info("Received DELETE request");
         DeleteTeamDAO deleteTeamDAO = new DeleteTeamDAO(getConnection(), teamId);
