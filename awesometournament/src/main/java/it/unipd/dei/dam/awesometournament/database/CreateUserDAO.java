@@ -7,12 +7,22 @@ import java.sql.SQLException;
 
 import it.unipd.dei.dam.awesometournament.resources.entities.User;
 
+/**
+ * DAO class for creating a user in the database.
+ */
 public class CreateUserDAO extends AbstractDAO<Integer> {
-
+    /**
+     * The SQL statement used to create a user from the database.
+     */
     private static final String STATEMENT = "INSERT INTO public.\"users\" (email, password) VALUES (?, ?) RETURNING *";
 
     private final User user;
 
+    /**
+     * Constructs a new CreateUserDAO object with the specified connection and user.
+     * @param con A connection to the database.
+     * @param user A user which should be created in the database.
+     */
     public CreateUserDAO(final Connection con, final User user) {
         super(con);
 

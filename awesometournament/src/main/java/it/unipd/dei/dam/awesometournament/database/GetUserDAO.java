@@ -7,11 +7,19 @@ import java.sql.SQLException;
 
 import it.unipd.dei.dam.awesometournament.resources.entities.User;
 
+/**
+ * DAO class for retrieving a user from the database.
+ */
 public class GetUserDAO extends AbstractDAO<User> {
-
+    /**
+     * The SQL statement used to retrieve a user by its email from the database.
+     */
     private static final String BYEMAIL_STATEMENT =
         "SELECT * FROM public.\"users\" WHERE email = ?;";
 
+    /**
+     * The SQL statement used to retrieve a user by its ID from the database.
+     */
     private static final String BYID_STATEMENT =
         "SELECT * FROM public.\"users\" WHERE id = ?;";
 
@@ -30,6 +38,11 @@ public class GetUserDAO extends AbstractDAO<User> {
         this.id = null;
     }
 
+    /**
+     * Constructs a new GetUserDAO object with the specified connection and id.
+     * @param con A connection to the database.
+     * @param id An id of a user which should be retrieved from the database.
+     */
     public GetUserDAO (final Connection con, final Integer id) {
         super(con);
 
@@ -41,7 +54,6 @@ public class GetUserDAO extends AbstractDAO<User> {
         this.id = id;
         this.email = null;
     }
-
 
     @Override
     protected void doAccess() throws Exception {

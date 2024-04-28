@@ -5,15 +5,20 @@ import it.unipd.dei.dam.awesometournament.resources.enums.MatchResult;
 
 import java.sql.*;
 
+/**
+ * DAO class for updating an event in the database.
+ */
 public class UpdateMatchDAO extends AbstractDAO<Integer> {
-
+    /**
+     * The SQL statement used to update a match from the database.
+     */
     private String STATEMENT;
     private final Match match;
 
     /**
-     * Creates a new DAO object.
-     *
-     * @param con the connection to be used for accessing the database.
+     * Constructs a new UpdateMatchDAO object with the specified connection and match.
+     * @param con A connection to the database.
+     * @param match Data for a match update in the database.
      */
     public UpdateMatchDAO(final Connection con, final Match match) {
         super(con);

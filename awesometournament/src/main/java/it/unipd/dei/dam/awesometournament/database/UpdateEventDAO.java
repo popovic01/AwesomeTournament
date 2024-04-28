@@ -8,14 +8,25 @@ import java.sql.Types;
 import it.unipd.dei.dam.awesometournament.resources.entities.Event;
 import it.unipd.dei.dam.awesometournament.resources.enums.EventType;
 
+/**
+ * DAO class for updating an event in the database.
+ */
 public class UpdateEventDAO extends AbstractDAO<Integer> {
 
+    /**
+     * The SQL statement used to update an event from the database.
+     */
     private static final String STATEMENT = "UPDATE public.events " +
             "SET match_id = ?, player_id = ?, type = ?, time = ? " +
             "WHERE id = ?";
 
     private final Event event;
 
+    /**
+     * Constructs a new UpdateEventDAO object with the specified connection and event.
+     * @param con A connection to the database.
+     * @param event Data for an event update in the database.
+     */
     public UpdateEventDAO(final Connection con,final Event event) {
         super(con);
         if (event == null) {

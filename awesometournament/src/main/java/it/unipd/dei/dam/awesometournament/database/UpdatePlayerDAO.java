@@ -8,8 +8,13 @@ import java.sql.Types;
 import it.unipd.dei.dam.awesometournament.resources.entities.Player;
 import it.unipd.dei.dam.awesometournament.resources.enums.PlayerPosition;
 
+/**
+ * DAO class for updating an event in the database.
+ */
 public class UpdatePlayerDAO extends AbstractDAO<Integer> {
-
+    /**
+     * The SQL statement used to update a player from the database.
+     */
     private static final String STATEMENT = "UPDATE public.players " +
                                             "SET name = ?, surname = ?, team_id = ?, position = ?, " +
                                             "medical_certificate = ?, date_of_birth = ? " +
@@ -17,6 +22,11 @@ public class UpdatePlayerDAO extends AbstractDAO<Integer> {
 
     private final Player player;
 
+    /**
+     * Constructs a new UpdatePlayerDAO object with the specified connection and player.
+     * @param con A connection to the database.
+     * @param player Data for a player update in the database.
+     */
     public UpdatePlayerDAO(final Connection con, final Player player) {
         super(con);
         if (player == null) {

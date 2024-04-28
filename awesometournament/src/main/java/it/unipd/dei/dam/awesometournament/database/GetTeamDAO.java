@@ -10,7 +10,6 @@ import it.unipd.dei.dam.awesometournament.resources.entities.Team;
  * DAO class for retrieving a team from the database.
  */
 public class GetTeamDAO extends AbstractDAO<Team> {
-
     /**
      * The SQL statement used to retrieve a team from the database.
      */

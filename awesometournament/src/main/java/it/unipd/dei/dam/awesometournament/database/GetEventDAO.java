@@ -8,13 +8,23 @@ import java.sql.SQLException;
 import it.unipd.dei.dam.awesometournament.resources.entities.Event;
 import it.unipd.dei.dam.awesometournament.resources.enums.EventType;
 
+/**
+ * DAO class for retrieving an event from the database.
+ */
 public class GetEventDAO extends AbstractDAO<Event> {
-
+    /**
+     * The SQL statement used to retrieve an event from the database.
+     */
     private static final String STATEMENT = "SELECT * FROM public.events " +
             "WHERE id = ?";
 
     private final int id;
 
+    /**
+     * Constructs a new GetEventDAO object with the specified connection and id.
+     * @param con A connection to the database.
+     * @param id An id of an event which should be retrieved from the database.
+     */
     public GetEventDAO(final Connection con, final int id) {
         super(con);
         this.id = id;

@@ -8,12 +8,23 @@ import java.sql.Timestamp;
 
 import it.unipd.dei.dam.awesometournament.resources.entities.Tournament;
 
+/**
+ * DAO class for retrieving a tournament by its ID from the database.
+ */
 public class GetTournamentByIdDAO extends AbstractDAO<Tournament> {
-
+    /**
+     * The SQL statement used to retrieve a tournament by its ID.
+     */
     private static final String STATEMENT = "SELECT * FROM public.tournaments where id = ?";
 
     private int id;
 
+    /**
+     * Constructs a new GetTournamentByIdDAO.
+     *
+     * @param con The database connection.
+     * @param id The ID of the tournament to retrieve.
+     */
     public GetTournamentByIdDAO(final Connection con, int id) {
         super(con);
         this.id = id;

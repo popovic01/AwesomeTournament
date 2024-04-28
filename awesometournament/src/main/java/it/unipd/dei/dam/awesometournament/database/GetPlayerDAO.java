@@ -7,13 +7,23 @@ import java.sql.ResultSet;
 import it.unipd.dei.dam.awesometournament.resources.entities.Player;
 import it.unipd.dei.dam.awesometournament.resources.enums.PlayerPosition;
 
+/**
+ * DAO class for retrieving a player from the database.
+ */
 public class GetPlayerDAO extends AbstractDAO<Player> {
-
+    /**
+     * The SQL statement used to retrieve a player from the database.
+     */
     private static final String STATEMENT = "SELECT * FROM public.players " +
                                             "WHERE id = ?";
 
     private final int id;
 
+    /**
+     * Constructs a new GetPlayerDAO object with the specified connection and id.
+     * @param con A connection to the database.
+     * @param id An id of a player which should be retrieved from the database.
+     */
     public GetPlayerDAO(final Connection con, final int id) {
         super(con);
         this.id = id;

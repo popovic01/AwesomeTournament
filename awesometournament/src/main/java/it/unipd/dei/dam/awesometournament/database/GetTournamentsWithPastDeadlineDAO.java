@@ -8,10 +8,20 @@ import java.util.List;
 
 import it.unipd.dei.dam.awesometournament.resources.entities.Match;
 
+/**
+ * DAO class for retrieving tournaments with past deadline from the database.
+ */
 public class GetTournamentsWithPastDeadlineDAO extends AbstractDAO<List<Integer>>{
-
+    /**
+     * The SQL statement used to retrieve tournaments with past deadline.
+     */
     private static final String STATEMENT = "SELECT * FROM public.tournaments WHERE deadline BETWEEN (current_timestamp AT TIME ZONE 'UTC') - interval '24 hours' + interval '1 second' AND (current_timestamp AT TIME ZONE 'UTC')";
 
+    /**
+     * Constructs a new GetTournamentsWithPastDeadlineDAO.
+     *
+     * @param con The database connection.
+     */
     public GetTournamentsWithPastDeadlineDAO(final Connection con) {
         super(con);
     }

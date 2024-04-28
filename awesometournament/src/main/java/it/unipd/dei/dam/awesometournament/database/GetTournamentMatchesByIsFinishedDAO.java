@@ -9,12 +9,24 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * DAO class for retrieving matches of a tournament by their status from the database.
+ */
 public class GetTournamentMatchesByIsFinishedDAO extends AbstractDAO<List<Match>> {
-
+    /**
+     * The SQL statement used to retrieve a tournament by its ID and its status.
+     */
     private static final String STATEMENT = "SELECT * FROM public.\"matches\" WHERE tournament_id = ? AND is_finished = ?";
     private final int tournamentId;
     private final boolean isFinished;
 
+    /**
+     * Constructs a new GetTournamentMatchesByIsFinishedDAO
+     *
+     * @param con The database connection.
+     * @param tournamentId  The ID of the tournament to retrieve.
+     * @param isFinished The status of the tournament to retrieve.
+     */
     public GetTournamentMatchesByIsFinishedDAO(final Connection con, final int tournamentId, boolean isFinished) {
         super(con);
         this.tournamentId = tournamentId;

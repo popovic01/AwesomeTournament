@@ -7,10 +7,21 @@ import java.sql.SQLException;
 
 import it.unipd.dei.dam.awesometournament.resources.entities.Match;
 
+/**
+ * DAO class for creating a match in the database.
+ */
 public class CreateMatchDAO extends AbstractDAO<Integer>{
+    /**
+     * The SQL statement used to create a match from the database.
+     */
     private static final String STATEMENT = "INSERT INTO public.\"matches\" (team1_id, team2_id, tournament_id, team1_score, team2_score, result, referee, match_date, is_finished) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING *";
     private final Match match;
 
+    /**
+     * Constructs a new CreateMatchDAO object with the specified connection and match.
+     * @param con A connection to the database.
+     * @param match A match which should be created in the database.
+     */
     public CreateMatchDAO(final Connection con, final Match match) {
         super(con);
 

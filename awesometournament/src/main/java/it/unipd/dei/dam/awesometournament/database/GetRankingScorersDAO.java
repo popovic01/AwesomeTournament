@@ -5,9 +5,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import it.unipd.dei.dam.awesometournament.utils.RankingScorersEntry;
-
+/**
+ * DAO class for retrieving the ranking of top scorers in a tournament from the database.
+ */
 public class GetRankingScorersDAO extends AbstractDAO<ArrayList<RankingScorersEntry>> {
-
+    /**
+     * The SQL statement used to retrieve a ranking of top scorers from the database.
+     */
     private static final String STATEMENT = "SELECT p.name AS player_name, p.surname AS player_surname, " +
                                             "COUNT(CASE WHEN e.type = 'goal' THEN 1 END) AS goals_scored " +
                                             "FROM public.tournaments t " +
@@ -20,6 +24,11 @@ public class GetRankingScorersDAO extends AbstractDAO<ArrayList<RankingScorersEn
 
     private final int tournamentId;
 
+    /**
+     * Constructs a new GetRankingScorersDAO object with the specified connection and id.
+     * @param con A connection to the database.
+     * @param tournamentId An id of a tournament from which the ranking should be retrieved from the database.
+     */
     public GetRankingScorersDAO(final Connection con, final int tournamentId) {
         super(con);
         this.tournamentId = tournamentId;

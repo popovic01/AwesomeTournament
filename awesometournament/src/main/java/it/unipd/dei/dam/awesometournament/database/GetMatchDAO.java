@@ -7,12 +7,22 @@ import java.sql.ResultSet;
 import it.unipd.dei.dam.awesometournament.resources.entities.Match;
 import it.unipd.dei.dam.awesometournament.resources.enums.MatchResult;
 
+/**
+ * DAO class for retrieving a match from the database.
+ */
 public class GetMatchDAO extends AbstractDAO<Match> {
-
+    /**
+     * The SQL statement used to retrieve a match from the database.
+     */
     private static final String STATEMENT = "SELECT * FROM public.matches WHERE id = ?";
 
     private final int matchId;
 
+    /**
+     * Constructs a new GetMatchDAO object with the specified connection and id.
+     * @param con A connection to the database.
+     * @param matchId An id of a match which should be retrieved from the database.
+     */
     public GetMatchDAO(final Connection con, final int matchId) {
         super(con);
         this.matchId = matchId;

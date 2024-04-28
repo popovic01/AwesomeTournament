@@ -7,7 +7,6 @@ import java.sql.PreparedStatement;
  * DAO class for deleting a new Team in the database.
  */
 public class DeleteTeamDAO extends AbstractDAO<Integer>  {
-
     /**
      * The SQL statement used to delete a team from the database.
      */

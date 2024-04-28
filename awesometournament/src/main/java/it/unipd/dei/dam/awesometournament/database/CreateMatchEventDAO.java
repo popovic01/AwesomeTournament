@@ -8,14 +8,26 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Types;
 
+/**
+ * DAO class for creating an event in the database.
+ */
 public class CreateMatchEventDAO extends AbstractDAO<Integer>{
-
+    /**
+     * The SQL statement for inserting a new event into the database.
+     */
     private static final String STATEMENT = "INSERT INTO public.events " +
             "(match_id, player_id, type, time) " +
             "VALUES (?, ?, ?, ?) RETURNING *";
 
     private final Event event;
 
+    /**
+     * Constructs a CreateMatchEventDAO object with the specified database connection and event.
+     *
+     * @param con The database connection
+     * @param event The event object to be created
+     * @throws NullPointerException If the player object is null
+     */
     public CreateMatchEventDAO(final Connection con, final Event event) {
         super(con);
         if (event == null) {

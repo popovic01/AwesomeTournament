@@ -6,8 +6,13 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import it.unipd.dei.dam.awesometournament.utils.RankingEntry;
 
+/**
+ * DAO class for retrieving the ranking of teams in a tournament from the database.
+ */
 public class GetRankingDAO extends AbstractDAO<ArrayList<RankingEntry>> {
-
+    /**
+     * The SQL statement used to retrieve a ranking from the database.
+     */
     private static final String STATEMENT = "SELECT " +
                                             "t.name AS team_name, " +
                                             "SUM(CASE " +
@@ -30,6 +35,11 @@ public class GetRankingDAO extends AbstractDAO<ArrayList<RankingEntry>> {
                                             "points DESC, matches_played DESC;";
     private final int tournamentId;
 
+    /**
+     * Constructs a new GetRankingDAO object with the specified connection and id.
+     * @param con A connection to the database.
+     * @param tournamentId An id of a tournament from which the ranking should be retrieved from the database.
+     */
     public GetRankingDAO(final Connection con, final int tournamentId) {
         super(con);
         this.tournamentId = tournamentId;

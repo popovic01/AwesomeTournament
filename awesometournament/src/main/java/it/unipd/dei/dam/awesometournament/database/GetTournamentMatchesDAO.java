@@ -9,11 +9,22 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * DAO class for retrieving tournament's matches from the database.
+ */
 public class GetTournamentMatchesDAO extends AbstractDAO<List<Match>> {
-
+    /**
+     * The SQL statement used to retrieve tournament's matches from the database.
+     */
     private static final String STATEMENT = "SELECT * FROM public.\"matches\" WHERE tournament_id = ?";
     private final int tournamentId;
 
+    /**
+     * Constructs a new GetTournamentMatchesDAO.
+     *
+     * @param con The database connection.
+     * @param tournamentId The ID of the tournament to retrieve.
+     */
     public GetTournamentMatchesDAO(final Connection con, final int tournamentId) {
         super(con);
         this.tournamentId = tournamentId;

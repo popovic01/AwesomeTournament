@@ -10,8 +10,13 @@ import java.util.List;
 
 import it.unipd.dei.dam.awesometournament.resources.entities.Tournament;
 
+/**
+ * DAO class for retrieving tournaments from the database.
+ */
 public class GetTournamentsDAO extends AbstractDAO<List<Tournament>> {
-
+    /**
+     * The SQL statement used to retrieve tournaments from the database.
+     */
     private static final String STATEMENT = "SELECT * FROM public.tournaments";
 
     @Override
@@ -47,6 +52,10 @@ public class GetTournamentsDAO extends AbstractDAO<List<Tournament>> {
         this.outputParam = res;
     }
 
+    /**
+     * Constructs a new GetTournamentsDAO object with the specified connection.
+     * @param con A connection to the database.
+     */
     public GetTournamentsDAO(final Connection con) {
         super(con);
     }
