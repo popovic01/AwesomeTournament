@@ -1,5 +1,8 @@
 package it.unipd.dei.dam.awesometournament.resources.entities;
 
+/**
+ * A class which represents a user.
+ */
 public class User {
     private int id;
     private String email;

@@ -7,7 +7,7 @@ import java.io.InputStream;
 import java.sql.Timestamp;
 
 /**
- * Represents a tournament entity with its attributes.
+ * A class which represents a tournament.
  */
 public class Tournament {
 

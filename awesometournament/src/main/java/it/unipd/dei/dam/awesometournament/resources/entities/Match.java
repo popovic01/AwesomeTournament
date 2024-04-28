@@ -7,7 +7,7 @@ import java.sql.Timestamp;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 /**
- * Represents a match between two teams in a tournament.
+ * A class which represents a match between two teams in a tournament.
  */
 public class Match {
     /**

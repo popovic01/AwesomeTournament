@@ -4,6 +4,9 @@ import java.io.InputStream;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * A class which represents a team in a tournament.
+ */
 public class Team {
     
     @JsonProperty("id")

@@ -8,6 +8,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import it.unipd.dei.dam.awesometournament.resources.enums.PlayerPosition;
 
+/**
+ * A class which represents a player in a match.
+ */
 public class Player {
     @JsonProperty("id")
     private int id;

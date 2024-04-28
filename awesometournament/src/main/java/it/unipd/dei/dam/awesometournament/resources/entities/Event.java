@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import it.unipd.dei.dam.awesometournament.resources.enums.EventType;
 
+/**
+ * A class which represents an event of a match.
+ */
 public class Event {
     @JsonProperty("id")
     private int id;
