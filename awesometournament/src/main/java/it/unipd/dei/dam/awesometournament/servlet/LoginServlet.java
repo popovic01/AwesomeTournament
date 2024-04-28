@@ -33,6 +33,7 @@ public class LoginServlet extends AbstractDatabaseServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         LogContext.setIPAddress(req.getRemoteAddr());
+        LogContext.setAction(Actions.GET_LOGIN_PAGE);
 
         if(SessionHelpers.isLogged(req)) {
             resp.sendRedirect("/");
@@ -48,7 +49,7 @@ public class LoginServlet extends AbstractDatabaseServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         LogContext.setIPAddress(req.getRemoteAddr());
-        LogContext.setAction(Actions.GET_PLAYER);
+        LogContext.setAction(Actions.USER_LOGIN);
 
         // extract email and password from the body of the request
 

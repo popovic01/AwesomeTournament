@@ -139,6 +139,9 @@ public class PlayerServlet extends AbstractDatabaseServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        LogContext.setIPAddress(req.getRemoteAddr());
+        LogContext.setAction(Actions.POST_PLAYER);
+
         InputStream inputStream = null; // input stream of the upload file
 
         // obtains the upload file part in this multipart request

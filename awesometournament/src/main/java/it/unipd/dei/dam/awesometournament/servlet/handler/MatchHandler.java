@@ -92,7 +92,7 @@ public class MatchHandler extends RestMatcherHandler{
      */
     private void getMatch(HttpServletRequest req, HttpServletResponse res, int matchId)
             throws SQLException, JsonProcessingException, IOException {
-        LogContext.setAction(Actions.PUT_MATCH);
+        LogContext.setAction(Actions.GET_MATCH);
         LOGGER.info("Received GET request");
         om.setDateFormat(new StdDateFormat());
 

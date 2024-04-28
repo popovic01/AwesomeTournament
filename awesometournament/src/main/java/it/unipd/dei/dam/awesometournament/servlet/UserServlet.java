@@ -25,9 +25,8 @@ public class UserServlet extends AbstractDatabaseServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // Setting context for logging
         LogContext.setIPAddress(req.getRemoteAddr());
-        LogContext.setAction(Actions.GET_PLAYER);
+        LogContext.setAction(Actions.GET_USER);
 
         // Handling URL parsing
         String url = req.getPathInfo();

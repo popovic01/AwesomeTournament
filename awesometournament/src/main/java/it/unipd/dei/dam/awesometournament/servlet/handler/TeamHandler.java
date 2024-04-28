@@ -48,6 +48,7 @@ public class TeamHandler extends RestMatcherHandler {
      * @throws SQLException
      */
     void getTeam (HttpServletRequest req, HttpServletResponse res, int teamId) throws ServletException, IOException, SQLException {
+        LogContext.setAction(Actions.GET_TEAM);
         LOGGER.info("Received GET request");
         om = new ObjectMapper();
 
@@ -74,6 +75,7 @@ public class TeamHandler extends RestMatcherHandler {
      * @throws SQLException
      */
     void putTeam (HttpServletRequest req, HttpServletResponse res, int teamId) throws ServletException, IOException, SQLException{
+        LogContext.setAction(Actions.PUT_TEAM);
         LOGGER.info("Received PUT request");
         String requestBody = BodyTools.getRequestBody(req);
         LOGGER.info(requestBody);
@@ -105,6 +107,7 @@ public class TeamHandler extends RestMatcherHandler {
      * @throws SQLException
      */
     void deleteTeam (HttpServletRequest req, HttpServletResponse res, int teamId) throws ServletException, IOException, SQLException{
+        LogContext.setAction(Actions.DELETE_TEAM);
         LOGGER.info("Received DELETE request");
         DeleteTeamDAO deleteTeamDAO = new DeleteTeamDAO(getConnection(), teamId);
         Integer result = deleteTeamDAO.access().getOutputParam();
@@ -132,15 +135,12 @@ public class TeamHandler extends RestMatcherHandler {
             switch (method) {
                 case GET:
                     getTeam(req, res, teamId);
-                    LogContext.setAction(Actions.GET_TEAM);
                     break;
                 case PUT:
                     putTeam(req, res, teamId);
-                    LogContext.setAction(Actions.PUT_TEAM);
                     break;
                 case DELETE:
                     deleteTeam(req, res, teamId);
-                    LogContext.setAction(Actions.DELETE_TEAM);
                     break;
                 default:
                     return Result.STOP;

@@ -31,6 +31,7 @@ public class SignupServlet extends AbstractDatabaseServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         LogContext.setIPAddress(req.getRemoteAddr());
+        LogContext.setAction(Actions.USER_SIGNUP);
 
         if(SessionHelpers.isLogged(req)) {
             resp.sendRedirect("/");
@@ -43,7 +44,7 @@ public class SignupServlet extends AbstractDatabaseServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         LogContext.setIPAddress(req.getRemoteAddr());
-        LogContext.setAction(Actions.GET_PLAYER);
+        LogContext.setAction(Actions.USER_SIGNUP);
 
         // invalidate any previous session
 

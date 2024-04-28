@@ -39,6 +39,7 @@ public class TournamentTeamHandler extends RestMatcherHandler {
      * @throws SQLException
      */
     void getTournamentTeams(HttpServletResponse res, int tournamentId) throws IOException, SQLException {
+        LogContext.setAction(Actions.GET_TOURNAMENT_TEAMS);
         LOGGER.info("Received GET request");
         GetTournamentTeamsDAO dao = new GetTournamentTeamsDAO(getConnection(), tournamentId);
         List<Team> teams = dao.access().getOutputParam();
@@ -67,6 +68,7 @@ public class TournamentTeamHandler extends RestMatcherHandler {
     void postTournamentTeam (HttpServletRequest req, HttpServletResponse res,
                                 int tournamentId, int userId)
             throws IOException, SQLException {
+        LogContext.setAction(Actions.POST_TOURNAMENT_TEAM);
         LOGGER.info("Received POST request");
         String requestBody = BodyTools.getRequestBody(req);
         LOGGER.info(requestBody);

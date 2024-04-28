@@ -20,6 +20,7 @@ import it.unipd.dei.dam.awesometournament.database.GetTournamentByIdDAO;
 import it.unipd.dei.dam.awesometournament.database.GetTournamentMatchesDAO;
 import it.unipd.dei.dam.awesometournament.database.GetTournamentTeamsDAO;
 import it.unipd.dei.dam.awesometournament.database.UpdateTournamentDAO;
+import it.unipd.dei.dam.awesometournament.resources.Actions;
 import it.unipd.dei.dam.awesometournament.resources.LogContext;
 import it.unipd.dei.dam.awesometournament.resources.entities.Match;
 import it.unipd.dei.dam.awesometournament.resources.entities.Team;
@@ -37,6 +38,7 @@ public class TournamentServlet extends AbstractDatabaseServlet{
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         LogContext.setIPAddress(req.getRemoteAddr());
+        LogContext.setAction(Actions.GET_TOURNAMENT);
 
         String path = req.getPathInfo();
 
@@ -84,6 +86,9 @@ public class TournamentServlet extends AbstractDatabaseServlet{
     
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        LogContext.setIPAddress(req.getRemoteAddr());
+        LogContext.setAction(Actions.POST_TOURNAMENT);
+
         InputStream inputStream = null; // input stream of the upload file
 
         // obtains the upload file part in this multipart request

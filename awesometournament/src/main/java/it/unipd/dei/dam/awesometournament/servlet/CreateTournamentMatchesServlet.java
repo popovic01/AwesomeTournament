@@ -33,7 +33,7 @@ public class CreateTournamentMatchesServlet extends AbstractDatabaseServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         LogContext.setIPAddress(req.getRemoteAddr());
-        LogContext.setAction(Actions.PUT_MATCHES);
+        LogContext.setAction(Actions.POST_MATCHES);
         om = new ObjectMapper();
 
         LOGGER.info("Received POST request");

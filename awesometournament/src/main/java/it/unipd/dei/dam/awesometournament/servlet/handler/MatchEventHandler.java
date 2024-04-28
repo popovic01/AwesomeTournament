@@ -52,7 +52,7 @@ public class MatchEventHandler extends RestMatcherHandler {
      * @throws IOException      If an I/O error occurs.
      * @throws SQLException     If a SQL error occurs.
      */
-    void getEventsFromMatch (HttpServletRequest req, HttpServletResponse res, int matchId) throws ServletException, IOException, SQLException {
+    void getMatchEvents (HttpServletRequest req, HttpServletResponse res, int matchId) throws ServletException, IOException, SQLException {
         LogContext.setAction(Actions.GET_MATCH_EVENT);
         LOGGER.info("Received GET request");
         GetMatchEventsDAO getMatchEventDAO = new GetMatchEventsDAO(getConnection(), matchId);
@@ -158,7 +158,7 @@ public class MatchEventHandler extends RestMatcherHandler {
         try {
             switch (method) {
                 case GET:
-                    getEventsFromMatch(req, res, matchId);
+                    getMatchEvents(req, res, matchId);
                     break;
                 case POST:
                     if (!isUserAuthorized(req, matchId)) {
