@@ -21,17 +21,31 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
+/**
+ * A filter to check if a user is logged in.
+ */
 public class LoggedFilter implements Filter {
+    /**
+     * The logger for this class.
+     */
     protected static final Logger LOGGER = LogManager.getLogger(LoggedFilter.class,
             StringFormatterMessageFactory.INSTANCE);
 
+    /**
+     * The data source for connecting to the database.
+     */
     private DataSource ds;
 
+    /**
+     * Initializes the filter.
+     *
+     * @param filterConfig The filter configuration.
+     * @throws ServletException If an error occurs during initialization.
+     */
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         Filter.super.init(filterConfig);
 
-        // the JNDI lookup context
         InitialContext cxt;
 
         try {
@@ -46,6 +60,15 @@ public class LoggedFilter implements Filter {
         }
     }
 
+    /**
+     * Filters requests to check if the user is logged in.
+     *
+     * @param request  The servlet request.
+     * @param response The servlet response.
+     * @param chain    The filter chain.
+     * @throws IOException      If an I/O error occurs.
+     * @throws ServletException If a servlet error occurs.
+     */
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
@@ -64,12 +87,10 @@ public class LoggedFilter implements Filter {
             return;
         }
 
-        // I set some attributes the next servlet might want to use
         req.setAttribute("session_email", session.getAttribute("email"));
         req.setAttribute("session_id", session.getAttribute("id"));
 
         LOGGER.info("filter passed");
-        // go to the next step
         chain.doFilter(request, response);
     }
 }
