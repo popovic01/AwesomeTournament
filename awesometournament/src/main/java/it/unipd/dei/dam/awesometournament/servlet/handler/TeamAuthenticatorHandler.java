@@ -108,6 +108,8 @@ public class TeamAuthenticatorHandler extends RestMatcherHandler {
                     return Result.STOP;
                 }
             }
+            default:
+                break;
         }
         return Result.STOP;
     }
