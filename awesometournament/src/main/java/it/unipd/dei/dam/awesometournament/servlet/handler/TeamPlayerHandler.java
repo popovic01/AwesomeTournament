@@ -27,13 +27,38 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.message.StringFormatterMessageFactory;
 
+/**
+ * Handles requests related to players within a team.
+ */
 public class TeamPlayerHandler extends RestMatcherHandler {
-    protected final static Logger LOGGER = LogManager.getLogger(TeamPlayerHandler.class,
+
+    /**
+     * Logger for logging messages related to player handling.
+     */
+    protected final static Logger LOGGER = LogManager.getLogger(PlayerHandler.class,
             StringFormatterMessageFactory.INSTANCE);
+
+    /**
+     * Object mapper for JSON serialization/deserialization.
+     */
     ObjectMapper om;
+
+    /**
+     * Response package for sending responses.
+     */
     ResponsePackageNoData response;
 
-    void getTeamPlayers (HttpServletRequest req, HttpServletResponse res, int teamId) throws ServletException, IOException, SQLException{
+    /**
+     * Retrieves the list of players belonging to a specific team.
+     *
+     * @param req The HTTP request object.
+     * @param res The HTTP response object.
+     * @param teamId The ID of the team.
+     * @throws ServletException If there is a servlet-related problem.
+     * @throws IOException If there is an I/O problem.
+     * @throws SQLException If there is an SQL-related problem.
+     */
+    void getPlayersFromTeam (HttpServletRequest req, HttpServletResponse res, int teamId) throws ServletException, IOException, SQLException{
         LogContext.setAction(Actions.GET_TEAM_PLAYER);
         LOGGER.info("Received GET request");
         GetTeamPlayersDAO getTeamPlayerDAO = new GetTeamPlayersDAO(getConnection(), teamId);
@@ -50,6 +75,16 @@ public class TeamPlayerHandler extends RestMatcherHandler {
         }
     }
 
+    /**
+     * Adds a player to a specific team.
+     *
+     * @param req The HTTP request object.
+     * @param res The HTTP response object.
+     * @param teamId The ID of the team.
+     * @throws ServletException If there is a servlet-related problem.
+     * @throws IOException If there is an I/O problem.
+     * @throws SQLException If there is an SQL-related problem.
+     */
     void postPlayer (HttpServletRequest req, HttpServletResponse res, int teamId) throws ServletException, IOException, SQLException{
         LogContext.setAction(Actions.POST_TEAM_PLAYER);
         LOGGER.info("Received POST request");
@@ -74,6 +109,14 @@ public class TeamPlayerHandler extends RestMatcherHandler {
         }
     }
 
+    /**
+     * Checks if the user is logged and authorized to add a player to the team.
+     *
+     * @param req The HTTP request object.
+     * @param teamId The ID of the team.
+     * @return True if the user is authorized, false otherwise.
+     * @throws SQLException If there is an SQL-related problem.
+     */
     private boolean isUserAuthorized(HttpServletRequest req, int teamId) throws SQLException {
         if (!SessionHelpers.isLogged(req))
             return false;
@@ -90,6 +133,16 @@ public class TeamPlayerHandler extends RestMatcherHandler {
         return true;
     }
 
+    /**
+     * Handles incoming HTTP requests for player-related operations within a team.
+     *
+     * @param method The HTTP method of the request.
+     * @param req The HTTP request object.
+     * @param res The HTTP response object.
+     * @param params Additional parameters extracted from the URL.
+     * @throws ServletException If there is a servlet-related problem.
+     * @throws IOException If there is an I/O problem.
+     */
     @Override
     public Result handle(Method method, HttpServletRequest req, HttpServletResponse res,
             String[] params) throws ServletException, IOException {

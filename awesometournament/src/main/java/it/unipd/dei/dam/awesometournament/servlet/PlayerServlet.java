@@ -35,9 +35,21 @@ import jakarta.servlet.http.Part;
 @WebServlet(name = "MedicalCertificateUploadServlet", urlPatterns = {"/uploadMedicalCertificate"})
 @MultipartConfig
 public class PlayerServlet extends AbstractDatabaseServlet {
+
+    /**
+     * Logger for the PlayerServlet class.
+     */
     protected final static Logger LOGGER = LogManager.getLogger(PlayerServlet.class,
             StringFormatterMessageFactory.INSTANCE);
 
+    /**
+     * Checks if the user logged and authorized to perform actions on the specified player.
+     *
+     * @param req The HTTP servlet request.
+     * @param playerId The ID of the player.
+     * @return True if the user is authorized, false otherwise.
+     * @throws SQLException If a database access error occurs.
+     */
     private boolean isUserAuthorized(HttpServletRequest req, int playerId) throws SQLException {
         if (!SessionHelpers.isLogged(req))
             return false;
@@ -56,6 +68,14 @@ public class PlayerServlet extends AbstractDatabaseServlet {
         return true;
     }
 
+    /**
+     * Handles the GET request to retrieve player information.
+     *
+     * @param req  The HTTP servlet request.
+     * @param resp The HTTP servlet response.
+     * @throws ServletException If the servlet encounters difficulty.
+     * @throws IOException If an I/O error occurs.
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         LogContext.setIPAddress(req.getRemoteAddr());
@@ -92,6 +112,14 @@ public class PlayerServlet extends AbstractDatabaseServlet {
 
     }
 
+    /**
+     * Handles the PUT request to update player information.
+     *
+     * @param req  The HTTP servlet request.
+     * @param resp The HTTP servlet response.
+     * @throws ServletException If the servlet encounters difficulty.
+     * @throws IOException If an I/O error occurs.
+     */
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         LogContext.setIPAddress(req.getRemoteAddr());
@@ -137,6 +165,14 @@ public class PlayerServlet extends AbstractDatabaseServlet {
         }
     }
 
+    /**
+     * Handles the POST request to upload a medical certificate for a player.
+     *
+     * @param req  The HTTP servlet request.
+     * @param resp The HTTP servlet response.
+     * @throws ServletException If the servlet encounters difficulty.
+     * @throws IOException If an I/O error occurs.
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         LogContext.setIPAddress(req.getRemoteAddr());
@@ -182,6 +218,14 @@ public class PlayerServlet extends AbstractDatabaseServlet {
 
     }
 
+    /**
+     * Handles the DELETE request to delete a player.
+     *
+     * @param req  The HTTP servlet request.
+     * @param resp The HTTP servlet response.
+     * @throws ServletException If the servlet encounters difficulty.
+     * @throws IOException If an I/O error occurs.
+     */
     @Override
     protected void doDelete (HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         LogContext.setIPAddress(req.getRemoteAddr());

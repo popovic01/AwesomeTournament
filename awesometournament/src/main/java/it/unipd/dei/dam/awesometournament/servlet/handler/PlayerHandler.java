@@ -29,12 +29,37 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.message.StringFormatterMessageFactory;
 
+/**
+ * Handles requests related to players.
+ */
 public class PlayerHandler extends RestMatcherHandler{
+
+    /**
+     * Logger for logging messages related to player handling.
+     */
     protected final static Logger LOGGER = LogManager.getLogger(PlayerHandler.class,
             StringFormatterMessageFactory.INSTANCE);
+
+    /**
+     * Object mapper for JSON serialization/deserialization.
+     */
     ObjectMapper om;
+
+    /**
+     * Response package for sending responses.
+     */
     ResponsePackageNoData response;
 
+    /**
+     * Retrieves information about a specific player.
+     *
+     * @param req The HTTP request object.
+     * @param res The HTTP response object.
+     * @param playerId The ID of the player to retrieve.
+     * @throws ServletException If there is a servlet-related problem.
+     * @throws IOException If there is an I/O problem.
+     * @throws SQLException If there is an SQL-related problem.
+     */
     void getPlayer (HttpServletRequest req, HttpServletResponse res, int playerId) throws ServletException, IOException, SQLException{
         LogContext.setAction(Actions.GET_PLAYER);
         LOGGER.info("Received GET request");
@@ -50,7 +75,17 @@ public class PlayerHandler extends RestMatcherHandler{
             res.getWriter().print(om.writeValueAsString(response));
         }
     }
-    
+
+    /**
+     * Updates information about a specific player.
+     *
+     * @param req The HTTP request object.
+     * @param res The HTTP response object.
+     * @param playerId The ID of the player to update.
+     * @throws ServletException If there is a servlet-related problem.
+     * @throws IOException If there is an I/O problem.
+     * @throws SQLException If there is an SQL-related problem.
+     */
     void putPlayer (HttpServletRequest req, HttpServletResponse res, int playerId) throws ServletException, IOException, SQLException{
         LogContext.setAction(Actions.PUT_PLAYER);
         LOGGER.info("Received PUT request");
@@ -72,6 +107,16 @@ public class PlayerHandler extends RestMatcherHandler{
         }
     }
 
+    /**
+     * Deletes a specific player.
+     *
+     * @param req The HTTP request object.
+     * @param res The HTTP response object.
+     * @param playerId The ID of the player to delete.
+     * @throws ServletException If there is a servlet-related problem.
+     * @throws IOException If there is an I/O problem.
+     * @throws SQLException If there is an SQL-related problem.
+     */
     void deletePlayer (HttpServletRequest req, HttpServletResponse res, int playerId) throws ServletException, IOException, SQLException{
         LogContext.setAction(Actions.DELETE_PLAYER);
         LOGGER.info("Received DELETE request");
@@ -88,6 +133,14 @@ public class PlayerHandler extends RestMatcherHandler{
         }
     }
 
+    /**
+     * Checks if the user is logged and authorized to perform actions on a player.
+     *
+     * @param req The HTTP request object.
+     * @param playerId The ID of the player.
+     * @return True if the user is authorized, false otherwise.
+     * @throws SQLException If there is an SQL-related problem.
+     */
     private boolean isUserAuthorized(HttpServletRequest req, int playerId) throws SQLException {
         if (!SessionHelpers.isLogged(req))
             return false;
@@ -106,6 +159,16 @@ public class PlayerHandler extends RestMatcherHandler{
         return true;
     }
 
+    /**
+     * Handles incoming HTTP requests for player-related operations.
+     *
+     * @param method The HTTP method of the request.
+     * @param req The HTTP request object.
+     * @param res The HTTP response object.
+     * @param params Additional parameters extracted from the URL.
+     * @throws ServletException If there is a servlet-related problem.
+     * @throws IOException If there is an I/O problem.
+     */
     @Override
     public Result handle(Method method, HttpServletRequest req, HttpServletResponse res,
             String[] params) throws ServletException, IOException {
