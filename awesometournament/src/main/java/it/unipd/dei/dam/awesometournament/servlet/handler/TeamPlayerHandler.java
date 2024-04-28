@@ -156,7 +156,7 @@ public class TeamPlayerHandler extends RestMatcherHandler {
             try {
                 switch (method) {
                     case GET:
-                        getTeamPlayers(req, res, teamId);
+                        getPlayersFromTeam(req, res, teamId);
                         break;
                     case POST:
                         if (!isUserAuthorized(req, teamId)) {
