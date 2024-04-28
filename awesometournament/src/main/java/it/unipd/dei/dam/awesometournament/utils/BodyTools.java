@@ -9,7 +9,17 @@ import java.util.Map;
 
 import jakarta.servlet.http.HttpServletRequest;
 
+/**
+ * Provides utility methods for handling HTTP request bodies.
+ */
 public class BodyTools {
+    /**
+     * Parses the POST body from a BufferedReader into a map of form data.
+     *
+     * @param reader The BufferedReader containing the POST body.
+     * @return A map of form data extracted from the POST body.
+     * @throws Exception If an error occurs while parsing the POST body.
+     */
     public static Map<String, String> parsePostBody(BufferedReader reader) throws Exception{
         String line = reader.readLine();
 
@@ -29,7 +39,14 @@ public class BodyTools {
         }
         return formData;
     }
-    
+
+    /**
+     * Reads the request body from an HttpServletRequest.
+     *
+     * @param req The HttpServletRequest containing the request body.
+     * @return The request body as a string.
+     * @throws IOException If an I/O error occurs while reading the request body.
+     */
     public static String getRequestBody(HttpServletRequest req) throws IOException {
         StringBuilder requestBody = new StringBuilder();
         BufferedReader reader = req.getReader();
@@ -39,5 +56,4 @@ public class BodyTools {
         }
         return requestBody.toString();
     }
-    
 }
