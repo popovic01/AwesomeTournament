@@ -9,7 +9,7 @@ import it.unipd.dei.dam.awesometournament.resources.entities.Player;
 import it.unipd.dei.dam.awesometournament.resources.enums.PlayerPosition;
 
 /**
- * DAO class for creating a player in the database.
+ * DAO class for creating a player in a team in the database.
  */
 public class CreateTeamPlayerDAO extends AbstractDAO<Integer> {
     /**
@@ -19,6 +19,9 @@ public class CreateTeamPlayerDAO extends AbstractDAO<Integer> {
                                             "(name, surname, team_id, position, medical_certificate, date_of_birth) " +
                                             "VALUES (?, ?, ?, ?, ?, ?) RETURNING *";
 
+    /**
+     * The player to be created.
+     */
     private final Player player;
 
     /**

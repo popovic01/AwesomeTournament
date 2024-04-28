@@ -18,10 +18,13 @@ public class GetTeamPlayersDAO extends AbstractDAO<ArrayList<Player>> {
     private static final String STATEMENT = "SELECT * FROM public.players " +
                                             "WHERE team_id = ?";
 
+    /**
+     * Id of the team for which we want to retrieve all the players.
+     */
     private final int team_id;
 
     /**
-     * Constructs a new GetTeamPlayersDAO object with the specified connection and id.
+     * Constructs a new GetTeamPlayersDAO object with the specified connection and team id.
      * @param con A connection to the database.
      * @param team_id An id of a team which should be retrieved from the database.
      */

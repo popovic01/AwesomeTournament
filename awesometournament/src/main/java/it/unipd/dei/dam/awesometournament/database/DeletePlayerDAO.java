@@ -13,10 +13,13 @@ public class DeletePlayerDAO extends AbstractDAO<Integer> {
      */
     private static final String STATEMENT = "DELETE FROM public.players " +
                                             "WHERE id = ?";
+    /**
+     * Id of the player to be removed.
+     */
     private final int id;
 
     /**
-     * Constructs a new DeletePlayerDAO object with the specified connection and id.
+     * Constructs a new DeletePlayerDAO object with the specified connection and player id.
      * @param con A connection to the database.
      * @param id An id of a player which should be deleted from the database.
      */

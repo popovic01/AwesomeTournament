@@ -33,10 +33,13 @@ public class GetRankingDAO extends AbstractDAO<ArrayList<RankingEntry>> {
                                             "t.id, t.name " +
                                         "ORDER BY " +
                                             "points DESC, matches_played DESC;";
+    /**
+     * Id of the tournament for which we want to retrieve the ranking.
+     */
     private final int tournamentId;
 
     /**
-     * Constructs a new GetRankingDAO object with the specified connection and id.
+     * Constructs a new GetRankingDAO object with the specified connection and tournament id.
      * @param con A connection to the database.
      * @param tournamentId An id of a tournament from which the ranking should be retrieved from the database.
      */

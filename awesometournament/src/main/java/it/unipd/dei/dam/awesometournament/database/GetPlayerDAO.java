@@ -17,10 +17,13 @@ public class GetPlayerDAO extends AbstractDAO<Player> {
     private static final String STATEMENT = "SELECT * FROM public.players " +
                                             "WHERE id = ?";
 
+    /**
+     * Id of the player to be retrieved.
+     */
     private final int id;
 
     /**
-     * Constructs a new GetPlayerDAO object with the specified connection and id.
+     * Constructs a new GetPlayerDAO object with the specified connection and player id.
      * @param con A connection to the database.
      * @param id An id of a player which should be retrieved from the database.
      */

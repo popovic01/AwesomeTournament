@@ -9,7 +9,7 @@ import it.unipd.dei.dam.awesometournament.resources.entities.Player;
 import it.unipd.dei.dam.awesometournament.resources.enums.PlayerPosition;
 
 /**
- * DAO class for updating an event in the database.
+ * DAO class for updating a player in the database.
  */
 public class UpdatePlayerDAO extends AbstractDAO<Integer> {
     /**
@@ -20,6 +20,9 @@ public class UpdatePlayerDAO extends AbstractDAO<Integer> {
                                             "medical_certificate = ?, date_of_birth = ? " +
                                             "WHERE id = ?";
 
+    /**
+     * The player to be updated.
+     */
     private final Player player;
 
     /**
