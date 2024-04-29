@@ -1,34 +1,58 @@
 \section{Main Functionalities}
 
-\noindent Every user, even if not registered or logged into the website, can view past and present tournaments along with their related match schedules, team standings,
-and other statistics. Once the user is registered or logged into the website, he gains the ability to create a new  tournament and edit an existing one that he created previously (editing is possible until the deadline of the tournament is met). The tournament admin also has the option to delete it if needed. \\
+\noindent Our system accommodates three distinct user types:
+\begin{itemize}
+    \item Guest: a non-logged-in user.
+    \item Team Administrator: a registered user responsible for managing his own teams.
+    \item Tournament Administrator: a registered user responsible for managing his own tournaments.
+    Additionally, tournament administrators can manage the teams enrolled in their tournaments.
+\end{itemize}
+A registered user may hold ownership of both tournaments and teams.
+Every of those users can view past and present tournaments along with their related match schedules,
+team standings, and other statistics.\\
 
 \noindent More in-depth, the main functionalities are the following:
 \begin{itemize}
     \item \textbf{Creation of a new tournament:}
-        This functionality offers an opportunity to the logged in users to create a football tournament. On the main page of the web app, it is possible to create an account which is required for the tournament creation. On the other hand, if the user already has an account he can proceed with the login step. After successfully completing the sign up or sign in process, there are other steps which should be taken such as providing basic data about the tournament (name, logo, deadline for the team creation, number of starting players, maximum number of players, maximum number of teams, etc.). Upon providing all essential data, the tournament is created and saved into the database. 
+        This functionality offers the opportunity to each logged in users to create a football tournament
+        (and become its administrator).
+        On the main page of the web app, it is possible to create an account which is required for the
+        tournament creation. On the other hand, if the user already has an account he can proceed with the
+        login step. After successfully completing the sign up or sign in process, there are other steps which
+        should be taken such as providing basic data about the tournament (name, logo, deadline for the team
+        creation, number of starting players, maximum number of players, maximum number of teams, etc.).
+        Upon providing all essential data, the tournament is created and saved into the database. 
         
         \item \textbf{Edit/deletion of a tournament:}
-        This feature enables a tournament creator to edit data of the tournament or delete it.
+        This feature enables a tournament administrator to edit data of the tournament or delete it.
         
     \item \textbf{Creation/edit/deletion of a team for the tournament:}
-        Once the user is logged in, he can select the tournament of his interest in order to enroll his team by providing all data needed, such as a team name, logo, and players. Only the creator of the team and the admin of the tournament are allowed to edit the team data or delete the team.
+        Once the user is logged in, he can select the tournament of his interest in order to enroll
+        his team by providing all data needed, such as a team name, logo, and players. Only the tournament and
+        team administrator are allowed to edit the team data or delete the team.
         
     \item \textbf{Addition/edit/deletion of players:}
-        Only the team creator and the tournament admin are allowed to add, edit, or delete players to/from the team.
+        Only the tournament and team administrator are allowed to add, edit, or delete players to/from
+        the team.
 
     \item \textbf{Creation of the draw:}
-        Tournament admins have the ability to make a draw for the tournament. There are two options for making a draw: 
+        Tournament administrators have the ability to make a draw for the tournament. There are two options
+        for making a draw: 
         \begin{enumerate}
-            \item After the deadline for the teams creation is met, a job is automatically started for creating a draw for the tournament, which is going to be visible on the page.
-            \item If the admin of the tournament deems the tournament is ready to start, he can manually create the matches.
+            \item After the deadline for the teams creation is met, a job is automatically started for
+            creating a draw for the tournament, which is going to be visible on the page.
+            \item If the admin of the tournament deems the tournament is ready to start, he can manually
+            create the matches.
         \end{enumerate}
         
     \item \textbf{Updating the info of a tournament's matches:}
-        Only the admin of the tournament is able to insert the result of a match that has been played, along with the main events like the scorers and the sanctions (yellow/red cards).
+        Only the tournament administrator is able to insert the result of a match that has been played,
+        along with the main events like the scorers and the sanctions (yellow/red cards).
         
     \item \textbf{Following the tournament's matches:}
-        Another feature of the app is displaying results of a tournament matches and current statistics like team standings and top scorers' ranking. That feature is available for every active and past tournament, after choosing the particular tournament from the app's main page (the user don't have to be logged in).
+        Another feature of the app is displaying results of a tournament matches and current statistics
+        like team standings and top scorers' ranking. That feature is available for every active and past
+        tournament, after choosing the particular tournament from the app's main page.
 
 \end{itemize}
 \newpage
