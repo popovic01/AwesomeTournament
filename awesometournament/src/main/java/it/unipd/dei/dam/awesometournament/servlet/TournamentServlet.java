@@ -74,7 +74,7 @@ public class TournamentServlet extends AbstractDatabaseServlet{
                 req.setAttribute("matches", matches);
                 req.setAttribute("teams", teams);
 
-                req.getRequestDispatcher("/tournament.jsp").forward(req, resp);
+                req.getRequestDispatcher("/jsp/tournament.jsp").forward(req, resp);
             } catch (SQLException e) {
                 LOGGER.info(e.getMessage());
                 resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

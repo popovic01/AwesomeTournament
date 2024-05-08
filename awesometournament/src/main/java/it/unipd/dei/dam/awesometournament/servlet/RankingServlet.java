@@ -47,7 +47,7 @@ public class RankingServlet extends AbstractDatabaseServlet {
                     if (ranking.size() != 0) {
                         req.setAttribute("ranking", ranking);
                         req.setAttribute("tournament_id", tournamentId);
-                        req.getRequestDispatcher("/ranking.jsp").forward(req, resp);
+                        req.getRequestDispatcher("/jsp/ranking.jsp").forward(req, resp);
                     } else {
                         resp.sendError(HttpServletResponse.SC_NOT_FOUND, "No ranking in tournament " + tournamentId);
                     }

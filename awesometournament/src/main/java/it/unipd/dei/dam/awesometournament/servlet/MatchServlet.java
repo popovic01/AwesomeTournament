@@ -60,7 +60,7 @@ public class MatchServlet extends AbstractDatabaseServlet{
                     }
                 }
 
-                req.getRequestDispatcher("/match.jsp").forward(req, resp);
+                req.getRequestDispatcher("/jsp/match.jsp").forward(req, resp);
             } catch (SQLException e) {
                 LOGGER.info(e.getMessage());
                 resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

@@ -33,7 +33,7 @@ public class HomeServlet extends AbstractDatabaseServlet{
             dao.access();
             List<Tournament> tournaments = dao.getOutputParam();
             req.setAttribute("tournaments", tournaments);
-            req.getRequestDispatcher("/home.jsp").forward(req, resp);
+            req.getRequestDispatcher("/jsp/home.jsp").forward(req, resp);
         } catch (SQLException e) {
             resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }

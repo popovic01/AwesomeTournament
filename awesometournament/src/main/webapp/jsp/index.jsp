@@ -3,6 +3,10 @@
 
 <html>
 <body>
+
+<!-- header -->
+<c:import url="/jsp/common/header.jsp"/>
+
 <h1>Awesome Tournament</h1>
 <ul>
     <c:if test="${logged}">
@@ -25,5 +29,9 @@
         </li>
     </c:if>
 </ul>
+
+<!-- footer -->
+<c:import url="/jsp/common/footer.jsp"/>
+
 </body>
 </html>

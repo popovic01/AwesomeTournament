@@ -31,6 +31,6 @@ public class IndexServlet extends AbstractDatabaseServlet {
         }
 
         req.setAttribute("logged", logged);
-        req.getRequestDispatcher("/index.jsp").forward(req, resp);;
+        req.getRequestDispatcher("/jsp/index.jsp").forward(req, resp);;
     }
 }

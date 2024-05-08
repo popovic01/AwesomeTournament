@@ -80,7 +80,7 @@ public class TeamServlet extends AbstractDatabaseServlet{
                 LOGGER.info("found players: "+players.size());
                 req.setAttribute("players", players);
 
-                req.getRequestDispatcher("/team.jsp").forward(req, resp);
+                req.getRequestDispatcher("/jsp/team.jsp").forward(req, resp);
             } catch (SQLException e) {
                 LOGGER.info(e.getMessage());
                 resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

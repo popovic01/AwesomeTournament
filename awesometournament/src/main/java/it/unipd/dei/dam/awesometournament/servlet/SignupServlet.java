@@ -38,7 +38,7 @@ public class SignupServlet extends AbstractDatabaseServlet {
             return;
         }
 
-        req.getRequestDispatcher("/signup.jsp").forward(req, resp);
+        req.getRequestDispatcher("/jsp/signup.jsp").forward(req, resp);
     }
 
     @Override

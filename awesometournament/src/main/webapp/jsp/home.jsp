@@ -4,9 +4,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AwesomeTournaments - Home</title>
+
+    <c:import url="/jsp/common/head.jsp"/>
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -52,6 +53,10 @@
     </style>
 </head>
 <body>
+
+    <!-- header -->
+    <c:import url="/jsp/common/header.jsp"/>
+
     <div class="container">
         <h1>AwesomeTournaments</h1>
         <ul>
@@ -74,5 +79,9 @@
             </c:forEach>
         </ul>
     </div>
+
+    <!-- footer -->
+    <c:import url="/jsp/common/footer.jsp"/>
+
 </body>
 </html>

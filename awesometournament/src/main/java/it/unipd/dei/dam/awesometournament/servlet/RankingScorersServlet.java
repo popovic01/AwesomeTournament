@@ -59,7 +59,7 @@ public class RankingScorersServlet extends AbstractDatabaseServlet{
                     if (!ranking.isEmpty()) {
                         req.setAttribute("ranking", ranking);
                         req.setAttribute("tournament_id", tournamentId);
-                        req.getRequestDispatcher("/ranking_scorers.jsp").forward(req, resp);
+                        req.getRequestDispatcher("/jsp/ranking_scorers.jsp").forward(req, resp);
                     }
                     else resp.sendError(HttpServletResponse.SC_NOT_FOUND, "No ranking in tournament " + tournamentId);
                 } catch (NumberFormatException e) {

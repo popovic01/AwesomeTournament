@@ -96,7 +96,7 @@ public class PlayerServlet extends AbstractDatabaseServlet {
                     Player player = (Player) getPlayerDAO.access().getOutputParam();
                     if (player != null) {
                         req.setAttribute("player", player);
-                        req.getRequestDispatcher("/player.jsp").forward(req, resp);
+                        req.getRequestDispatcher("/jsp/player.jsp").forward(req, resp);
                     } else {
                         resp.sendError(HttpServletResponse.SC_NOT_FOUND, "The player doesn't exist");
                     }

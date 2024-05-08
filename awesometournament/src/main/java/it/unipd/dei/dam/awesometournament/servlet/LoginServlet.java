@@ -40,7 +40,7 @@ public class LoginServlet extends AbstractDatabaseServlet {
             return;
         }
 
-        req.getRequestDispatcher("/login.jsp").forward(req, resp);
+        req.getRequestDispatcher("/jsp/login.jsp").forward(req, resp);
     }
 
     /**
