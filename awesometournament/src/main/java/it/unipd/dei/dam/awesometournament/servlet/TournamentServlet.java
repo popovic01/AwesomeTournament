@@ -28,7 +28,7 @@ import it.unipd.dei.dam.awesometournament.resources.entities.Tournament;
 import it.unipd.dei.dam.awesometournament.utils.SessionHelpers;
 
 /**
- * Servlet implementation for handling tournament-related operations.
+ * Servlet implementation for handling tournament-related operations
  */
 @WebServlet(name = "LogoUploadServlet", urlPatterns = {"/uploadLogo"})
 @MultipartConfig

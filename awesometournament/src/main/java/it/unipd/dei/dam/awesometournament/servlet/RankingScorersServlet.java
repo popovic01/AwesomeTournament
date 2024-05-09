@@ -19,13 +19,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation for the Ranking of the scorers.
- * This servlet generates a ranking for the number of goals in a tournament.
+ * Servlet implementation for the ranking of the scorers
  */
 public class RankingScorersServlet extends AbstractDatabaseServlet{
 
     /**
-     * Logger for logging servlet activities.
+     * Logger for logging servlet activities
      */
     protected final static Logger LOGGER = LogManager.getLogger(RankingScorersServlet.class,
             StringFormatterMessageFactory.INSTANCE);
@@ -36,10 +35,10 @@ public class RankingScorersServlet extends AbstractDatabaseServlet{
      * Retrieves the ranking of scorers for a specific tournament and forwards the request
      * to the "ranking_scorers.jsp" page for display.
      *
-     * @param req  the HttpServletRequest object containing the request parameters and attributes
-     * @param resp the HttpServletResponse object for sending the response
-     * @throws ServletException if an exception occurs during servlet processing
-     * @throws IOException      if an I/O error occurs
+     * @param req               The HttpServletRequest object containing the request parameters and attributes
+     * @param resp              The HttpServletResponse object for sending the response
+     * @throws ServletException If an exception occurs during servlet processing
+     * @throws IOException      If an I/O error occurs
      */
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         LogContext.setIPAddress(req.getRemoteAddr());

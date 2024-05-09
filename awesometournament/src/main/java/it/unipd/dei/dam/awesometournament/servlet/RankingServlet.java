@@ -19,8 +19,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation for the Ranking.
- * This servlets generates a ranking for the tournament.
+ * Servlet implementation for the ranking
  */
 public class RankingServlet extends AbstractDatabaseServlet {
     protected final static Logger LOGGER = LogManager.getLogger(PlayerServlet.class,

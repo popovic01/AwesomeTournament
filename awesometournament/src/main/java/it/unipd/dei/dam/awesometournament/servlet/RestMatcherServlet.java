@@ -18,7 +18,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
- * Servlet responsible for routing HTTP requests to appropriate handlers based on the URL pattern.
+ * Servlet responsible for routing HTTP requests to appropriate handlers based on the URL pattern
  */
 public class RestMatcherServlet extends AbstractDatabaseServlet {
 
@@ -26,14 +26,14 @@ public class RestMatcherServlet extends AbstractDatabaseServlet {
     ResponsePackageNoData response;
 
     /**
-     * Enumeration defining HTTP methods.
+     * Enumeration defining HTTP methods
      */
     public enum Method {
         GET, POST, DELETE, PUT
     }
 
     /**
-     * Enumeration defining possible results of URL matching.
+     * Enumeration defining possible results of URL matching
      */
 
     public enum Result {
@@ -42,11 +42,10 @@ public class RestMatcherServlet extends AbstractDatabaseServlet {
 
     /**
      * Represents an entry in the routing table.
-     * 
      * An entry has to be partial if the matching of entries should
-     * continue after this one.
+     * continue after this one
      */
-    private class Entry {
+    private static class Entry {
         public Pattern pattern;
         public RestMatcherHandler handler;
         public boolean partialMatch;
@@ -54,9 +53,9 @@ public class RestMatcherServlet extends AbstractDatabaseServlet {
         /**
          * Constructs an Entry object.
          *
-         * @param pattern       The URL pattern to match against.
-         * @param partialMatch  Indicates whether the pattern is a partial match.
-         * @param handler       The handler to execute if the pattern matches.
+         * @param pattern       The URL pattern to match against
+         * @param partialMatch  Indicates whether the pattern is a partial match
+         * @param handler       The handler to execute if the pattern matches
          */
         public Entry(String pattern, boolean partialMatch, RestMatcherHandler handler) {
             this.partialMatch = partialMatch;
@@ -69,9 +68,9 @@ public class RestMatcherServlet extends AbstractDatabaseServlet {
     }
 
     /**
-     * Represents a matched entry along with its parameters.
+     * Represents a matched entry along with its parameters
      */
-    private class EntryPair {
+    private static class EntryPair {
         public Entry entry;
         public String[] params;
 
@@ -84,11 +83,11 @@ public class RestMatcherServlet extends AbstractDatabaseServlet {
     /**
      * Executes the appropriate handler for the given HTTP method and URL path.
      *
-     * @param method    The HTTP method of the request.
-     * @param path      The URL path of the request.
-     * @param req       The HTTP servlet request object.
-     * @param res       The HTTP servlet response object.
-     * @throws Exception If an error occurs during execution.
+     * @param method     The HTTP method of the request
+     * @param path       The URL path of the request
+     * @param req        The HTTP servlet request object
+     * @param res        The HTTP servlet response object
+     * @throws Exception If an error occurs during execution
      */
     private void execute(Method method, String path, HttpServletRequest req, HttpServletResponse res) throws Exception {
         LOGGER.info("Rest handler path = "+path);
@@ -142,8 +141,8 @@ public class RestMatcherServlet extends AbstractDatabaseServlet {
     /**
      * Creates an instance of a handler class using reflection.
      *
-     * @param clazz The class of the handler.
-     * @return The instantiated handler object.
+     * @param clazz The class of the handler
+     * @return      The instantiated handler object
      */
     private RestMatcherHandler factoryHandler(Class<? extends RestMatcherHandler> clazz) {
         try {
@@ -186,12 +185,11 @@ public class RestMatcherServlet extends AbstractDatabaseServlet {
     /**
      * Extracts the subpath from the request URL.
      *
-     * @param req The HTTP servlet request object.
-     * @return The subpath extracted from the request URL.
+     * @param req The HTTP servlet request object
+     * @return    The subpath extracted from the request URL
      */
     private String getSubpath(HttpServletRequest req) {
-        String url = req.getPathInfo();
-        return url;
+        return req.getPathInfo();
     }
 
     @Override

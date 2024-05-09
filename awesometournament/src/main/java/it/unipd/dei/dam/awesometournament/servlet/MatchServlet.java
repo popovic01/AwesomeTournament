@@ -20,7 +20,7 @@ import it.unipd.dei.dam.awesometournament.resources.entities.Tournament;
 import it.unipd.dei.dam.awesometournament.utils.SessionHelpers;
 
 /**
- * Servlet responsible for handling requests related to matches.
+ * Servlet responsible for handling requests related to matches
  */
 public class MatchServlet extends AbstractDatabaseServlet{
     protected final static Logger LOGGER = LogManager.getLogger(MatchServlet.class,

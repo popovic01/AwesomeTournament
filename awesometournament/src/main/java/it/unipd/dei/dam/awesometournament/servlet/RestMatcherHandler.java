@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 /*
- * Interface that represents an handler of a particular path
+ * Interface that represents a handler of a particular path
  */
 public abstract class RestMatcherHandler {
     /**
@@ -22,7 +22,7 @@ public abstract class RestMatcherHandler {
     private DataSource dataSource = null;
 
     /**
-     * Sets the DataSource for the object
+     * Sets the DataSource for the object.
      * 
      * @param dataSource dataSource
      */
@@ -31,25 +31,22 @@ public abstract class RestMatcherHandler {
     }
 
     /**
-     * Initializes a Connection object form the DataSource
+     * Initializes a Connection object form the DataSource.
      * 
-     * @return an initialized Connection object
-     * @throws SQLException
+     * @return              An initialized Connection object
+     * @throws SQLException If a database access error occurs
      */
     protected Connection getConnection() throws SQLException {
         return this.dataSource.getConnection();
     }
 
     /**
-     * Abstract method that is called when this path is matched
+     * Abstract method that is called when this path is matched.
      * 
-     * @param method the Method the route was called with
-     * @param req Servlet HttpServletRequest object
-     * @param res Servlet HttpServletResponse object
+     * @param method The Method the route was called with
+     * @param req    Servlet HttpServletRequest object
+     * @param res    Servlet HttpServletResponse object
      * @param params Array containing the parameters (*)s of the path
-     * @return
-     * @throws ServletException
-     * @throws IOException
      */
     public abstract Result handle(Method method, HttpServletRequest req, HttpServletResponse res,
             String[] params) throws ServletException, IOException;

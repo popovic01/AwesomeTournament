@@ -21,7 +21,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation for creating matches for a tournament.
+ * Servlet implementation for creating matches for a tournament
  */
 public class CreateTournamentMatchesServlet extends AbstractDatabaseServlet {
 

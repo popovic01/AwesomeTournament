@@ -27,7 +27,7 @@ import it.unipd.dei.dam.awesometournament.resources.entities.Player;
 import it.unipd.dei.dam.awesometournament.utils.SessionHelpers;
 
 /**
- * Servlet responsible for handling requests related to teams.
+ * Servlet responsible for handling requests related to teams
  */
 @WebServlet(name = "FileUploadServlet", urlPatterns = {"/upload"})
 @MultipartConfig

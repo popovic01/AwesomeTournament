@@ -17,7 +17,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation for handling user-related operations.
+ * Servlet implementation for handling user-related operations
  */
 public class UserServlet extends AbstractDatabaseServlet {
     protected final static Logger LOGGER = LogManager.getLogger(UserServlet.class,

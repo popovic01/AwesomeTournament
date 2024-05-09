@@ -19,7 +19,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
- * Servlet responsible for handling requests related to events.
+ * Servlet responsible for handling requests related to events
  */
 public class EventServlet extends AbstractDatabaseServlet {
     protected final static Logger LOGGER = LogManager.getLogger(EventServlet.class,
@@ -27,7 +27,7 @@ public class EventServlet extends AbstractDatabaseServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        LogContext.setIPAddress(req.getRemoteAddr()); //Imposta l'indirizzo IP e l'azione nel contesto di log.
+        LogContext.setIPAddress(req.getRemoteAddr()); //Sets the IP and the action
         LogContext.setAction(Actions.GET_EVENT);
 
         String url = req.getPathInfo(); //URL
@@ -37,13 +37,13 @@ public class EventServlet extends AbstractDatabaseServlet {
                 resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid URL format");
             } else {
                 try {
-                    int eventId = Integer.parseInt(urlParts[1]); //Tenta di ottenere l'ID dell'evento dall'URL, connettersi al database e ottenere l'evento tramite il DAO.
+                    int eventId = Integer.parseInt(urlParts[1]); //Tries to obtain the event ID from the URL and then to connect to the DB
                     Connection connection = getConnection();
                     GetEventDAO getEventDAO = new GetEventDAO(connection, eventId);
                     Event event = (Event) getEventDAO.access().getOutputParam();
                     if (event != null) {
-                        req.setAttribute("event", event); // Passa l'oggetto evento alla JSP
-                        req.getRequestDispatcher("/jsp/event.jsp").forward(req, resp); // Inoltra la richiesta alla JSP
+                        req.setAttribute("event", event); //Passes the object to JSP
+                        req.getRequestDispatcher("/jsp/event.jsp").forward(req, resp); //Forwards the request to the JSP
                     } else {
                         resp.sendError(HttpServletResponse.SC_NOT_FOUND, "The event doesn't exist");
                     }
@@ -70,8 +70,8 @@ public class EventServlet extends AbstractDatabaseServlet {
                 resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid URL format");
             } else {
                 try {
-                    int eventId = Integer.parseInt(urlParts[1]); //Tenta di ottenere l'ID dell'evento dall'URL, deserializzare l'evento aggiornato dalla richiesta,
-                    ObjectMapper objectMapper = new ObjectMapper(); // connettersi al database e aggiornare l'evento tramite il DAO.
+                    int eventId = Integer.parseInt(urlParts[1]);
+                    ObjectMapper objectMapper = new ObjectMapper();
                     Event updatedEvent = objectMapper.readValue(req.getReader(), Event.class);
                     updatedEvent.setId(eventId);
                     Connection connection = getConnection();

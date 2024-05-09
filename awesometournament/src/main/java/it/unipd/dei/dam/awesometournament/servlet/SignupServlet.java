@@ -22,7 +22,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 /**
- * Servlet implementation for user registration (signup) functionality.
+ * Servlet implementation for user registration (signup) functionality
  */
 public class SignupServlet extends AbstractDatabaseServlet {
     protected final static Logger LOGGER = LogManager.getLogger(SignupServlet.class,
@@ -89,7 +89,7 @@ public class SignupServlet extends AbstractDatabaseServlet {
         }
 
         try {
-            // try to create an user in the database
+            // try to create a user in the database
             String hashedPassword = Hashing.hashPassword(password);
             User user = new User(-1, email, hashedPassword);
             CreateUserDAO dao = new CreateUserDAO(getConnection(), user);

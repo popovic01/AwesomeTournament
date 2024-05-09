@@ -17,7 +17,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation for handling requests to the home page.
+ * Servlet implementation for handling requests to the home page
  */
 public class HomeServlet extends AbstractDatabaseServlet{
     protected final static Logger LOGGER = LogManager.getLogger(HomeServlet.class,
