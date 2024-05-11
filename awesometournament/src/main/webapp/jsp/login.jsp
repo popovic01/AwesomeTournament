@@ -47,13 +47,13 @@
 </head>
 <body>
 <div class="login-form">
-    <form action="login.jsp" method="post">
+    <form action="<c:url value="/auth/login" />" method="post">
         <h2 style="text-align: center">LOGIN</h2>
         <input type="email" name="email" placeholder="Email"><br/>
         <input type="password" name="password" placeholder="Password"><br/>
         <input type="submit" value="Login">
     </form>
-    <p class="signup-text">Don't have an account? <a href="signup.jsp">Sign up</a></p>
+    <p class="signup-text">Don't have an account? <a href="/auth/signup">Sign up</a></p>
 </div>
 </body>
 </html>
