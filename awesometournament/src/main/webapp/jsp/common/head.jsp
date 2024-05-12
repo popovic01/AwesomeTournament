@@ -20,6 +20,11 @@
         background-color: #f4f4f4;
     }
 
+    p {
+        font-family: Arial, sans-serif;
+        margin: 0
+    }
+
     .btn-normal {
         background-color: #c5c8cb;
         color: #292929;
@@ -32,5 +37,9 @@
         background: none;
         text-decoration: underline;
         color: #2c73dd;
+    }
+
+    .fa:hover {
+        cursor: pointer;
     }
 </style>

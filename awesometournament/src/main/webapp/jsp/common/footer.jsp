@@ -6,9 +6,9 @@
         display: flex;
         flex-direction: row;
         justify-content: space-around;
-        height: 6rem;
+        height: 3rem;
         align-items: center;
-        position: absolute;
+        position: fixed;
         bottom: 0;
         left: 0;
         right: 0;
@@ -23,6 +23,7 @@
     }
     p {
         color: #e3e0e0;
+        margin: 0;
     }
 </style>
 <footer class="footer-wrapper">
@@ -37,7 +38,7 @@
         <p>&copy; 2024 Awesome Tournament. All rights reserved.</p>
     </div>
     <div class="img-wrapper">
-        <a href="http://www.dei.unipd.it/" target="_blank">
+        <a>
             <img src="<c:url value="/media/tournament_logo.png"/>"
                  alt="logo of Awesome Tournament">
         </a>

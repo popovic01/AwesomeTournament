@@ -26,10 +26,6 @@
                 gap: 1rem;
             }
 
-            .fa:hover {
-                cursor: pointer;
-            }
-
         </style>
     </head>
 
