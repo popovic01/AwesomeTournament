@@ -26,4 +26,11 @@
         padding: 0.6rem;
         border-radius: 0.6rem;
     }
+
+    .hyperlink {
+        border: none;
+        background: none;
+        text-decoration: underline;
+        color: #2c73dd;
+    }
 </style>
