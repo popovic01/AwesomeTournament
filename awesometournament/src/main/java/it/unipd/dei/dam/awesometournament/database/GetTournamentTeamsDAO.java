@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.unipd.dei.dam.awesometournament.resources.entities.Team;
+import it.unipd.dei.dam.awesometournament.utils.ImageConverter;
 
 /**
  * DAO class for retrieving all teams belonging to a particular tournament from the database.
@@ -55,7 +56,9 @@ public class GetTournamentTeamsDAO extends AbstractDAO<List<Team>> {
             }
 
             teams.forEach(team -> {
-                team.setBase64Logo(team.getLogoAsBase64());
+                if (team.getLogo() != null) {
+                    team.setBase64Logo(ImageConverter.convertInputStreamToBase64(team.getLogo()));
+                }
             });
         } finally {
             if (rs != null)

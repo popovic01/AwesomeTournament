@@ -90,6 +90,12 @@ public class Tournament {
     private InputStream logo;
 
     /**
+     * The base64 representation of the tournament logo.
+     */
+    @JsonProperty("base64-logo")
+    private String base64Logo;
+
+    /**
      * Indicates whether the tournament has finished.
      */
     @JsonProperty("isFinished")
@@ -135,6 +141,25 @@ public class Tournament {
         this.startDate = startDate;
         this.creationDate = creationDate;
         this.logo = logo;
+        this.isFinished = isFinished;
+    }
+
+    public Tournament(int id, String name, String token, int creatorUserId, int maxTeams, int maxPlayers,
+                      int minPlayers, int startingPlayers, int maxSubstitutions, Timestamp deadline,
+                      Timestamp startDate, Timestamp creationDate, String logo, boolean isFinished) {
+        this.id = id;
+        this.name = name;
+        this.token = token;
+        this.creatorUserId = creatorUserId;
+        this.maxTeams = maxTeams;
+        this.maxPlayers = maxPlayers;
+        this.minPlayers = minPlayers;
+        this.startingPlayers = startingPlayers;
+        this.maxSubstitutions = maxSubstitutions;
+        this.deadline = deadline;
+        this.startDate = startDate;
+        this.creationDate = creationDate;
+        this.base64Logo = logo;
         this.isFinished = isFinished;
     }
 
@@ -248,6 +273,24 @@ public class Tournament {
 
     public void setIsFinished(boolean finished) {
         isFinished = finished;
+    }
+
+    /**
+     * Returns the base64 representation logo of the team.
+     *
+     * @return The base64 representation logo of the team.
+     */
+    public String getBase64Logo() {
+        return base64Logo;
+    }
+
+    /**
+     * Sets the base64 representation logo of the team.
+     *
+     * @param base64Logo The base64 representation logo of the team.
+     */
+    public void setBase64Logo(String base64Logo) {
+        this.base64Logo = base64Logo;
     }
 
     @Override

@@ -16,6 +16,7 @@
                 background-color: #fff;
                 border-radius: 5px;
                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                margin-bottom: 4rem;
             }
 
             h1 {
@@ -54,7 +55,13 @@
         <c:import url="/jsp/common/header.jsp"/>
 
         <div class="container">
-            <h1><c:out value="${tournament.name}"/></h1>
+            <div class="title-logo-wrapper">
+                <p class="fs-1 text-dark">
+                    <c:out value="${tournament.name}"/>
+                </p>
+                <img src="data:image/jpg;base64,${tournament.base64Logo}"/>
+            </div>
+
             <div>
                 <div>
                     <c:out value="${tournament}"/>
@@ -117,13 +124,13 @@
                 </ul>
             </div>
 
+            <form method="POST" action="upload" enctype="multipart/form-data" >
+                <input type="hidden" name="tournamentId" value="${tournament.getId()}">
+                File:
+                <input type="file" name="logo" id="logo" /> <br/>
+                <input type="submit" value="Upload" name="upload" id="upload" /> <br/>
+            </form>
         </div>
-        <form method="POST" action="upload" enctype="multipart/form-data" >
-            <input type="hidden" name="tournamentId" value="${tournament.getId()}">
-            File:
-            <input type="file" name="logo" id="logo" /> <br/>
-            <input type="submit" value="Upload" name="upload" id="upload" /> <br/>
-        </form>
 
         <!-- footer -->
         <c:import url="/jsp/common/footer.jsp"/>
