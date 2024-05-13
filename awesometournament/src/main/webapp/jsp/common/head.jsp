@@ -42,4 +42,13 @@
     .fa:hover {
         cursor: pointer;
     }
+
+    .title-logo-wrapper {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        gap: 1rem;
+        height: 3rem;
+        margin-bottom: 1rem;
+    }
 </style>
