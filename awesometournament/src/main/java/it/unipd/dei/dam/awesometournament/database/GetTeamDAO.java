@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import it.unipd.dei.dam.awesometournament.resources.entities.Team;
+import it.unipd.dei.dam.awesometournament.utils.ImageConverter;
 
 /**
  * DAO class for retrieving a team from the database.
@@ -48,7 +49,9 @@ public class GetTeamDAO extends AbstractDAO<Team> {
                     rs.getInt("tournament_id")
                 );
 
-                team.setBase64Logo(team.getLogoAsBase64());
+                if (team.getLogo() != null) {
+                    team.setBase64Logo(ImageConverter.convertInputStreamToBase64(team.getLogo()));
+                }
 
                 LOGGER.info("Team with id %d found", this.id);
             } else {

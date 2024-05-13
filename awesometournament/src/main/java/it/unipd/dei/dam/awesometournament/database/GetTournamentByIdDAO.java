@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 
 import it.unipd.dei.dam.awesometournament.resources.entities.Tournament;
+import it.unipd.dei.dam.awesometournament.utils.ImageConverter;
 
 /**
  * DAO class for retrieving a tournament by its ID from the database.
@@ -55,7 +56,9 @@ public class GetTournamentByIdDAO extends AbstractDAO<Tournament> {
             Tournament t = new Tournament(id, name, token, creatorUserId, maxTeams, maxPlayers,
                     minPlayers, startingPlayers, maxSubstitutions, deadline,
                     startDate, creationDate, logo, isFinished);
-
+            if (t.getLogo() != null) {
+                t.setBase64Logo(ImageConverter.convertInputStreamToBase64(t.getLogo()));
+            }
             this.outputParam = t;
         } else {
             this.outputParam = null;

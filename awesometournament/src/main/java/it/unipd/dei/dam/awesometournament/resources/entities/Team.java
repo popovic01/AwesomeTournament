@@ -177,13 +177,24 @@ public class Team {
         this.tournamentId = tournamentId;
     }
 
+    /**
+     * Returns the base64 representation logo of the team.
+     *
+     * @return The base64 representation logo of the team.
+     */
     public String getBase64Logo() {
         return base64Logo;
     }
 
+    /**
+     * Sets the base64 representation logo of the team.
+     *
+     * @param base64Logo The base64 representation logo of the team.
+     */
     public void setBase64Logo(String base64Logo) {
         this.base64Logo = base64Logo;
     }
+
     /**
      * Returns a string representation of the team.
      *
@@ -193,31 +204,5 @@ public class Team {
     public String toString() {
         return "Team [id=" + id + ", name=" + name + ", logo=" + logo + ", creatorUserId=" + creatorUserId
                 + ", tournamentId=" + tournamentId + "]";
-    }
-
-    public String getLogoAsBase64() {
-        if (logo != null) {
-            try {
-                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                byte[] buffer = new byte[4096];
-                int bytesRead;
-                while ((bytesRead = logo.read(buffer)) != -1) {
-                    outputStream.write(buffer, 0, bytesRead);
-                }
-                byte[] logoBytes = outputStream.toByteArray();
-
-                return Base64.getEncoder().encodeToString(logoBytes);
-            } catch (IOException e) {
-                return null;
-            } finally {
-                try {
-                    logo.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        } else {
-            return null;
-        }
     }
 }
