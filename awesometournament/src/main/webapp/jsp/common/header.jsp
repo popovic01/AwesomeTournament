@@ -23,7 +23,7 @@
         <h1>Awesome Tournament</h1>
     </div>
     <div class="img-wrapper">
-        <a href="http://www.dei.unipd.it/" target="_blank">
+        <a href="/">
             <img src="<c:url value="/media/tournament_logo.png"/>"
                  alt="logo of Awesome Tournament">
         </a>

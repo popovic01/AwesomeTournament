@@ -47,6 +47,9 @@ public class GetTeamDAO extends AbstractDAO<Team> {
                     rs.getInt("creator_user_id"),
                     rs.getInt("tournament_id")
                 );
+
+                team.setBase64Logo(team.getLogoAsBase64());
+
                 LOGGER.info("Team with id %d found", this.id);
             } else {
                 LOGGER.info("Team with id %d doesn't exist", this.id);

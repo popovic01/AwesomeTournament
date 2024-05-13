@@ -53,6 +53,10 @@ public class GetTournamentTeamsDAO extends AbstractDAO<List<Team>> {
                                 rs.getInt("creator_user_id"),
                                 rs.getInt("tournament_id")));
             }
+
+            teams.forEach(team -> {
+                team.setBase64Logo(team.getLogoAsBase64());
+            });
         } finally {
             if (rs != null)
                 rs.close();

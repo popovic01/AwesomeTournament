@@ -24,6 +24,8 @@
                 flex-direction: row;
                 justify-content: center;
                 gap: 1rem;
+                height: 3rem;
+                margin-bottom: 1rem;
             }
 
         </style>
@@ -38,7 +40,7 @@
                 <p class="fs-1 text-dark">
                     <c:out value="${team.name}"/>
                 </p>
-                <c:out value="${team.logo}"/>
+                <img src="data:image/jpg;base64,${team.base64Logo}"/>
             </div>
 
 <%--            file upload--%>

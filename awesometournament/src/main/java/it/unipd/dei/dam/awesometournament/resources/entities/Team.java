@@ -1,6 +1,9 @@
 package it.unipd.dei.dam.awesometournament.resources.entities;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.util.Base64;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -25,6 +28,12 @@ public class Team {
      */
     @JsonProperty("logo")
     private InputStream logo;
+
+    /**
+     * The base64 representation of the team logo.
+     */
+    @JsonProperty("base64-logo")
+    private String base64Logo;
 
     /**
      * The ID of the user who created the team.
@@ -62,6 +71,22 @@ public class Team {
         this.tournamentId = tournamentId;
     }
 
+    /**
+     * Constructs a team with the specified parameters.
+     *
+     * @param id            The ID of the team.
+     * @param name          The name of the team.
+     * @param logo          The base64 representation of the team logo.
+     * @param creatorUserId The ID of the user who created the team.
+     * @param tournamentId  The ID of the tournament the team belongs to.
+     */
+    public Team(int id, String name, String logo, int creatorUserId, int tournamentId) {
+        this.id = id;
+        this.name = name;
+        this.base64Logo = logo;
+        this.creatorUserId = creatorUserId;
+        this.tournamentId = tournamentId;
+    }
     /**
      * Returns the ID of the team.
      *
@@ -152,6 +177,13 @@ public class Team {
         this.tournamentId = tournamentId;
     }
 
+    public String getBase64Logo() {
+        return base64Logo;
+    }
+
+    public void setBase64Logo(String base64Logo) {
+        this.base64Logo = base64Logo;
+    }
     /**
      * Returns a string representation of the team.
      *
@@ -161,5 +193,31 @@ public class Team {
     public String toString() {
         return "Team [id=" + id + ", name=" + name + ", logo=" + logo + ", creatorUserId=" + creatorUserId
                 + ", tournamentId=" + tournamentId + "]";
+    }
+
+    public String getLogoAsBase64() {
+        if (logo != null) {
+            try {
+                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                byte[] buffer = new byte[4096];
+                int bytesRead;
+                while ((bytesRead = logo.read(buffer)) != -1) {
+                    outputStream.write(buffer, 0, bytesRead);
+                }
+                byte[] logoBytes = outputStream.toByteArray();
+
+                return Base64.getEncoder().encodeToString(logoBytes);
+            } catch (IOException e) {
+                return null;
+            } finally {
+                try {
+                    logo.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        } else {
+            return null;
+        }
     }
 }
