@@ -138,23 +138,35 @@
                 </tbody>
             </table>
 
-            <div class="match-header">
-                <h3>Matches:</h3>
-                <select id="matchFilter">
-                    <option value="all">All</option>
-                    <option value="upcoming">Upcoming</option>
-                    <option value="past">Past</option>
-                </select>
+            <div class="container">
+                <c:choose>
+                    <c:when test="${not empty matches}">
+                        <div class="match-header">
+                            <h3>Matches:</h3>
+                            <select id="matchFilter">
+                                <option value="all">All Matches</option>
+                                <option value="upcoming">Upcoming Matches</option>
+                                <option value="past">Past Matches</option>
+                            </select>
+                        </div>
+                        <ul id="matchList">
+                            <c:forEach var="match" items="${matches}">
+                                <li is-finished="${match.isFinished}">
+                                    <c:out value="${match}"/> -
+                                    <a href="<c:url value="/match/${match.getId()}"/>">more...</a>
+                                </li>
+                            </c:forEach>
+                        </ul>
+                    </c:when>
+                        <c:otherwise>
+                            <p class="text-dark">
+                                No matches available at the moment. <br>
+                                Come back here when the subscriptions are
+                                closed!
+                            </p>
+                        </c:otherwise>
+                </c:choose>
             </div>
-            <ul id="matchList">
-                <c:forEach var="match" items="${matches}">
-                    <li is-finished="${match.isFinished}">
-                        <c:out value="${match}"/> -
-                        <a href="<c:url value="/match/${match.getId()}"/>">more...</a>
-                    </li>
-                </c:forEach>
-            </ul>
-        </div>
         <!-- footer -->
         <c:import url="/jsp/common/footer.jsp"/>
     </body>
