@@ -33,6 +33,22 @@ public class SignupServlet extends AbstractDatabaseServlet {
         LogContext.setIPAddress(req.getRemoteAddr());
         LogContext.setAction(Actions.USER_SIGNUP);
 
+        String err = req.getParameter("error");
+        if (err != null) {
+            if(err.equals("iemail")) {
+                req.setAttribute("error", "Invalid email!\n");
+            }
+            else if(err.equals("ipass")) {
+                req.setAttribute("error", "Invalid password!\n");
+            }
+            else if(err.equals("exists")) {
+                req.setAttribute("error", "User already exists!\n");
+            }
+            else if(err.equals("pnomatch")) {
+                req.setAttribute("error", "The passwords don't correspond!\n");
+            }
+        }
+
         if(SessionHelpers.isLogged(req)) {
             resp.sendRedirect("/");
             return;
@@ -65,6 +81,12 @@ public class SignupServlet extends AbstractDatabaseServlet {
 
         String email = map.get("email");
         String password = map.get("password");
+        String passwordcheck = map.get("passwordcheck");
+
+        if(!password.equals(passwordcheck)) {
+            resp.sendRedirect("/auth/signup?error=pnomatch");
+            return;
+        }
 
         if (email == null || password == null) {
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "email or password not provided");
@@ -78,13 +100,13 @@ public class SignupServlet extends AbstractDatabaseServlet {
 
         if(!Validators.isEmail(email)) {
             // the email is not valid
-            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "email not valid");
+            resp.sendRedirect("/auth/signup?error=iemail");
             return;
         }
 
         if(!Validators.isPasswordValid(password)) {
             // the password is not valid
-            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "password not valid");
+            resp.sendRedirect("/auth/signup?error=ipass");
             return;
         }
 
@@ -96,7 +118,7 @@ public class SignupServlet extends AbstractDatabaseServlet {
             dao.access();
             Integer createdUserID = dao.getOutputParam();
             if(createdUserID == null) {
-                resp.sendError(HttpServletResponse.SC_CONFLICT, "can't create new user");
+            resp.sendRedirect("/auth/signup?error=exists");
                 return;
             }
 
