@@ -35,6 +35,16 @@ public class LoginServlet extends AbstractDatabaseServlet {
         LogContext.setIPAddress(req.getRemoteAddr());
         LogContext.setAction(Actions.GET_LOGIN_PAGE);
 
+        String err = req.getParameter("error");
+        if (err != null) {
+            if(err.equals("wp")) {
+                req.setAttribute("error", "Wrong password!\n");
+            }
+            else if(err.equals("unf")) {
+                req.setAttribute("error", "User not found!\n");
+            }
+        }
+
         if(SessionHelpers.isLogged(req)) {
             resp.sendRedirect("/");
             return;
@@ -81,13 +91,13 @@ public class LoginServlet extends AbstractDatabaseServlet {
             User user = dao.getOutputParam();
             LOGGER.info(user);
             if(user == null) {
-                resp.sendError(HttpServletResponse.SC_UNAUTHORIZED, "user not found");
+                resp.sendRedirect("/auth/login?error=unf");
                 return;
             }
             // compare the password
             String hashedinput = Hashing.hashPassword(password);
             if(!hashedinput.equals(user.getPassword())) {
-                resp.sendError(HttpServletResponse.SC_UNAUTHORIZED, "wrong password");
+                resp.sendRedirect("/auth/login?error=wp");
                 return;
             }
             // create session for the user
