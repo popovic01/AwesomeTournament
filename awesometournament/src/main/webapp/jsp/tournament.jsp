@@ -2,6 +2,32 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var filterControl = document.getElementById('matchFilter');
+        if (filterControl) {
+            filterControl.addEventListener('change', function() {
+                var selectedFilter = this.value;
+                var matches = document.querySelectorAll('#matchList li');
+                matches.forEach(function(match) {
+                    var isFinished = match.getAttribute('is-finished') === 'true';
+                    if (selectedFilter === 'all') {
+                        match.style.display = '';
+                    } else if (selectedFilter === 'upcoming' && !isFinished) {
+                        match.style.display = '';
+                    } else if (selectedFilter === 'past' && isFinished) {
+                        match.style.display = '';
+                    } else {
+                        match.style.display = 'none';
+                    }
+                });
+            });
+        } else {
+            console.log('matchFilter element not found');
+        }
+    });
+</script>
+
 <html lang="en">
     <head>
         <title>AwesomeTournaments - Tournament</title>
@@ -112,27 +138,41 @@
                 </tbody>
             </table>
 
-            <div>
-                Matches:
-                <ul>
-                    <c:forEach var="match" items="${matches}">
-                        <li>
-                            <c:out value="${match}"/>
-                            <a href="<c:url value="/match/${match.getId()}"/>">more...</a>
-                        </li>
-                    </c:forEach>
-                </ul>
+            <div class="match-header">
+                <h3>Matches:</h3>
+                <select id="matchFilter">
+                    <option value="all">All</option>
+                    <option value="upcoming">Upcoming</option>
+                    <option value="past">Past</option>
+                </select>
             </div>
-
-            <form method="POST" action="upload" enctype="multipart/form-data" >
-                <input type="hidden" name="tournamentId" value="${tournament.getId()}">
-                File:
-                <input type="file" name="logo" id="logo" /> <br/>
-                <input type="submit" value="Upload" name="upload" id="upload" /> <br/>
-            </form>
+            <ul id="matchList">
+                <c:forEach var="match" items="${matches}">
+                    <li is-finished="${match.isFinished}">
+                        <c:out value="${match}"/> -
+                        <a href="<c:url value="/match/${match.getId()}"/>">more...</a>
+                    </li>
+                </c:forEach>
+            </ul>
         </div>
-
         <!-- footer -->
         <c:import url="/jsp/common/footer.jsp"/>
     </body>
 </html>
+<style>
+    .match-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    h3 {
+        margin: 0;
+    }
+
+    #matchFilter {
+        padding: 5px 10px;
+        border-radius: 5px;
+    }
+</style>
