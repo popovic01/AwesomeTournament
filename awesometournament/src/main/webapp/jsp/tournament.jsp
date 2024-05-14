@@ -85,7 +85,9 @@
                 <p class="fs-1 text-dark">
                     <c:out value="${tournament.name}"/>
                 </p>
-                <img src="data:image/jpg;base64,${tournament.base64Logo}"/>
+                <c:if test="${not empty tournament.base64Logo}">
+                    <img src="data:image/jpg;base64,${tournament.base64Logo}"/>
+                </c:if>
             </div>
 
             <div>
@@ -106,7 +108,6 @@
                     <th scope="col"></th>
                     <th scope="col">Name</th>
                     <th scope="col">Logo</th>
-                    <th scope="col">Actions</th>
                     <th scope="col">See Details</th>
                 </tr>
                 </thead>
@@ -121,12 +122,14 @@
 <%--                            <button onclick="showLogo()" class="hyperlink">--%>
 <%--                                Show--%>
 <%--                            </button>--%>
-                            <img src="data:image/jpg;base64,${team.base64Logo}"
-                                class="logo-img"/>
-                        </td>
-                        <td>
-                            <i class="fa fa-pencil-square-o"></i>
-                            <i class="fa fa-trash-o"></i>
+                            <c:if test="${not empty team.base64Logo}">
+                                <img src="data:image/jpg;base64,${team.base64Logo}"
+                                     class="logo-img"/>
+                            </c:if>
+                            <c:if test="${empty team.base64Logo}">
+                                <p class="text-secondary">No logo available</p>
+                            </c:if>
+
                         </td>
                         <td>
                             <a href="<c:url value="/team/${team.getId()}"/>">

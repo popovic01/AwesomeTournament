@@ -30,7 +30,9 @@
                 <p class="fs-1 text-dark">
                     <c:out value="${team.name}"/>
                 </p>
-                <img src="data:image/jpg;base64,${team.base64Logo}"/>
+                <c:if test="${not empty team.base64Logo}">
+                    <img src="data:image/jpg;base64,${team.base64Logo}"/>
+                </c:if>
             </div>
 
 <%--            file upload--%>
