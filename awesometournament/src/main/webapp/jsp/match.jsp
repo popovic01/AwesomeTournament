@@ -67,6 +67,15 @@
                 <c:out value="${match}" />
             </div>
         </div>
+        <div>
+            <ul>
+                <c:forEach items="${events}" var="event">
+                    <li>
+                        <c:out value="${event}"/>
+                    </li>
+                </c:forEach>
+            </ul>
+        </div>
         <c:if test="${owner}">
             <div style="color: red;">
                 You are the admin of the tournament this match belongs to
