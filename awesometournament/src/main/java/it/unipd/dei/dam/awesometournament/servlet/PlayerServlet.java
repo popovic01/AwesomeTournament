@@ -14,11 +14,13 @@ import org.apache.logging.log4j.message.StringFormatterMessageFactory;
 import it.unipd.dei.dam.awesometournament.database.DeletePlayerDAO;
 import it.unipd.dei.dam.awesometournament.database.GetPlayerDAO;
 import it.unipd.dei.dam.awesometournament.database.GetTeamDAO;
+import it.unipd.dei.dam.awesometournament.database.GetTournamentByIdDAO;
 import it.unipd.dei.dam.awesometournament.database.UpdatePlayerDAO;
 import it.unipd.dei.dam.awesometournament.resources.Actions;
 import it.unipd.dei.dam.awesometournament.resources.LogContext;
 import it.unipd.dei.dam.awesometournament.resources.entities.Player;
 import it.unipd.dei.dam.awesometournament.resources.entities.Team;
+import it.unipd.dei.dam.awesometournament.resources.entities.Tournament;
 import it.unipd.dei.dam.awesometournament.utils.BodyTools;
 import it.unipd.dei.dam.awesometournament.utils.SessionHelpers;
 
@@ -60,8 +62,10 @@ public class PlayerServlet extends AbstractDatabaseServlet {
         Player player = (Player) getPlayerDAO.access().getOutputParam();
         GetTeamDAO getTeamDAO = new GetTeamDAO(getConnection(), player.getTeamId());
         Team team = (Team) getTeamDAO.access().getOutputParam();
+        GetTournamentByIdDAO getTournamentByIdDAO = new GetTournamentByIdDAO(getConnection(), team.getTournamentId());
+        Tournament tournament = (Tournament) getTournamentByIdDAO.access().getOutputParam();
 
-        if (team.getCreatorUserId() != userId)
+        if (team.getCreatorUserId() != userId && tournament.getCreatorUserId() != userId)
             return false;
 
         LOGGER.info("User authorized");
@@ -91,6 +95,10 @@ public class PlayerServlet extends AbstractDatabaseServlet {
             } else {
                 try {
                     int playerId = Integer.parseInt(urlParts[1]);
+                    req.setAttribute("authorized", false);
+                    if (isUserAuthorized(req, playerId)) {
+                        req.setAttribute("authorized", true);
+                    }
                     Connection connection = getConnection();
                     GetPlayerDAO getPlayerDAO = new GetPlayerDAO(connection, playerId);
                     Player player = (Player) getPlayerDAO.access().getOutputParam();
