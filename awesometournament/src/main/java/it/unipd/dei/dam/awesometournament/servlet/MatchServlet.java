@@ -2,6 +2,7 @@ package it.unipd.dei.dam.awesometournament.servlet;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.servlet.ServletException;
@@ -14,12 +15,15 @@ import org.apache.logging.log4j.message.StringFormatterMessageFactory;
 
 import it.unipd.dei.dam.awesometournament.database.GetMatchDAO;
 import it.unipd.dei.dam.awesometournament.database.GetMatchEventsDAO;
+import it.unipd.dei.dam.awesometournament.database.GetTeamPlayersDAO;
 import it.unipd.dei.dam.awesometournament.database.GetTournamentByIdDAO;
 import it.unipd.dei.dam.awesometournament.resources.Actions;
 import it.unipd.dei.dam.awesometournament.resources.LogContext;
 import it.unipd.dei.dam.awesometournament.resources.entities.Event;
 import it.unipd.dei.dam.awesometournament.resources.entities.Match;
+import it.unipd.dei.dam.awesometournament.resources.entities.Player;
 import it.unipd.dei.dam.awesometournament.resources.entities.Tournament;
+import it.unipd.dei.dam.awesometournament.resources.enums.EventType;
 import it.unipd.dei.dam.awesometournament.utils.SessionHelpers;
 
 /**
@@ -69,6 +73,25 @@ public class MatchServlet extends AbstractDatabaseServlet{
                 List<Event> events = matchEventsDAO.getOutputParam();
 
                 req.setAttribute("events", events);
+
+                List<Player> players = new ArrayList<>();
+
+                GetTeamPlayersDAO playersDAO1 = new GetTeamPlayersDAO(getConnection(), match.getTeam1Id());
+                playersDAO1.access();
+                playersDAO1.getOutputParam().forEach(players::add);
+
+                GetTeamPlayersDAO playersDAO2 = new GetTeamPlayersDAO(getConnection(), match.getTeam2Id());
+                playersDAO2.access();
+                playersDAO2.getOutputParam().forEach(players::add);
+
+                req.setAttribute("players", players);
+
+                List<String> types = new ArrayList<>();
+                for(EventType type : EventType.values()) {
+                    types.add(EventType.enum2db(type));
+                }
+
+                req.setAttribute("types", types);
 
                 req.getRequestDispatcher("/jsp/match.jsp").forward(req, resp);
             } catch (SQLException e) {

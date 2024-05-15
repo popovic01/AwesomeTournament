@@ -80,7 +80,7 @@
             <div style="color: red;">
                 You are the admin of the tournament this match belongs to
             </div>
-            <form id="updateForm">
+            <form id="updateForm" style="background-color: grey;">
                 <label for="team1Score">Team 1 Score:</label><br>
                 <input type="text" id="team1Score" name="team1Score"><br>
 
@@ -101,30 +101,68 @@
 
                 <input type="submit" value="Update">
             </form>
+            <form id="newEvent" style="background-color: rgb(82, 81, 81);">
+                <label for="player_id">Player: </label>
+                <select name="player_id" id="player_id">
+                    <c:forEach var="player" items="${players}">
+                        <option value="${player.id}"><c:out value="${player.getFullName()}"></c:out></option>
+                    </c:forEach>
+                </select><br>
+
+                <label for="type">Type of event: </label>
+                <select name="type" id="type">
+                    <c:forEach var="type" items="${types}">
+                        <option value="${type}"><c:out value="${type}"></c:out></option>
+                    </c:forEach>
+                </select><br>
+
+                <label for="time">Time: </label>
+                <input type="number" id="time" name="time" min="1" max="90"><br>
+
+                <input type="submit" value="Add">
+            </form>
             <script>
-            document.getElementById("updateForm").addEventListener("submit", function(event) {
-                event.preventDefault();
-                // Gather form data
-                const formData = new FormData(this);
-                
-                // Convert FormData to JSON
-                const jsonObject = {};
-                formData.forEach(function(value, key) {
-                    jsonObject[key] = value;
+                document.getElementById("newEvent").addEventListener("submit", function(event) {
+                    event.preventDefault();
+                    const formData = new FormData(this);
+                    const jsonObject = {};
+                    formData.forEach(function(value, key) {
+                        jsonObject[key] = value;
+                    });
+                    const jsonData = JSON.stringify(jsonObject);
+                    const xhr = new XMLHttpRequest();
+                    xhr.open("POST", "/api/matches/${matchId}/events", true);
+                    xhr.setRequestHeader("Content-Type", "application/json");
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState === 4 && xhr.status === 200) {
+                            window.location.reload();
+                        }
+                    };
+                    xhr.send(jsonData);
                 });
-                const jsonData = JSON.stringify(jsonObject);
-                
-                // Send AJAX request to update the backend
-                const xhr = new XMLHttpRequest();
-                xhr.open("PUT", "/api/matches/${matchId}", true);
-                xhr.setRequestHeader("Content-Type", "application/json");
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState === 4 && xhr.status === 200) {
-                        alert("Match updated successfully!");
-                    }
-                };
-                xhr.send(jsonData);
-            });
+                document.getElementById("updateForm").addEventListener("submit", function(event) {
+                    event.preventDefault();
+                    // Gather form data
+                    const formData = new FormData(this);
+                    
+                    // Convert FormData to JSON
+                    const jsonObject = {};
+                    formData.forEach(function(value, key) {
+                        jsonObject[key] = value;
+                    });
+                    const jsonData = JSON.stringify(jsonObject);
+                    
+                    // Send AJAX request to update the backend
+                    const xhr = new XMLHttpRequest();
+                    xhr.open("PUT", "/api/matches/${matchId}", true);
+                    xhr.setRequestHeader("Content-Type", "application/json");
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState === 4 && xhr.status === 200) {
+                            alert("Match updated successfully!");
+                        }
+                    };
+                    xhr.send(jsonData);
+                });
             </script>
         </c:if>
     </div>

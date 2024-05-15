@@ -44,11 +44,10 @@ public class CreateMatchEventDAO extends AbstractDAO<Integer>{
 
         try {
             p = con.prepareStatement(STATEMENT);
-            p.setInt(1, event.getId());
-            p.setInt(2, event.getMatchId());
-            p.setInt(3, event.getPlayerId());
-            p.setObject(4, EventType.enum2db(event.getType()), Types.OTHER);
-            p.setInt(5, event.getTime());
+            p.setInt(1, event.getMatchId());
+            p.setInt(2, event.getPlayerId());
+            p.setObject(3, EventType.enum2db(event.getType()), Types.OTHER);
+            p.setInt(4, event.getTime());
             rs = p.executeQuery();
             if (rs.next()) {
                 this.outputParam = rs.getInt("id");

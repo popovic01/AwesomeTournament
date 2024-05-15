@@ -1,6 +1,7 @@
 package it.unipd.dei.dam.awesometournament.servlet.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.util.StdDateFormat;
 
 import it.unipd.dei.dam.awesometournament.database.CreateMatchEventDAO;
@@ -180,10 +181,24 @@ public class MatchEventHandler extends RestMatcherHandler {
             response = new ResponsePackageNoData(ResponseStatus.BAD_REQUEST,
                     "ID must be an integer");
             res.getWriter().print(om.writeValueAsString(response));
+            res.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
+        } catch (InvalidFormatException e) {
+            response = new ResponsePackageNoData(ResponseStatus.BAD_REQUEST,
+                    e.getMessage());
+            res.getWriter().print(om.writeValueAsString(response));
+            res.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
         } catch (SQLException e) {
+            e.printStackTrace();
+            response = new ResponsePackageNoData(ResponseStatus.INTERNAL_SERVER_ERROR,
+                    "Something in SQL went wrong: " + e.getMessage());
+            res.getWriter().print(om.writeValueAsString(response));
+            res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR );
+        } catch (Exception e) {
+            e.printStackTrace();
             response = new ResponsePackageNoData(ResponseStatus.INTERNAL_SERVER_ERROR,
                     "Something went wrong: " + e.getMessage());
             res.getWriter().print(om.writeValueAsString(response));
+            res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
         return Result.CONTINUE;
     }

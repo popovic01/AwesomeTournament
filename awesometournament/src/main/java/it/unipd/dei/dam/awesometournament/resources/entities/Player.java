@@ -211,6 +211,14 @@ public class Player {
     }
 
     /**
+     * Gets the full name of a player
+     * @return the fullname of a player
+     */
+    public String getFullName() {
+        return this.name + " " + this.surname;
+    }
+
+    /**
      * Returns a string representation of the Player object.
      *
      * @return A string representation of the Player object.
