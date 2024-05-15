@@ -93,6 +93,11 @@ public class PlayerHandler extends RestMatcherHandler{
         LOGGER.info(requestBody);
         Player player = (Player) om.readValue(requestBody, Player.class);
         player.setId(playerId);
+
+        // otherwise medical certificate becomes null!
+        GetPlayerDAO getPlayerDAO = new GetPlayerDAO(getConnection(), playerId);
+        player.setMedicalCertificate(((Player)getPlayerDAO.access().getOutputParam()).getMedicalCertificate());
+
         LOGGER.info(player.toString());
         UpdatePlayerDAO updatePlayerDAO = new UpdatePlayerDAO(getConnection(), player);
         Integer result = (Integer) updatePlayerDAO.access().getOutputParam();

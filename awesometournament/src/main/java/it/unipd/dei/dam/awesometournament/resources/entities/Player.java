@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.sql.Date;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import it.unipd.dei.dam.awesometournament.resources.enums.PlayerPosition;
@@ -11,6 +12,7 @@ import it.unipd.dei.dam.awesometournament.resources.enums.PlayerPosition;
 /**
  * Represents a player in the database.
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Player {
 
     /**
