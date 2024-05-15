@@ -35,24 +35,6 @@
         height: 2rem;
     }
 
-    input[type=button], input[type=submit], input[type=reset] {
-        background-color: #c5c8cb;
-        color: #292929;
-        border: none;
-        border-radius: 0.4rem;
-        width: 5rem;
-        height: 2rem;
-        padding: 0.4rem;
-        text-decoration: none;
-        cursor: pointer;
-    }
-
-    input[type=text] {
-        border-radius: 0.4rem;
-        border: 0.1rem solid #d5d5d5;
-        padding: 0.2rem 0.4rem;
-    }
-
     form {
         display: flex;
         flex-direction: column;
