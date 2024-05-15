@@ -32,14 +32,23 @@ public class UpdateTeamDAO extends AbstractDAO<Integer>  {
     @Override
     protected void doAccess() throws Exception {
         PreparedStatement p = null;
+        int result = -1;
+
         try {
-            if (this.team.getLogo() == null) {
+            if (!this.team.getName().isEmpty() && this.team.getLogo() != null) {
+                STATEMENT = "UPDATE public.teams SET name = ?, logo = ? WHERE id = ?";
+                p = con.prepareStatement(STATEMENT);
+
+                p.setString(1, this.team.getName());
+                p.setBinaryStream(2, this.team.getLogo());
+                p.setInt(3, this.team.getId());
+            } else if (!this.team.getName().isEmpty()) { //name update
                 STATEMENT = "UPDATE public.teams SET name = ? WHERE id = ?";
                 p = con.prepareStatement(STATEMENT);
 
                 p.setString(1, this.team.getName());
                 p.setInt(2, this.team.getId());
-            } else { //logo update
+            } else if (this.team.getLogo() != null) { //logo update
                 STATEMENT = "UPDATE public.teams SET logo = ? WHERE id = ?";
                 p = con.prepareStatement(STATEMENT);
 
@@ -47,7 +56,9 @@ public class UpdateTeamDAO extends AbstractDAO<Integer>  {
                 p.setInt(2, this.team.getId());
             }
 
-            int result = p.executeUpdate();
+            if (p != null) {
+                result = p.executeUpdate();
+            }
             this.outputParam = result;
         } catch (Exception e) {
             LOGGER.error("Something went wrong: " + e.getMessage());

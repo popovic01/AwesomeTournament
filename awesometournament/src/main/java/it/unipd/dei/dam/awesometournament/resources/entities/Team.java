@@ -60,13 +60,24 @@ public class Team {
      * @param id            The ID of the team.
      * @param name          The name of the team.
      * @param logo          The logo of the team.
+     */
+    public Team(int id, String name, InputStream logo) {
+        this.id = id;
+        this.name = name;
+        this.logo = logo;
+    }
+
+    /**
+     * Constructs a team with the specified parameters.
+     *
+     * @param id            The ID of the team.
+     * @param name          The name of the team.
+     * @param logo          The logo of the team.
      * @param creatorUserId The ID of the user who created the team.
      * @param tournamentId  The ID of the tournament the team belongs to.
      */
     public Team(int id, String name, InputStream logo, int creatorUserId, int tournamentId) {
-        this.id = id;
-        this.name = name;
-        this.logo = logo;
+        this(id, name, logo);
         this.creatorUserId = creatorUserId;
         this.tournamentId = tournamentId;
     }

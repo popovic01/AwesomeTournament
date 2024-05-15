@@ -29,12 +29,11 @@ import it.unipd.dei.dam.awesometournament.utils.SessionHelpers;
 /**
  * Servlet responsible for handling requests related to teams
  */
-@WebServlet(name = "FileUploadServlet", urlPatterns = {"/upload"})
+@WebServlet("/")
 @MultipartConfig
 public class TeamServlet extends AbstractDatabaseServlet{
     protected final static Logger LOGGER = LogManager.getLogger(TeamServlet.class,
             StringFormatterMessageFactory.INSTANCE);
-
     
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -99,29 +98,24 @@ public class TeamServlet extends AbstractDatabaseServlet{
         // obtains the upload file part in this multipart request
         Part filePart = req.getPart("file");
         if (filePart != null) {
-            // prints out some information for debugging
-            LOGGER.info(filePart.getName());
-            LOGGER.info(filePart.getSize());
-            LOGGER.info(filePart.getContentType());
-
-            // obtains input stream of the upload file
-            inputStream = filePart.getInputStream();
+            if (filePart.getSize() > 0) {
+                inputStream = filePart.getInputStream();
+            }
         }
 
         try {
             int teamId = Integer.parseInt(req.getParameter("teamId"));
-            GetTeamDAO getTeamDAO = new GetTeamDAO(getConnection(), teamId);
-            Team team = getTeamDAO.access().getOutputParam();
-            team.setLogo(inputStream);
+            Team team = new Team(teamId, req.getParameter("name"), inputStream);
             UpdateTeamDAO updateTeamDAO = new UpdateTeamDAO(getConnection(), team);
-            Integer result = (Integer) updateTeamDAO.access().getOutputParam();
-            if (result == 1) {
-                resp.setStatus(HttpServletResponse.SC_OK);
+            LOGGER.info(team.toString());
+            Integer result = updateTeamDAO.access().getOutputParam();
+            if (result == 1 || result == -1) {
+                doGet(req, resp);
             } else {
                 resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             }
         } catch (NumberFormatException e) {
-            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Player ID must be an integer");
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Team ID must be an integer");
         } catch (SQLException e) {
             resp.sendError(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
         }
