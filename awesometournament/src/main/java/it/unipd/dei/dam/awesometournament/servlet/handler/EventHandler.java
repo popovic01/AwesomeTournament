@@ -2,6 +2,11 @@ package it.unipd.dei.dam.awesometournament.servlet.handler;
 
 import java.io.IOException;
 import java.sql.SQLException;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.message.StringFormatterMessageFactory;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.util.StdDateFormat;
 
@@ -26,6 +31,9 @@ public class EventHandler extends RestMatcherHandler {
 
     ObjectMapper om;
     ResponsePackageNoData response;
+
+    protected final static Logger LOGGER = LogManager.getLogger(EventHandler.class,
+            StringFormatterMessageFactory.INSTANCE);
 
     /**
      * Retrieves an event by its ID.
@@ -95,6 +103,7 @@ public class EventHandler extends RestMatcherHandler {
      */
     void deleteEvent (HttpServletRequest req, HttpServletResponse res, int id) throws ServletException, IOException, SQLException{
         LogContext.setAction(Actions.DELETE_EVENT);
+        LOGGER.info("here");
         DeleteEventDAO deleteEventDAO = new DeleteEventDAO(getConnection(), id);
         Integer result = (Integer) deleteEventDAO.access().getOutputParam();
         if (result == 1) {

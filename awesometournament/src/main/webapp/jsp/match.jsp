@@ -72,6 +72,9 @@
                 <c:forEach items="${events}" var="event">
                     <li>
                         <c:out value="${event}"/>
+                        <c:if test="${owner}">
+                            <button onclick="deleteEvent(<c:out value="${event.id}"/>)">delete</button>
+                        </c:if>
                     </li>
                 </c:forEach>
             </ul>
@@ -122,6 +125,19 @@
                 <input type="submit" value="Add">
             </form>
             <script>
+                function deleteEvent(id) {
+                    const xhr = new XMLHttpRequest();
+                    xhr.open("DELETE", "/api/events/" + id, true);
+                    xhr.setRequestHeader("Content-Type", "application/json");
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState === 4 && xhr.status === 200) {
+                            // TODO delete the item without reloading the page
+                            window.location.reload();
+                        }
+                        console.log(xhr);
+                    };
+                    xhr.send();
+                }
                 document.getElementById("newEvent").addEventListener("submit", function(event) {
                     event.preventDefault();
                     const formData = new FormData(this);

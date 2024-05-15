@@ -159,7 +159,7 @@ public class Event {
      */
     @Override
     public String toString() {
-        return "Player{" +
+        return "Event{" +
                 "id=" + id +
                 ", matchID='" + matchId + '\'' +
                 ", playerID='" + playerId + '\'' +

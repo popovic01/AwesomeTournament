@@ -118,16 +118,12 @@ public class RestMatcherServlet extends AbstractDatabaseServlet {
         // the last we found must be a full match
         if (runEntries.size() == 0) {
             LOGGER.info("no matches");
-            response = new ResponsePackageNoData(ResponseStatus.NOT_FOUND,
-                    "Path not found");
-            res.getWriter().print(om.writeValueAsString(response));
+            res.sendError(HttpServletResponse.SC_NOT_FOUND);
             return;
         }
         if (runEntries.get(runEntries.size() - 1).entry.partialMatch) {
             LOGGER.info("last match partial");
-            response = new ResponsePackageNoData(ResponseStatus.NOT_FOUND,
-                    "Path not found");
-            res.getWriter().print(om.writeValueAsString(response));
+            res.sendError(HttpServletResponse.SC_NOT_FOUND);
             return;
         }
         for (EntryPair e : runEntries) {
