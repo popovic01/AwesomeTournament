@@ -37,7 +37,7 @@
         <p>&copy; 2024 Awesome Tournament. All rights reserved.</p>
     </div>
     <div class="img-wrapper">
-        <a>
+        <a href="/">
             <img src="<c:url value="/media/tournament_logo.png"/>"
                  alt="logo of Awesome Tournament">
         </a>
