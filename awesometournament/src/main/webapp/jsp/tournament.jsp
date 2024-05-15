@@ -32,7 +32,7 @@
                 generateMatchesButton.disabled = true; // Disable the button to prevent multiple clicks
                 generateMatchesButton.textContent = 'Loading...'; // Change button text to indicate loading
                 var xhr = new XMLHttpRequest();
-                xhr.open('POST', 'http://localhost:8080/matches/tournaments/${tournament.id}', true);
+                xhr.open('POST', '/matches/tournaments/${tournament.id}', true);
                 xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                 xhr.onload = function() {
                     if (xhr.status >= 200 && xhr.status < 300) {
