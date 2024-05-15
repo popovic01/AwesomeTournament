@@ -25,6 +25,28 @@
         } else {
             console.log('matchFilter element not found');
         }
+
+        var generateMatchesButton = document.getElementById('generateMatches');
+        if (generateMatchesButton) {
+            generateMatchesButton.addEventListener('click', function() {
+                generateMatchesButton.disabled = true; // Disable the button to prevent multiple clicks
+                generateMatchesButton.textContent = 'Loading...'; // Change button text to indicate loading
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', 'http://localhost:8080/matches/tournaments/${tournament.id}', true);
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                xhr.onload = function() {
+                    if (xhr.status >= 200 && xhr.status < 300) {
+                        window.location.reload();
+                    }
+                };
+                // Restore original button on error
+                xhr.onerror = function() {
+                    generateMatchesButton.disabled = false;
+                    generateMatchesButton.textContent = 'Close Subscriptions and\nGenerate Matches';
+                };
+                xhr.send();
+            });
+        }
     });
 </script>
 
@@ -99,6 +121,10 @@
                 <div style="color: red;">
                     You are the admin of this tournament
                 </div>
+                <!-- TODO Will be placed somewhere else -->
+                <c:if test="${empty matches}"> <!-- If it is moved out of this <c> block you must check if user is owner -->
+                    <button id="generateMatches" class="btn btn-primary">Close Subscriptions and<br>Generate Matches</button>
+                </c:if>
             </c:if>
 
             <p class="fs-4 text-dark">Teams</p>
@@ -189,5 +215,19 @@
     #matchFilter {
         padding: 5px 10px;
         border-radius: 5px;
+    }
+
+    .btn {
+        padding: 6px 12px;
+        background-color: #007bff;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
     }
 </style>
