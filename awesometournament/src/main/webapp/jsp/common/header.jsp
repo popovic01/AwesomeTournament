@@ -9,10 +9,14 @@
         height: 4rem;
         gap: 3rem;
         align-items: center;
-        background-color: #adb6bf;
+        background-color: #13730a;
     }
     .img-wrapper {
         height: 74%;
+    }
+    h1{
+        justify-content: center;
+        color: #e3e0e0;
     }
     img {
         height: 100%;
