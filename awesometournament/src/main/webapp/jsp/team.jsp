@@ -42,14 +42,6 @@
                 </c:if>
             </div>
 
-<%--            file upload--%>
-<%--            <form method="POST" action="upload" enctype="multipart/form-data" >--%>
-<%--                <input type="hidden" name="teamId" value="${team.getId()}">--%>
-<%--                File:--%>
-<%--                <input type="file" name="file" id="file" /> <br/>--%>
-<%--                <input type="submit" value="Upload" name="upload" id="upload" /> <br/>--%>
-<%--            </form>--%>
-
             <c:if test="${tournamentOwner || teamOwner}">
                 <form method="POST" action="" enctype="multipart/form-data" >
                     <input type="hidden" name="teamId" value="${team.getId()}">
@@ -76,18 +68,19 @@
                 </div>
             </c:if>
 
-            <table class="table">
-                <thead>
+            <c:if test="${!empty players}">
+                <table class="table">
+                    <thead>
                     <tr>
                         <th scope="col"></th>
                         <th scope="col">Full Name</th>
                         <th scope="col">Date of Birth</th>
                         <th scope="col">Position</th>
                         <th scope="col">Medical Certificate</th>
-                        <th scope="col"></th>
+                        <th scope="col">See Details</th>
                     </tr>
-                </thead>
-                <tbody>
+                    </thead>
+                    <tbody>
                     <c:forEach items="${players}" var="player" varStatus="i">
                         <tr>
                             <th scope="row">${i.count}</th>
@@ -105,15 +98,28 @@
                                 <button onclick="showMedCertificate()" class="hyperlink">
                                     Show
                                 </button>
-<%--                                <c:out value="${player.medicalCertificate}"/>--%>
+                                    <%--                                <c:out value="${player.medicalCertificate}"/>--%>
                             </td>
                             <td>
-                                <i class="fa fa-pencil-square-o"></i>
-                                <i class="fa fa-trash-o"></i>
+                                <a href="<c:url value="/players/${player.id}"/>">
+                                    Details
+                                </a>
+                            </td>
                         </tr>
                     </c:forEach>
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </c:if>
+
+            <c:if test="${empty players}">
+                <p class="text-secondary text-center">No players added in this team</p>
+            </c:if>
+            <c:if test="${teamOwner || tournamentOwner}">
+                <a href="<c:url value=""/>">
+                    Add Players to this team
+                </a>
+            </c:if>
+
         </div>
 
         <!-- footer -->
