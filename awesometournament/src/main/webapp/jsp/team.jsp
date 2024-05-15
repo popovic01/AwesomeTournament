@@ -18,13 +18,6 @@
                 border-radius: 5px;
                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             }
-
-            .input-wrapper {
-                display: flex;
-                flex-direction: row;
-                justify-content: start;
-                gap: 1rem;
-            }
         </style>
     </head>
 
@@ -43,18 +36,7 @@
             </div>
 
             <c:if test="${tournamentOwner || teamOwner}">
-                <form method="POST" action="" enctype="multipart/form-data" >
-                    <input type="hidden" name="teamId" value="${team.getId()}">
-                    <div class="input-wrapper">
-                        <p class="text-dark">Team Name:</p>
-                        <input type="text" name="name" placeholder="Name">
-                    </div>
-                    <div class="input-wrapper">
-                        <p class="text-dark">Team Logo:</p>
-                        <input type="file" name="file" id="file"/>
-                    </div>
-                    <input type="submit" value="Edit" name="upload1"/>
-                </form>
+                <c:import url="/jsp/common/team/team-form.jsp"/>
             </c:if>
 
             <c:if test="${tournamentOwner}">
@@ -95,9 +77,9 @@
                                 <c:out value="${player.position}"/>
                             </td>
                             <td>
-                                <button onclick="showMedCertificate()" class="hyperlink">
+                                <a href="<c:url value=""/>">
                                     Show
-                                </button>
+                                </a>
                                     <%--                                <c:out value="${player.medicalCertificate}"/>--%>
                             </td>
                             <td>
