@@ -12,11 +12,10 @@
         bottom: 0;
         left: 0;
         right: 0;
-        background-color: slategrey;
+        background-color: #135dc9;
     }
     .img-wrapper {
         height: 74%;
-        width: 20%;
     }
     img {
         height: 100%;
