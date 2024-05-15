@@ -1,5 +1,7 @@
 package it.unipd.dei.dam.awesometournament.utils;
 
+import java.util.Base64;
+
 /**
  * Represents an entry in the ranking of scorers.
  */
@@ -14,6 +16,10 @@ public class RankingScorersEntry {
      */
     String playerSurname;
 
+    String teamName;
+
+    byte[] logo;
+
     /**
      * The number of goals scored by the player.
      */
@@ -26,9 +32,11 @@ public class RankingScorersEntry {
      * @param playerSurname the surname of the player
      * @param goals         the number of goals scored by the player
      */
-    public RankingScorersEntry (String playerName, String playerSurname, int goals) {
+    public RankingScorersEntry (String playerName, String playerSurname, String teamName, byte[] logo, int goals) {
         this.playerName = playerName;
         this.playerSurname = playerSurname;
+        this.teamName = teamName;
+        this.logo = logo;
         this.goals = goals;
     }
 
@@ -48,6 +56,15 @@ public class RankingScorersEntry {
      */
     public String getPlayerSurname() {
         return playerSurname;
+    }
+
+    public String getTeamName() {
+        return teamName;
+    }
+
+    public String getLogo() {
+        if (logo != null) return Base64.getEncoder().encodeToString(logo);
+        else return "";
     }
 
     /**

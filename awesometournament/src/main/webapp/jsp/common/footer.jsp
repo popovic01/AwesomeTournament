@@ -8,7 +8,6 @@
         justify-content: space-around;
         height: 3rem;
         align-items: center;
-        position: fixed;
         bottom: 0;
         left: 0;
         right: 0;

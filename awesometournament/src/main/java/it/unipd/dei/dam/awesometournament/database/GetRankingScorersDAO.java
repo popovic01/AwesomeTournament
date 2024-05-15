@@ -12,7 +12,7 @@ public class GetRankingScorersDAO extends AbstractDAO<ArrayList<RankingScorersEn
     /**
      * The SQL statement used to retrieve a ranking of top scorers from the database.
      */
-    private static final String STATEMENT = "SELECT p.name AS player_name, p.surname AS player_surname, " +
+    /*private static final String STATEMENT = "SELECT p.name AS player_name, p.surname AS player_surname, " +
                                             "COUNT(CASE WHEN e.type = 'goal' THEN 1 END) AS goals_scored " +
                                             "FROM public.tournaments t " +
                                             "JOIN public.matches m ON m.tournament_id = t.id " +
@@ -20,7 +20,19 @@ public class GetRankingScorersDAO extends AbstractDAO<ArrayList<RankingScorersEn
                                             "JOIN public.players p ON e.player_id = p.id " +
                                             "WHERE t.id = ? " +
                                             "GROUP BY p.id " +
-                                            "ORDER BY goals_scored DESC;";
+                                            "ORDER BY goals_scored DESC;";*/
+    private static final String STATEMENT = "SELECT p.name AS player_name, p.surname AS player_surname, " +
+    "tm.name AS team_name, tm.logo AS team_logo, " +
+    "COUNT(CASE WHEN e.type = 'goal' THEN 1 END) AS goals_scored " +
+    "FROM public.tournaments t " +
+    "JOIN public.matches m ON m.tournament_id = t.id " +
+    "JOIN public.events e ON e.match_id = m.id " +
+    "JOIN public.players p ON e.player_id = p.id " +
+    "JOIN public.teams tm ON p.team_id = tm.id " +
+    "WHERE t.id = ? " +
+    "GROUP BY p.id, tm.id, tm.logo " +
+    "ORDER BY goals_scored DESC;";
+
 
     private final int tournamentId;
 
@@ -44,10 +56,10 @@ public class GetRankingScorersDAO extends AbstractDAO<ArrayList<RankingScorersEn
             p = con.prepareStatement(STATEMENT);
             p.setInt(1, this.tournamentId);
             rs = p.executeQuery();
-            while (rs.next()) {
+            while(rs.next()) {
                 LOGGER.info("Add player to ranking");
                 ranking.add(new RankingScorersEntry(rs.getString("player_name"), rs.getString("player_surname"),
-                        rs.getInt("goals_scored")));
+                        rs.getString("team_name"), rs.getBytes("team_logo"), rs.getInt("goals_scored")));
             }
         } finally {
             if (p != null) p.close();
