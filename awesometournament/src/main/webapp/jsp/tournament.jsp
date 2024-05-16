@@ -11,11 +11,14 @@
                 var matches = document.querySelectorAll('#matchList li');
                 matches.forEach(function(match) {
                     var isFinished = match.getAttribute('is-finished') === 'true';
+                    var scheduled = match.getAttribute('date');
                     if (selectedFilter === 'all') {
                         match.style.display = '';
-                    } else if (selectedFilter === 'upcoming' && !isFinished) {
+                    } else if (selectedFilter === 'upcoming' && scheduled && !isFinished) {
                         match.style.display = '';
                     } else if (selectedFilter === 'past' && isFinished) {
+                        match.style.display = '';
+                    } else if (selectedFilter === 'tba' && !scheduled) {
                         match.style.display = '';
                     } else {
                         match.style.display = 'none';
@@ -173,14 +176,15 @@
                         <div class="match-header">
                             <h3>Matches:</h3>
                             <select id="matchFilter">
-                                <option value="all">All Matches</option>
-                                <option value="upcoming">Upcoming Matches</option>
                                 <option value="past">Past Matches</option>
+                                <option value="upcoming">Upcoming Matches</option>
+                                <option value="tba">Not Yet Scheduled</option>
+                                <option value="all">All Matches</option>
                             </select>
                         </div>
                         <ul id="matchList">
                             <c:forEach var="match" items="${matches}">
-                                <li is-finished="${match.isFinished}">
+                                <li is-finished="${match.isFinished}", date="${match.matchDate}">
                                     <c:out value="${match}"/> -
                                     <a href="<c:url value="/match/${match.getId()}"/>">more...</a>
                                 </li>
