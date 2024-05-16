@@ -109,6 +109,10 @@
             color: grey;
             display: inline; /* Ensures it stays on the same line */
         }
+        #match-link {
+            text-decoration: none;
+            color: black;
+        }
     </style>
 </head>
 <body>
@@ -206,39 +210,41 @@
                                         <c:set var="team2Logo" value="${team.logo}" />
                                     </c:if>
                                 </c:forEach>
-                                <div class="match-detail">
-                                    <div class="team-detail team1-detail">
-                                        <!-- TODO LOGO MUST BE FIXED THIS IT IS ONLY FOR DEBUG PURPOSES-->
-                                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Logo_of_AC_Milan.svg/1306px-Logo_of_AC_Milan.svg.png" alt="Logo of ${team1Name}" style="height: 30px;">
-                                        <div>
-                                            <c:choose>
-                                                <c:when test="${match.result == 'TEAM1'}">
-                                                    <strong>${team1Name}</strong>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    ${team1Name}
-                                                </c:otherwise>
-                                            </c:choose>
+                                <a id="match-link" href="<c:url value="/match/${match.getId()}"/>">
+                                    <div class="match-detail">
+                                        <div class="team-detail team1-detail">
+                                            <!-- TODO LOGO MUST BE FIXED THIS IT IS ONLY FOR DEBUG PURPOSES-->
+                                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Logo_of_AC_Milan.svg/1306px-Logo_of_AC_Milan.svg.png" alt="Logo of ${team1Name}" style="height: 30px;">
+                                            <div>
+                                                <c:choose>
+                                                    <c:when test="${match.result == 'TEAM1'}">
+                                                        <strong>${team1Name}</strong>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        ${team1Name}
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </div>
+                                        </div>
+                                        <div class="score">
+                                            ${match.team1Score} - ${match.team2Score}
+                                        </div>
+                                        <div class="team-detail team2-detail">
+                                            <!-- TODO LOGO MUST BE FIXED THIS IT IS ONLY FOR DEBUG PURPOSES-->
+                                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Logo_of_AC_Milan.svg/1306px-Logo_of_AC_Milan.svg.png" alt="Logo of ${team2Name}" style="height: 30px;">
+                                            <div>
+                                                <c:choose>
+                                                    <c:when test="${match.result == 'TEAM2'}">
+                                                        <strong>${team2Name}</strong>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        ${team2Name}
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="score">
-                                        ${match.team1Score} - ${match.team2Score}
-                                    </div>
-                                    <div class="team-detail team2-detail">
-                                        <!-- TODO LOGO MUST BE FIXED THIS IT IS ONLY FOR DEBUG PURPOSES-->
-                                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Logo_of_AC_Milan.svg/1306px-Logo_of_AC_Milan.svg.png" alt="Logo of ${team2Name}" style="height: 30px;">
-                                        <div>
-                                            <c:choose>
-                                                <c:when test="${match.result == 'TEAM2'}">
-                                                    <strong>${team2Name}</strong>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    ${team2Name}
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </div>
-                                    </div>
-                                </div>
+                                </a>
                             </li>
                         </c:forEach>
                     </ul>
