@@ -8,11 +8,13 @@ import it.unipd.dei.dam.awesometournament.database.CreateMatchEventDAO;
 import it.unipd.dei.dam.awesometournament.database.GetMatchDAO;
 import it.unipd.dei.dam.awesometournament.database.GetMatchEventsDAO;
 import it.unipd.dei.dam.awesometournament.database.GetTeamDAO;
+import it.unipd.dei.dam.awesometournament.database.GetTournamentByIdDAO;
 import it.unipd.dei.dam.awesometournament.resources.Actions;
 import it.unipd.dei.dam.awesometournament.resources.LogContext;
 import it.unipd.dei.dam.awesometournament.resources.entities.Event;
 import it.unipd.dei.dam.awesometournament.resources.entities.Match;
 import it.unipd.dei.dam.awesometournament.resources.entities.Team;
+import it.unipd.dei.dam.awesometournament.resources.entities.Tournament;
 import it.unipd.dei.dam.awesometournament.servlet.RestMatcherHandler;
 import it.unipd.dei.dam.awesometournament.servlet.RestMatcherServlet.Method;
 import it.unipd.dei.dam.awesometournament.servlet.RestMatcherServlet.Result;
@@ -120,16 +122,12 @@ public class MatchEventHandler extends RestMatcherHandler {
         GetMatchDAO getMatchDAO = new GetMatchDAO(getConnection(), matchId);
         Match match = (Match) getMatchDAO.access().getOutputParam();
 
-        int team1Id = match.getTeam1Id();
-        GetTeamDAO getTeamDAO1 = new GetTeamDAO(getConnection(), team1Id);
-        Team team1 = (Team) getTeamDAO1.access().getOutputParam();
+        GetTournamentByIdDAO getTournamentByIdDAO = new GetTournamentByIdDAO(getConnection(), match.getTournamentId());
+        getTournamentByIdDAO.access();
+        Tournament tournament = getTournamentByIdDAO.getOutputParam();
 
-        int team2Id = match.getTeam2Id();
-        GetTeamDAO getTeamDAO2 = new GetTeamDAO(getConnection(), team2Id);
-        Team team2 = (Team) getTeamDAO2.access().getOutputParam();
-
-        //Checks if the user is the creator of one of the teams
-        if (team1.getCreatorUserId() != userId && team2.getCreatorUserId() != userId)
+        //Checks if the user is the creator of the tournament
+        if (tournament.getCreatorUserId() != userId)
             return false;
 
         LOGGER.info("User authorized");
