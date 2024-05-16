@@ -80,6 +80,7 @@
             margin-bottom: 10px;
         }
         .team-detail, .score {
+            margin-top: 12px;
             display: flex;
             flex-direction: column;
             align-items: center;
