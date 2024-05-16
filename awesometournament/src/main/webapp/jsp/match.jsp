@@ -7,7 +7,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AwesomeTournaments - Tournament</title>
+    <title>AwesomeTournaments - Match</title>
+    <c:import url="/jsp/common/head.jsp"/>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -60,6 +61,8 @@
 </head>
 
 <body>
+    <!-- header -->
+    <c:import url="/jsp/common/header.jsp"/>
     <div class="container">
         <h1>AwesomeTournaments</h1>
         <div>
@@ -182,6 +185,8 @@
             </script>
         </c:if>
     </div>
+    <!-- footer -->
+    <c:import url="/jsp/common/footer.jsp"/>
 </body>
 
 </html>
