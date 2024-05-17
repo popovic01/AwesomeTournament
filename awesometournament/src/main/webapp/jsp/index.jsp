@@ -9,6 +9,7 @@
     <style>
         .container {
             text-align: center;
+            margin-top: 100px;
         }
 
         .image-link {
@@ -27,11 +28,11 @@
 
         h1{
             text-align: center;
-            margin-bottom: 150px;
         }
 
         .image-link p {
             margin: 10px 0 0;
+            color: #333;
         }
     </style>
 </head>
@@ -39,8 +40,6 @@
 <body>
 <!-- header -->
 <c:import url="/jsp/common/header.jsp"/>
-
-<h1>Awesome Tournament</h1>
 
 <c:choose>
     <c:when test="${logged}">
