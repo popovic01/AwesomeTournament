@@ -28,9 +28,19 @@
             th {
                 background-color: #f2f2f2;
             }
-            .small{
-                width: 10%;
-                height: auto;
+            .logo{
+                width: auto;
+                height: 60px;
+            }
+            a.link {
+                text-decoration: none; /* Rimuove il sottolineato */
+                color: inherit; /* Utilizza il colore del testo del genitore */
+            }
+
+            /* Stile per i link del team al passaggio del mouse */
+            a.link:hover {
+                text-decoration: underline; /* Sottolinea il testo al passaggio del mouse */
+                color: inherit; /* Utilizza il colore del testo del genitore */
             }
         </style>
     </head>
@@ -51,19 +61,23 @@
             <tbody>
                 <c:forEach items="${ranking}" var="entry">
                     <tr>
-                        <td><c:out value="${entry.getPlayerName()} ${entry.getPlayerSurname()}"/></td>
+                        <td>
+                            <a href="/players/${entry.getPlayerID()}" class="link">
+                                <c:out value="${entry.getPlayerName()} ${entry.getPlayerSurname()}"/>
+                            </a>
+                        </td>
                         <td>
                             <c:choose>
                                 <c:when test="${not empty entry.getLogo()}">
                                     <div>
-                                        <img src="data:image/jpeg;base64, ${entry.getLogo()}" class="small" alt="logo of campione d'italia">
-                                        <c:out value="${entry.getTeamName()}"/>
+                                        <img src="data:image/jpeg;base64, ${entry.getLogo()}" class="logo" alt="team logo">
+                                        <a href="/team/${entry.getTeamID()}" class="link"><c:out value="${entry.getTeamName()}"/></a>
                                     </div>
                                 </c:when>
                                 <c:otherwise>
                                     <div>
-                                        <img src="<c:url value="/media/tournament_logo.png"/>" class="small" alt="logo of campione d'italia">
-                                        <c:out value="${entry.getTeamName()}"/>
+                                        <img src="<c:url value="/media/tournament_logo.png"/>" class="logo" alt="default logo">
+                                        <a href="/team/${entry.getTeamID()}" class="link"><c:out value="${entry.getTeamName()}"/></a>
                                     </div>
                                 </c:otherwise>
                             </c:choose>

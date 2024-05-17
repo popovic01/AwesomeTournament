@@ -12,8 +12,8 @@ public class GetRankingScorersDAO extends AbstractDAO<ArrayList<RankingScorersEn
     /**
      * The SQL statement used to retrieve a ranking of top scorers from the database.
      */
-    private static final String STATEMENT = "SELECT p.name AS player_name, p.surname AS player_surname, " +
-                                            "tm.name AS team_name, tm.logo AS team_logo, " +
+    private static final String STATEMENT = "SELECT p.id AS player_id, p.name AS player_name, p.surname AS player_surname, " +
+                                            "tm.id AS team_id, tm.name AS team_name, tm.logo AS team_logo, " +
                                             "COUNT(CASE WHEN e.type = 'goal' THEN 1 END) AS goals_scored " +
                                             "FROM public.tournaments t " +
                                             "JOIN public.matches m ON m.tournament_id = t.id " +
@@ -49,8 +49,9 @@ public class GetRankingScorersDAO extends AbstractDAO<ArrayList<RankingScorersEn
             rs = p.executeQuery();
             while(rs.next()) {
                 LOGGER.info("Add player to ranking");
-                ranking.add(new RankingScorersEntry(rs.getString("player_name"), rs.getString("player_surname"),
-                        rs.getString("team_name"), rs.getBytes("team_logo"), rs.getInt("goals_scored")));
+                ranking.add(new RankingScorersEntry(rs.getInt("player_id"), rs.getString("player_name"), rs.getString("player_surname"),
+                        rs.getInt("team_id"), rs.getString("team_name"), rs.getBytes("team_logo"),
+                        rs.getInt("goals_scored")));
             }
         } finally {
             if (p != null) p.close();

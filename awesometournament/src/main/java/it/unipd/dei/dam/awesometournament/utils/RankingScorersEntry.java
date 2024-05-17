@@ -6,6 +6,12 @@ import java.util.Base64;
  * Represents an entry in the ranking of scorers.
  */
 public class RankingScorersEntry {
+
+    /**
+     * The id of the player.
+     */
+    int playerID;
+
     /**
      * The name of the player.
      */
@@ -16,6 +22,14 @@ public class RankingScorersEntry {
      */
     String playerSurname;
 
+    /**
+     * The id of the team.
+     */
+    int teamID;
+
+    /**
+     * The name of the team.
+     */
     String teamName;
 
     byte[] logo;
@@ -32,12 +46,23 @@ public class RankingScorersEntry {
      * @param playerSurname the surname of the player
      * @param goals         the number of goals scored by the player
      */
-    public RankingScorersEntry (String playerName, String playerSurname, String teamName, byte[] logo, int goals) {
+    public RankingScorersEntry (int playerID, String playerName, String playerSurname, int teamID, String teamName, byte[] logo, int goals) {
+        this.playerID = playerID;
         this.playerName = playerName;
         this.playerSurname = playerSurname;
+        this.teamID = teamID;
         this.teamName = teamName;
         this.logo = logo;
         this.goals = goals;
+    }
+
+    /**
+     * Retrieves the id of the player.
+     *
+     * @return the id of the player
+     */
+    public int getPlayerID() {
+        return playerID;
     }
 
     /**
@@ -58,6 +83,20 @@ public class RankingScorersEntry {
         return playerSurname;
     }
 
+    /**
+     * Retrieves the id of the team.
+     *
+     * @return the id of the team
+     */
+    public int getTeamID() {
+        return teamID;
+    }
+
+    /**
+     * Retrieves the name of the team.
+     *
+     * @return the name of the team
+     */
     public String getTeamName() {
         return teamName;
     }
