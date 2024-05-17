@@ -172,7 +172,7 @@
                             <li>
                                 <c:out value="${event}" />
                                 <c:if test="${owner}">
-                                    <button onclick="deleteEvent(<c:out value=" ${event.id}" />)">delete</button>
+                                    <button onclick="deleteEvent(<c:out value='${event.id}' />)">delete</button>
                                 </c:if>
                             </li>
                         </c:forEach>
@@ -231,111 +231,113 @@
             </div>
             <!-- footer -->
             <c:import url="/jsp/common/footer.jsp" />
+
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    const team1Id = "${match.team1Id}";
+                    const team2Id = "${match.team2Id}";
+
+                    fetchTeamData(team1Id, 1);
+                    fetchTeamData(team2Id, 2);
+                });
+
+                function deleteEvent(id) {
+                    const xhr = new XMLHttpRequest();
+                    xhr.open("DELETE", "/api/events/" + id, true);
+                    xhr.setRequestHeader("Content-Type", "application/json");
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState === 4 && xhr.status === 200) {
+                            // TODO delete the item without reloading the page
+                            window.location.reload();
+                        }
+                        console.log(xhr);
+                    };
+                    xhr.send();
+                }
+
+                document.getElementById("newEvent").addEventListener("submit", function (event) {
+                    event.preventDefault();
+                    const formData = new FormData(this);
+                    const jsonObject = {};
+                    formData.forEach(function (value, key) {
+                        jsonObject[key] = value;
+                    });
+                    const jsonData = JSON.stringify(jsonObject);
+                    const xhr = new XMLHttpRequest();
+                    xhr.open("POST", "/api/matches/${matchId}/events", true);
+                    xhr.setRequestHeader("Content-Type", "application/json");
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState === 4 && xhr.status === 200) {
+                            window.location.reload();
+                        }
+                    };
+                    xhr.send(jsonData);
+                });
+
+                document.getElementById("updateForm").addEventListener("submit", function (event) {
+                    event.preventDefault();
+                    // Gather form data
+                    const formData = new FormData(this);
+
+                    // Convert FormData to JSON
+                    const jsonObject = {};
+                    formData.forEach(function (value, key) {
+                        jsonObject[key] = value;
+                    });
+                    const jsonData = JSON.stringify(jsonObject);
+
+                    // Send AJAX request to update the backend
+                    const xhr = new XMLHttpRequest();
+                    xhr.open("PUT", "/api/matches/${matchId}", true);
+                    xhr.setRequestHeader("Content-Type", "application/json");
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState === 4 && xhr.status === 200) {
+                            alert("Match updated successfully!");
+                        }
+                    };
+                    xhr.send(jsonData);
+                });
+
+                // Function to fetch team data and update the DOM
+                function fetchTeamData(teamId, teamNumber) {
+                    const xhr = new XMLHttpRequest();
+                    xhr.open("GET", `/api/teams/\${teamId}`, true);
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState === 4) {
+                            if (xhr.status === 200) {
+                                const response = JSON.parse(xhr.responseText);
+                                if (response.status === "OK" && response.data) {
+                                    const teamData = response.data;
+                                    // Update the DOM with the team data
+                                    document.getElementById(`team\${teamNumber}Name`).innerText = teamData.name;
+
+                                    // Handle logo display
+                                    const logoElement = document.getElementById(`team\${teamNumber}Logo`);
+                                    if (teamData.logo) {
+                                        logoElement.src = teamData.logo;
+                                    } else if (teamData["base64-logo"]) {
+                                        logoElement.src = `data:image/png;base64,\${teamData["base64-logo"]}`;
+                                    } else {
+                                        //TODO DEFAULT LOGO MUST BE FIXED THIS IT IS ONLY FOR DEBUG PURPOSES
+                                        logoElement.src = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Logo_of_AC_Milan.svg/1306px-Logo_of_AC_Milan.svg.png"; // Path to a placeholder image
+                                    }
+                                } else {
+                                    console.error(`Error in response data for Team \${teamNumber}:`, response.message);
+                                    alert(`Failed to fetch team \${teamNumber} data: ` + response.message);
+                                }
+                            } else {
+                                console.error(`Error fetching team \${teamNumber} data:`, xhr.statusText);
+                                alert(`Failed to fetch team \${teamNumber} data: ` + xhr.statusText);
+                            }
+                        }
+                    };
+                    xhr.onerror = function () {
+                        console.error(`Network error while fetching team \{teamNumber} data`);
+                        alert(`Network error while fetching team \${teamNumber} data`);
+                    };
+                    xhr.send();
+                }
+            </script>
         </body>
 
         </html>
-
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                const team1Id = "${match.team1Id}";
-                const team2Id = "${match.team2Id}";
-
-                fetchTeamData(team1Id, 1);
-                fetchTeamData(team2Id, 2);
-            });
-
-            function deleteEvent(id) {
-                const xhr = new XMLHttpRequest();
-                xhr.open("DELETE", "/api/events/" + id, true);
-                xhr.setRequestHeader("Content-Type", "application/json");
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState === 4 && xhr.status === 200) {
-                        // TODO delete the item without reloading the page
-                        window.location.reload();
-                    }
-                    console.log(xhr);
-                };
-                xhr.send();
-            }
-            document.getElementById("newEvent").addEventListener("submit", function (event) {
-                event.preventDefault();
-                const formData = new FormData(this);
-                const jsonObject = {};
-                formData.forEach(function (value, key) {
-                    jsonObject[key] = value;
-                });
-                const jsonData = JSON.stringify(jsonObject);
-                const xhr = new XMLHttpRequest();
-                xhr.open("POST", "/api/matches/${matchId}/events", true);
-                xhr.setRequestHeader("Content-Type", "application/json");
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState === 4 && xhr.status === 200) {
-                        window.location.reload();
-                    }
-                };
-                xhr.send(jsonData);
-            });
-            document.getElementById("updateForm").addEventListener("submit", function (event) {
-                event.preventDefault();
-                // Gather form data
-                const formData = new FormData(this);
-
-                // Convert FormData to JSON
-                const jsonObject = {};
-                formData.forEach(function (value, key) {
-                    jsonObject[key] = value;
-                });
-                const jsonData = JSON.stringify(jsonObject);
-
-                // Send AJAX request to update the backend
-                const xhr = new XMLHttpRequest();
-                xhr.open("PUT", "/api/matches/${matchId}", true);
-                xhr.setRequestHeader("Content-Type", "application/json");
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState === 4 && xhr.status === 200) {
-                        alert("Match updated successfully!");
-                    }
-                };
-                xhr.send(jsonData);
-            });
-
-            // Function to fetch team data and update the DOM
-            function fetchTeamData(teamId, teamNumber) {
-                const xhr = new XMLHttpRequest();
-                xhr.open("GET", `/api/teams/\${teamId}`, true);
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState === 4) {
-                        if (xhr.status === 200) {
-                            const response = JSON.parse(xhr.responseText);
-                            if (response.status === "OK" && response.data) {
-                                const teamData = response.data;
-                                // Update the DOM with the team data
-                                document.getElementById(`team\${teamNumber}Name`).innerText = teamData.name;
-
-                                // Handle logo display
-                                const logoElement = document.getElementById(`team\${teamNumber}Logo`);
-                                if (teamData.logo) {
-                                    logoElement.src = teamData.logo;
-                                } else if (teamData["base64-logo"]) {
-                                    logoElement.src = `data:image/png;base64,\${teamData["base64-logo"]}`;
-                                } else {
-                                    //TODO DEFAULT LOGO MUST BE FIXED THIS IT IS ONLY FOR DEBUG PURPOSES
-                                    logoElement.src = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Logo_of_AC_Milan.svg/1306px-Logo_of_AC_Milan.svg.png"; // Path to a placeholder image
-                                }
-                            } else {
-                                console.error(`Error in response data for Team \${teamNumber}:`, response.message);
-                                alert(`Failed to fetch team \${teamNumber} data: ` + response.message);
-                            }
-                        } else {
-                            console.error(`Error fetching team \${teamNumber} data:`, xhr.statusText);
-                            alert(`Failed to fetch team \${teamNumber} data: ` + xhr.statusText);
-                        }
-                    }
-                };
-                xhr.onerror = function () {
-                    console.error(`Network error while fetching team \{teamNumber} data`);
-                    alert(`Network error while fetching team \${teamNumber} data`);
-                };
-                xhr.send();
-            }
-        </script>
