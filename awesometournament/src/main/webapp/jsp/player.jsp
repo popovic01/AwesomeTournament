@@ -139,7 +139,53 @@
             border: none;
             border-top: 1px solid #ccc;
         }
-    </style>
+        /* Modal styling */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0, 0, 0, 0.6); /* Black w/ opacity */
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            border-radius: 8px;
+            width: 50%; /* Smaller width */
+            max-width: 400px; /* Ensure it doesn't get too large */
+            text-align: center; /* Center the text */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add some shadow */
+            position: relative; /* Relative positioning for the close button */
+        }
+
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        #errorMessage {
+            margin-top: 40px; /* Add margin to separate from the close button */
+            font-size: 18px; /* Increase font size for better readability */
+            color: #333; /* Darker color for contrast */
+        }    </style>
 </head>
 <body>
 <!-- header -->
@@ -194,6 +240,13 @@
 
                 <!-- Download button -->
                 <button id="download" class="show-update-form-button" style="margin-top: 20px;">Download</button>
+                <!-- Error Modal -->
+                <div id="errorModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <p id="errorMessage"></p>
+                    </div>
+                </div>
             </form>
         </div>
     </c:if>
@@ -219,7 +272,7 @@
             if (fileExtension == 'pdf') {
                 return true;
             }
-            alert("Select only pdf files")
+            showErrorMessage('Upload only pdf files');
             return false;
         }
 
@@ -279,9 +332,33 @@
                 URL.revokeObjectURL(href);
             })
             .catch(error => {
-                    console.error('Error:', error);
-                    alert(error.message);
+                console.error('Error:', error);
+                showErrorMessage('Medical certificate not found.');
             });
+        };
+        // Function to show the error modal with a custom message
+        function showErrorMessage(message) {
+            var modal = document.getElementById("errorModal");
+            var span = document.getElementsByClassName("close")[0];
+            var errorMessage = document.getElementById("errorMessage");
+
+            // Set the error message text
+            errorMessage.textContent = message;
+
+            // Display the modal
+            modal.style.display = "block";
+
+            // When the user clicks on <span> (x), close the modal
+            span.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
         }
     </script>
 <!-- footer -->
