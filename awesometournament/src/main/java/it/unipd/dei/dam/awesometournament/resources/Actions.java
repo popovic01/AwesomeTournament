@@ -64,4 +64,7 @@ public final class Actions {
     public static final String GET_HOMEPAGE = "GET_HOMEPAGE";
     public static final String GET_INDEX = "GET_INDEX";
     public static final String GET_LOGIN_PAGE = "GET_LOGIN_PAGE";
+
+    // Medical certificate actions
+    public static final String GET_MEDICAL_CERTIFICATE = "GET_MEDICAL_CERTIFICATE";
 }

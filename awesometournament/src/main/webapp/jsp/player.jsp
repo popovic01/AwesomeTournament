@@ -132,6 +132,13 @@
             margin-top: 5px;
             color: #555;
         }
+        /* Add separator styling */
+        .separator {
+            width: 100%;
+            margin: 20px 0;
+            border: none;
+            border-top: 1px solid #ccc;
+        }
     </style>
 </head>
 <body>
@@ -167,17 +174,26 @@
         <input type="submit" name="cancel" value="Cancel">
     </form>
     <c:if test="${authorized}">
-        <h1 class="medical-certificate-header">Upload Medical Certificate</h1>
+        <h1 class="medical-certificate-header">Medical Certificate</h1>
         <div class="medical-certificate-container">
-            <form class="medical-certificate-form" method="POST" action="upload" enctype="multipart/form-data" >
-                <input type="hidden" name="playerId" value="${player.getId()}">
+            <!-- Medical certificate upload form -->
+            <form class="medical-certificate-form" method="POST" action="upload" enctype="multipart/form-data" onsubmit="return validateFile()">
+                <!-- File input -->
                 <div class="custom-file-input-container">
+                    <input type="hidden" name="playerId" value="${player.getId()}">
                     <label for="medicalCertificate" class="custom-file-input-label">Choose File</label>
-                    <input type="file" name="medicalCertificate" id="medicalCertificate" class="custom-file-input" onchange="displayFileName(this)" required/> 
+                    <input type="file" name="medicalCertificate" id="medicalCertificate" class="custom-file-input" onchange="displayFileName(this)" required/>
                 </div>
                 <div class="selected-file-name" id="selectedFileName"></div>
                 <br/>
-                <input type="submit" value="Upload" name="upload" class="medical-certificate-submit-button" /> <br/>
+                <input type="submit" value="Upload" name="upload" class="medical-certificate-submit-button" />
+                <br/>
+
+                <!-- Separator -->
+                <hr class="separator"/>
+
+                <!-- Download button -->
+                <button id="download" class="show-update-form-button" style="margin-top: 20px;">Download</button>
             </form>
         </div>
     </c:if>
@@ -194,6 +210,17 @@
         function displayFileName(input) {
             var fileName = input.files[0].name;
             document.getElementById('selectedFileName').innerText = 'Selected File: ' + fileName;
+        }
+
+        function validateFile() {
+            const fileInput = document.getElementById('medicalCertificate');
+            const fileName = fileInput.value.split('\\').pop();
+            const fileExtension = fileName.split('.').pop();
+            if (fileExtension == 'pdf') {
+                return true;
+            }
+            alert("Select only pdf files")
+            return false;
         }
 
         document.getElementById('updateForm').addEventListener('submit', function(event) {
@@ -234,6 +261,28 @@
                 window.location.replace("http://localhost:8080/players/${player.getId()}");
             }
         });
+
+        document.getElementById('download').onclick = function(event) {
+            event.preventDefault();
+            fetch("http://localhost:8080/download_medical_certificate/${player.getId()}", { method: 'get', mode: 'no-cors', referrerPolicy: 'no-referrer' })
+            .then(res => res.blob())
+            .then(res => {
+                if (!res.size) {
+                    throw new Error('Medical certificate not found');
+                }
+                const aElement = document.createElement('a');
+                aElement.setAttribute('download', "medical_certificate.pdf");
+                const href = URL.createObjectURL(res);
+                aElement.href = href;
+                aElement.setAttribute('target', '_blank');
+                aElement.click();
+                URL.revokeObjectURL(href);
+            })
+            .catch(error => {
+                    console.error('Error:', error);
+                    alert(error.message);
+            });
+        }
     </script>
 <!-- footer -->
 <c:import url="/jsp/common/footer.jsp" />
