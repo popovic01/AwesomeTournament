@@ -5,6 +5,7 @@
 <html>
 <head>
     <title>Player Information</title>
+    <c:import url="/jsp/common/head.jsp" />
     <style>
         /* Custom CSS for Player Information Page */
 
