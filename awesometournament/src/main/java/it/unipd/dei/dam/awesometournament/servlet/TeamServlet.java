@@ -29,7 +29,7 @@ import it.unipd.dei.dam.awesometournament.utils.SessionHelpers;
 /**
  * Servlet responsible for handling requests related to teams
  */
-@WebServlet("/")
+@WebServlet(name = "FileUploadServlet", urlPatterns = {"/upload"})
 @MultipartConfig
 public class TeamServlet extends AbstractDatabaseServlet{
     protected final static Logger LOGGER = LogManager.getLogger(TeamServlet.class,
