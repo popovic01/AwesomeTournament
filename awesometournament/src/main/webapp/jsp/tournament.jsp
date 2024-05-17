@@ -217,7 +217,7 @@
                                 <select id="matchFilter">
                                     <option value="past" selected>Past Matches</option>
                                     <option value="upcoming">Upcoming Matches</option>
-                                    <option value="tba">Not Yet Scheduled</option>
+                                    <option value="tba">Not Scheduled Yet</option>
                                     <option value="all">All Matches</option>
                                 </select>
                             </div>
