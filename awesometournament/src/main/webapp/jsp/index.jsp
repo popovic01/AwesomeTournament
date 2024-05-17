@@ -19,9 +19,9 @@
         }
 
         .image-link img {
-            width: 150px;
-            height: 100px;
-            object-fit: cover;
+            width: 200px;
+            height: 150px;
+            object-fit: contain;
             border-radius: 10px;
         }
 
