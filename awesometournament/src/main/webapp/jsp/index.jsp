@@ -35,32 +35,47 @@
         }
     </style>
 </head>
+
 <body>
 <!-- header -->
 <c:import url="/jsp/common/header.jsp"/>
 
 <h1>Awesome Tournament</h1>
 
-<c:if test="${logged}">
-    <h5>Welcome ${email}</h5>
-</c:if>
-
-<div class="container">
-    <a class="image-link" href="<c:url value="/home"/>">
-        <img src="<c:url value="/media/homepage.png"/>" alt="Immagine 1">
-        <p>Homepage</p>
-    </a>
-    <a class="image-link" href="<c:url value="/auth/login"/>">
-        <img src="<c:url value="/media/login.png"/>" alt="Immagine 2">
-        <p>Login</p>
-    </a>
-    <a class="image-link" href="<c:url value="/auth/signup"/>">
-        <img src="<c:url value="/media/signup.png"/>" alt="Immagine 3">
-        <p>Signup</p>
-    </a>
-</div>
+<c:choose>
+    <c:when test="${logged}">
+        <h5>Welcome ${email}</h5>
+        <div class="container">
+            <a class="image-link" href="<c:url value="/home"/>">
+                <img src="<c:url value="/media/homepage.png"/>" alt="Homepage image">
+                <p>Homepage</p>
+            </a>
+            <a class="image-link" href="<c:url value="/auth/signup"/>">
+                <img src="<c:url value="/media/logout.png"/>" alt="Logout image">
+                <p>Signup</p>
+            </a>
+        </div>
+    </c:when>
+    <c:otherwise>
+        <div class="container">
+            <a class="image-link" href="<c:url value="/home"/>">
+                <img src="<c:url value="/media/homepage.png"/>" alt="Homepage image">
+                <p>Homepage</p>
+            </a>
+            <a class="image-link" href="<c:url value="/auth/login"/>">
+                <img src="<c:url value="/media/login.png"/>" alt="Login image">
+                <p>Login</p>
+            </a>
+            <a class="image-link" href="<c:url value="/auth/signup"/>">
+                <img src="<c:url value="/media/signup.png"/>" alt="Signup image">
+                <p>Signup</p>
+            </a>
+        </div>
+    </c:otherwise>
+</c:choose>
 
 <!-- footer -->
 <c:import url="/jsp/common/footer.jsp"/>
 </body>
+
 </html>
