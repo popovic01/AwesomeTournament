@@ -23,12 +23,18 @@
     }
 </style>
 <header class="header-wrapper">
+    <div class="img-wrapper">
+        <a href="/">
+            <img src="<c:url value="/media/tournament_logo.png"/>"
+                 alt="logo of Awesome Tournament">
+        </a>
+    </div>
     <div>
         <h1>Awesome Tournament</h1>
     </div>
     <div class="img-wrapper">
-        <a href="/">
-            <img src="<c:url value="/media/tournament_logo.png"/>"
+        <a href="/auth/login">
+            <img src="<c:url value="/media/login.png"/>"
                  alt="logo of Awesome Tournament">
         </a>
     </div>
