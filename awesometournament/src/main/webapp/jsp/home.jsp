@@ -23,7 +23,7 @@
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-        h1 {
+        h1.title {
             text-align: center;
             color: #333;
         }
@@ -58,7 +58,7 @@
     <c:import url="/jsp/common/header.jsp"/>
 
     <div class="container">
-        <h1>AwesomeTournaments</h1>
+        <h1 class="title">AwesomeTournaments</h1>
         <ul>
             <c:forEach var="tournament" items="${tournaments}">
                 <li>

@@ -16,7 +16,7 @@
     }
     h1{
         justify-content: center;
-        color: black;
+        color: #e3e0e0;
     }
     img {
         height: 100%;

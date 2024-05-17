@@ -17,7 +17,7 @@
         }
 
         /* Header styling */
-        h1 {
+        h1.title {
             text-align: center;
             color: #333;
             margin-top: 20px;
@@ -137,7 +137,7 @@
 <!-- header -->
 <c:import url="/jsp/common/header.jsp"/>
 
-    <h1>Player Information</h1>
+    <h1 class="title">Player Information</h1>
     <div id="playerInfo" class="player-info-container">
         <div><b>ID:</b> <c:out value="${player.getId()}"/></div>
         <div><b>Name:</b> <c:out value="${player.getName()}"/></div>
