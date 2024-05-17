@@ -134,6 +134,9 @@
     </style>
 </head>
 <body>
+<!-- header -->
+<c:import url="/jsp/common/header.jsp"/>
+
     <h1>Player Information</h1>
     <div id="playerInfo" class="player-info-container">
         <div><b>ID:</b> <c:out value="${player.getId()}"/></div>
@@ -231,5 +234,7 @@
             }
         });
     </script>
+<!-- footer -->
+<c:import url="/jsp/common/footer.jsp" />
 </body>
 </html>
