@@ -50,9 +50,9 @@
                 <img src="<c:url value="/media/homepage.png"/>" alt="Homepage image">
                 <p>Homepage</p>
             </a>
-            <a class="image-link" href="<c:url value="/auth/signup"/>">
+            <a class="image-link" href="<c:url value="/auth/logout"/>">
                 <img src="<c:url value="/media/logout.png"/>" alt="Logout image">
-                <p>Signup</p>
+                <p>Logout</p>
             </a>
         </div>
     </c:when>
