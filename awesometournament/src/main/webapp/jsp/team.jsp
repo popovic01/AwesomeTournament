@@ -18,6 +18,10 @@
                 border-radius: 5px;
                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             }
+
+            #btnEdit {
+                margin-right: 1rem;
+            }
         </style>
     </head>
 
@@ -137,8 +141,18 @@
 
         if (btnDelete) {
             btnDelete.addEventListener('click', function() {
-                var url = `/teams/${team.id}`;
-                window.location.href = url;
+                var url = `/api/teams/${team.id}`;
+                var urlRedirect = `/tournament/${team.getTournamentId()}`;
+
+                fetch(url, {
+                    method: 'DELETE'
+                })
+                    .then(response => {
+                        window.location.href = urlRedirect;
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
 
                 var xhr = new XMLHttpRequest();
                 xhr.open('DELETE', url, true);
