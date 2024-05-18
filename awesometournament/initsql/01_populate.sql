@@ -14,9 +14,9 @@ INSERT INTO public.users (email, password) VALUES
   ('user10@example.com', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8');
 
 -- Inserting Serie A championship
-INSERT INTO public.tournaments (name, token, creator_user_id, max_teams, max_players, min_players, starting_players, max_substitutions, deadline, creation_date, is_finished)
+INSERT INTO public.tournaments (name, token, creator_user_id, max_teams, max_players, min_players, starting_players, max_substitutions, deadline, start_date, creation_date, is_finished)
 VALUES
-  ('Serie A 2024/2025', 'seriea2425', 1, 20, 11, 7, 11, 5, '2024-08-01', NOW(), false);
+  ('Serie A 2024/2025', 'seriea2425', 1, 20, 11, 7, 11, 5, '2024-08-01', '2024-09-01', NOW(), false);
 
 -- Inserting teams for Serie A, each inserted by a different user
 INSERT INTO public.teams (name, creator_user_id, tournament_id) VALUES
@@ -188,9 +188,9 @@ INSERT INTO public.events (match_id, player_id, type, time) VALUES
   (10, 36, 'goal', 75);  -- Rafael Leão (AC Milan) scores
 
 -- Inserting Premier League championship
-INSERT INTO public.tournaments (name, token, creator_user_id, max_teams, max_players, min_players, starting_players, max_substitutions, deadline, creation_date, is_finished)
+INSERT INTO public.tournaments (name, token, creator_user_id, max_teams, max_players, min_players, starting_players, max_substitutions, deadline, start_date, creation_date, is_finished)
 VALUES
-  ('Premier League 2024/2025', 'premierleague2425', 1, 20, 11, 7, 11, 5, '2024-08-01', NOW(), false);
+  ('Premier League 2024/2025', 'premierleague2425', 1, 20, 11, 7, 11, 5, '2024-08-01', '2024-09-01', NOW(), false);
 
 -- Inserting teams for Premier League, each inserted by a different user
 INSERT INTO public.teams (name, creator_user_id, tournament_id) VALUES
@@ -327,10 +327,10 @@ INSERT INTO public.events (match_id, player_id, type, time) VALUES
   (26, 80, 'goal', 70);  -- Raúl Jiménez (Wolverhampton Wanderers) scores
 
 -- Inserting a new tournament without matches and with a deadline within 24 hours
-INSERT INTO public.tournaments (name, token, creator_user_id, max_teams, max_players, min_players, starting_players, max_substitutions, deadline, creation_date, is_finished)
-VALUES ('Empty Tournament', 'empty', 3, 20, 11, 7, 11, 5, NOW() - INTERVAL '1 hour', NOW(), false);
+INSERT INTO public.tournaments (name, token, creator_user_id, max_teams, max_players, min_players, starting_players, max_substitutions, deadline, start_date, creation_date, is_finished)
+VALUES ('Empty Tournament', 'empty', 3, 20, 11, 7, 11, 5, NOW() - INTERVAL '1 hour', '2024-09-01T00:00:00Z', NOW(), false);
 
--- Inserting fake teams for Premier League tournament
+-- Inserting fake teams for empty tournament
 INSERT INTO public.teams (name, creator_user_id, tournament_id)
 VALUES
   ('Red Dragons FC', 1, 3),
@@ -343,3 +343,166 @@ VALUES
   ('Orange Owls FC', 8, 3),
   ('Purple Pumas FC', 9, 3),
   ('Yellow Yaks FC', 10, 3);
+
+-- Bundesliga 2018-2019
+INSERT INTO public.tournaments (name, token, creator_user_id, max_teams, max_players, min_players, starting_players, max_substitutions, deadline, start_date, creation_date, is_finished)
+VALUES ('Bundesliga 2018-2019', 'bundesliga1819', 1, 18, 11, 11, 11, 3, '2024-05-18 00:00:00', '2018-08-01 00:00:00', '2018-07-01 00:00:00', TRUE);
+
+-- Inserting teams
+INSERT INTO public.teams (name, creator_user_id, tournament_id)
+VALUES
+    ('Bayern Monaco', 1, 4),
+    ('Borussia Dortmund', 2, 4),
+    ('RB Lipsia', 3, 4),
+    ('Borussia Mönchengladbach', 4, 4),
+    ('Bayer Leverkusen', 5, 4),
+    ('Schalke 04', 6, 4),
+    ('Eintracht Francoforte', 7, 4),
+    ('Werder Brema', 8, 4),
+    ('Hoffenheim', 9, 4),
+    ('Fortuna Düsseldorf', 10, 4);
+
+-- Inserting matches
+INSERT INTO public.matches (team1_id, team2_id, tournament_id, team1_score, team2_score, referee, match_date, is_finished)
+VALUES
+    (31, 32, 4, 3, 1, 'Referee 1', '2018-08-24 20:00:00', TRUE),
+    (33, 34, 4, 2, 2, 'Referee 2', '2018-09-01 15:30:00', TRUE),
+    (35, 36, 4, 1, 0, 'Referee 3', '2018-09-15 18:00:00', TRUE),
+    (37, 38, 4, 2, 2, 'Referee 4', '2018-09-29 15:30:00', TRUE),
+    (39, 40, 4, 2, 1, 'Referee 5', '2018-10-06 15:30:00', TRUE),
+    (32, 33, 4, 1, 1, 'Referee 6', '2018-10-20 15:30:00', TRUE),
+    (34, 35, 4, 0, 1, 'Referee 7', '2018-11-03 15:30:00', TRUE),
+    (36, 37, 4, 1, 2, 'Referee 8', '2018-11-24 15:30:00', TRUE),
+    (38, 39, 4, 2, 0, 'Referee 9', '2018-12-08 15:30:00', TRUE),
+    (40, 31, 4, 0, 3, 'Referee 10', '2018-12-15 15:30:00', TRUE);
+
+
+-- Inserting players
+-- Bayern Monaco
+INSERT INTO public.players (name, surname, team_id, position, date_of_birth)
+VALUES
+    ('Manuel', 'Neuer', 31, 'goalkeeper', '1986-03-27'),
+    ('Robert', 'Lewandowski', 31, 'striker', '1988-08-21'),
+    ('Joshua', 'Kimmich', 31, 'midfielder', '1995-02-08');
+
+-- Borussia Dortmund
+INSERT INTO public.players (name, surname, team_id, position, date_of_birth)
+VALUES
+    ('Roman', 'Bürki', 32, 'goalkeeper', '1990-11-14'),
+    ('Marco', 'Reus', 32, 'midfielder', '1989-05-31'),
+    ('Jadon', 'Sancho', 32, 'striker', '2000-03-25');
+
+-- RB Lipsia
+INSERT INTO public.players (name, surname, team_id, position, date_of_birth)
+VALUES
+    ('Peter', 'Gulácsi', 33, 'goalkeeper', '1990-05-06'),
+    ('Timo', 'Werner', 33, 'striker', '1996-03-06'),
+    ('Marcel', 'Sabitzer', 33, 'midfielder', '1994-03-17');
+
+-- Borussia Mönchengladbach
+INSERT INTO public.players (name, surname, team_id, position, date_of_birth)
+VALUES
+    ('Yann', 'Sommer', 34, 'goalkeeper', '1988-12-17'),
+    ('Alassane', 'Pléa', 34, 'striker', '1993-03-10'),
+    ('Denis', 'Zakaria', 34, 'midfielder', '1996-11-20');
+
+-- Bayer Leverkusen
+INSERT INTO public.players (name, surname, team_id, position, date_of_birth)
+VALUES
+    ('Lukáš', 'Hrádecký', 35, 'goalkeeper', '1989-11-24'),
+    ('Kevin', 'Volland', 35, 'striker', '1992-07-30'),
+    ('Kai', 'Havertz', 35, 'midfielder', '1999-06-11');
+
+-- Schalke 04
+INSERT INTO public.players (name, surname, team_id, position, date_of_birth)
+VALUES
+    ('Ralf', 'Fährmann', 36, 'goalkeeper', '1988-09-27'),
+    ('Guido', 'Burgstaller', 36, 'striker', '1989-04-29'),
+    ('Suat', 'Serdar', 36, 'midfielder', '1997-04-11');
+
+-- Eintracht Francoforte
+INSERT INTO public.players (name, surname, team_id, position, date_of_birth)
+VALUES
+    ('Kevin', 'Trapp', 37, 'goalkeeper', '1990-07-08'),
+    ('Filip', 'Kostić', 37, 'midfielder', '1992-11-01'),
+    ('André', 'Silva', 37, 'striker', '1995-11-06');
+
+-- Werder Brema
+INSERT INTO public.players (name, surname, team_id, position, date_of_birth)
+VALUES
+    ('Jiří', 'Pavlenka', 38, 'goalkeeper', '1992-04-14'),
+    ('Josh', 'Sargent', 38, 'striker', '2000-02-20'),
+    ('Milot', 'Rashica', 38, 'midfielder', '1996-06-28');
+
+-- Hoffenheim
+INSERT INTO public.players (name, surname, team_id, position, date_of_birth)
+VALUES
+    ('Oliver', 'Baumann', 39, 'goalkeeper', '1990-06-02'),
+    ('Andrej', 'Kramarić', 39, 'striker', '1991-06-19'),
+    ('Florian', 'Grillitsch', 39, 'midfielder', '1995-08-07');
+
+-- Fortuna Düsseldorf
+INSERT INTO public.players (name, surname, team_id, position, date_of_birth)
+VALUES
+    ('Michael', 'Rensing', 40, 'goalkeeper', '1984-05-14'),
+    ('Rouwen', 'Hennings', 40, 'striker', '1987-08-28'),
+    ('Alfredo', 'Morales', 40, 'midfielder', '1990-05-12');
+
+
+-- Inserimento events
+-- Match 1
+INSERT INTO public.events (match_id, player_id, type, time)
+VALUES
+    (1, 82, 'goal', 23),  -- Gol scored by Robert Lewandowski
+    (1, 86, 'yellow card', 60);  -- Yellow card for Jadon Sancho
+
+-- Match 2
+INSERT INTO public.events (match_id, player_id, type, time)
+VALUES
+    (2, 87, 'goal', 15),  -- Gol scored by Timo Werner
+    (2, 88, 'red card', 70);  -- Red card for Marcel Sabitzer
+
+-- Match 3
+INSERT INTO public.events (match_id, player_id, type, time)
+VALUES
+    (3, 89, 'goal', 37);  -- Gol scored by Alassane Pléa
+
+-- Match 4
+INSERT INTO public.events (match_id, player_id, type, time)
+VALUES
+    (4, 92, 'yellow card', 20),  -- Yellow card for Denis Zakaria
+    (4, 93, 'yellow card', 45);  -- Yellow card for Kevin Volland
+
+-- Match 5
+INSERT INTO public.events (match_id, player_id, type, time)
+VALUES
+    (5, 95, 'goal', 50);  -- Gol scored by André Silva
+
+-- Match 6
+INSERT INTO public.events (match_id, player_id, type, time)
+VALUES
+    (6, 96, 'goal', 80),  -- Gol scored by Josh Sargent
+    (6, 97, 'yellow card', 35);  -- Yellow card for Milot Rashica
+
+-- Match 7
+INSERT INTO public.events (match_id, player_id, type, time)
+VALUES
+    (7, 99, 'goal', 60),  -- Gol scored by Guido Burgstaller
+    (7, 100, 'goal', 75);  -- Gol scored by Suat Serdar
+
+-- Match 8
+INSERT INTO public.events (match_id, player_id, type, time)
+VALUES
+    (8, 102, 'goal', 10),  -- Gol scored by Filip Kostić
+    (8, 103, 'yellow card', 30);  -- Yellow card for André Silva
+
+-- Match 9
+INSERT INTO public.events (match_id, player_id, type, time)
+VALUES
+    (9, 105, 'goal', 45);  -- Gol scored by Andrej Kramarić
+
+-- Match 10
+INSERT INTO public.events (match_id, player_id, type, time)
+VALUES
+    (10, 107, 'goal', 5),  -- Gol scored by Rouwen Hennings
+    (10, 108, 'yellow card', 40);  -- Yellow card for Alfredo Morales

@@ -39,6 +39,11 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             cursor: pointer;
         }
+        a.list {
+            text-decoration: none; /* Rimuove il sottolineato */
+            color: inherit; /* Utilizza il colore del testo del genitore */
+            display: block; /* Rende il link come un blocco per coprire l'intero <li> */
+        }
         li:hover {
             background-color: #e9e9e9;
         }
@@ -50,6 +55,16 @@
         .tournament-details {
             color: #666;
         }
+        .logo{
+            width: auto;
+            height: 60px;
+            float: right;
+            margin-left: 10px;
+        }
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
     </style>
 </head>
 <body>
@@ -59,22 +74,34 @@
 
     <div class="container">
         <h1 class="title">AwesomeTournaments</h1>
+        <div class="dropdown">
+            <select id="tournamentFilter" onchange="filterTournaments()">
+                <option value="active">Active Tournaments</option>
+                <option value="past">Past Tournaments</option>
+            </select>
+        </div>
         <ul>
             <c:forEach var="tournament" items="${tournaments}">
-                <li>
-                    <div class="tournament-name">
-                        <c:out value="${tournament.getName()}"/>
-                    </div>
-                    <div class="tournament-details">
-                        <c:out value="${tournament.getCreationDate()}"/>
-                    </div>
-                    <div class="tournament-details">
-                        <c:out value="${tournament.getStartingPlayers()}"/> players per team.
-                    </div>
-                    <c:url value="/tournament/" var="base"/>
-                    <div class="tournament-details">
-                        <a href = "${base}${tournament.getId()}"/>detail</a>
-                    </div>
+                <li class="tournament" data-is-finished="${tournament.getIsFinished()}">
+                    <a class="list" href="/tournament/${tournament.getId()}">
+                        <c:choose>
+                            <c:when test="${not empty entry.getLogoString()}">
+                                <img src="data:image/jpeg;base64, ${tournament.getLogoString()}" class="logo" alt="tournament logo">
+                            </c:when>
+                            <c:otherwise>
+                                <img src="<c:url value="/media/tournament_logo.png"/>" class="logo" alt="default logo">
+                            </c:otherwise>
+                        </c:choose>
+                        <div class="tournament-name">
+                            <c:out value="${tournament.getName()}"/>
+                        </div>
+                        <div class="tournament-details">
+                            <c:out value="${tournament.getOnlyStartDate()}"/>
+                        </div>
+                        <div class="tournament-details">
+                            <c:out value="${tournament.getStartingPlayers()}"/> players per team.
+                        </div>
+                    </a>
                 </li>
             </c:forEach>
         </ul>
@@ -82,6 +109,25 @@
 
     <!-- footer -->
     <c:import url="/jsp/common/footer.jsp"/>
+    <script>
+        function filterTournaments() {
+            var filter = document.getElementById("tournamentFilter").value;
+            var tournaments = document.querySelectorAll(".tournament");
 
+            tournaments.forEach(function(tournament) {
+                var isFinished = tournament.dataset.isFinished === "true";
+
+                if (filter === "active" && !isFinished) {
+                    tournament.style.display = "block";
+                }
+                else if (filter === "past" && isFinished) {
+                    tournament.style.display = "block";
+                }
+                else {
+                    tournament.style.display = "none";
+                }
+            });
+        }
+    </script>
 </body>
 </html>

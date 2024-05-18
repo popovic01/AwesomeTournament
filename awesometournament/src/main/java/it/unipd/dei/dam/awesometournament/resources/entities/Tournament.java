@@ -3,8 +3,11 @@ package it.unipd.dei.dam.awesometournament.resources.entities;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.io.InputStream;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * A class which represents a tournament.
@@ -247,6 +250,12 @@ public class Tournament {
         return startDate;
     }
 
+    public LocalDate getOnlyStartDate() {
+        Timestamp startDateTime = Timestamp.valueOf(getStartDate().toString());
+        LocalDateTime localDateTime  = startDateTime.toLocalDateTime();
+        return localDateTime.toLocalDate();
+    }
+
     public void setStartDate(Timestamp startDate) {
         this.startDate = startDate;
     }
@@ -261,6 +270,11 @@ public class Tournament {
 
     public InputStream getLogo() {
         return logo;
+    }
+
+    public String getLogoString() throws IOException {
+        if(logo != null) return convertInputStreamToString(logo);
+        else return "";
     }
 
     public void setLogo(InputStream logo) {
@@ -300,5 +314,17 @@ public class Tournament {
                 + ", startingPlayers=" + startingPlayers + ", maxSubstitutions=" + maxSubstitutions + ", deadline="
                 + deadline + ", startDate=" + startDate + ", creationDate=" + creationDate + ", logo=" + logo
                 + ", isFinished=" + isFinished + "]";
+    }
+
+    private static String convertInputStreamToString(InputStream inputStream) throws IOException {
+        StringBuilder stringBuilder = new StringBuilder();
+        String line;
+
+        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
+            while ((line = bufferedReader.readLine()) != null) {
+                stringBuilder.append(line).append("\n");
+            }
+        }
+        return stringBuilder.toString();
     }
 }
