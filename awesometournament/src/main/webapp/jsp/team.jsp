@@ -36,7 +36,10 @@
             </div>
 
             <c:if test="${tournamentOwner || teamOwner}">
-                <c:import url="/jsp/common/team/team-form.jsp"/>
+                <div class="d-flex justify-content-end mb-2">
+                    <button id="btnEdit" class="btn btn-secondary">Edit</button>
+                    <button id="btnDelete" class="btn btn-secondary">Delete</button>
+                </div>
             </c:if>
 
             <c:if test="${tournamentOwner}">
@@ -109,3 +112,44 @@
     </body>
 
 </html>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var btnEdit = document.getElementById('btnEdit');
+        var btnDelete = document.getElementById('btnDelete');
+
+        if (btnEdit) {
+            btnEdit.addEventListener('click', function() {
+                var url = `/api/tournaments/${team.getTournamentId()}/teams/${team.id}`;
+                window.location.href = url;
+
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', url, true);
+                xhr.onload = function() {
+                    if (xhr.status >= 200 && xhr.status < 300) {
+                        window.location.reload();
+                    }
+                };
+            });
+        } else {
+            console.log('btnEdit element not found');
+        }
+
+        if (btnDelete) {
+            btnDelete.addEventListener('click', function() {
+                var url = `/teams/${team.id}`;
+                window.location.href = url;
+
+                var xhr = new XMLHttpRequest();
+                xhr.open('DELETE', url, true);
+                xhr.onload = function() {
+                    if (xhr.status >= 200 && xhr.status < 300) {
+                        window.location.reload();
+                    }
+                };
+            });
+        } else {
+            console.log('btnDelete element not found');
+        }
+    })
+</script>

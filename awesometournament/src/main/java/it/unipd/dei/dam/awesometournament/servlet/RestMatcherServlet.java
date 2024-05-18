@@ -14,12 +14,14 @@ import it.unipd.dei.dam.awesometournament.utils.ResponsePackageNoData;
 import it.unipd.dei.dam.awesometournament.utils.ResponseStatus;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * Servlet responsible for routing HTTP requests to appropriate handlers based on the URL pattern
  */
+@MultipartConfig
 public class RestMatcherServlet extends AbstractDatabaseServlet {
 
     ObjectMapper om = new ObjectMapper();
@@ -168,6 +170,7 @@ public class RestMatcherServlet extends AbstractDatabaseServlet {
         entries.add(new Entry("/matches/*", false, factoryHandler(MatchHandler.class)));
         entries.add(new Entry("/players/*", false, factoryHandler(PlayerHandler.class)));
         entries.add(new Entry("/tournaments/*/teams", false, factoryHandler(TournamentTeamHandler.class)));
+        entries.add(new Entry("/tournaments/*/teams/*", false, factoryHandler(TournamentTeamHandler.class)));
         entries.add(new Entry("/tournaments/*", false, factoryHandler(TournamentIdHandler.class)));
         entries.add(new Entry("/tournaments", false, factoryHandler(TournamentHandler.class)));
         entries.add(new Entry("/tournaments/*/matches", false, factoryHandler(TournamentMatchesHandler.class)));

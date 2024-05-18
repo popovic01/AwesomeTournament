@@ -209,6 +209,12 @@
                     </tbody>
                 </table>
 
+                <c:if test="${owner}">
+                    <button id="btnAdd" class="btn btn-secondary">
+                        Add Team
+                    </button>
+                </c:if>
+
                 <div class="container">
                     <c:choose>
                         <c:when test="${not empty matches}">
@@ -306,6 +312,26 @@
             });
 
             document.addEventListener('DOMContentLoaded', function () {
+                var btnAdd = document.getElementById('btnAdd');
+
+                if (btnAdd) {
+                    btnAdd.addEventListener('click', function() {
+
+                        var url = `/api/tournaments/${tournament.id}/teams`;
+                        window.location.href = url;
+
+                        var xhr = new XMLHttpRequest();
+                        xhr.open('GET', '/api/tournaments/${tournament.id}/teams', true);
+                        xhr.onload = function() {
+                            if (xhr.status >= 200 && xhr.status < 300) {
+                                window.location.reload();
+                            }
+                        };
+                    });
+                } else {
+                    console.log('btnAdd element not found');
+                }
+
                 var filterControl = document.getElementById('matchFilter');
                 if (filterControl) {
                     filterControl.addEventListener('change', function () {

@@ -44,7 +44,7 @@ public class TeamServlet extends AbstractDatabaseServlet{
 
         String[] parts = path.split("/");
 
-        if(parts.length == 2) {
+        if (parts.length == 2) {
             int id = Integer.parseInt(parts[1]);
             try {
                 GetTeamDAO dao = new GetTeamDAO(getConnection(), id);
@@ -107,6 +107,7 @@ public class TeamServlet extends AbstractDatabaseServlet{
             int teamId = Integer.parseInt(req.getParameter("teamId"));
             Team team = new Team(teamId, req.getParameter("name"), inputStream);
             UpdateTeamDAO updateTeamDAO = new UpdateTeamDAO(getConnection(), team);
+            LOGGER.info(teamId);
             LOGGER.info(team.toString());
             Integer result = updateTeamDAO.access().getOutputParam();
             if (result == 1 || result == -1) {
