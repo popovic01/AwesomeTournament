@@ -104,6 +104,12 @@
                     color: black;
                 }
 
+                .info-container {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                }
+
                 /* Modal styles */
                 .modal {
                     display: none;
@@ -155,6 +161,7 @@
                 }
 
                 .modal-content input[type="number"],
+                .modal-content input[type="text"],
                 .modal-content input[type="submit"] {
                     width: calc(100% - 20px);
                     padding: 5px;
@@ -247,17 +254,26 @@
                     </div>
                 </div>
                 <div class="match-info">
-                    <p><strong>Referee:</strong> ${match.referee}</p>
-                    <c:choose>
-                        <c:when test="${match.matchDate != null}">
-                            <p><strong>Match Date:</strong> <span id="matchDate">${match.matchDate}</span></p>
-                        </c:when>
-                        <c:otherwise>
-                            <p><strong>Match Date:</strong> <span id="matchDate">TBA</span></p>
-                        </c:otherwise>
-                    </c:choose>
+                    <div class="info-container">
+                        <div>
+                            <p><strong>Referee:</strong> ${match.referee}</p>
+                            <c:choose>
+                                <c:when test="${match.matchDate != null}">
+                                    <p><strong>Match Date:</strong> <span id="matchDate">${match.matchDate}</span></p>
+                                </c:when>
+                                <c:otherwise>
+                                    <p><strong>Match Date:</strong> <span id="matchDate">TBA</span></p>
+                                </c:otherwise>
+                            </c:choose>
+                        </div>
+                        <div>
+                            <button id="update-info" class="btn" style="display: none;">
+                                <img src="/media/edit.png" width="20px" height="auto" style="padding-right: 5px;">
+                                Edit Info
+                            </button>
+                        </div>
+                    </div>
                 </div>
-
                 <div>
                     <ul>
                         <c:forEach items="${events}" var="event">
@@ -318,6 +334,21 @@
                 </div>
             </div>
 
+            <!-- Modal to update info -->
+            <div id="infoModal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <form id="updateInfoForm">
+                        <h2>Update Match Info</h2>
+                        <label for="referee">Referee:</label>
+                        <input type="text" id="referee" name="referee" value="${match.referee}">
+                        <label for="date">Date:</label>
+                        <input type="datetime-local" id="date" name="date" value="${match.matchDate}">
+                        <input type="submit" value="Update">
+                    </form>
+                </div>
+            </div>
+
             <script>
                 document.addEventListener("DOMContentLoaded", function () {
                     const team1Id = "${match.team1Id}";
@@ -327,24 +358,38 @@
                     fetchTeamData(team2Id, 2);
 
                     // Modal functionality
-                    var modal = document.getElementById("resultModal");
-                    var btn = document.getElementById("update-result");
-                    var span = document.getElementsByClassName("close")[0];
+                    var resultModal = document.getElementById("resultModal");
+                    var infoModal = document.getElementById("infoModal");
+                    var resultBtn = document.getElementById("update-result");
+                    var infoBtn = document.getElementById("update-info");
+                    var spanClose = document.getElementsByClassName("close");
 
-                    btn.onclick = function () {
+                    resultBtn.onclick = function () {
                         console.log("update-result button clicked");
-                        modal.style.display = "block";
+                        resultModal.style.display = "block";
                     }
 
-                    span.onclick = function () {
-                        console.log("close button clicked");
-                        modal.style.display = "none";
+                    infoBtn.onclick = function () {
+                        console.log("update-info button clicked");
+                        infoModal.style.display = "block";
+                    }
+
+                    for (var i = 0; i < spanClose.length; i++) {
+                        spanClose[i].onclick = function () {
+                            console.log("close button clicked");
+                            resultModal.style.display = "none";
+                            infoModal.style.display = "none";
+                        }
                     }
 
                     window.onclick = function (event) {
-                        if (event.target == modal) {
-                            console.log("Click outside modal detected");
-                            modal.style.display = "none";
+                        if (event.target == resultModal) {
+                            console.log("Click outside resultModal detected");
+                            resultModal.style.display = "none";
+                        }
+                        if (event.target == infoModal) {
+                            console.log("Click outside infoModal detected");
+                            infoModal.style.display = "none";
                         }
                     }
 
@@ -365,7 +410,33 @@
                             if (xhr.readyState === 4 && xhr.status === 200) {
                                 console.log("Match result updated successfully!");
                                 alert("Match result updated successfully!");
-                                modal.style.display = "none";
+                                resultModal.style.display = "none";
+                                window.location.reload();
+                            }
+                        };
+                        xhr.send(jsonData);
+                    });
+
+                    document.getElementById("updateInfoForm").addEventListener("submit", function (event) {
+                        event.preventDefault();
+                        console.log("updateInfoForm submit event");
+
+                        const formData = new FormData(this);
+                        const jsonObject = {};
+                        const date = new Date(formData.get("date"));
+                        const isoDate = date.toISOString();
+                        jsonObject["referee"] = formData.get("referee");
+                        jsonObject["matchDate"] = isoDate;
+                        const jsonData = JSON.stringify(jsonObject);
+                        const xhr = new XMLHttpRequest();
+                        console.log("Sending data to /api/matches/${match.id}: ", jsonData)
+                        xhr.open("PUT", "/api/matches/${match.id}", true);
+                        xhr.setRequestHeader("Content-Type", "application/json");
+                        xhr.onreadystatechange = function () {
+                            if (xhr.readyState === 4 && xhr.status === 200) {
+                                console.log("Match info updated successfully!");
+                                alert("Match info updated successfully!");
+                                infoModal.style.display = "none";
                                 window.location.reload();
                             }
                         };
@@ -377,12 +448,12 @@
                     const matchDate = new Date(container.dataset.matchDate);
                     const now = new Date(); // current time
                     const owner = container.dataset.owner === 'true';
-                    console.log(matchDate)
-                    console.log(now)
-                    console.log(owner && (matchDate <= now))
 
-                    if (owner && (matchDate <= now)) {
-                        document.getElementById("update-result").style.display = "block";
+                    if (owner) {
+                        document.getElementById("update-info").style.display = "block";
+                        if (matchDate <= now) {
+                            document.getElementById("update-result").style.display = "block";
+                        }
                     }
                 });
 
