@@ -18,7 +18,7 @@
         }
 
         /* Header styling */
-        h1.title {
+        h1 {
             text-align: center;
             color: #333;
             margin-top: 20px;
@@ -185,13 +185,13 @@
             margin-top: 40px; /* Add margin to separate from the close button */
             font-size: 18px; /* Increase font size for better readability */
             color: #333; /* Darker color for contrast */
-        }    </style>
+        }
+    </style>
 </head>
 <body>
-<!-- header -->
-<c:import url="/jsp/common/header.jsp"/>
+    <c:import url="/jsp/common/header.jsp"/>
 
-    <h1 class="title">Player Information</h1>
+    <h1>Player Information</h1>
     <div id="playerInfo" class="player-info-container">
         <div><b>ID:</b> <c:out value="${player.getId()}"/></div>
         <div><b>Name:</b> <c:out value="${player.getName()}"/></div>
@@ -361,7 +361,6 @@
             }
         }
     </script>
-<!-- footer -->
-<c:import url="/jsp/common/footer.jsp" />
+    <c:import url="/jsp/common/footer.jsp" />
 </body>
 </html>
