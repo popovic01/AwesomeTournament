@@ -103,13 +103,84 @@
                     margin: 5px 0;
                     color: black;
                 }
+
+                /* Modal styles */
+                .modal {
+                    display: none;
+                    position: fixed;
+                    z-index: 1;
+                    left: 0;
+                    top: 0;
+                    width: 100%;
+                    height: 100%;
+                    overflow: auto;
+                    background-color: rgb(0, 0, 0);
+                    background-color: rgba(0, 0, 0, 0.4);
+                    padding-top: 60px;
+                }
+
+                .modal-content {
+                    background-color: #fefefe;
+                    margin: 5% auto;
+                    padding: 20px;
+                    border: 1px solid #888;
+                    width: 80%;
+                    max-width: 600px;
+                    border-radius: 10px;
+                }
+
+                .close {
+                    color: #aaa;
+                    float: right;
+                    font-size: 28px;
+                    font-weight: bold;
+                }
+
+                .close:hover,
+                .close:focus {
+                    color: black;
+                    text-decoration: none;
+                    cursor: pointer;
+                }
+
+                .modal-content h2 {
+                    margin-top: 0;
+                    color: black;
+                }
+
+                .modal-content label {
+                    display: block;
+                    margin: 5px 0 5px;
+                    color: #555;
+                }
+
+                .modal-content input[type="number"],
+                .modal-content input[type="submit"] {
+                    width: calc(100% - 20px);
+                    padding: 5px;
+                    margin: 5px 0;
+                    border: 1px solid #ccc;
+                    border-radius: 5px;
+                    box-sizing: border-box;
+                }
+
+                .modal-content input[type="submit"] {
+                    background-color: #007bff;
+                    color: white;
+                    border: none;
+                    cursor: pointer;
+                }
+
+                .modal-content input[type="submit"]:hover {
+                    background-color: #0056b3;
+                }
             </style>
         </head>
 
         <body>
             <!-- header -->
             <c:import url="/jsp/common/header.jsp" />
-            <div class="container">
+            <div class="container" data-owner="${owner}" data-match-date="${match.matchDate}">
                 <c:choose>
                     <c:when test="${match.isFinished}">
                         <h2>Match Result</h2>
@@ -137,6 +208,11 @@
                     </div>
                     <div class="score" style="font-size: 2.2em;">
                         ${match.team1Score} - ${match.team2Score}
+                        <div>
+                            <button id="update-result" class="btn" style="display: none;"><img src="/media/edit.png"
+                                    width="30px" height="auto" style="padding-right: 10px;">Edit
+                                Result</button>
+                        </div>
                     </div>
                     <div class="team-detail team2-detail">
                         <img id="team2Logo" src="" alt="Team 2 Logo">
@@ -182,27 +258,6 @@
                     <div style="color: red;">
                         You are the admin of the tournament this match belongs to
                     </div>
-                    <form id="updateForm" style="background-color: grey;">
-                        <label for="team1Score">Team 1 Score:</label><br>
-                        <input type="text" id="team1Score" name="team1Score"><br>
-
-                        <label for="team2Score">Team 2 Score:</label><br>
-                        <input type="text" id="team2Score" name="team2Score"><br>
-
-                        <label for="result">Result:</label><br>
-                        <input type="text" id="result" name="result"><br>
-
-                        <label for="referee">Referee:</label><br>
-                        <input type="text" id="referee" name="referee"><br>
-
-                        <label for="matchDate">Match Date:</label><br>
-                        <input type="text" id="matchDate" name="matchDate"><br>
-
-                        <label for="isFinished">Is Finished:</label><br>
-                        <input type="text" id="isFinished" name="isFinished"><br>
-
-                        <input type="submit" value="Update">
-                    </form>
                     <form id="newEvent" style="background-color: rgb(82, 81, 81);">
                         <label for="player_id">Player: </label>
                         <select name="player_id" id="player_id">
@@ -232,6 +287,21 @@
             <!-- footer -->
             <c:import url="/jsp/common/footer.jsp" />
 
+            <!-- Modal to update result -->
+            <div id="resultModal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <form id="updateResultForm">
+                        <h2>Update Match Result</h2>
+                        <label for="team1Score">Team 1 Score:</label>
+                        <input type="number" id="team1Score" name="team1Score" value="${match.team1Score}" min="0">
+                        <label for="team2Score">Team 2 Score:</label>
+                        <input type="number" id="team2Score" name="team2Score" value="${match.team2Score}" min="0">
+                        <input type="submit" value="Update">
+                    </form>
+                </div>
+            </div>
+
             <script>
                 document.addEventListener("DOMContentLoaded", function () {
                     const team1Id = "${match.team1Id}";
@@ -239,6 +309,65 @@
 
                     fetchTeamData(team1Id, 1);
                     fetchTeamData(team2Id, 2);
+
+                    // Modal functionality
+                    var modal = document.getElementById("resultModal");
+                    var btn = document.getElementById("update-result");
+                    var span = document.getElementsByClassName("close")[0];
+
+                    btn.onclick = function () {
+                        console.log("update-result button clicked");
+                        modal.style.display = "block";
+                    }
+
+                    span.onclick = function () {
+                        console.log("close button clicked");
+                        modal.style.display = "none";
+                    }
+
+                    window.onclick = function (event) {
+                        if (event.target == modal) {
+                            console.log("Click outside modal detected");
+                            modal.style.display = "none";
+                        }
+                    }
+
+                    document.getElementById("updateResultForm").addEventListener("submit", function (event) {
+                        event.preventDefault();
+                        console.log("updateResultForm submit event");
+
+                        const formData = new FormData(this);
+                        const jsonObject = {};
+                        jsonObject["team1Score"] = Number(formData.get("team1Score"));
+                        jsonObject["team2Score"] = Number(formData.get("team2Score"));
+                        const jsonData = JSON.stringify(jsonObject);
+                        const xhr = new XMLHttpRequest();
+                        console.log("Sending data to /api/matches/${match.id}: ", jsonData)
+                        xhr.open("PUT", "/api/matches/${match.id}", true);
+                        xhr.setRequestHeader("Content-Type", "application/json");
+                        xhr.onreadystatechange = function () {
+                            if (xhr.readyState === 4 && xhr.status === 200) {
+                                console.log("Match result updated successfully!");
+                                alert("Match result updated successfully!");
+                                modal.style.display = "none";
+                                window.location.reload();
+                            }
+                        };
+                        xhr.send(jsonData);
+                    });
+
+                    // Show edit button if owner and match date is in the past or today
+                    const container = document.querySelector('.container');
+                    const matchDate = new Date(container.dataset.matchDate);
+                    const now = new Date(); // current time
+                    const owner = container.dataset.owner === 'true';
+                    console.log(matchDate)
+                    console.log(now)
+                    console.log(owner && (matchDate <= now))
+
+                    if (owner && (matchDate <= now)) {
+                        document.getElementById("update-result").style.display = "block";
+                    }
                 });
 
                 function deleteEvent(id) {
@@ -269,30 +398,6 @@
                     xhr.onreadystatechange = function () {
                         if (xhr.readyState === 4 && xhr.status === 200) {
                             window.location.reload();
-                        }
-                    };
-                    xhr.send(jsonData);
-                });
-
-                document.getElementById("updateForm").addEventListener("submit", function (event) {
-                    event.preventDefault();
-                    // Gather form data
-                    const formData = new FormData(this);
-
-                    // Convert FormData to JSON
-                    const jsonObject = {};
-                    formData.forEach(function (value, key) {
-                        jsonObject[key] = value;
-                    });
-                    const jsonData = JSON.stringify(jsonObject);
-
-                    // Send AJAX request to update the backend
-                    const xhr = new XMLHttpRequest();
-                    xhr.open("PUT", "/api/matches/${matchId}", true);
-                    xhr.setRequestHeader("Content-Type", "application/json");
-                    xhr.onreadystatechange = function () {
-                        if (xhr.readyState === 4 && xhr.status === 200) {
-                            alert("Match updated successfully!");
                         }
                     };
                     xhr.send(jsonData);
