@@ -215,7 +215,9 @@
 
                 <div class="match-detail">
                     <div class="team-detail team1-detail">
-                        <img id="team1Logo" src="" alt="Team 1 Logo">
+                        <a href="<c:url value="/team/${match.team1Id}" />">
+                            <img id="team1Logo" src="" alt="Team 1 Logo">
+                        </a>
                         <div>
                             <c:choose>
                                 <c:when test="${match.result == 'TEAM1'}">
@@ -238,7 +240,9 @@
                         </div>
                     </div>
                     <div class="team-detail team2-detail">
-                        <img id="team2Logo" src="" alt="Team 2 Logo">
+                        <a href="<c:url value="/team/${match.team2Id}" />">
+                            <img id="team2Logo" src="" alt="Team 2 Logo">
+                        </a>
                         <div>
                             <c:choose>
                                 <c:when test="${match.result == 'TEAM2'}">
