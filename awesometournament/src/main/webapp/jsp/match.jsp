@@ -174,6 +174,19 @@
                 .modal-content input[type="submit"]:hover {
                     background-color: #0056b3;
                 }
+
+                .back-btn {
+                    background-color: #007bff;
+                    color: white;
+                    padding: 7px 10px;
+                    border: none;
+                    border-radius: 5px;
+                    cursor: pointer;
+                }
+
+                .back-btn:hover {
+                    background-color: #0056b3;
+                }
             </style>
         </head>
 
@@ -181,6 +194,9 @@
             <!-- header -->
             <c:import url="/jsp/common/header.jsp" />
             <div class="container" data-owner="${owner}" data-match-date="${match.matchDate}">
+                <button class="back-btn" onclick="window.location.href='/tournament/${match.tournamentId}';">
+                    <img src="/media/go-back.png" width="30px" height="auto"> Back to tournament
+                </button>
                 <c:choose>
                     <c:when test="${match.isFinished}">
                         <h2>Match Result</h2>
