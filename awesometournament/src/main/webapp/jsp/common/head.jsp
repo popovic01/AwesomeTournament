@@ -25,28 +25,11 @@
         margin: 0
     }
 
-    .btn-normal {
-        background-color: #c5c8cb;
-        color: #292929;
-        padding: 0.4rem;
-        border: none;
-        border-radius: 0.4rem;
-        width: 5rem;
-        height: 2rem;
-    }
-
     form {
         display: flex;
         flex-direction: column;
         gap: 0.6rem;
         margin-bottom: 1rem;
-    }
-
-    .hyperlink {
-        border: none;
-        background: none;
-        text-decoration: underline;
-        color: #2c73dd;
     }
 
     .fa:hover {
