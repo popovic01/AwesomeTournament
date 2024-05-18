@@ -38,6 +38,7 @@
             border-radius: 5px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             cursor: pointer;
+            display: none;
         }
         a.list {
             text-decoration: none; /* Rimuove il sottolineato */
@@ -128,6 +129,10 @@
                 }
             });
         }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            filterTournaments();
+        });
     </script>
 </body>
 </html>
