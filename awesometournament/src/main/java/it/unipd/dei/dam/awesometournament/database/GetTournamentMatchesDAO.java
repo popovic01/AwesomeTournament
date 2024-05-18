@@ -16,7 +16,7 @@ public class GetTournamentMatchesDAO extends AbstractDAO<List<Match>> {
     /**
      * The SQL statement used to retrieve tournament's matches from the database.
      */
-    private static final String STATEMENT = "SELECT * FROM public.\"matches\" WHERE tournament_id = ?";
+    private static final String STATEMENT = "SELECT * FROM public.\"matches\" WHERE tournament_id = ? ORDER BY match_date";
     private final int tournamentId;
 
     /**
