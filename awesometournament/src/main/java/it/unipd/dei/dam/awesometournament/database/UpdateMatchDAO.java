@@ -43,7 +43,7 @@ public class UpdateMatchDAO extends AbstractDAO<Integer> {
             p.setString(2, match.getReferee());
             p.setInt(3, match.getId());
         } else {
-            STATEMENT = "UPDATE public.matches SET team1_score = ?, team2_score = ?, result = ?, match_date = ?, referee = ?, is_finished = ? WHERE id = ?";
+            STATEMENT = "UPDATE public.matches SET team1_score = ?, team2_score = ?, result = ?, is_finished = ? WHERE id = ?";
             p = con.prepareStatement(STATEMENT);
             
             int team1Score = match.getTeam1Score();
@@ -57,10 +57,8 @@ public class UpdateMatchDAO extends AbstractDAO<Integer> {
             p.setInt(1, team1Score);
             p.setInt(2, team2Score);
             p.setObject(3, MatchResult.enum2db(result), Types.OTHER);
-            p.setTimestamp(4, match.getMatchDate());
-            p.setString(5, match.getReferee());
-            p.setBoolean(6, match.getIsFinished());
-            p.setInt(7, match.getId());
+            p.setBoolean(4, true);
+            p.setInt(5, match.getId());
         }
 
         try {

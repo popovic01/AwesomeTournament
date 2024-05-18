@@ -88,40 +88,40 @@ INSERT INTO public.players (name, surname, team_id, position, date_of_birth) VAL
 -- Inserting matches for Serie A based on provided events
 INSERT INTO public.matches (team1_id, team2_id, tournament_id, team1_score, team2_score, result, referee, match_date, is_finished) VALUES
   -- Match 1: AC Milan vs. Inter Milan
-  (1, 2, 1, 2, 1, 'team1', 'Michael Fabbri', '2024-08-15 18:00:00', true),
+  (1, 2, 1, 2, 1, 'team1', 'Michael Fabbri', '2023-08-15 18:00:00', true),
   -- Match 2: Juventus vs. AS Roma
-  (3, 4, 1, 2, 1, 'team1', 'Daniele Doveri', '2024-08-16 15:30:00', true),
+  (3, 4, 1, 2, 1, 'team1', 'Daniele Doveri', '2023-08-16 15:30:00', true),
   -- Match 3: Napoli vs. Lazio
-  (5, 6, 1, 3, 1, 'team1', 'Gianpaolo Calvarese', '2024-08-17 16:45:00', true),
+  (5, 6, 1, 3, 1, 'team1', 'Gianpaolo Calvarese', '2023-08-17 16:45:00', true),
   -- Match 4: Atalanta vs. Fiorentina
-  (7, 8, 1, 3, 1, 'team1', 'Martin Atkinson', '2024-08-18 14:00:00', true),
+  (7, 8, 1, 3, 1, 'team1', 'Martin Atkinson', '2023-08-18 14:00:00', true),
   -- Match 5: Sampdoria vs. Torino
-  (9, 10, 1, 2, 2, 'draw', 'Anthony Taylor', '2024-08-19 17:30:00', true),
+  (9, 10, 1, 2, 2, 'draw', 'Anthony Taylor', '2023-08-19 17:30:00', true),
   -- Match 6: Inter Milan vs. Juventus
-  (2, 3, 1, 2, 2, 'draw', 'Michael Fabbri', '2024-08-21 16:00:00', true),
+  (2, 3, 1, 2, 2, 'draw', 'Michael Fabbri', '2023-08-21 16:00:00', true),
   -- Match 7: AS Roma vs. Napoli
-  (4, 5, 1, 2, 2, 'draw', 'Daniele Doveri', '2024-08-22 14:30:00', true),
+  (4, 5, 1, 2, 2, 'draw', 'Daniele Doveri', '2023-08-22 14:30:00', true),
   -- Match 8: Lazio vs. Atalanta
-  (6, 7, 1, 2, 2, 'draw', 'Gianpaolo Calvarese', '2024-08-23 15:15:00', true),
+  (6, 7, 1, 2, 2, 'draw', 'Gianpaolo Calvarese', '2023-08-23 15:15:00', true),
   -- Match 9: Fiorentina vs. Sampdoria
-  (8, 9, 1, 1, 3, 'team2', 'Martin Atkinson', '2024-08-24 17:45:00', true),
+  (8, 9, 1, 1, 3, 'team2', 'Martin Atkinson', '2023-08-24 17:45:00', true),
   -- Match 10: Torino vs. AC Milan
-  (10, 1, 1, 2, 1, 'team1', 'Anthony Taylor', '2024-08-25 18:30:00', true);
+  (10, 1, 1, 2, 1, 'team1', 'Anthony Taylor', '2023-08-25 18:30:00', true);
 
 -- Inserting scheduled but not yet played matches with existing referees
 INSERT INTO public.matches (team1_id, team2_id, tournament_id, match_date, referee, is_finished) VALUES
   -- Scheduled match 11: AC Milan vs. Juventus
-  (1, 3, 1, '2024-09-01 17:00:00', 'Michael Fabbri', false),
+  (1, 3, 1, '2023-09-01 17:00:00', 'Michael Fabbri', false),
   -- Scheduled match 12: AS Roma vs. Inter Milan
-  (4, 2, 1, '2024-09-02 19:45:00', 'Daniele Doveri', false),
+  (4, 2, 1, '2023-09-02 19:45:00', 'Daniele Doveri', false),
   -- Scheduled match 13: Lazio vs. Napoli
-  (6, 5, 1, '2024-09-03 15:30:00', 'Gianpaolo Calvarese', false),
+  (6, 5, 1, '2023-09-03 15:30:00', 'Gianpaolo Calvarese', false),
   -- Scheduled match 14: Fiorentina vs. Torino
-  (8, 10, 1, '2024-09-04 20:00:00', 'Martin Atkinson', false),
+  (8, 10, 1, '2023-09-04 20:00:00', 'Martin Atkinson', false),
   -- Scheduled match 15: Sampdoria vs. Atalanta
-  (9, 7, 1, '2024-09-05 18:15:00', 'Anthony Taylor', false),
+  (9, 7, 1, '2023-09-05 18:15:00', 'Anthony Taylor', false),
   -- Scheduled match 16: Inter Milan vs. Lazio
-  (2, 6, 1, '2024-09-06 16:30:00', 'Michael Fabbri', false);
+  (2, 6, 1, '2023-09-06 16:30:00', 'Michael Fabbri', false);
 
 -- Inserting matches that aren't scheduled yet with existing referees
 INSERT INTO public.matches (team1_id, team2_id, tournament_id, referee, is_finished) VALUES
