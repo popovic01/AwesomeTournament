@@ -423,8 +423,7 @@
                                     } else if (teamData["base64-logo"]) {
                                         logoElement.src = `data:image/png;base64,\${teamData["base64-logo"]}`;
                                     } else {
-                                        //TODO DEFAULT LOGO MUST BE FIXED THIS IT IS ONLY FOR DEBUG PURPOSES
-                                        logoElement.src = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Logo_of_AC_Milan.svg/1306px-Logo_of_AC_Milan.svg.png"; // Path to a placeholder image
+                                        logoElement.src = "/media/logo_placeholder.png";
                                     }
                                 } else {
                                     console.error(`Error in response data for Team \${teamNumber}:`, response.message);
