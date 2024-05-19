@@ -157,15 +157,7 @@
                     </c:if>
                 </div>
 
-                <div>
-                    <div>
-                        <c:out value="${tournament}" />
-                    </div>
-                </div>
                 <c:if test="${owner}">
-                    <div style="color: red;">
-                        You are the admin of this tournament
-                    </div>
                     <!-- TODO Will be placed somewhere else -->
                     <c:if test="${empty matches}">
                         <!-- If it is moved out of this <c> block you must check if user is owner -->

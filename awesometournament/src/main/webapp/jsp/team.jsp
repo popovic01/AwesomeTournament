@@ -46,17 +46,6 @@
                 </div>
             </c:if>
 
-            <c:if test="${tournamentOwner}">
-                <div>
-                    You are the admin of the tournament this team belongs to
-                </div>
-            </c:if>
-            <c:if test="${teamOwner}">
-                <div>
-                    You are the admin of this team
-                </div>
-            </c:if>
-
             <c:if test="${!empty players}">
                 <table class="table">
                     <thead>
