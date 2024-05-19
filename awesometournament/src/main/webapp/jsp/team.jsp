@@ -106,7 +106,7 @@
 
         if (btnEdit) {
             btnEdit.addEventListener('click', function() {
-                var url = `/api/tournaments/${team.getTournamentId()}/teams/${team.id}`;
+                var url = `/tournament/${team.getTournamentId()}/team/${team.id}`;
                 window.location.href = url;
 
                 var xhr = new XMLHttpRequest();

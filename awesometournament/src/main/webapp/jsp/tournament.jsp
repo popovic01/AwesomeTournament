@@ -321,11 +321,11 @@
                 if (btnAdd) {
                     btnAdd.addEventListener('click', function() {
 
-                        var url = `/api/tournaments/${tournament.id}/teams`;
+                        var url = `/tournament/${tournament.id}/add-team`;
                         window.location.href = url;
 
                         var xhr = new XMLHttpRequest();
-                        xhr.open('GET', '/api/tournaments/${tournament.id}/teams', true);
+                        xhr.open('GET', url, true);
                         xhr.onload = function() {
                             if (xhr.status >= 200 && xhr.status < 300) {
                                 window.location.reload();

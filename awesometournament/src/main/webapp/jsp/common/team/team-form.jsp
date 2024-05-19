@@ -46,7 +46,7 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         var segments = new URL(window.location.href).pathname.split('/');
-        const tournamentId = segments[3];
+        const tournamentId = segments[2];
         const lastSegment = segments.pop();
         var teamForm = document.getElementById('teamForm');
 

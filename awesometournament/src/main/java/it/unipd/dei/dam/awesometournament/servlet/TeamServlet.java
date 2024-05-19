@@ -88,37 +88,4 @@ public class TeamServlet extends AbstractDatabaseServlet{
             resp.sendError(HttpServletResponse.SC_NOT_FOUND);
         }
     }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
-
-        InputStream inputStream = null; // input stream of the upload file
-
-        // obtains the upload file part in this multipart request
-        Part filePart = req.getPart("file");
-        if (filePart != null) {
-            if (filePart.getSize() > 0) {
-                inputStream = filePart.getInputStream();
-            }
-        }
-
-        try {
-            int teamId = Integer.parseInt(req.getParameter("teamId"));
-            Team team = new Team(teamId, req.getParameter("name"), inputStream);
-            UpdateTeamDAO updateTeamDAO = new UpdateTeamDAO(getConnection(), team);
-            LOGGER.info(teamId);
-            LOGGER.info(team.toString());
-            Integer result = updateTeamDAO.access().getOutputParam();
-            if (result == 1 || result == -1) {
-                doGet(req, resp);
-            } else {
-                resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            }
-        } catch (NumberFormatException e) {
-            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Team ID must be an integer");
-        } catch (SQLException e) {
-            resp.sendError(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
-        }
-    }
 }

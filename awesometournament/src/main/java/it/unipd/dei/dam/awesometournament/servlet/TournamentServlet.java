@@ -4,7 +4,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import it.unipd.dei.dam.awesometournament.database.*;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -16,10 +19,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.message.StringFormatterMessageFactory;
 
-import it.unipd.dei.dam.awesometournament.database.GetTournamentByIdDAO;
-import it.unipd.dei.dam.awesometournament.database.GetTournamentMatchesDAO;
-import it.unipd.dei.dam.awesometournament.database.GetTournamentTeamsDAO;
-import it.unipd.dei.dam.awesometournament.database.UpdateTournamentDAO;
 import it.unipd.dei.dam.awesometournament.resources.Actions;
 import it.unipd.dei.dam.awesometournament.resources.LogContext;
 import it.unipd.dei.dam.awesometournament.resources.entities.Match;
@@ -39,10 +38,28 @@ public class TournamentServlet extends AbstractDatabaseServlet{
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         LogContext.setIPAddress(req.getRemoteAddr());
         LogContext.setAction(Actions.GET_TOURNAMENT);
-
         String path = req.getPathInfo();
 
         String[] parts = path.split("/");
+
+        if (path.contains("team")) {
+            try {
+                String regex = ".*/(\\d+)$";
+                Pattern pattern = Pattern.compile(regex);
+                Matcher matcher = pattern.matcher(req.getRequestURI());
+
+                if (matcher.matches()) {
+                    int teamId = Integer.parseInt(matcher.group(1));
+                    GetTeamDAO getTeamDAO = new GetTeamDAO(getConnection(), teamId);
+                    var result = getTeamDAO.access().getOutputParam();
+                    req.setAttribute("teamName", result.getName());
+                }
+                req.getRequestDispatcher("/jsp/common/team/team-form.jsp").forward(req, resp);
+                return;
+            } catch (Exception e) {
+                LOGGER.error(e);
+            }
+        }
 
         if(parts.length == 2) {
             int id = Integer.parseInt(parts[1]);
