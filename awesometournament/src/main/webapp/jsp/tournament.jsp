@@ -78,6 +78,12 @@
                     background-color: #0056b3;
                 }
 
+                .edit-button {
+                    position: absolute;
+                    right: 420px;
+                    top: 112px;
+                }
+
                 .matches-container {
                     display: flex;
                     flex-direction: column;
@@ -141,6 +147,10 @@
                     color: black;
                 }
 
+                .inline-container {
+                    display: flex;
+                    align-items: center;
+                }
             </style>
         </head>
 
@@ -153,8 +163,16 @@
                     <p class="fs-1 text-dark">
                         <c:out value="${tournament.name}" />
                     </p>
-                    <c:if test="${not empty tournament.base64Logo}">
-                        <img src="data:image/jpg;base64,${tournament.base64Logo}" />
+                    <c:choose>
+                        <c:when test="${not empty tournament.base64Logo}">
+                            <img src="data:image/jpg;base64,${tournament.base64Logo}" />
+                        </c:when>
+                        <c:otherwise>
+                            <img src="<c:url value="/media/tournament_logo.png"/>" alt="default logo">
+                        </c:otherwise>
+                    </c:choose>
+                    <c:if test="${owner}">
+                        <button class="btn btn-primary edit-button">Edit</button>
                     </c:if>
                 </div>
 
@@ -167,49 +185,37 @@
                     </c:if>
                 </c:if>
 
-                <div class="container mb-2">
-                    <h3 class="mb-2">Teams:</h3>
-
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th scope="col"></th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Logo</th>
-                            <th scope="col">See Details</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <c:forEach items="${teams}" var="team" varStatus="i">
-                            <tr>
-                                <th scope="row">${i.count}</th>
-                                <td>
-                                    <c:out value="${team.name}" />
-                                </td>
-                                <td>
-                                    <c:if test="${not empty team.base64Logo}">
-                                        <img src="data:image/jpg;base64,${team.base64Logo}" class="logo-img" />
-                                    </c:if>
-                                    <c:if test="${empty team.base64Logo}">
-                                        <p class="text-secondary">No logo available</p>
-                                    </c:if>
-                                </td>
-                                <td>
-                                    <a href="<c:url value=" /team/${team.getId()}" />">
-                                        Details
-                                    </a>
-                                </td>
-                            </tr>
-                        </c:forEach>
-                        </tbody>
-                    </table>
-
-                    <c:if test="${owner}">
-                        <button id="btnAdd" class="btn btn-secondary">
-                            Add Team
+                <div class="inline-container">
+                    <p class="fs-4 text-dark">Teams</p>
+                    <a href="/ranking/scorers/tournaments/${tournament.getId()}">
+                        <button style="margin-left: 30px" id="seeTournamentTable" class="btn btn-primary">
+                            See tournament table
                         </button>
-                    </c:if>
+                    </a>
                 </div>
+                <ol class="team-list">
+                    <c:forEach items="${teams}" var="team" varStatus="i">
+                        <li>
+                            <a class="list" href ="/team/${team.getId()}">
+                                <c:out value="${team.name}" />
+                                <c:choose>
+                                    <c:when test="${not empty team.getBase64Logo()}">
+                                        <img src="data:image/jpeg;base64, ${team.getBase64Logo()}" class="logo-img" alt="team logo">
+                                    </c:when>
+                                    <c:otherwise>
+                                        <img src="<c:url value='/media/tournament_logo.png' />" class="logo-img" alt="default logo">
+                                    </c:otherwise>
+                                </c:choose>
+                            </a>
+                        </li>
+                    </c:forEach>
+                </ol>
+
+            <c:if test="${owner}">
+                    <button id="btnAdd" class="btn btn-secondary">
+                        Add Team
+                    </button>
+                </c:if>
 
                 <div class="container">
                     <c:choose>

@@ -272,11 +272,6 @@ public class Tournament {
         return logo;
     }
 
-    public String getLogoString() throws IOException {
-        if(logo != null) return convertInputStreamToString(logo);
-        else return "";
-    }
-
     public void setLogo(InputStream logo) {
         this.logo = logo;
     }
@@ -314,17 +309,5 @@ public class Tournament {
                 + ", startingPlayers=" + startingPlayers + ", maxSubstitutions=" + maxSubstitutions + ", deadline="
                 + deadline + ", startDate=" + startDate + ", creationDate=" + creationDate + ", logo=" + logo
                 + ", isFinished=" + isFinished + "]";
-    }
-
-    private static String convertInputStreamToString(InputStream inputStream) throws IOException {
-        StringBuilder stringBuilder = new StringBuilder();
-        String line;
-
-        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
-            while ((line = bufferedReader.readLine()) != null) {
-                stringBuilder.append(line).append("\n");
-            }
-        }
-        return stringBuilder.toString();
     }
 }

@@ -1,8 +1,7 @@
 package it.unipd.dei.dam.awesometournament.resources.entities;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -142,6 +141,12 @@ public class Team {
     public InputStream getLogo() {
         return logo;
     }
+
+    /**
+     * Returns the logo of the team as string.
+     *
+     * @return The logo of the team as string.
+     */
 
     /**
      * Sets the logo of the team.

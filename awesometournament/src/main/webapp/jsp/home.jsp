@@ -75,6 +75,11 @@
             border: none;
             cursor: pointer;
         }
+
+        .btn:hover {
+            background-color: #0056b3;
+            color: white;
+        }
     </style>
 </head>
     <body>
@@ -85,9 +90,11 @@
         <div class="container">
             <h1 class="title">AwesomeTournaments</h1>
             <!--<a href="" style="display: flex; justify-content: center; text-decoration: none;">-->
-                <button id="btnCreateTournament" class="btn btn-primary" style="display: flex; justify-content: center; text-decoration: none;">
+            <div style="text-align: center;">
+                <button id="btnCreateTournament" class="btn">
                     Create a new Tournament
                 </button>
+            </div>
             <!--</a>-->
             <div class="dropdown" style="margin-bottom: 10px;">
                 <select id="tournamentFilter" onchange="filterTournaments()">
@@ -101,8 +108,8 @@
                     <li class="tournament" data-is-finished="${tournament.getIsFinished()}">
                         <a class="list" href="/tournament/${tournament.getId()}">
                             <c:choose>
-                                <c:when test="${not empty entry.getLogoString()}">
-                                    <img src="data:image/jpeg;base64, ${tournament.getLogoString()}" class="logo" alt="tournament logo">
+                                <c:when test="${not empty entry.getBase64Logo()}">
+                                    <img src="data:image/jpeg;base64, ${tournament.getBase64Logo()}" class="logo" alt="tournament logo">
                                 </c:when>
                                 <c:otherwise>
                                     <img src="<c:url value="/media/tournament_logo.png"/>" class="logo" alt="default logo">
