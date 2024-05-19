@@ -84,11 +84,11 @@
 
         <div class="container">
             <h1 class="title">AwesomeTournaments</h1>
-            <a href="${pageContext.request.contextPath}/api/tournaments" style="display: flex; justify-content: center; text-decoration: none;">
-                <button id="btnCreateTournament" class="btn btn-primary">
+            <!--<a href="" style="display: flex; justify-content: center; text-decoration: none;">-->
+                <button id="btnCreateTournament" class="btn btn-primary" style="display: flex; justify-content: center; text-decoration: none;">
                     Create a new Tournament
                 </button>
-            </a>
+            <!--</a>-->
             <div class="dropdown" style="margin-bottom: 10px;">
                 <select id="tournamentFilter" onchange="filterTournaments()">
                     <option value="active">Active Tournaments</option>
@@ -146,7 +146,7 @@
                 });
             }
 
-            function btnCreateTournaments() {
+            /*function btnCreateTournaments() {
                 var btnAdd = document.getElementById('btnCreateTournament');
 
                 if (btnAdd) {
@@ -166,10 +166,10 @@
                 } else {
                     console.log('btnAdd element not found');
                 }
-            }
+            }*/
 
             document.addEventListener("DOMContentLoaded", function() {
-                btnCreateTournaments();
+                //btnCreateTournaments();
                 filterTournaments();
             });
         </script>
