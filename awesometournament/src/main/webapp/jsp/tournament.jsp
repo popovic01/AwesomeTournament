@@ -211,12 +211,6 @@
                     </c:if>
                 </div>
 
-                <c:if test="${owner}">
-                    <button id="btnAdd" class="btn btn-secondary">
-                        Add Team
-                    </button>
-                </c:if>
-
                 <div class="container">
                     <c:choose>
                         <c:when test="${not empty matches}">

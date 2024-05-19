@@ -43,7 +43,6 @@
 
 <c:choose>
     <c:when test="${logged}">
-        <h5>Welcome ${email}</h5>
         <div class="container">
             <a class="image-link" href="<c:url value="/home"/>">
                 <img src="<c:url value="/media/homepage.png"/>" alt="Homepage image">
