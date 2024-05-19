@@ -26,7 +26,7 @@
 <%--                <input type="hidden" name="teamId" value="${team.getId()}">--%>
                 <div class="d-flex justify-content-center mb-3 w-100">
                     <p class="text-dark">Team Name:</p>
-                    <input type="text" name="name" placeholder="Name" class="form-control input-width-70" value="${teamName}">
+                    <input type="text" name="name" placeholder="Name" id="teamName" class="form-control input-width-70" value="${teamName}">
                 </div>
                 <div class="d-flex justify-content-center mb-3 w-100">
                     <p class="text-dark">Team Logo:</p>
@@ -49,6 +49,7 @@
         const tournamentId = segments[2];
         const lastSegment = segments.pop();
         var teamForm = document.getElementById('teamForm');
+        var teamNameInput = document.getElementById('teamName');
 
         var btnSubmit = document.getElementById('btnSubmit');
         var url = '/api/tournaments/' + tournamentId + '/teams';
@@ -63,6 +64,11 @@
             event.preventDefault();
 
             var formData = new FormData(teamForm);
+
+            if (!teamNameInput.value.trim()) {
+                alert('You must enter a team name.');
+                return;
+            }
 
             if (isNaN(parseInt(lastSegment))) {
                 fetch(url, {
