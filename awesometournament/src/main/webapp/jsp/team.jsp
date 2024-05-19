@@ -141,26 +141,28 @@
 
         if (btnDelete) {
             btnDelete.addEventListener('click', function() {
-                var url = `/api/teams/${team.id}`;
-                var urlRedirect = `/tournament/${team.getTournamentId()}`;
+                if (confirm('Are you sure you want to delete this team?')) {
+                    var url = `/api/teams/${team.id}`;
+                    var urlRedirect = `/tournament/${team.getTournamentId()}`;
 
-                fetch(url, {
-                    method: 'DELETE'
-                })
-                    .then(response => {
-                        window.location.href = urlRedirect;
+                    fetch(url, {
+                        method: 'DELETE'
                     })
-                    .catch(error => {
-                        console.error('Error:', error);
-                    });
+                        .then(response => {
+                            window.location.href = urlRedirect;
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
 
-                var xhr = new XMLHttpRequest();
-                xhr.open('DELETE', url, true);
-                xhr.onload = function() {
-                    if (xhr.status >= 200 && xhr.status < 300) {
-                        window.location.reload();
-                    }
-                };
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('DELETE', url, true);
+                    xhr.onload = function() {
+                        if (xhr.status >= 200 && xhr.status < 300) {
+                            window.location.reload();
+                        }
+                    };
+                }
             });
         } else {
             console.log('btnDelete element not found');
