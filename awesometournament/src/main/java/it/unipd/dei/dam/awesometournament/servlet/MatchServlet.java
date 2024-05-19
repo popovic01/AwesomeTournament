@@ -14,6 +14,7 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.message.StringFormatterMessageFactory;
 
 import it.unipd.dei.dam.awesometournament.database.GetMatchDAO;
+import it.unipd.dei.dam.awesometournament.database.GetMatchEventsByDAO;
 import it.unipd.dei.dam.awesometournament.database.GetMatchEventsDAO;
 import it.unipd.dei.dam.awesometournament.database.GetTeamPlayersDAO;
 import it.unipd.dei.dam.awesometournament.database.GetTournamentByIdDAO;
@@ -29,7 +30,7 @@ import it.unipd.dei.dam.awesometournament.utils.SessionHelpers;
 /**
  * Servlet responsible for handling requests related to matches
  */
-public class MatchServlet extends AbstractDatabaseServlet{
+public class MatchServlet extends AbstractDatabaseServlet {
     protected final static Logger LOGGER = LogManager.getLogger(MatchServlet.class,
             StringFormatterMessageFactory.INSTANCE);
 
@@ -42,38 +43,40 @@ public class MatchServlet extends AbstractDatabaseServlet{
 
         String[] parts = path.split("/");
 
-        if(parts.length == 2) {
+        if (parts.length == 2) {
             int id = Integer.parseInt(parts[1]);
             try {
+                // get the main Match object
                 GetMatchDAO dao = new GetMatchDAO(getConnection(), id);
                 dao.access();
                 Match match = dao.getOutputParam();
-                if(match == null) {
+                if (match == null) {
                     resp.sendError(HttpServletResponse.SC_NOT_FOUND);
                     return;
                 }
                 req.setAttribute("match", match);
 
-                if(SessionHelpers.isLogged(req)) {
-                    // check if the user is the admin of the tournament
-                    GetTournamentByIdDAO tournamentByIdDAO = new GetTournamentByIdDAO(getConnection(), match.getTournamentId());
+                // check if the logged user is the admin of the tournament
+                if (SessionHelpers.isLogged(req)) {
+                    GetTournamentByIdDAO tournamentByIdDAO = new GetTournamentByIdDAO(getConnection(),
+                            match.getTournamentId());
                     tournamentByIdDAO.access();
                     Tournament tournament = tournamentByIdDAO.getOutputParam();
 
                     int userId = SessionHelpers.getId(req);
-                    if(userId == tournament.getCreatorUserId()) {
+                    if (userId == tournament.getCreatorUserId()) {
                         req.setAttribute("owner", true);
                         req.setAttribute("matchId", match.getId());
                     }
                 }
 
+                // get the events of this match
                 GetMatchEventsDAO matchEventsDAO = new GetMatchEventsDAO(getConnection(), match.getId());
                 matchEventsDAO.access();
-
                 List<Event> events = matchEventsDAO.getOutputParam();
-
                 req.setAttribute("events", events);
 
+                // get the players taking part in this match
                 List<Player> players = new ArrayList<>();
 
                 GetTeamPlayersDAO playersDAO1 = new GetTeamPlayersDAO(getConnection(), match.getTeam1Id());
@@ -86,12 +89,39 @@ public class MatchServlet extends AbstractDatabaseServlet{
 
                 req.setAttribute("players", players);
 
+                // get the types of possible events
                 List<String> types = new ArrayList<>();
-                for(EventType type : EventType.values()) {
+                for (EventType type : EventType.values()) {
                     types.add(EventType.enum2db(type));
                 }
 
                 req.setAttribute("types", types);
+
+                // check if the number of goals is coherent
+
+                int score1 = match.getTeam1Score();
+                int score2 = match.getTeam2Score();
+
+                // count saved goal events for team1
+                GetMatchEventsByDAO getMatchEventsByDAO = new GetMatchEventsByDAO(getConnection(),
+                        id,
+                        EventType.GOAL,
+                        match.getTeam1Id());
+                
+                getMatchEventsByDAO.access();
+                int goals1 = getMatchEventsByDAO.getOutputParam().size();
+
+                getMatchEventsByDAO = new GetMatchEventsByDAO(getConnection(),
+                        id,
+                        EventType.GOAL,
+                        match.getTeam2Id());
+                
+                getMatchEventsByDAO.access();
+                int goals2 = getMatchEventsByDAO.getOutputParam().size();
+
+                req.setAttribute("goals_coherent", score1 == goals1 && score2 == goals2);
+
+                
 
                 req.getRequestDispatcher("/jsp/match.jsp").forward(req, resp);
             } catch (SQLException e) {
@@ -102,5 +132,5 @@ public class MatchServlet extends AbstractDatabaseServlet{
             resp.sendError(HttpServletResponse.SC_NOT_FOUND);
         }
     }
-    
+
 }

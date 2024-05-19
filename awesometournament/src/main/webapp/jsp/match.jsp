@@ -291,9 +291,12 @@
                     </ul>
                 </div>
                 <c:if test="${owner}">
-                    <div style="color: red;">
-                        You are the admin of the tournament this match belongs to
-                    </div>
+                    <c:if test="${!goals_coherent}">
+                        <div class="alert alert-danger" role="alert">
+                            Attention! the number of goal events is not
+                            coherent with the saved score!
+                        </div>
+                    </c:if>
                     <form id="newEvent" style="background-color: rgb(82, 81, 81);">
                         <label for="player_id">Player: </label>
                         <select name="player_id" id="player_id">
