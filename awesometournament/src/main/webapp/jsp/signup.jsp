@@ -56,6 +56,7 @@
         <input type="password" id="password" name="password" placeholder="Password"/></br>
         <input type="password" id="passwordcheck" name="passwordcheck" placeholder="Repeat password"/></br>
         <p class="error"><c:out value="${error}"/></p>
+        <input type="hidden" name="redirect" value="<c:out value="${redirect}"/>">
         <input type="submit" value="Signup"/>
     </form>
 </body>

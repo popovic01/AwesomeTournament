@@ -33,26 +33,14 @@ public class SignupServlet extends AbstractDatabaseServlet {
         LogContext.setIPAddress(req.getRemoteAddr());
         LogContext.setAction(Actions.USER_SIGNUP);
 
-        String err = req.getParameter("error");
-        if (err != null) {
-            if(err.equals("iemail")) {
-                req.setAttribute("error", "Invalid email!\n");
-            }
-            else if(err.equals("ipass")) {
-                req.setAttribute("error", "Invalid password!\n");
-            }
-            else if(err.equals("exists")) {
-                req.setAttribute("error", "User already exists!\n");
-            }
-            else if(err.equals("pnomatch")) {
-                req.setAttribute("error", "The passwords don't correspond!\n");
-            }
-        }
-
         if(SessionHelpers.isLogged(req)) {
             resp.sendRedirect("/");
             return;
         }
+
+        String referer = req.getHeader("Referer");
+        if(referer != null)
+            req.setAttribute("redirect", referer);
 
         req.getRequestDispatcher("/jsp/signup.jsp").forward(req, resp);
     }
@@ -83,8 +71,13 @@ public class SignupServlet extends AbstractDatabaseServlet {
         String password = map.get("password");
         String passwordcheck = map.get("passwordcheck");
 
+
+        String redirect = map.get("redirect");
+
         if(!password.equals(passwordcheck)) {
-            resp.sendRedirect("/auth/signup?error=pnomatch");
+            req.setAttribute("error", "The passwords don't correspond!\n");
+            req.setAttribute("redirect", redirect);
+            req.getRequestDispatcher("/jsp/signup.jsp").forward(req, resp);
             return;
         }
 
@@ -100,13 +93,17 @@ public class SignupServlet extends AbstractDatabaseServlet {
 
         if(!Validators.isEmail(email)) {
             // the email is not valid
-            resp.sendRedirect("/auth/signup?error=iemail");
+            req.setAttribute("error", "Invalid email!\n");
+            req.setAttribute("redirect", redirect);
+            req.getRequestDispatcher("/jsp/signup.jsp").forward(req, resp);
             return;
         }
 
         if(!Validators.isPasswordValid(password)) {
             // the password is not valid
-            resp.sendRedirect("/auth/signup?error=ipass");
+            req.setAttribute("error", "Invalid password!\n");
+            req.setAttribute("redirect", redirect);
+            req.getRequestDispatcher("/jsp/signup.jsp").forward(req, resp);
             return;
         }
 
@@ -118,11 +115,13 @@ public class SignupServlet extends AbstractDatabaseServlet {
             dao.access();
             Integer createdUserID = dao.getOutputParam();
             if(createdUserID == null) {
-            resp.sendRedirect("/auth/signup?error=exists");
+                req.setAttribute("error", "User already exists!\n");
+                req.setAttribute("redirect", redirect);
+                req.getRequestDispatcher("/jsp/signup.jsp").forward(req, resp);
                 return;
             }
 
-            resp.sendRedirect("/");
+            resp.sendRedirect(redirect);
         } catch (SQLException e) {
             e.printStackTrace();
         }

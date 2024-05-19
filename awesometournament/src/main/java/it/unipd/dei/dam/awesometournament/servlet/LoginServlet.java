@@ -90,6 +90,7 @@ public class LoginServlet extends AbstractDatabaseServlet {
                 req.setAttribute("error", "User not found!\n");
                 req.setAttribute("redirect", redirect);
                 req.getRequestDispatcher("/jsp/login.jsp").forward(req, resp);
+                return;
             }
             // compare the password
             String hashedinput = Hashing.hashPassword(password);
@@ -97,6 +98,7 @@ public class LoginServlet extends AbstractDatabaseServlet {
                 req.setAttribute("error", "Wrong password!\n");
                 req.setAttribute("redirect", redirect);
                 req.getRequestDispatcher("/jsp/login.jsp").forward(req, resp);
+                return;
             }
             // create session for the user
             HttpSession session = req.getSession(true);
