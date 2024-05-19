@@ -141,10 +141,6 @@
                     color: black;
                 }
 
-                .inline-container {
-                    display: flex;
-                    align-items: center;
-                }
             </style>
         </head>
 
@@ -171,24 +167,19 @@
                     </c:if>
                 </c:if>
 
-                <div class="inline-container">
-                    <p class="fs-4 text-dark">Teams</p>
-                    <a href="/ranking/scorers/tournaments/${tournament.getId()}">
-                        <button style="margin-left: 30px" id="seeTournamentTable" class="btn btn-secondary">
-                            See tournament table
-                        </button>
-                    </a>
-                </div>
-                <table class="table">
-                    <thead>
+                <div class="container mb-2">
+                    <h3 class="mb-2">Teams:</h3>
+
+                    <table class="table">
+                        <thead>
                         <tr>
                             <th scope="col"></th>
                             <th scope="col">Name</th>
                             <th scope="col">Logo</th>
                             <th scope="col">See Details</th>
                         </tr>
-                    </thead>
-                    <tbody>
+                        </thead>
+                        <tbody>
                         <c:forEach items="${teams}" var="team" varStatus="i">
                             <tr>
                                 <th scope="row">${i.count}</th>
@@ -205,13 +196,20 @@
                                 </td>
                                 <td>
                                     <a href="<c:url value=" /team/${team.getId()}" />">
-                                    Details
+                                        Details
                                     </a>
                                 </td>
                             </tr>
                         </c:forEach>
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+
+                    <c:if test="${owner}">
+                        <button id="btnAdd" class="btn btn-secondary">
+                            Add Team
+                        </button>
+                    </c:if>
+                </div>
 
                 <c:if test="${owner}">
                     <button id="btnAdd" class="btn btn-secondary">
