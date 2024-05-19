@@ -65,7 +65,6 @@
                         <th scope="col">Full Name</th>
                         <th scope="col">Date of Birth</th>
                         <th scope="col">Position</th>
-                        <th scope="col">Medical Certificate</th>
                         <th scope="col">See Details</th>
                     </tr>
                     </thead>
@@ -82,12 +81,6 @@
                             </td>
                             <td>
                                 <c:out value="${player.position}"/>
-                            </td>
-                            <td>
-                                <a href="<c:url value=""/>">
-                                    Show
-                                </a>
-                                    <%--                                <c:out value="${player.medicalCertificate}"/>--%>
                             </td>
                             <td>
                                 <a href="<c:url value="/players/${player.id}"/>">
