@@ -55,6 +55,7 @@
         <input type="email" name="email" placeholder="Email"><br/>
         <input type="password" name="password" placeholder="Password"><br/>
         <p class="error"><c:out value="${error}"/></p>
+        <input type="hidden" name="redirect" value="<c:out value="${redirect}"/>">
         <input type="submit" value="Login">
     </form>
     <p class="signup-text">Don't have an account? <a href="/auth/signup">Sign up</a></p>

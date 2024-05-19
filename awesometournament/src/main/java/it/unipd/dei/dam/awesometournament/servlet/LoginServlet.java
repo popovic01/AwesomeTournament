@@ -35,20 +35,14 @@ public class LoginServlet extends AbstractDatabaseServlet {
         LogContext.setIPAddress(req.getRemoteAddr());
         LogContext.setAction(Actions.GET_LOGIN_PAGE);
 
-        String err = req.getParameter("error");
-        if (err != null) {
-            if(err.equals("wp")) {
-                req.setAttribute("error", "Wrong password!\n");
-            }
-            else if(err.equals("unf")) {
-                req.setAttribute("error", "User not found!\n");
-            }
-        }
-
         if(SessionHelpers.isLogged(req)) {
             resp.sendRedirect("/");
             return;
         }
+
+        String referer = req.getHeader("Referer");
+        if(referer != null)
+            req.setAttribute("redirect", referer);
 
         req.getRequestDispatcher("/jsp/login.jsp").forward(req, resp);
     }
@@ -84,6 +78,8 @@ public class LoginServlet extends AbstractDatabaseServlet {
 
         // try to authenticate the user
 
+        String redirect = map.get("redirect");
+
         try {
             // try to get a corrsponding user in the database
             GetUserDAO dao = new GetUserDAO(getConnection(), email);
@@ -91,21 +87,23 @@ public class LoginServlet extends AbstractDatabaseServlet {
             User user = dao.getOutputParam();
             LOGGER.info(user);
             if(user == null) {
-                resp.sendRedirect("/auth/login?error=unf");
-                return;
+                req.setAttribute("error", "User not found!\n");
+                req.setAttribute("redirect", redirect);
+                req.getRequestDispatcher("/jsp/login.jsp").forward(req, resp);
             }
             // compare the password
             String hashedinput = Hashing.hashPassword(password);
             if(!hashedinput.equals(user.getPassword())) {
-                resp.sendRedirect("/auth/login?error=wp");
-                return;
+                req.setAttribute("error", "Wrong password!\n");
+                req.setAttribute("redirect", redirect);
+                req.getRequestDispatcher("/jsp/login.jsp").forward(req, resp);
             }
             // create session for the user
             HttpSession session = req.getSession(true);
             session.setAttribute("id", user.getId());
             session.setAttribute("email", user.getEmail());
 
-            resp.sendRedirect("/");
+            resp.sendRedirect(redirect);
         } catch (SQLException e) {
             e.printStackTrace();
         }
