@@ -41,9 +41,9 @@
             display: none;
         }
         a.list {
-            text-decoration: none; /* Rimuove il sottolineato */
-            color: inherit; /* Utilizza il colore del testo del genitore */
-            display: block; /* Rende il link come un blocco per coprire l'intero <li> */
+            text-decoration: none;
+            color: inherit;
+            display: block;
         }
         li:hover {
             background-color: #e9e9e9;
@@ -66,73 +66,112 @@
             position: relative;
             display: inline-block;
         }
+        .btn {
+            padding: 6px 12px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+        }
     </style>
 </head>
-<body>
+    <body>
 
-    <!-- header -->
-    <c:import url="/jsp/common/header.jsp"/>
+        <!-- header -->
+        <c:import url="/jsp/common/header.jsp"/>
 
-    <div class="container">
-        <h1 class="title">AwesomeTournaments</h1>
-        <div class="dropdown">
-            <select id="tournamentFilter" onchange="filterTournaments()">
-                <option value="active">Active Tournaments</option>
-                <option value="past">Past Tournaments</option>
-            </select>
+        <div class="container">
+            <h1 class="title">AwesomeTournaments</h1>
+            <a href="${pageContext.request.contextPath}/api/tournaments" style="display: flex; justify-content: center; text-decoration: none;">
+                <button id="btnCreateTournament" class="btn btn-primary">
+                    Create a new Tournament
+                </button>
+            </a>
+            <div class="dropdown" style="margin-bottom: 10px;">
+                <select id="tournamentFilter" onchange="filterTournaments()">
+                    <option value="active">Active Tournaments</option>
+                    <option value="past">Past Tournaments</option>
+                </select>
+            </div>
+
+            <ul>
+                <c:forEach var="tournament" items="${tournaments}">
+                    <li class="tournament" data-is-finished="${tournament.getIsFinished()}">
+                        <a class="list" href="/tournament/${tournament.getId()}">
+                            <c:choose>
+                                <c:when test="${not empty entry.getLogoString()}">
+                                    <img src="data:image/jpeg;base64, ${tournament.getLogoString()}" class="logo" alt="tournament logo">
+                                </c:when>
+                                <c:otherwise>
+                                    <img src="<c:url value="/media/tournament_logo.png"/>" class="logo" alt="default logo">
+                                </c:otherwise>
+                            </c:choose>
+                            <div class="tournament-name">
+                                <c:out value="${tournament.getName()}"/>
+                            </div>
+                            <div class="tournament-details">
+                                <c:out value="${tournament.getOnlyStartDate()}"/>
+                            </div>
+                            <div class="tournament-details">
+                                <c:out value="${tournament.getStartingPlayers()}"/> players per team.
+                            </div>
+                        </a>
+                    </li>
+                </c:forEach>
+            </ul>
         </div>
-        <ul>
-            <c:forEach var="tournament" items="${tournaments}">
-                <li class="tournament" data-is-finished="${tournament.getIsFinished()}">
-                    <a class="list" href="/tournament/${tournament.getId()}">
-                        <c:choose>
-                            <c:when test="${not empty entry.getLogoString()}">
-                                <img src="data:image/jpeg;base64, ${tournament.getLogoString()}" class="logo" alt="tournament logo">
-                            </c:when>
-                            <c:otherwise>
-                                <img src="<c:url value="/media/tournament_logo.png"/>" class="logo" alt="default logo">
-                            </c:otherwise>
-                        </c:choose>
-                        <div class="tournament-name">
-                            <c:out value="${tournament.getName()}"/>
-                        </div>
-                        <div class="tournament-details">
-                            <c:out value="${tournament.getOnlyStartDate()}"/>
-                        </div>
-                        <div class="tournament-details">
-                            <c:out value="${tournament.getStartingPlayers()}"/> players per team.
-                        </div>
-                    </a>
-                </li>
-            </c:forEach>
-        </ul>
-    </div>
 
-    <!-- footer -->
-    <c:import url="/jsp/common/footer.jsp"/>
-    <script>
-        function filterTournaments() {
-            var filter = document.getElementById("tournamentFilter").value;
-            var tournaments = document.querySelectorAll(".tournament");
+        <!-- footer -->
+        <c:import url="/jsp/common/footer.jsp"/>
 
-            tournaments.forEach(function(tournament) {
-                var isFinished = tournament.dataset.isFinished === "true";
+        <script>
+            function filterTournaments() {
+                var filter = document.getElementById("tournamentFilter").value;
+                var tournaments = document.querySelectorAll(".tournament");
 
-                if (filter === "active" && !isFinished) {
-                    tournament.style.display = "block";
+                tournaments.forEach(function(tournament) {
+                    var isFinished = tournament.dataset.isFinished === "true";
+
+                    if (filter === "active" && !isFinished) {
+                        tournament.style.display = "block";
+                    }
+                    else if (filter === "past" && isFinished) {
+                        tournament.style.display = "block";
+                    }
+                    else {
+                        tournament.style.display = "none";
+                    }
+                });
+            }
+
+            function btnCreateTournaments() {
+                var btnAdd = document.getElementById('btnCreateTournament');
+
+                if (btnAdd) {
+                    btnAdd.addEventListener('click', function() {
+
+                        var url = `/api/tournaments`;
+                        window.location.href = url;
+
+                        var xhr = new XMLHttpRequest();
+                        xhr.open('GET', '/api/tournaments', true);
+                        xhr.onload = function() {
+                            if (xhr.status >= 200 && xhr.status < 300) {
+                                window.location.reload();
+                            }
+                        };
+                    });
+                } else {
+                    console.log('btnAdd element not found');
                 }
-                else if (filter === "past" && isFinished) {
-                    tournament.style.display = "block";
-                }
-                else {
-                    tournament.style.display = "none";
-                }
+            }
+
+            document.addEventListener("DOMContentLoaded", function() {
+                btnCreateTournaments();
+                filterTournaments();
             });
-        }
-
-        document.addEventListener("DOMContentLoaded", function() {
-            filterTournaments();
-        });
-    </script>
-</body>
+        </script>
+    </body>
 </html>

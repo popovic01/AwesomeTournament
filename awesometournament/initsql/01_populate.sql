@@ -449,60 +449,61 @@ VALUES
     ('Alfredo', 'Morales', 40, 'midfielder', '1990-05-12');
 
 
--- Inserimento events
+-- Inserting events
 -- Match 1
 INSERT INTO public.events (match_id, player_id, type, time)
 VALUES
-    (1, 82, 'goal', 23),  -- Gol scored by Robert Lewandowski
-    (1, 86, 'yellow card', 60);  -- Yellow card for Jadon Sancho
+    (38, 82, 'goal', 23),  -- Gol scored by Robert Lewandowski
+    (38, 86, 'yellow card', 60);  -- Yellow card for Jadon Sancho
 
 -- Match 2
 INSERT INTO public.events (match_id, player_id, type, time)
 VALUES
-    (2, 87, 'goal', 15),  -- Gol scored by Timo Werner
-    (2, 88, 'red card', 70);  -- Red card for Marcel Sabitzer
+    (39, 87, 'goal', 15),  -- Gol scored by Timo Werner
+    (39, 88, 'red card', 70);  -- Red card for Marcel Sabitzer
 
 -- Match 3
 INSERT INTO public.events (match_id, player_id, type, time)
 VALUES
-    (3, 89, 'goal', 37);  -- Gol scored by Alassane Pléa
+    (40, 89, 'goal', 37);  -- Gol scored by Alassane Pléa
 
 -- Match 4
 INSERT INTO public.events (match_id, player_id, type, time)
 VALUES
-    (4, 92, 'yellow card', 20),  -- Yellow card for Denis Zakaria
-    (4, 93, 'yellow card', 45);  -- Yellow card for Kevin Volland
+    (41, 92, 'yellow card', 20),  -- Yellow card for Denis Zakaria
+    (41, 93, 'yellow card', 45);  -- Yellow card for Kevin Volland
 
 -- Match 5
 INSERT INTO public.events (match_id, player_id, type, time)
 VALUES
-    (5, 95, 'goal', 50);  -- Gol scored by André Silva
+    (42, 95, 'goal', 50);  -- Gol scored by André Silva
 
 -- Match 6
 INSERT INTO public.events (match_id, player_id, type, time)
 VALUES
-    (6, 96, 'goal', 80),  -- Gol scored by Josh Sargent
-    (6, 97, 'yellow card', 35);  -- Yellow card for Milot Rashica
+    (43, 96, 'goal', 80),  -- Gol scored by Josh Sargent
+    (43, 97, 'yellow card', 35);  -- Yellow card for Milot Rashica
 
 -- Match 7
 INSERT INTO public.events (match_id, player_id, type, time)
 VALUES
-    (7, 99, 'goal', 60),  -- Gol scored by Guido Burgstaller
-    (7, 100, 'goal', 75);  -- Gol scored by Suat Serdar
+    (44, 99, 'goal', 60),  -- Gol scored by Guido Burgstaller
+    (44, 100, 'goal', 75);  -- Gol scored by Suat Serdar
 
 -- Match 8
 INSERT INTO public.events (match_id, player_id, type, time)
 VALUES
-    (8, 102, 'goal', 10),  -- Gol scored by Filip Kostić
-    (8, 103, 'yellow card', 30);  -- Yellow card for André Silva
+    (45, 102, 'goal', 10),  -- Gol scored by Filip Kostić
+    (45, 103, 'yellow card', 30);  -- Yellow card for André Silva
 
 -- Match 9
 INSERT INTO public.events (match_id, player_id, type, time)
 VALUES
-    (9, 105, 'goal', 45);  -- Gol scored by Andrej Kramarić
+    (46, 105, 'goal', 45);  -- Gol scored by Andrej Kramarić
 
 -- Match 10
 INSERT INTO public.events (match_id, player_id, type, time)
 VALUES
-    (10, 107, 'goal', 5),  -- Gol scored by Rouwen Hennings
-    (10, 108, 'yellow card', 40);  -- Yellow card for Alfredo Morales
+    (47, 107, 'goal', 5),  -- Gol scored by Rouwen Hennings
+    (47, 108, 'yellow card', 40);  -- Yellow card for Alfredo Morales
+

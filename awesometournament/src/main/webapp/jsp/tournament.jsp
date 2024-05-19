@@ -140,6 +140,11 @@
                     text-decoration: none;
                     color: black;
                 }
+
+                .inline-container {
+                    display: flex;
+                    align-items: center;
+                }
             </style>
         </head>
 
@@ -166,7 +171,14 @@
                     </c:if>
                 </c:if>
 
-                <p class="fs-4 text-dark">Teams</p>
+                <div class="inline-container">
+                    <p class="fs-4 text-dark">Teams</p>
+                    <a href="/ranking/scorers/tournaments/${tournament.getId()}">
+                        <button style="margin-left: 30px" id="seeTournamentTable" class="btn btn-secondary">
+                            See tournament table
+                        </button>
+                    </a>
+                </div>
                 <table class="table">
                     <thead>
                         <tr>
