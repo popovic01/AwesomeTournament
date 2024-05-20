@@ -1,6 +1,7 @@
 package it.unipd.dei.dam.awesometournament.servlet.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 
 import it.unipd.dei.dam.awesometournament.database.DeleteTeamDAO;
@@ -51,6 +52,7 @@ public class TeamHandler extends RestMatcherHandler {
         LogContext.setAction(Actions.GET_TEAM);
         LOGGER.info("Received GET request");
         om = new ObjectMapper();
+        om.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
 
         GetTeamDAO dao = new GetTeamDAO(getConnection(), teamId);
         Team team = dao.access().getOutputParam();

@@ -512,9 +512,7 @@
 
                                     // Handle logo display
                                     const logoElement = document.getElementById(`team\${teamNumber}Logo`);
-                                    if (teamData.logo) {
-                                        logoElement.src = teamData.logo;
-                                    } else if (teamData["base64-logo"]) {
+                                    if (teamData["base64-logo"] != null) {
                                         logoElement.src = `data:image/png;base64,\${teamData["base64-logo"]}`;
                                     } else {
                                         logoElement.src = "/media/logo_placeholder.png";
