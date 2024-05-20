@@ -245,19 +245,24 @@
                                         <c:forEach items="${teams}" var="team">
                                             <c:if test="${team.id == match.team1Id}">
                                                 <c:set var="team1Name" value="${team.name}" />
-                                                <c:set var="team1Logo" value="${team.logo}" />
+                                                <c:set var="team1Logo" value="${team.getBase64Logo()}" />
                                             </c:if>
                                             <c:if test="${team.id == match.team2Id}">
                                                 <c:set var="team2Name" value="${team.name}" />
-                                                <c:set var="team2Logo" value="${team.logo}" />
+                                                <c:set var="team2Logo" value="${team.getBase64Logo()}" />
                                             </c:if>
                                         </c:forEach>
                                         <a id="match-link" href="<c:url value=" /match/${match.getId()}" />">
                                         <div class="match-detail">
                                             <div class="team-detail team1-detail">
-                                                <!-- TODO LOGO MUST BE FIXED THIS IT IS ONLY FOR DEBUG PURPOSES-->
-                                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Logo_of_AC_Milan.svg/1306px-Logo_of_AC_Milan.svg.png"
-                                                    alt="Logo of ${team1Name}" style="height: 30px;">
+                                                <c:choose>
+                                                    <c:when test="${not empty team1Logo}">
+                                                        <img src="data:image/jpeg;base64, ${team1Logo}" class="logo-img" alt="team logo">
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <img src="<c:url value='/media/tournament_logo.png' />" class="logo-img" alt="default logo">
+                                                    </c:otherwise>
+                                                </c:choose>
                                                 <div>
                                                     <c:choose>
                                                         <c:when test="${match.result == 'TEAM1'}">
@@ -273,9 +278,14 @@
                                                 ${match.team1Score} - ${match.team2Score}
                                             </div>
                                             <div class="team-detail team2-detail">
-                                                <!-- TODO LOGO MUST BE FIXED THIS IT IS ONLY FOR DEBUG PURPOSES-->
-                                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Logo_of_AC_Milan.svg/1306px-Logo_of_AC_Milan.svg.png"
-                                                    alt="Logo of ${team2Name}" style="height: 30px;">
+                                                <c:choose>
+                                                    <c:when test="${not empty team2Logo}">
+                                                        <img src="data:image/jpeg;base64, ${team2Logo}" class="logo-img" alt="team logo">
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <img src="<c:url value='/media/tournament_logo.png' />" class="logo-img" alt="default logo">
+                                                    </c:otherwise>
+                                                </c:choose>
                                                 <div>
                                                     <c:choose>
                                                         <c:when test="${match.result == 'TEAM2'}">
