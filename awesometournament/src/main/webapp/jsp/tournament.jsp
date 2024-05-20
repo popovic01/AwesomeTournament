@@ -208,7 +208,7 @@
                                         <img src="data:image/jpeg;base64, ${team.getBase64Logo()}" class="logo-img" alt="team logo">
                                     </c:when>
                                     <c:otherwise>
-                                        <img src="<c:url value='/media/tournament_logo.png' />" class="logo-img" alt="default logo">
+                                        <img src="<c:url value='/media/logo_placeholder.png' />" class="logo-img" alt="default logo">
                                     </c:otherwise>
                                 </c:choose>
                             </a>
@@ -260,7 +260,7 @@
                                                         <img src="data:image/jpeg;base64, ${team1Logo}" class="logo-img" alt="team logo">
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <img src="<c:url value='/media/tournament_logo.png' />" class="logo-img" alt="default logo">
+                                                        <img src="<c:url value='/media/logo_placeholder.png' />" class="logo-img" alt="default logo">
                                                     </c:otherwise>
                                                 </c:choose>
                                                 <div>
@@ -283,7 +283,7 @@
                                                         <img src="data:image/jpeg;base64, ${team2Logo}" class="logo-img" alt="team logo">
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <img src="<c:url value='/media/tournament_logo.png' />" class="logo-img" alt="default logo">
+                                                        <img src="<c:url value='/media/logo_placeholder.png' />" class="logo-img" alt="default logo">
                                                     </c:otherwise>
                                                 </c:choose>
                                                 <div>
