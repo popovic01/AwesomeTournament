@@ -227,13 +227,11 @@
                 <!-- File input -->
                 <div class="custom-file-input-container">
                     <input type="hidden" name="playerId" value="${player.getId()}">
-                    <label for="medicalCertificate" class="custom-file-input-label">Choose File</label>
+                    <label for="medicalCertificate" class="custom-file-input-label">Upload Medical Certificate</label>
                     <input type="file" name="medicalCertificate" id="medicalCertificate" class="custom-file-input" onchange="displayFileName(this)" required/>
                 </div>
                 <div class="selected-file-name" id="selectedFileName"></div>
-                <br/>
-                <input type="submit" value="Upload" name="upload" class="medical-certificate-submit-button" />
-                <br/>
+                <input type="submit" id="medicalCertificateSubmitButton" value="Confirm" style="display: none;" class="medical-certificate-submit-button" />
 
                 <!-- Separator -->
                 <hr class="separator"/>
@@ -263,6 +261,7 @@
         function displayFileName(input) {
             var fileName = input.files[0].name;
             document.getElementById('selectedFileName').innerText = 'Selected File: ' + fileName;
+            document.getElementById("medicalCertificateSubmitButton").style.display = "block";
         }
 
         function validateFile() {
