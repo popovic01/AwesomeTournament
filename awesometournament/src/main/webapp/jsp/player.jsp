@@ -181,7 +181,7 @@
             cursor: pointer;
         }
 
-        #errorMessage {
+        #message {
             margin-top: 40px; /* Add margin to separate from the close button */
             font-size: 18px; /* Increase font size for better readability */
             color: #333; /* Darker color for contrast */
@@ -189,8 +189,70 @@
     </style>
 </head>
 <body>
-    <c:import url="/jsp/common/header.jsp"/>
-
+    <div class="container mt-5">
+        <div class="card shadow-lg">
+            <div class="card-header text-white bg-primary">
+                <h3 class="card-title mb-0">Player Profile</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4 text-center">
+                        <h5 class="card-subtitle mb-2 text-muted">${player.getName()} ${player.getSurname()}</h5>
+                    </div>
+                    <!-- <div class="col-md-4 text-center"> -->
+                        <!-- <img src="${user.profilePicture}" class="img-fluid rounded-circle mb-3" alt="Profile Picture"> -->
+                        <!-- <h5 class="card-subtitle mb-2 text-muted">${user.name} ${user.surname}</h5> -->
+                    <!-- </div> -->
+                    <div class="col-md-8">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <strong>Name:</strong> ${player.getName()}
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Surname:</strong> ${player.getSurname()}
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Team:</strong> ${player.getTeamId()}
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Position:</strong> ${player.getPosition()}
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Date of birth:</strong> ${player.getDateOfBirth()}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <c:if test="${authorized}">
+                <div class="card-footer text-muted text-right">
+                    <c:choose>
+                        <c:when test="${not empty player.getMedicalCertificate()}">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <p class="font-weight-bold mb-0">Medical Certificate: </p>
+                                </div>
+                                <div class="col-md-4 d-flex justify-content-end align-items-center">
+                                    <!-- Your button here -->
+                                    <button class="btn btn-primary">Download</button>
+                                </div>
+                            </div>
+                        </c:when>
+                        <c:otherwise>
+                            Medical Certificate: Missing
+                        </c:otherwise>
+                    </c:choose>
+                    <form class="form-row" method="POST" action="/uploadMedicalCertificate" enctype="multipart/form-data" onsubmit="return validateFile()">
+                        <input type="hidden" name="playerId" value="${player.getId()}">
+                        <div class="input-group">
+                            <input type="file" class="form-control" id="inputGroupFile04" name="medicalCertificate" aria-describedby="inputGroupFileAddon04" aria-label="Upload" required>
+                            <button class="btn btn-outline-secondary" type="submit" id="inputGroupFileAddon04">Upload</button>
+                        </div>
+                    </form>
+                </div>
+            </c:if>
+        </div>
+    </div>
     <h1>Player Information</h1>
     <div id="playerInfo" class="player-info-container">
         <div><b>ID:</b> <c:out value="${player.getId()}"/></div>
@@ -219,35 +281,13 @@
         <input type="submit" name="confirm" value="Confirm">
         <input type="submit" name="cancel" value="Cancel">
     </form>
-    <c:if test="${authorized}">
-        <h1 class="medical-certificate-header">Medical Certificate</h1>
-        <div class="medical-certificate-container">
-            <!-- Medical certificate upload form -->
-            <form class="medical-certificate-form" method="POST" enctype="multipart/form-data" onsubmit="return validateFile()">
-                <!-- File input -->
-                <div class="custom-file-input-container">
-                    <input type="hidden" name="playerId" value="${player.getId()}">
-                    <label for="medicalCertificate" class="custom-file-input-label">Upload Medical Certificate</label>
-                    <input type="file" name="medicalCertificate" id="medicalCertificate" class="custom-file-input" onchange="displayFileName(this)" required/>
-                </div>
-                <div class="selected-file-name" id="selectedFileName"></div>
-                <input type="submit" id="medicalCertificateSubmitButton" value="Confirm" style="display: none;" class="medical-certificate-submit-button" />
-
-                <!-- Separator -->
-                <hr class="separator"/>
-
-                <!-- Download button -->
-                <button id="download" class="show-update-form-button" style="margin-top: 20px;">Download</button>
-                <!-- Error Modal -->
-                <div id="errorModal" class="modal">
-                    <div class="modal-content">
-                        <span class="close">&times;</span>
-                        <p id="errorMessage"></p>
-                    </div>
-                </div>
-            </form>
+    <!-- Error Modal -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p id="message"></p>
         </div>
-    </c:if>
+    </div>
     <script>
         function showUpdateForm() {
             // Hide original data
@@ -265,14 +305,15 @@
         }
 
         function validateFile() {
-            const fileInput = document.getElementById('medicalCertificate');
-            const fileName = fileInput.value.split('\\').pop();
-            const fileExtension = fileName.split('.').pop();
-            if (fileExtension == 'pdf') {
-                return true;
+            const fileInput = document.getElementById('inputGroupFile04');
+            const filePath = fileInput.value;
+            const allowedExtensions = /(\.pdf)$/i;
+            if (!allowedExtensions.exec(filePath)) {
+                showMessage('Upload only pdf files');
+                return false;
             }
-            showErrorMessage('Upload only pdf files');
-            return false;
+
+            return true;
         }
 
         document.getElementById('updateForm').addEventListener('submit', function(event) {
@@ -332,17 +373,18 @@
             })
             .catch(error => {
                 console.error('Error:', error);
-                showErrorMessage('Medical certificate not found.');
+                showMessage('Medical certificate not found.');
             });
         };
-        // Function to show the error modal with a custom message
-        function showErrorMessage(message) {
-            var modal = document.getElementById("errorModal");
-            var span = document.getElementsByClassName("close")[0];
-            var errorMessage = document.getElementById("errorMessage");
 
-            // Set the error message text
-            errorMessage.textContent = message;
+        // Function to show the modal with a custom message
+        function showMessage(message) {
+            var modal = document.getElementById("modal");
+            var span = document.getElementsByClassName("close")[0];
+            var modalMessage = document.getElementById("message");
+
+            // Set the message text
+            modalMessage.textContent = message;
 
             // Display the modal
             modal.style.display = "block";
@@ -362,9 +404,8 @@
     </script>
     <c:if test="${uploaded}">
         <script>
-            showErrorMessage("Medical certificate uploaded correctly");
+            showMessage("Medical certificate uploaded correctly");
         </script>
     </c:if>
-    <c:import url="/jsp/common/footer.jsp" />
 </body>
 </html>
