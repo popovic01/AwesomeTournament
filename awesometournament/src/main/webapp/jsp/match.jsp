@@ -10,6 +10,9 @@
             <title>AwesomeTournaments - Match</title>
             <c:import url="/jsp/common/head.jsp" />
             <style>
+                /*
+                TODO: think about moving style in global and dedicated files
+                */
                 body {
                     font-family: Arial, sans-serif;
                     margin: 0;
@@ -200,6 +203,7 @@
         <body>
             <!-- header -->
             <c:import url="/jsp/common/header.jsp" />
+
             <div class="container" data-owner="${owner}" data-match-date="${match.matchDate}">
                 <button class="back-btn" onclick="window.location.href='/tournament/${match.tournamentId}';">
                     <img src="/media/go-back.png" width="30px" height="auto"> Back to tournament
@@ -323,38 +327,15 @@
                     </form>
                 </c:if>
             </div>
+
             <!-- footer -->
             <c:import url="/jsp/common/footer.jsp" />
 
             <!-- Modal to update result -->
-            <div id="resultModal" class="modal">
-                <div class="modal-content">
-                    <span class="close">&times;</span>
-                    <form id="updateResultForm">
-                        <h2>Update Match Result</h2>
-                        <label for="team1Score">Team 1 Score:</label>
-                        <input type="number" id="team1Score" name="team1Score" value="${match.team1Score}" min="0">
-                        <label for="team2Score">Team 2 Score:</label>
-                        <input type="number" id="team2Score" name="team2Score" value="${match.team2Score}" min="0">
-                        <input type="submit" value="Update">
-                    </form>
-                </div>
-            </div>
+            <c:import url="/jsp/components/modal-result.jsp" />
 
             <!-- Modal to update info -->
-            <div id="infoModal" class="modal">
-                <div class="modal-content">
-                    <span class="close">&times;</span>
-                    <form id="updateInfoForm">
-                        <h2>Update Match Info</h2>
-                        <label for="referee">Referee:</label>
-                        <input type="text" id="referee" name="referee" value="${match.referee}">
-                        <label for="date">Date:</label>
-                        <input type="datetime-local" id="date" name="date" value="${match.matchDate}">
-                        <input type="submit" value="Update">
-                    </form>
-                </div>
-            </div>
+            <c:import url="/jsp/components/modal-info.jsp" />
 
             <script>
                 document.addEventListener("DOMContentLoaded", function () {
