@@ -15,7 +15,7 @@ public class GetTournamentTeamsDAO extends AbstractDAO<List<Team>> {
     /**
      * The SQL statement used to retrieve all teams belonging to a particular tournament from the database.
      */
-    private static final String STATEMENT = "SELECT * FROM public.\"teams\" WHERE tournament_id = ?";
+    private static final String STATEMENT = "SELECT * FROM public.\"teams\" WHERE tournament_id = ? ORDER BY name";
     /**
      * An id of a tournament for which all the teams should be retrieved from the database.
      */
