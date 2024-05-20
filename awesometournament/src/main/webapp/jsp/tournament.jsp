@@ -151,6 +151,11 @@
                     display: flex;
                     align-items: center;
                 }
+                a.list {
+                    text-decoration: none;
+                    color: inherit;
+                    display: block;
+                }
             </style>
         </head>
 
