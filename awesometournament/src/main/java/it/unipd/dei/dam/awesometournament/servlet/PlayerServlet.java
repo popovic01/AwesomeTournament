@@ -156,8 +156,10 @@ public class PlayerServlet extends AbstractDatabaseServlet {
             UpdatePlayerDAO updatePlayerDAO = new UpdatePlayerDAO(getConnection(), player);
             Integer result = (Integer) updatePlayerDAO.access().getOutputParam();
             if (result == 1) {
-                resp.setStatus(HttpServletResponse.SC_OK);
-                resp.getWriter().print("Medical Certificate Uploaded!");
+                req.setAttribute("authorized", true);
+                req.setAttribute("uploaded", true);
+                req.setAttribute("player", player);
+                req.getRequestDispatcher("/jsp/player.jsp").forward(req, resp);
             } else {
                 resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             }

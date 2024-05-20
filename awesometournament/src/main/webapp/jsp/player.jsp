@@ -223,7 +223,7 @@
         <h1 class="medical-certificate-header">Medical Certificate</h1>
         <div class="medical-certificate-container">
             <!-- Medical certificate upload form -->
-            <form class="medical-certificate-form" method="POST" action="upload" enctype="multipart/form-data" onsubmit="return validateFile()">
+            <form class="medical-certificate-form" method="POST" enctype="multipart/form-data" onsubmit="return validateFile()">
                 <!-- File input -->
                 <div class="custom-file-input-container">
                     <input type="hidden" name="playerId" value="${player.getId()}">
@@ -289,7 +289,7 @@
                     date_of_birth: document.getElementById('dateOfBirthInput').value
                 };
                 // Make AJAX request to update player
-                fetch('http://localhost:8080/api/players/${player.getId()}', {
+                fetch('/api/players/${player.getId()}', {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json'
@@ -299,7 +299,7 @@
                 .then(response => {
                     if (response.ok) {
                         // Redirect to another page, replacing the current page in the history
-                        window.location.replace("http://localhost:8080/players/${player.getId()}");
+                        window.location.replace("/players/${player.getId()}");
                     } else {
                         throw new Error('Failed to update player');
                     }
@@ -310,13 +310,13 @@
                 });
             } else if (submitButtonName === "cancel") {
                 // Redirect to another page, replacing the current page in the history
-                window.location.replace("http://localhost:8080/players/${player.getId()}");
+                window.location.replace("/players/${player.getId()}");
             }
         });
 
         document.getElementById('download').onclick = function(event) {
             event.preventDefault();
-            fetch("http://localhost:8080/download_medical_certificate/${player.getId()}", { method: 'get', mode: 'no-cors', referrerPolicy: 'no-referrer' })
+            fetch("/download_medical_certificate/${player.getId()}", { method: 'get', mode: 'no-cors', referrerPolicy: 'no-referrer' })
             .then(res => res.blob())
             .then(res => {
                 if (!res.size) {
@@ -360,6 +360,11 @@
             }
         }
     </script>
+    <c:if test="${uploaded}">
+        <script>
+            showErrorMessage("Medical certificate uploaded correctly");
+        </script>
+    </c:if>
     <c:import url="/jsp/common/footer.jsp" />
 </body>
 </html>
