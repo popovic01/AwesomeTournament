@@ -7,7 +7,7 @@
     <head>
         <title>AwesomeTournaments - Home</title>
 
-        <c:import url="/jsp/common/head.jsp"/>
+        <c:import url="/jsp/commons/head.jsp"/>
 
         <style>
             body {
@@ -110,7 +110,7 @@
     <body>
 
         <!-- header -->
-        <c:import url="/jsp/common/header.jsp"/>
+        <c:import url="/jsp/commons/header.jsp"/>
 
         <div class="container">
             <h1 class="title">AwesomeTournaments</h1>
@@ -195,7 +195,7 @@
         </div>
 
         <!-- footer -->
-        <c:import url="/jsp/common/footer.jsp"/>
+        <c:import url="/jsp/commons/footer.jsp"/>
 
         <script>
             function setStartingMinPlayersAndMaxPlayers() {

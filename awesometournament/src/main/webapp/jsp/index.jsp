@@ -40,7 +40,7 @@
 
 <body>
 <!-- header -->
-<c:import url="/jsp/common/header.jsp"/>
+<c:import url="/jsp/commons/header.jsp"/>
 
 <c:choose>
     <c:when test="${logged}">
@@ -74,7 +74,7 @@
 </c:choose>
 
 <!-- footer -->
-<c:import url="/jsp/common/footer.jsp"/>
+<c:import url="/jsp/commons/footer.jsp"/>
 </body>
 
 </html>
