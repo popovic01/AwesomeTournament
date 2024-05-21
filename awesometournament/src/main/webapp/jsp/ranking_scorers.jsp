@@ -79,7 +79,7 @@
                                 </c:when>
                                 <c:otherwise>
                                     <div>
-                                        <img src="<c:url value="/media/tournament_logo.png"/>" class="logo" alt="default logo">
+                                        <img src="<c:url value="/media/logo_placeholder.png"/>" class="logo" alt="default logo">
                                         <a href="/team/${entry.getTeamID()}" class="link"><c:out value="${entry.getTeamName()}"/></a>
                                     </div>
                                 </c:otherwise>
