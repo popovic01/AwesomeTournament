@@ -147,17 +147,16 @@
                         <form id="updateForm" style="display: none;">
                             <div class="form-group">
                                 <label for="nameInput">Name:</label>
-                                <input type="text" class="form-control" id="nameInput" placeholder="${player.getName()}">
+                                <input type="text" class="form-control" id="nameInput" value="${player.getName()}" required>
                             </div>
                             <div class="form-group">
                                 <label for="surnameInput">Surname:</label>
-                                <input type="text" class="form-control" id="surnameInput" placeholder="${player.getSurname()}">
+                                <input type="text" class="form-control" id="surnameInput" value="${player.getSurname()}" required>
                             </div>
                             <div class="form-group">
                                 <label class="my-1 mr-2" for="positionInput">Position</label>
-                                <select class="custom-select my-1 mr-sm-2" id="positionInput">
-                                    <option selected>Choose...</option>
-                                    <option value="goalkeeper">Goalkeeper</option>
+                                <select class="custom-select my-1 mr-sm-2" id="positionInput" required>
+                                    <option value="goalkeeper" selected>Goalkeeper</option>
                                     <option value="defender">Defender</option>
                                     <option value="midfielder">Midfielder</option>
                                     <option value="striker">Striker</option>
@@ -165,7 +164,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="dateInput">Date of birth:</label>
-                                <input type="text" class="form-control" id="dateInput" placeholder="${player.getDateOfBirth()}">
+                                <input type="text" class="form-control" id="dateInput" value="${player.getDateOfBirth()}" required>
                             </div>
                             <button type="submit" name="confirm" class="btn btn-primary">Confirm</button>
                             <button type="submit" name="cancel" class="btn btn-primary">Cancel</button>
