@@ -67,7 +67,7 @@
             </a>
             <a class="image-link" href="<c:url value="/auth/signup"/>">
                 <img src="<c:url value="/media/signup.png"/>" alt="Signup image">
-                <p>Signup</p>
+                <p>Sign up</p>
             </a>
         </div>
     </c:otherwise>
