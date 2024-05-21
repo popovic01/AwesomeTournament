@@ -5,7 +5,7 @@
 <html>
 <head>
     <title>Player Information</title>
-    <c:import url="/jsp/common/head.jsp" />
+    <c:import url="/jsp/commons/head.jsp" />
     <style>
         /* Custom CSS for Player Information Page */
 
@@ -22,41 +22,6 @@
             text-align: center;
             color: #333;
             margin-top: 20px;
-        }
-
-        /* Player information container styling */
-        .player-info-container {
-            max-width: 600px;
-            margin: 20px auto;
-            background-color: #fff;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            position: relative;
-        }
-
-        /* Player information item styling */
-        .player-info-container div {
-            margin-bottom: 10px;
-        }
-
-        .player-info-container div b {
-            font-weight: bold;
-        }
-
-        /* Update button styling */
-        .show-update-form-button {
-            padding: 10px 20px;
-            background-color: #3F51B5;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .show-update-form-button:hover {
-            background-color: #2c3e50;
         }
 
         /* Form styling */
@@ -94,51 +59,6 @@
             background-color: #2c3e50;
         }
 
-        /* File upload styling */
-        .custom-file-input-container {
-            position: relative;
-            overflow: hidden;
-            margin-top: 10px;
-        }
-
-        .custom-file-input {
-            position: absolute;
-            top: 0;
-            right: 0;
-            margin: 0;
-            padding: 10px; /* Adjust as needed */
-            font-size: inherit; /* Inherit font size */
-            cursor: pointer;
-            opacity: 0;
-        }
-
-        .custom-file-input-label {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #3F51B5;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .custom-file-input-label:hover {
-            background-color: #2c3e50;
-        }
-
-        /* Display selected file name */
-        .selected-file-name {
-            margin-top: 5px;
-            color: #555;
-        }
-        /* Add separator styling */
-        .separator {
-            width: 100%;
-            margin: 20px 0;
-            border: none;
-            border-top: 1px solid #ccc;
-        }
         /* Modal styling */
         .modal {
             display: none; /* Hidden by default */
@@ -204,7 +124,7 @@
                         <!-- <h5 class="card-subtitle mb-2 text-muted">${user.name} ${user.surname}</h5> -->
                     <!-- </div> -->
                     <div class="col-md-8">
-                        <ul class="list-group list-group-flush">
+                        <ul id="playerInfo" class="list-group list-group-flush">
                             <li class="list-group-item">
                                 <strong>Name:</strong> ${player.getName()}
                             </li>
@@ -221,9 +141,35 @@
                                 <strong>Date of birth:</strong> ${player.getDateOfBirth()}
                             </li>
                             <li class="list-group-item">
-                                <button class="btn btn-outline-secondary" type="submit" id="inputGroupFileAddon04">Update Player</button>
+                                <button class="btn btn-outline-secondary" type="submit" id="showUpdateFormButton" onclick="showUpdateForm()">Update Player</button>
                             </li>
                         </ul>
+                        <form id="updateForm" style="display: none;">
+                            <div class="form-group">
+                                <label for="formGroupExampleInput">Name:</label>
+                                <input type="text" class="form-control" id="nameInput" placeholder="${player.getName()}">
+                            </div>
+                            <div class="form-group">
+                                <label for="formGroupExampleInput2">Surname:</label>
+                                <input type="text" class="form-control" id="surnameInput" placeholder="${player.getSurname()}">
+                            </div>
+                            <div class="form-group">
+                                <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Position</label>
+                                <select class="custom-select my-1 mr-sm-2" id="positionInput">
+                                    <option selected>Choose...</option>
+                                    <option value="goalkeeper">Goalkeeper</option>
+                                    <option value="defender">Defender</option>
+                                    <option value="midfielder">Midfielder</option>
+                                    <option value="striker">Striker</option>
+                                  </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="formGroupExampleInput3">Date of birth:</label>
+                                <input type="text" class="form-control" id="dateInput" placeholder="${player.getDateOfBirth()}">
+                            </div>
+                            <button type="submit" name="confirm" class="btn btn-primary">Confirm</button>
+                            <button type="submit" name="cancel" class="btn btn-primary">Cancel</button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -231,7 +177,7 @@
                 <div class="card-footer text-muted text-right">
                     <c:choose>
                         <c:when test="${not empty player.getMedicalCertificate()}">
-                            Medical Certificate: OK
+                            Medical Certitificate: OK
                         </c:when>
                         <c:otherwise>
                             Medical Certificate: Missing
@@ -249,34 +195,6 @@
             </c:if>
         </div>
     </div>
-    <h1>Player Information</h1>
-    <div id="playerInfo" class="player-info-container">
-        <div><b>ID:</b> <c:out value="${player.getId()}"/></div>
-        <div><b>Name:</b> <c:out value="${player.getName()}"/></div>
-        <div><b>Surname:</b> <c:out value="${player.getSurname()}"/></div>
-        <div><b>Team ID:</b> <c:out value="${player.getTeamId()}"/></div>
-        <div><b>Position:</b> <c:out value="${player.getPosition()}"/></div>
-        <div><b>Date of Birth:</b> <c:out value="${player.getDateOfBirth()}"/></div>
-        <c:if test="${authorized}">
-            <button id="showUpdateFormButton" class="show-update-form-button" onclick="showUpdateForm()">Update Player</button>
-        </c:if>
-    </div>
-
-    <form id="updateForm" style="display: none;" enctype="multipart/form-data">
-        <input type="hidden" id="id" value="${player.getId()}">
-        <input type="hidden" id="teamId" value="${player.getTeamId()}">
-
-        <label for="nameInput">Name:</label>
-        <input type="text" id="nameInput" value="${player.getName()}"> </br>
-        <label for="surnameInput">Surname:</label>
-        <input type="text" id="surnameInput" value="${player.getSurname()}"> </br>
-        <label for="positionInput">Position:</label>
-        <input type="text" id="positionInput" value="${player.getPosition()}"> </br>
-        <label for="dateOfBirthInput">Date of Birth:</label>
-        <input type="text" id="dateOfBirthInput" value="${player.getDateOfBirth()}"> </br>
-        <input type="submit" name="confirm" value="Confirm">
-        <input type="submit" name="cancel" value="Cancel">
-    </form>
     <!-- Error Modal -->
     <div id="modal" class="modal">
         <div class="modal-content">
@@ -312,12 +230,12 @@
 
             if (submitButtonName === "confirm") {
                 var formData = {
-                    id: document.getElementById('id').value,
+                    id: '${player.getId()}',
                     name: document.getElementById('nameInput').value,
                     surname: document.getElementById('surnameInput').value,
-                    team_id: document.getElementById('teamId').value,
-                    position: document.getElementById('positionInput').value.toLowerCase(),
-                    date_of_birth: document.getElementById('dateOfBirthInput').value
+                    team_id: '${player.getTeamId()}',
+                    position: document.getElementById('positionInput').value,
+                    date_of_birth: document.getElementById('dateInput').value
                 };
                 // Make AJAX request to update player
                 fetch('/api/players/${player.getId()}', {
@@ -384,7 +302,7 @@
                 modal.style.display = "none";
             }
 
-            // When the user clicks anywhere outside the modal, close it
+            // When the user clicks anywhere outside of the modal, close it
             window.onclick = function(event) {
                 if (event.target == modal) {
                     modal.style.display = "none";
