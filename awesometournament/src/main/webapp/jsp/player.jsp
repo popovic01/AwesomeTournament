@@ -146,15 +146,15 @@
                         </ul>
                         <form id="updateForm" style="display: none;">
                             <div class="form-group">
-                                <label for="formGroupExampleInput">Name:</label>
+                                <label for="nameInput">Name:</label>
                                 <input type="text" class="form-control" id="nameInput" placeholder="${player.getName()}">
                             </div>
                             <div class="form-group">
-                                <label for="formGroupExampleInput2">Surname:</label>
+                                <label for="surnameInput">Surname:</label>
                                 <input type="text" class="form-control" id="surnameInput" placeholder="${player.getSurname()}">
                             </div>
                             <div class="form-group">
-                                <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Position</label>
+                                <label class="my-1 mr-2" for="positionInput">Position</label>
                                 <select class="custom-select my-1 mr-sm-2" id="positionInput">
                                     <option selected>Choose...</option>
                                     <option value="goalkeeper">Goalkeeper</option>
@@ -164,7 +164,7 @@
                                   </select>
                             </div>
                             <div class="form-group">
-                                <label for="formGroupExampleInput3">Date of birth:</label>
+                                <label for="dateInput">Date of birth:</label>
                                 <input type="text" class="form-control" id="dateInput" placeholder="${player.getDateOfBirth()}">
                             </div>
                             <button type="submit" name="confirm" class="btn btn-primary">Confirm</button>
