@@ -35,7 +35,7 @@
     <div class="img-wrapper">
         <a href="/auth/login">
             <img src="<c:url value="/media/login.png"/>"
-                 alt="logo of Awesome Tournament">
+                 alt="Login image">
         </a>
     </div>
 </header>
