@@ -69,10 +69,16 @@
     </div>
     <button class="menu-btn" onclick="toggleNavbar()">☰</button>
     <nav class="navbar" id="navbar">
-        <a href="<c:url value="/home"/>">Home</a>
-        <a href="<c:url value="/auth/logout"/>">Logout</a>
-        <a href="<c:url value="/auth/login"/>">Login</a>
-        <a href="<c:url value="/auth/signup"/>">Sign up</a>
+        <c:choose>
+            <c:when test="${logged}">
+                <a>${user.getEmail()}</a>
+                <a href="<c:url value='/auth/logout'/>">Logout</a>
+            </c:when>
+            <c:otherwise>
+                <a href="<c:url value='/auth/login'/>">Login</a>
+                <a href="<c:url value='/auth/signup'/>">Sign up</a>
+            </c:otherwise>
+        </c:choose>
     </nav>
 </header>
 
