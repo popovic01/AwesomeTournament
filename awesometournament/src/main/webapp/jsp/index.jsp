@@ -6,7 +6,7 @@
 <html>
 <head>
     <title>Index</title>
-    <c:import url="/jsp/common/head.jsp"/>
+    <c:import url="/jsp/commons/head.jsp"/>
     <style>
         .container {
             text-align: center;
