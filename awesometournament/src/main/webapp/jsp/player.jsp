@@ -220,6 +220,9 @@
                             <li class="list-group-item">
                                 <strong>Date of birth:</strong> ${player.getDateOfBirth()}
                             </li>
+                            <li class="list-group-item">
+                                <button class="btn btn-outline-secondary" type="submit" id="inputGroupFileAddon04">Update Player</button>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -228,15 +231,7 @@
                 <div class="card-footer text-muted text-right">
                     <c:choose>
                         <c:when test="${not empty player.getMedicalCertificate()}">
-                            <div class="row">
-                                <div class="col-md-8">
-                                    <p class="font-weight-bold mb-0">Medical Certificate: </p>
-                                </div>
-                                <div class="col-md-4 d-flex justify-content-end align-items-center">
-                                    <!-- Your button here -->
-                                    <button class="btn btn-primary">Download</button>
-                                </div>
-                            </div>
+                            Medical Certitificate: OK
                         </c:when>
                         <c:otherwise>
                             Medical Certificate: Missing
@@ -247,6 +242,7 @@
                         <div class="input-group">
                             <input type="file" class="form-control" id="inputGroupFile04" name="medicalCertificate" aria-describedby="inputGroupFileAddon04" aria-label="Upload" required>
                             <button class="btn btn-outline-secondary" type="submit" id="inputGroupFileAddon04">Upload</button>
+                            <button class="btn btn-outline-secondary" type="button" id="download">Download</button>
                         </div>
                     </form>
                 </div>
@@ -296,12 +292,6 @@
 
             // Show update form
             document.getElementById("updateForm").style.display = "block";
-        }
-
-        function displayFileName(input) {
-            var fileName = input.files[0].name;
-            document.getElementById('selectedFileName').innerText = 'Selected File: ' + fileName;
-            document.getElementById("medicalCertificateSubmitButton").style.display = "block";
         }
 
         function validateFile() {
