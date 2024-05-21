@@ -3,85 +3,98 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <title>AwesomeTournaments - Home</title>
 
-    <c:import url="/jsp/common/head.jsp"/>
+    <head>
+        <title>AwesomeTournaments - Home</title>
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
-        .container {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        h1.title {
-            text-align: center;
-            color: #333;
-        }
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        li {
-            margin-bottom: 10px;
-            padding: 10px;
-            background-color: #f9f9f9;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            cursor: pointer;
-            display: none;
-        }
-        a.list {
-            text-decoration: none;
-            color: inherit;
-            display: block;
-        }
-        li:hover {
-            background-color: #e9e9e9;
-        }
-        .tournament-name {
-            font-size: 1.2em;
-            font-weight: bold;
-            color: #333;
-        }
-        .tournament-details {
-            color: #666;
-        }
-        .logo{
-            width: auto;
-            height: 60px;
-            float: right;
-            margin-left: 10px;
-        }
-        .dropdown {
-            position: relative;
-            display: inline-block;
-        }
-        .btn {
-            padding: 6px 12px;
-            background-color: #007bff;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            border: none;
-            cursor: pointer;
-        }
+        <c:import url="/jsp/common/head.jsp"/>
 
-        .btn:hover {
-            background-color: #0056b3;
-            color: white;
-        }
-    </style>
-</head>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                background-color: #f4f4f4;
+            }
+
+            .container {
+                max-width: 800px;
+                margin: 20px auto;
+                padding: 20px;
+                background-color: #fff;
+                border-radius: 5px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+
+            h1.title {
+                text-align: center;
+                color: #333;
+            }
+
+            ul {
+                list-style-type: none;
+                padding: 0;
+            }
+
+            li {
+                margin-bottom: 10px;
+                padding: 10px;
+                background-color: #f9f9f9;
+                border-radius: 5px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                cursor: pointer;
+                display: none;
+            }
+
+            a.list {
+                text-decoration: none;
+                color: inherit;
+                display: block;
+            }
+
+            li:hover {
+                background-color: #e9e9e9;
+            }
+
+            .tournament-name {
+                font-size: 1.2em;
+                font-weight: bold;
+                color: #333;
+            }
+
+            .tournament-details {
+                color: #666;
+            }
+
+            .logo{
+                width: auto;
+                height: 60px;
+                float: right;
+                margin-left: 10px;
+            }
+
+            .dropdown {
+                position: relative;
+                display: inline-block;
+            }
+
+            .btn {
+                padding: 6px 12px;
+                background-color: #007bff;
+                color: white;
+                text-decoration: none;
+                border-radius: 5px;
+                border: none;
+                cursor: pointer;
+            }
+
+            .btn:hover {
+                background-color: #0056b3;
+                color: white;
+            }
+        </style>
+    </head>
+
     <body>
 
         <!-- header -->
@@ -181,4 +194,5 @@
             });
         </script>
     </body>
+
 </html>

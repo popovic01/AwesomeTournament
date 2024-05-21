@@ -1,37 +1,41 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
     <head>
+        <title>Top Scorers Ranking</title>
 
         <c:import url="/jsp/common/head.jsp"/>
-
-        <title>Top Scorers Ranking</title>
 
         <style>
             body {
                 text-align: center;
             }
+
             table {
                 width: 50%;
                 border-collapse: collapse;
                 border-spacing: 0;
                 margin: auto auto 30px;
             }
+
             th, td {
                 border: 2px solid black;
                 padding: 8px;
                 text-align: left;
             }
+
             th {
                 background-color: #f2f2f2;
             }
+
             .logo{
                 width: auto;
                 height: 60px;
             }
+
             a.link {
                 text-decoration: none; /* Rimuove il sottolineato */
                 color: inherit; /* Utilizza il colore del testo del genitore */
@@ -46,7 +50,6 @@
     </head>
 
     <body>
-
         <!-- header -->
         <c:import url="/jsp/common/header.jsp"/>
 
@@ -89,10 +92,9 @@
         </table>
 
         <!-- footer -->
-        <div id="footer">
-            <c:import url="/jsp/common/footer.jsp"/>
-        </div>
+        <c:import url="/jsp/common/footer.jsp"/>
     </body>
+
 </html>
 
 
