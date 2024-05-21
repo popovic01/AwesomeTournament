@@ -26,6 +26,11 @@
                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             }
 
+            .container-center {
+                display: flex;
+                justify-content: center; /* Centra orizzontalmente */
+            }
+
             h1.title {
                 text-align: center;
                 color: #333;
@@ -101,13 +106,37 @@
 
         <div class="container">
             <h1 class="title">AwesomeTournaments</h1>
-            <!--<a href="" style="display: flex; justify-content: center; text-decoration: none;">-->
-            <div style="text-align: center;">
+
+            <div class="container-center">
                 <button id="btnCreateTournament" class="btn btn-primary">
                     Create a new Tournament
                 </button>
             </div>
-            <!--</a>-->
+
+            <div id="createTournamentForm" style="display: none; margin-top: 20px;">
+                <form method="post">
+                    <div>
+                        <label for="tournamentName">Tournament Name:</label>
+                        <input type="text" id="tournamentName" name="tournamentName" required>
+                    </div>
+                    <div>
+                        <label for="startDate">Start Date:</label>
+                        <input type="date" id="startDate" name="startDate" required>
+                    </div>
+                    <div>
+                        <label for="startingPlayers">Players per Team:</label>
+                        <input type="number" id="startingPlayers" name="startingPlayers" required>
+                    </div>
+                    <div>
+                        <label for="logo">Logo:</label>
+                        <input type="file" id="logo" name="logo">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="button" class="btn" onclick="hideForm()">Cancel</button>
+                </form>
+            </div>
+
+
             <div class="dropdown" style="margin-bottom: 10px;">
                 <select id="tournamentFilter" onchange="filterTournaments()">
                     <option value="active">Active Tournaments</option>
@@ -165,31 +194,27 @@
                 });
             }
 
-            /*function btnCreateTournaments() {
-                var btnAdd = document.getElementById('btnCreateTournament');
+            function createTournament() {
+                var btnCreateTournament = document.getElementById("btnCreateTournament");
+                btnCreateTournament.addEventListener("click", function() {
+                    document.getElementById("createTournamentForm").style.display = "block";
+                    document.getElementById("btnCreateTournament").style.display = "none";
+                    document.getElementById("tournamentFilter").style.display = "none";
+                    document.querySelector("ul").style.display = "none";
+                });
+            }
 
-                if (btnAdd) {
-                    btnAdd.addEventListener('click', function() {
+            function hideForm() {
+                document.getElementById("createTournamentForm").style.display = "none";
+                document.getElementById("btnCreateTournament").style.display = "block";
 
-                        var url = `/api/tournaments`;
-                        window.location.href = url;
-
-                        var xhr = new XMLHttpRequest();
-                        xhr.open('GET', '/api/tournaments', true);
-                        xhr.onload = function() {
-                            if (xhr.status >= 200 && xhr.status < 300) {
-                                window.location.reload();
-                            }
-                        };
-                    });
-                } else {
-                    console.log('btnAdd element not found');
-                }
-            }*/
+                document.getElementById("tournamentFilter").style.display = "block";
+                document.querySelector("ul").style.display = "block";
+            }
 
             document.addEventListener("DOMContentLoaded", function() {
-                //btnCreateTournaments();
                 filterTournaments();
+                createTournament();
             });
         </script>
     </body>
