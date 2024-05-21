@@ -9,7 +9,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>AwesomeTournaments - Match</title>
 
-        <c:import url="/jsp/common/head.jsp" />
+        <c:import url="/jsp/commons/head.jsp" />
 
         <style>
             /*
@@ -199,7 +199,7 @@
 
     <body>
     <!-- header -->
-    <c:import url="/jsp/common/header.jsp" />
+    <c:import url="/jsp/commons/header.jsp" />
 
     <div class="container" data-owner="${owner}" data-match-date="${match.matchDate}">
         <button class="back-btn" onclick="window.location.href='/tournament/${match.tournamentId}';">
@@ -326,7 +326,7 @@
     </div>
 
     <!-- footer -->
-    <c:import url="/jsp/common/footer.jsp" />
+    <c:import url="/jsp/commons/footer.jsp" />
 
     <!-- Modal to update result -->
     <c:import url="/jsp/components/modal-result.jsp" />

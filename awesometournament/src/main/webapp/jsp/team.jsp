@@ -7,7 +7,7 @@
     <head>
         <title>AwesomeTournaments - Tournament</title>
 
-        <c:import url="/jsp/common/head.jsp"/>
+        <c:import url="/jsp/commons/head.jsp"/>
 
         <style>
             .main-wrapper {
@@ -27,7 +27,7 @@
 
     <body>
         <!-- header -->
-        <c:import url="/jsp/common/header.jsp"/>
+        <c:import url="/jsp/commons/header.jsp"/>
 
         <div class="main-wrapper">
             <div class="title-logo-wrapper">
@@ -94,7 +94,7 @@
         </div>
 
         <!-- footer -->
-        <c:import url="/jsp/common/footer.jsp"/>
+        <c:import url="/jsp/commons/footer.jsp"/>
     </body>
 
 </html>

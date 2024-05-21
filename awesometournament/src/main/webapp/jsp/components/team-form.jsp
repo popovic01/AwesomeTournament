@@ -7,7 +7,7 @@
     <head>
         <title>AwesomeTournaments - Tournament</title>
 
-        <c:import url="/jsp/common/head.jsp"/>
+        <c:import url="/jsp/commons/head.jsp"/>
 
         <style>
             .input-width-70 {
@@ -19,7 +19,7 @@
 
     <body>
         <!-- header -->
-        <c:import url="/jsp/common/header.jsp"/>
+        <c:import url="/jsp/commons/header.jsp"/>
 
         <div class="container mt-4 d-flex justify-content-center align-items-center">
             <form id="teamForm" method="POST" action="" enctype="multipart/form-data" class="row w-30 border p-3">
@@ -39,7 +39,7 @@
         </div>
 
         <!-- footer -->
-        <c:import url="/jsp/common/footer.jsp"/>
+        <c:import url="/jsp/commons/footer.jsp"/>
     </body>
 </html>
 
