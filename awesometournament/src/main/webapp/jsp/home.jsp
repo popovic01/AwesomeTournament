@@ -324,7 +324,7 @@
                     var formData = {
                         name: document.getElementById("tournamentName").value,
                         token: "prova",
-                        creatorUserId: 1, <!-- !!!!!!!!!!!!!!!!!!!!!!!! TO BE SOLVED !!!!!!!!!!!!!!!!!!!!!!!!-->
+                        creatorUserId: '${userId}', <!-- !!!!!!!!!!!!!!!!!!!!!!!! TO BE SOLVED !!!!!!!!!!!!!!!!!!!!!!!!-->
                         maxTeams: parseInt(document.getElementById("maxTeam").value),
                         maxPlayers: parseInt(document.getElementById("maxPlayers").value),
                         minPlayers: parseInt(document.getElementById("minPlayers").value),

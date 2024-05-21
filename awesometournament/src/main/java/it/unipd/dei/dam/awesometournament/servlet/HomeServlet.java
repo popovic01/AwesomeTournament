@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
+import it.unipd.dei.dam.awesometournament.utils.SessionHelpers;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.message.StringFormatterMessageFactory;
@@ -32,6 +33,8 @@ public class HomeServlet extends AbstractDatabaseServlet{
             GetTournamentsDAO dao = new GetTournamentsDAO(getConnection());
             dao.access();
             List<Tournament> tournaments = dao.getOutputParam();
+            int userId = SessionHelpers.getId(req);
+            req.setAttribute("userId", userId);
             req.setAttribute("tournaments", tournaments);
             req.getRequestDispatcher("/jsp/home.jsp").forward(req, resp);
         } catch (SQLException e) {
