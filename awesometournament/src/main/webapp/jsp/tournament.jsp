@@ -332,6 +332,11 @@
     });
 
     document.addEventListener('DOMContentLoaded', function () {
+        var seeTournamentTableBtn = document.getElementById("seeTournamentTable");
+        var matches = ${matches};
+        if (matches && matches.length > 0) seeTournamentTableBtn.style.display = "block";
+        else seeTournamentTableBtn.style.display = "none";
+
         var btnAdd = document.getElementById('btnAdd');
 
         if (btnAdd) {

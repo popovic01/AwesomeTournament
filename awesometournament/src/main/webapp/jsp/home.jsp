@@ -156,7 +156,7 @@
                         <input type="file" id="logo" name="logo" accept=".png, .jpg, .jpeg">
                     </div>
                     <button type="submit" name="confirm" class="btn btn-primary">Submit</button>
-                    <button type="submit" name="cancel" class="btn btn-primary">Cancel</button>
+                    <button id="cancelCreateTournament" type="button" name="cancel" class="btn btn-primary">Cancel</button>
                 </form>
             </div>
 
@@ -317,26 +317,23 @@
                     document.querySelector("ul").style.display = "block";
                 });
             }
+            function manageForm() {
+                document.getElementById('createTournamentForm').addEventListener('submit', function(event) {
+                    event.preventDefault(); // Prevent form submission
 
-            document.getElementById('createTournamentForm').addEventListener('submit', function(event) {
-                event.preventDefault(); // Prevent form submission
-                var submitButtonName = event.submitter.name;
-
-                if(submitButtonName === "confirm") {
                     var formData = {
                         name: document.getElementById("tournamentName").value,
                         token: "prova",
-                        creator_user_id: '${user.getId()}',
-                        max_teams: document.getElementById("maxTeam").value,
-                        max_players: document.getElementById("maxPlayers").value,
-                        min_players: document.getElementById("minPlayers").value,
-                        starting_players: document.getElementById("startingPlayers").value,
-                        max_substitutions: 5,
+                        creatorUserId: 1, <!-- !!!!!!!!!!!!!!!!!!!!!!!! TO BE SOLVED !!!!!!!!!!!!!!!!!!!!!!!!-->
+                        maxTeams: parseInt(document.getElementById("maxTeam").value),
+                        maxPlayers: parseInt(document.getElementById("maxPlayers").value),
+                        minPlayers: parseInt(document.getElementById("minPlayers").value),
+                        startingPlayers: parseInt(document.getElementById("startingPlayers").value),
+                        maxSubstitutions: 5,
                         deadline: document.getElementById("deadline").value,
-                        start_date: document.getElementById("startDate").value,
-                        creation_date: new Date().toISOString(),
-                        logo: "",
-                        is_finished: false
+                        startDate: document.getElementById("startDate").value,
+                        creationDate: new Date().toISOString(),
+                        isFinished: false
                     };
 
                     // Convert the image in base64
@@ -356,25 +353,21 @@
                             'Content-Type': 'application/json'
                         },
                         body: JSON.stringify(formData)
-                    })
-                        .then(response => {
+                    }).then(response => {
                             if (response.ok) {
                                 // Redirect to another page, replacing the current page in the history
                                 window.location.replace("/home");
                             }
                             else throw new Error('Failed to update player');
-                        })
-                        .catch(error => {
+                    }).catch(error => {
                             console.error('Error:', error);
                             alert('Failed to create the tournament. Please try again.');
-                        });
-                } else if (submitButtonName === "cancel") {
-                    // Redirect to another page, replacing the current page in the history
-                    window.location.replace("/home");
-                }
-            });
+                    });
+                });
+            }
 
             document.addEventListener("DOMContentLoaded", function() {
+                manageForm();
                 setStartingMinPlayersAndMaxPlayers();
                 setStartAndDeadlineDate();
                 filterTournaments();
