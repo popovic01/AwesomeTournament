@@ -53,7 +53,6 @@
     .navbar a:hover {
         background-color: #0a4d06;
     }
-
 </style>
 
 <header class="header-wrapper">
@@ -68,7 +67,7 @@
             <img src="<c:url value="/media/login.png"/>" alt="Login image">
         </a>
     </div>
-    <button class="menu-btn" onclick="toggleNavbar()">☰</button>
+    <button class="menu-btn" onclick="toggleNavbar()">X</button>
     <nav class="navbar" id="navbar">
         <c:choose>
             <c:when test="${logged}">
