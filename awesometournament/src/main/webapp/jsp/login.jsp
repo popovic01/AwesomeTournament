@@ -17,7 +17,7 @@
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                height: 100vh; /* Altezza della viewport */
+                height: 100vh; /* Height of the viewport */
             }
 
             .login-form {
