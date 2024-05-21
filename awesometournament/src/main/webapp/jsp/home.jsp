@@ -96,6 +96,14 @@
             .btn-primary:hover {
                 background-color: #0056b3;
             }
+
+            .error-message {
+                display: none;
+                color: red;
+                border: 1px solid red;
+                padding: 5px;
+                margin-top: 5px;
+            }
         </style>
     </head>
 
@@ -114,28 +122,43 @@
             </div>
 
             <div id="createTournamentForm" style="display: none; margin-top: 20px;">
-                <form method="post">
+                <form>
                     <div>
                         <label for="tournamentName">Tournament Name:</label>
                         <input type="text" id="tournamentName" name="tournamentName" required>
                     </div>
                     <div>
-                        <label for="startDate">Start Date:</label>
+                        <label for="maxTeam">Maximum number of teams:</label>
+                        <input type="number" id="maxTeam" name="maxTeam" min="2" max="20" value="2" required>
+                    </div>
+                    <div>
+                        <label for="startingPlayers">Number of starting players per team:</label>
+                        <input type="number" id="startingPlayers" name="startingPlayers" min="1" max="11" value="1" required>
+                    </div>
+                    <div>
+                        <label for="minPlayers">Minimum number of players for a team:</label>
+                        <input type="number" id="minPlayers" name="minPlayers" min="1" max="11" value="1" required>
+                    </div>
+                    <div>
+                        <label for="maxPlayers">Maximum number of players for a team:</label>
+                        <input type="number" id="maxPlayers" name="maxPlayers" min="1" max="25" value="1" required>
+                    </div>
+                    <div>
+                        <label for="startDate">Start date of the tournament:</label>
                         <input type="date" id="startDate" name="startDate" required>
                     </div>
                     <div>
-                        <label for="startingPlayers">Players per Team:</label>
-                        <input type="number" id="startingPlayers" name="startingPlayers" required>
+                        <label for="deadline">Deadline for team registration:</label>
+                        <input type="date" id="deadline" name="deadline" required>
                     </div>
                     <div>
                         <label for="logo">Logo:</label>
-                        <input type="file" id="logo" name="logo">
+                        <input type="file" id="logo" name="logo" accept=".png, .jpg, .jpeg">
                     </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                    <button type="button" class="btn" onclick="hideForm()">Cancel</button>
+                    <button type="submit" name="confirm" class="btn btn-primary">Submit</button>
+                    <button type="submit" name="cancel" class="btn btn-primary">Cancel</button>
                 </form>
             </div>
-
 
             <div class="dropdown" style="margin-bottom: 10px;">
                 <select id="tournamentFilter" onchange="filterTournaments()">
@@ -175,6 +198,87 @@
         <c:import url="/jsp/common/footer.jsp"/>
 
         <script>
+            function setStartingMinPlayersAndMaxPlayers() {
+                // Get the elements
+                const maxTeamInput = document.getElementById('maxTeam');
+                const startingPlayersInput = document.getElementById('startingPlayers');
+                const minPlayersInput = document.getElementById('minPlayers');
+                const maxPlayersInput = document.getElementById('maxPlayers');
+
+                // Deny keyboard input for all 3 input
+                maxTeamInput.addEventListener('keydown', function (event) {
+                    event.preventDefault();
+                });
+
+                startingPlayersInput.addEventListener('keydown', function (event) {
+                    event.preventDefault();
+                });
+
+                minPlayersInput.addEventListener('keydown', function (event) {
+                    event.preventDefault();
+                });
+
+                maxPlayersInput.addEventListener('keydown', function (event) {
+                    event.preventDefault();
+                });
+
+                startingPlayersInput.addEventListener('click', function() {
+                    const startingPlayers = parseInt(startingPlayersInput.value, 10);
+
+                    if (startingPlayers > minPlayersInput.value && startingPlayers > maxPlayersInput.value) {
+                        minPlayersInput.value = startingPlayers;
+                        maxPlayersInput.value = startingPlayers;
+                    }
+                    else if(startingPlayers > minPlayersInput.value) minPlayersInput.value = startingPlayers;
+                    if(startingPlayers < 1) startingPlayersInput.value = 1;
+                });
+
+                minPlayersInput.addEventListener('click', function() {
+                    const minPlayers = parseInt(minPlayersInput.value, 10);
+                    const maxPlayers = parseInt(maxPlayersInput.value, 10);
+                    const startingPlayers = parseInt(startingPlayersInput.value, 10);
+
+                    if(minPlayers < startingPlayers) startingPlayersInput.value = minPlayersInput.value;
+
+                    if(minPlayers > maxPlayers) maxPlayersInput.value = minPlayersInput.value
+                });
+
+                maxPlayersInput.addEventListener('click', function () {
+                    const minPlayers = parseInt(minPlayersInput.value, 10);
+                    const maxPlayers = parseInt(maxPlayersInput.value, 10);
+                    const startingPlayers = parseInt(startingPlayersInput.value, 10);
+
+                    if(maxPlayers < minPlayers && maxPlayers < startingPlayers) {
+                        startingPlayersInput.value = maxPlayersInput.value;
+                        minPlayersInput.value = maxPlayersInput.value;
+                    }
+                    else if(maxPlayers < minPlayers) minPlayersInput.value = maxPlayersInput.value;
+                })
+            }
+
+            function setStartAndDeadlineDate() {
+                // Get the current date in the format YYYY-MM-DD
+                const today = new Date().toISOString().split('T')[0];
+
+                // Get the startDate and deadline input element
+                const startDateInput = document.getElementById('startDate');
+                const deadlineInput = document.getElementById('deadline');
+
+                // Set the min attribute to today's date and implements logic for startDate and deadline
+                startDateInput.min = today;
+                deadlineInput.min = today;
+
+                startDateInput.addEventListener('change', function() {
+                    const startDate = startDateInput.value;
+                    const deadlineDate = deadlineInput.value;
+                    if(startDate) {
+                        deadlineInput.setAttribute('max', startDate);
+                        if (!deadlineDate || new Date(startDate) < new Date(deadlineDate)) deadlineInput.value = startDate;
+                    }
+                    else deadlineInput.removeAttribute('max');
+                });
+            }
+
             function filterTournaments() {
                 var filter = document.getElementById("tournamentFilter").value;
                 var tournaments = document.querySelectorAll(".tournament");
@@ -205,16 +309,77 @@
             }
 
             function hideForm() {
-                document.getElementById("createTournamentForm").style.display = "none";
-                document.getElementById("btnCreateTournament").style.display = "block";
-
-                document.getElementById("tournamentFilter").style.display = "block";
-                document.querySelector("ul").style.display = "block";
+                var btnCancelCreateTournament = document.getElementById("cancelCreateTournament");
+                btnCancelCreateTournament.addEventListener("click", function () {
+                    document.getElementById("createTournamentForm").style.display = "none";
+                    document.getElementById("btnCreateTournament").style.display = "block";
+                    document.getElementById("tournamentFilter").style.display = "block";
+                    document.querySelector("ul").style.display = "block";
+                });
             }
 
+            document.getElementById('createTournamentForm').addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevent form submission
+                var submitButtonName = event.submitter.name;
+
+                if(submitButtonName === "confirm") {
+                    var formData = {
+                        name: document.getElementById("tournamentName").value,
+                        token: "prova",
+                        creator_user_id: '${user.getId()}',
+                        max_teams: document.getElementById("maxTeam").value,
+                        max_players: document.getElementById("maxPlayers").value,
+                        min_players: document.getElementById("minPlayers").value,
+                        starting_players: document.getElementById("startingPlayers").value,
+                        max_substitutions: 5,
+                        deadline: document.getElementById("deadline").value,
+                        start_date: document.getElementById("startDate").value,
+                        creation_date: new Date().toISOString(),
+                        logo: "",
+                        is_finished: false
+                    };
+
+                    // Convert the image in base64
+                    var logoFile = document.getElementById("logo").files[0];
+                    if (logoFile) {
+                        var reader = new FileReader();
+
+                        reader.onload = function () {
+                            formData.append('logo', reader.result);
+                        };
+                    }
+
+                    // Make AJAX request to create the tournament
+                    fetch('/api/tournaments', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(formData)
+                    })
+                        .then(response => {
+                            if (response.ok) {
+                                // Redirect to another page, replacing the current page in the history
+                                window.location.replace("/home");
+                            }
+                            else throw new Error('Failed to update player');
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('Failed to create the tournament. Please try again.');
+                        });
+                } else if (submitButtonName === "cancel") {
+                    // Redirect to another page, replacing the current page in the history
+                    window.location.replace("/home");
+                }
+            });
+
             document.addEventListener("DOMContentLoaded", function() {
+                setStartingMinPlayersAndMaxPlayers();
+                setStartAndDeadlineDate();
                 filterTournaments();
                 createTournament();
+                hideForm();
             });
         </script>
     </body>
