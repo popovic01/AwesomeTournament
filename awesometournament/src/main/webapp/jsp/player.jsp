@@ -167,7 +167,7 @@
                                 <input type="text" class="form-control" id="dateInput" value="${player.getDateOfBirth()}" required>
                             </div>
                             <button type="submit" name="confirm" class="btn btn-primary">Confirm</button>
-                            <button type="submit" name="cancel" class="btn btn-primary">Cancel</button>
+                            <button type="button" name="cancel" class="btn btn-primary" onclick="cancelUpdate()">Cancel</button>
                         </form>
                     </div>
                 </div>
@@ -223,43 +223,41 @@
             return true;
         }
 
+        function cancelUpdate() {
+            // Redirect to another page, replacing the current page in the history
+            window.location.replace("/players/${player.getId()}");
+        }
+
         document.getElementById('updateForm').addEventListener('submit', function(event) {
             event.preventDefault(); // Prevent form submission
-            var submitButtonName = event.submitter.name;
-
-            if (submitButtonName === "confirm") {
-                var formData = {
-                    id: '${player.getId()}',
-                    name: document.getElementById('nameInput').value,
-                    surname: document.getElementById('surnameInput').value,
-                    team_id: '${player.getTeamId()}',
-                    position: document.getElementById('positionInput').value,
-                    date_of_birth: document.getElementById('dateInput').value
-                };
-                // Make AJAX request to update player
-                fetch('/api/players/${player.getId()}', {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(formData)
-                })
-                .then(response => {
-                    if (response.ok) {
-                        // Redirect to another page, replacing the current page in the history
-                        window.location.replace("/players/${player.getId()}");
-                    } else {
-                        throw new Error('Failed to update player');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Failed to update player. Please try again later.');
-                });
-            } else if (submitButtonName === "cancel") {
-                // Redirect to another page, replacing the current page in the history
-                window.location.replace("/players/${player.getId()}");
-            }
+            var formData = {
+                id: '${player.getId()}',
+                name: document.getElementById('nameInput').value,
+                surname: document.getElementById('surnameInput').value,
+                team_id: '${player.getTeamId()}',
+                position: document.getElementById('positionInput').value,
+                date_of_birth: document.getElementById('dateInput').value
+            };
+            // Make AJAX request to update player
+            fetch('/api/players/${player.getId()}', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Redirect to another page, replacing the current page in the history
+                    window.location.replace("/players/${player.getId()}");
+                } else {
+                    throw new Error('Failed to update player');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to update player. Please try again later.');
+            });
         });
 
         document.getElementById('download').onclick = function(event) {
