@@ -88,9 +88,8 @@
                 cursor: pointer;
             }
 
-            .btn:hover {
+            .btn-primary:hover {
                 background-color: #0056b3;
-                color: white;
             }
         </style>
     </head>
@@ -104,7 +103,7 @@
             <h1 class="title">AwesomeTournaments</h1>
             <!--<a href="" style="display: flex; justify-content: center; text-decoration: none;">-->
             <div style="text-align: center;">
-                <button id="btnCreateTournament" class="btn">
+                <button id="btnCreateTournament" class="btn btn-primary">
                     Create a new Tournament
                 </button>
             </div>

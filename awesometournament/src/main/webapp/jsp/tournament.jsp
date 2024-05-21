@@ -197,7 +197,7 @@
                 <p class="fs-4 text-dark">Teams</p>
                 <a href="/ranking/scorers/tournaments/${tournament.getId()}">
                     <button style="margin-left: 30px" id="seeTournamentTable" class="btn btn-primary">
-                        See tournament table
+                        See ranking scorers
                     </button>
                 </a>
             </div>
