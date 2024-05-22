@@ -44,7 +44,9 @@
     }
 
     .navbar a {
-        display: block;
+        display: flex; /* Use flexbox for the layout */
+        justify-content: space-between; /* Space out text and image */
+        align-items: center; /* Center align items vertically */
         color: white;
         padding: 1rem;
         text-decoration: none;
@@ -53,6 +55,12 @@
     .navbar a:hover {
         background-color: #0a4d06;
     }
+
+    .navbar-image {
+        width: 20px;
+        height: 20px;
+    }
+
 </style>
 
 <header class="header-wrapper">
@@ -66,11 +74,17 @@
     <nav class="navbar" id="navbar">
         <c:choose>
             <c:when test="${logged}">
-                <a href="<c:url value='/auth/logout'/>">Logout</a>
+                <a href="<c:url value='/auth/logout'/>">Logout
+                    <img class="navbar-image" src="<c:url value="/media/logout_white.png"/>" alt="Logout Image - white">
+                </a>
             </c:when>
             <c:otherwise>
-                <a href="<c:url value='/auth/login'/>">Login</a>
-                <a href="<c:url value='/auth/signup'/>">Sign up</a>
+                <a href="<c:url value='/auth/login'/>">Login
+                    <img class="navbar-image" src="<c:url value="/media/login_white.png"/>" alt="Login Image - white">
+                </a>
+                <a href="<c:url value='/auth/signup'/>">Sign up
+                    <img class="navbar-image" src="<c:url value="/media/signup_white.png"/>" alt="Sign Up Image - white">
+                </a>
             </c:otherwise>
         </c:choose>
     </nav>
