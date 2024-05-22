@@ -7,7 +7,7 @@
     <head>
         <title>Top Scorers Ranking</title>
 
-        <c:import url="/jsp/common/head.jsp"/>
+        <c:import url="/jsp/commons/head.jsp"/>
 
         <style>
             body {
@@ -51,7 +51,7 @@
 
     <body>
         <!-- header -->
-        <c:import url="/jsp/common/header.jsp"/>
+        <c:import url="/jsp/commons/header.jsp"/>
 
         <h2>Top Scorers Ranking</h2>
 
@@ -92,7 +92,7 @@
         </table>
 
         <!-- footer -->
-        <c:import url="/jsp/common/footer.jsp"/>
+        <c:import url="/jsp/commons/footer.jsp"/>
     </body>
 </html>
 
