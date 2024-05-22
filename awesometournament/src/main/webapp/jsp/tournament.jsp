@@ -181,7 +181,7 @@
                 </c:choose>
                 <c:if test="${owner}">
                     <button id="btnEditTournament" class="btn btn-primary edit-button">Edit</button>
-                </c:if>
+                </c:if> 
             </div>
 
             <div id="editTournamentForm" style="display: none; margin-top: 20px;">
@@ -388,7 +388,7 @@
         });
 
         var seeTournamentTableBtn = document.getElementById("seeTournamentTable");
-        var matches = ${matches};
+        var matches = "${matches}";
         if (matches && matches.length > 0) seeTournamentTableBtn.style.display = "block";
         else seeTournamentTableBtn.style.display = "none";
 
