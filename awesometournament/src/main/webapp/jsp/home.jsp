@@ -396,7 +396,7 @@
                 });
             }
 
-            document.addEventListener("DOMContentLoaded", function() {
+                document.addEventListener("DOMContentLoaded", function() {
                 updateTimers();
                 setInterval(updateTimers, 1000); // Update every second
                 filterTournaments();

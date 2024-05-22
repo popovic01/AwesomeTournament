@@ -180,8 +180,47 @@
                     </c:otherwise>
                 </c:choose>
                 <c:if test="${owner}">
-                    <button class="btn btn-primary edit-button">Edit</button>
+                    <button id="btnEditTournament" class="btn btn-primary edit-button">Edit</button>
                 </c:if>
+            </div>
+
+            <div id="editTournamentForm" style="display: none; margin-top: 20px;">
+                <form>
+                    <div>
+                        <label for="tournamentName">Tournament Name:</label>
+                        <input type="text" id="tournamentName" name="tournamentName" value="${tournament.getName()}" required>
+                    </div>
+                    <div>
+                        <label for="maxTeam">Maximum number of teams:</label>
+                        <input type="number" id="maxTeam" name="maxTeam" min="2" max="20" value="${tournament.getMaxTeams()}" required>
+                    </div>
+                    <div>
+                        <label for="startingPlayers">Number of starting players per team:</label>
+                        <input type="number" id="startingPlayers" name="startingPlayers" min="1" max="11" value="${tournament.getStartingPlayers()}" required>
+                    </div>
+                    <div>
+                        <label for="minPlayers">Minimum number of players for a team:</label>
+                        <input type="number" id="minPlayers" name="minPlayers" min="1" max="11" value="${tournament.getMinPlayers()}" required>
+                    </div>
+                    <div>
+                        <label for="maxPlayers">Maximum number of players for a team:</label>
+                        <input type="number" id="maxPlayers" name="maxPlayers" min="1" max="25" value="${tournament.getMaxPlayers()}" required>
+                    </div>
+                    <div>
+                        <label for="startDate">Start date of the tournament:</label>
+                        <input type="date" id="startDate" name="startDate" value="${tournament.getStartDate()}" required>
+                    </div>
+                    <div>
+                        <label for="deadline">Deadline for team registration:</label>
+                        <input type="date" id="deadline" name="deadline" value="${tournament.getDeadline()}" required>
+                    </div>
+                    <div>
+                        <label for="logo">Logo:</label>
+                        <input type="file" id="logo" name="logo" accept=".png, .jpg, .jpeg">
+                    </div>
+                    <button type="submit" name="confirm" class="btn btn-primary">Submit</button>
+                    <button id="cancelCreateTournament" type="button" name="cancel" class="btn btn-primary">Cancel</button>
+                </form>
             </div>
 
             <c:if test="${owner}">
@@ -194,7 +233,7 @@
             </c:if>
 
             <div class="inline-container">
-                <p class="fs-4 text-dark">Teams</p>
+                <p id="teamString" class="fs-4 text-dark">Teams</p>
                 <a href="/ranking/scorers/tournaments/${tournament.getId()}">
                     <button style="margin-left: 30px" id="seeTournamentTable" class="btn btn-primary">
                         See ranking scorers
@@ -229,7 +268,7 @@
                 <c:choose>
                     <c:when test="${not empty matches}">
                         <div class="match-header">
-                            <h3>Matches:</h3>
+                            <h3 id="matchesString">Matches:</h3>
                             <select id="matchFilter">
                                 <option value="past" selected>Past Matches</option>
                                 <option value="upcoming">Upcoming Matches</option>
@@ -306,7 +345,7 @@
                         </ul>
                     </c:when>
                     <c:otherwise>
-                        <p class="text-dark">
+                        <p id="noMatchesString" class="text-dark">
                             No matches available at the moment. <br>
                             Come back here when the subscriptions are closed!
                         </p>
@@ -332,6 +371,22 @@
     });
 
     document.addEventListener('DOMContentLoaded', function () {
+        var btnEditTournament = document.getElementById("btnEditTournament");
+        btnEditTournament.addEventListener("click", function() {
+            console.log("SCHIACCIATOOOOO");
+            document.getElementById("editTournamentForm").style.display = "block";
+            document.getElementById("btnEditTournament").style.display = "none";
+            document.getElementById("generateMatches").style.display = "none";
+            document.getElementById("teamString").style.display = "none";
+            document.getElementById("seeTournamentTable").style.display = "none";
+            document.querySelector("ol").style.display = "none";
+            document.getElementById("btnAdd").style.display = "none";
+            document.getElementById("matchesString").style.display = "none";
+            document.getElementById("matchFilter").style.display = "none";
+            document.getElementById("matchList").style.display = "none";
+            document.getElementById("noMatchesString").style.display = "none";
+        });
+
         var seeTournamentTableBtn = document.getElementById("seeTournamentTable");
         var matches = ${matches};
         if (matches && matches.length > 0) seeTournamentTableBtn.style.display = "block";
