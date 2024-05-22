@@ -66,7 +66,6 @@
     <nav class="navbar" id="navbar">
         <c:choose>
             <c:when test="${logged}">
-                <a>${user.getEmail()}</a>
                 <a href="<c:url value='/auth/logout'/>">Logout</a>
             </c:when>
             <c:otherwise>
