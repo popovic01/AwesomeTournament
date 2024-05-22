@@ -91,6 +91,12 @@ public class TournamentServlet extends AbstractDatabaseServlet{
                 req.setAttribute("matches", matches);
                 req.setAttribute("teams", teams);
 
+                if(SessionHelpers.isLogged(req)) {
+                    int userId = SessionHelpers.getId(req);
+                    req.setAttribute("logged", true);
+                    req.setAttribute("userId", userId);
+                }
+
                 req.getRequestDispatcher("/jsp/tournament.jsp").forward(req, resp);
             } catch (SQLException e) {
                 LOGGER.info(e.getMessage());

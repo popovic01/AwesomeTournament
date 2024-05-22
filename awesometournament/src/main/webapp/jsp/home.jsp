@@ -388,7 +388,7 @@
                                 // Redirect to another page, replacing the current page in the history
                                 window.location.replace("/home");
                             }
-                            else throw new Error('Failed to update player');
+                            else throw new Error('Failed to create the tournament');
                     }).catch(error => {
                             console.error('Error:', error);
                             alert('Failed to create the tournament. Please try again.');
