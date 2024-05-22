@@ -66,7 +66,7 @@
                 <input type="hidden" name="redirect" value="<c:out value="${redirect}"/>">
                 <input type="submit" value="Login">
             </form>
-            <p class="signup-text">Don't have an account? <a href="/auth/signup">Sign up</a></p>
+            <p class="signup-text">Don't have an account? <a href="/auth/signup?redirect=${redirect}">Sign up</a></p>
         </div>
     </body>
 

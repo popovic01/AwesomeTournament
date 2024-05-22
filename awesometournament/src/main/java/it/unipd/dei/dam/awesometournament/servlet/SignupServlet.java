@@ -28,19 +28,33 @@ public class SignupServlet extends AbstractDatabaseServlet {
     protected final static Logger LOGGER = LogManager.getLogger(SignupServlet.class,
             StringFormatterMessageFactory.INSTANCE);
 
+    String getRedirect(HttpServletRequest req) {
+        String redirect = null;
+
+        String referer = req.getHeader("Referer");
+        if (referer != null)
+            redirect = referer;
+
+        // If the referer is passed as a query argument, it overrides the one passed as
+        // the header.
+        String refererparam = req.getParameter("redirect");
+        if (refererparam != null)
+            redirect = refererparam;
+
+        return redirect;
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         LogContext.setIPAddress(req.getRemoteAddr());
         LogContext.setAction(Actions.USER_SIGNUP);
 
-        if(SessionHelpers.isLogged(req)) {
+        if (SessionHelpers.isLogged(req)) {
             resp.sendRedirect("/");
             return;
         }
 
-        String referer = req.getHeader("Referer");
-        if(referer != null)
-            req.setAttribute("redirect", referer);
+        req.setAttribute("redirect", getRedirect(req));
 
         req.getRequestDispatcher("/jsp/signup.jsp").forward(req, resp);
     }
@@ -53,7 +67,7 @@ public class SignupServlet extends AbstractDatabaseServlet {
         // invalidate any previous session
 
         HttpSession session = req.getSession(false);
-        if(session != null) {
+        if (session != null) {
             session.invalidate();
         }
 
@@ -71,10 +85,9 @@ public class SignupServlet extends AbstractDatabaseServlet {
         String password = map.get("password");
         String passwordcheck = map.get("passwordcheck");
 
-
         String redirect = map.get("redirect");
 
-        if(!password.equals(passwordcheck)) {
+        if (!password.equals(passwordcheck)) {
             req.setAttribute("error", "The passwords don't correspond!\n");
             req.setAttribute("redirect", redirect);
             req.getRequestDispatcher("/jsp/signup.jsp").forward(req, resp);
@@ -87,11 +100,12 @@ public class SignupServlet extends AbstractDatabaseServlet {
         }
 
         LOGGER.info("email: " + email);
-        // LOGGER.info("password: " + password); for debug only, clear passwords should not be present in logs
+        // LOGGER.info("password: " + password); for debug only, clear passwords should
+        // not be present in logs
 
         // try to register the user
 
-        if(!Validators.isEmail(email)) {
+        if (!Validators.isEmail(email)) {
             // the email is not valid
             req.setAttribute("error", "Invalid email!\n");
             req.setAttribute("redirect", redirect);
@@ -99,7 +113,7 @@ public class SignupServlet extends AbstractDatabaseServlet {
             return;
         }
 
-        if(!Validators.isPasswordValid(password)) {
+        if (!Validators.isPasswordValid(password)) {
             // the password is not valid
             req.setAttribute("error", "Invalid password!\n");
             req.setAttribute("redirect", redirect);
@@ -114,14 +128,15 @@ public class SignupServlet extends AbstractDatabaseServlet {
             CreateUserDAO dao = new CreateUserDAO(getConnection(), user);
             dao.access();
             Integer createdUserID = dao.getOutputParam();
-            if(createdUserID == null) {
+            if (createdUserID == null) {
                 req.setAttribute("error", "User already exists!\n");
                 req.setAttribute("redirect", redirect);
                 req.getRequestDispatcher("/jsp/signup.jsp").forward(req, resp);
                 return;
             }
 
-            resp.sendRedirect(redirect);
+            LOGGER.info("Sending redirect to /auth/login?redirect="+redirect);
+            resp.sendRedirect("/auth/login?redirect=" + redirect);
         } catch (SQLException e) {
             e.printStackTrace();
         }
