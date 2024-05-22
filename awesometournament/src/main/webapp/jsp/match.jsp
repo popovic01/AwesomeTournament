@@ -409,7 +409,7 @@
                 const formData = new FormData(this);
                 const jsonObject = {};
                 const date = new Date(formData.get("date"));
-                const isoDate = date.toISOString();
+                const isoDate = toISOString(date);
                 jsonObject["referee"] = formData.get("referee");
                 jsonObject["matchDate"] = isoDate;
                 const jsonData = JSON.stringify(jsonObject);
@@ -441,6 +441,26 @@
                 }
             }
         });
+
+        function toISOString(date) {
+            const tzo = -date.getTimezoneOffset();
+            const dif = tzo >= 0 ? '+' : '-';
+            const pad = function (num) {
+                return (num < 10 ? '0' : '') + num;
+            };
+            const padMilliseconds = function (num) {
+                return (num < 10 ? '00' : num < 100 ? '0' : '') + num;
+            };
+
+            return date.getFullYear() +
+                '-' + pad(date.getMonth() + 1) +
+                '-' + pad(date.getDate()) +
+                'T' + pad(date.getHours()) +
+                ':' + pad(date.getMinutes()) +
+                ':' + pad(date.getSeconds()) +
+                '.' + padMilliseconds(date.getMilliseconds()) +
+                '+00:00'
+        }
 
         function deleteEvent(id) {
             const xhr = new XMLHttpRequest();
