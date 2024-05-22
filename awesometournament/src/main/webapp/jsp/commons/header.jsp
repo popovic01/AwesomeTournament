@@ -62,12 +62,7 @@
         </a>
     </div>
     <h1>Awesome Tournament</h1>
-    <div class="img-wrapper">
-        <a href="/auth/login">
-            <img src="<c:url value="/media/login.png"/>" alt="Login image">
-        </a>
-    </div>
-    <button class="menu-btn" onclick="toggleNavbar()">X</button>
+    <button class="menu-btn" onclick="toggleNavbar()">☰</button>
     <nav class="navbar" id="navbar">
         <c:choose>
             <c:when test="${logged}">
