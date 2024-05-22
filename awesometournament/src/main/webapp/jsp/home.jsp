@@ -115,11 +115,13 @@
         <div class="container">
             <h1 class="title">AwesomeTournaments</h1>
 
-            <div class="container-center">
-                <button id="btnCreateTournament" class="btn btn-primary">
-                    Create a new Tournament
-                </button>
-            </div>
+            <c:if test="${logged}">
+                <div class="container-center">
+                    <button id="btnCreateTournament" class="btn btn-primary">
+                        Create a new Tournament
+                    </button>
+                </div>
+            </c:if>
 
             <div id="createTournamentForm" style="display: none; margin-top: 20px;">
                 <form>

@@ -33,8 +33,11 @@ public class HomeServlet extends AbstractDatabaseServlet{
             GetTournamentsDAO dao = new GetTournamentsDAO(getConnection());
             dao.access();
             List<Tournament> tournaments = dao.getOutputParam();
-            int userId = SessionHelpers.getId(req);
-            req.setAttribute("userId", userId);
+            if(SessionHelpers.isLogged(req)) {
+                int userId = SessionHelpers.getId(req);
+                req.setAttribute("logged", true);
+                req.setAttribute("userId", userId);
+            }
             req.setAttribute("tournaments", tournaments);
             req.getRequestDispatcher("/jsp/home.jsp").forward(req, resp);
         } catch (SQLException e) {
