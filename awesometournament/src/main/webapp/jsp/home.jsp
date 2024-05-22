@@ -171,7 +171,7 @@
 
             <ul>
                 <c:forEach var="tournament" items="${tournaments}">
-                    <li class="tournament" data-is-finished="${tournament.getIsFinished()}">
+                    <li class="tournament" data-is-finished="${tournament.getIsFinished()}" data-deadline="${tournament.getDeadline()}">
                         <a class="list" href="/tournament/${tournament.getId()}">
                             <c:choose>
                                 <c:when test="${not empty entry.getBase64Logo()}">
@@ -185,10 +185,13 @@
                                 <c:out value="${tournament.getName()}"/>
                             </div>
                             <div class="tournament-details">
-                                <c:out value="${tournament.getOnlyStartDate()}"/>
+                                <c:out value="${tournament.getStartingPlayers()}"/> players per team.
                             </div>
                             <div class="tournament-details">
-                                <c:out value="${tournament.getStartingPlayers()}"/> players per team.
+                                Starting date: <strong><c:out value="${tournament.getOnlyStartDate()}"/></strong>
+                            </div>
+                            <div class="tournament-details">
+                                Time left for registration: <span class="time-left"></span>
                             </div>
                         </a>
                     </li>
@@ -200,6 +203,28 @@
         <c:import url="/jsp/commons/footer.jsp"/>
 
         <script>
+
+            function updateTimers() {
+                var tournaments = document.querySelectorAll('.tournament');
+
+                tournaments.forEach(function (tournament) {
+                    var deadline = new Date(tournament.getAttribute('data-deadline'));
+                    var now = new Date();
+                    var timeLeft = deadline - now;
+
+                    if (timeLeft > 0) {
+                        var days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+                        var hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                        var minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                        var seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+                        tournament.querySelector('.time-left').innerHTML =
+                            "<strong>" + days + "d " + hours + "h " + minutes + "m " + seconds + "s</strong>";
+                    }
+                    else tournament.querySelector('.time-left').innerHTML = "<strong> Registration closed</strong>";
+                });
+            }
+
             function setStartingMinPlayersAndMaxPlayers() {
                 // Get the elements
                 const maxTeamInput = document.getElementById('maxTeam');
@@ -259,16 +284,19 @@
             }
 
             function setStartAndDeadlineDate() {
-                // Get the current date in the format YYYY-MM-DD
-                const today = new Date().toISOString().split('T')[0];
+
+                // Get tomorrow's date in the format YYYY-MM-DD
+                const date = new Date();
+                date.setDate(date.getDate() + 1);
+                const tomorrow = date.toISOString().split('T')[0];
 
                 // Get the startDate and deadline input element
                 const startDateInput = document.getElementById('startDate');
                 const deadlineInput = document.getElementById('deadline');
 
-                // Set the min attribute to today's date and implements logic for startDate and deadline
-                startDateInput.min = today;
-                deadlineInput.min = today;
+                // Set the min attribute to tomorrow's date and implements logic for startDate and deadline
+                startDateInput.min = tomorrow;
+                deadlineInput.min = tomorrow;
 
                 startDateInput.addEventListener('change', function() {
                     const startDate = startDateInput.value;
@@ -326,7 +354,7 @@
                     var formData = {
                         name: document.getElementById("tournamentName").value,
                         token: "prova",
-                        creatorUserId: '${userId}', <!-- !!!!!!!!!!!!!!!!!!!!!!!! TO BE SOLVED !!!!!!!!!!!!!!!!!!!!!!!!-->
+                        creatorUserId: '${userId}',
                         maxTeams: parseInt(document.getElementById("maxTeam").value),
                         maxPlayers: parseInt(document.getElementById("maxPlayers").value),
                         minPlayers: parseInt(document.getElementById("minPlayers").value),
@@ -369,11 +397,13 @@
             }
 
             document.addEventListener("DOMContentLoaded", function() {
+                updateTimers();
+                setInterval(updateTimers, 1000); // Update every second
+                filterTournaments();
+                createTournament();
                 manageForm();
                 setStartingMinPlayersAndMaxPlayers();
                 setStartAndDeadlineDate();
-                filterTournaments();
-                createTournament();
                 hideForm();
             });
         </script>
