@@ -44,9 +44,9 @@
     }
 
     .navbar a {
-        display: flex; /* Use flexbox for the layout */
-        justify-content: space-between; /* Space out text and image */
-        align-items: center; /* Center align items vertically */
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
         color: white;
         padding: 1rem;
         text-decoration: none;
@@ -60,7 +60,6 @@
         width: 20px;
         height: 20px;
     }
-
 </style>
 
 <header class="header-wrapper">
@@ -69,8 +68,11 @@
             <img src="<c:url value="/media/tournament_logo.png"/>" alt="logo of Awesome Tournament">
         </a>
     </div>
+
     <h1>Awesome Tournament</h1>
+
     <button class="menu-btn" onclick="toggleNavbar()">☰</button>
+
     <nav class="navbar" id="navbar">
         <c:choose>
             <c:when test="${logged}">

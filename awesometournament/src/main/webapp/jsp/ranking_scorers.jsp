@@ -37,14 +37,14 @@
             }
 
             a.link {
-                text-decoration: none; /* Rimuove il sottolineato */
-                color: inherit; /* Utilizza il colore del testo del genitore */
+                text-decoration: none; /* Remove underlined */
+                color: inherit; /* Uses the parent's text color */
             }
 
-            /* Stile per i link del team al passaggio del mouse */
+            /* Style for team hover links */
             a.link:hover {
-                text-decoration: underline; /* Sottolinea il testo al passaggio del mouse */
-                color: inherit; /* Utilizza il colore del testo del genitore */
+                text-decoration: underline; /* Underline text on hover */
+                color: inherit; /* Uses the parent's text color */
             }
         </style>
     </head>
@@ -94,7 +94,6 @@
         <!-- footer -->
         <c:import url="/jsp/common/footer.jsp"/>
     </body>
-
 </html>
 
 

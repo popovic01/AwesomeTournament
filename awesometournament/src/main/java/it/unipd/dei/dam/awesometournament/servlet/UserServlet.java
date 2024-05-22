@@ -45,8 +45,7 @@ public class UserServlet extends AbstractDatabaseServlet {
                 dao.access();
                 User result = (User) dao.getOutputParam();
                 if(result != null) {
-
-                resp.getWriter().println(result);
+                    resp.getWriter().println(result);
                 } else {
                     resp.sendError(HttpServletResponse.SC_NOT_FOUND, "User not found");
                 }
@@ -57,5 +56,4 @@ public class UserServlet extends AbstractDatabaseServlet {
             }
         }
     }
-
 }

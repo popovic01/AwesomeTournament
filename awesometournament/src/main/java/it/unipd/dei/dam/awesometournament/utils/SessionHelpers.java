@@ -38,7 +38,6 @@ public class SessionHelpers {
         if(!isLogged(req)) {
             throw new NotLoggedException();
         }
-
         HttpSession session = req.getSession();
         return (int) session.getAttribute("id");
     }
