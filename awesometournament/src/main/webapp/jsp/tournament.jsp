@@ -81,6 +81,7 @@
             }
 
             .btn-delete {
+                margin-top: 20px;
                 background-color: #dc3545;
             }
 
