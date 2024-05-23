@@ -44,13 +44,8 @@
             li {
                 margin-bottom: 10px;
                 padding: 10px;
-                background-color: #f9f9f9;
                 border-radius: 5px;
                 box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            }
-
-            li:hover {
-                background-color: #e9e9e9;
             }
 
             .match-detail {
@@ -194,6 +189,27 @@
             .back-btn:hover {
                 background-color: #0056b3;
             }
+
+            .event-list {
+                list-style-type: none;
+                padding: 0;
+            }
+            .event-item {
+                display: flex;
+                align-items: center;
+                margin-bottom: 10px;
+            }
+            .event-time {
+                flex: 1;
+                text-align: center;
+            }
+            .event-icon {
+                width: 24px;
+                height: 24px;
+            }
+            .delete-button {
+                margin-left: 10px;
+            }
         </style>
     </head>
 
@@ -282,17 +298,29 @@
         </div>
 
         <div>
-            <ul>
-                <c:forEach items="${events}" var="event">
-                    <li>
-                        <c:out value="${event.type}" />
-                        <c:out value="${event.time}" />
-                        <c:if test="${owner}">
-                            <button onclick="deleteEvent(<c:out value='${event.id}' />)">delete</button>
-                        </c:if>
-                    </li>
-                </c:forEach>
-            </ul>
+                <ul class="event-list">
+                    <c:forEach items="${events}" var="event">
+                        <li class="event-item">
+                            <c:choose>
+                                <c:when test="${event.type == 'GOAL'}">
+                                    <img src="/media/goal.png" alt="Goal" class="event-icon" />
+                                </c:when>
+                                <c:when test="${event.type == 'YELLOW_CARD'}">
+                                    <img src="/media/yellow_card.png" alt="Yellow Card" class="event-icon" />
+                                </c:when>
+                                <c:when test="${event.type == 'RED_CARD'}">
+                                    <img src="/media/red_card.png" alt="Red Card" class="event-icon" />
+                                </c:when>
+                            </c:choose>
+                            <div class="event-time">
+                                <c:out value="${event.time}" />'
+                            </div>
+                            <c:if test="${owner}">
+                                <button class="delete-button" onclick="deleteEvent(<c:out value='${event.id}' />)">delete</button>
+                            </c:if>
+                        </li>
+                    </c:forEach>
+                </ul>
         </div>
         <c:if test="${owner}">
             <c:if test="${!goals_coherent}">
