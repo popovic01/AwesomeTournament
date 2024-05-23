@@ -242,6 +242,12 @@ public class Tournament {
         return deadline;
     }
 
+    public LocalDate getOnlyDeadline() {
+        Timestamp deadline = Timestamp.valueOf(getDeadline().toString());
+        LocalDateTime localDeadline  = deadline.toLocalDateTime();
+        return localDeadline.toLocalDate();
+    }
+
     public void setDeadline(Timestamp deadline) {
         this.deadline = deadline;
     }

@@ -80,6 +80,14 @@
                 background-color: #0056b3;
             }
 
+            .btn-delete {
+                background-color: #dc3545;
+            }
+
+            .btn-delete:hover {
+                background-color: #c82333;
+            }
+
             .edit-button {
                 position: absolute;
                 right: 420px;
@@ -208,11 +216,11 @@
                     </div>
                     <div>
                         <label for="startDate">Start date of the tournament:</label>
-                        <input type="date" id="startDate" name="startDate" value="${tournament.getStartDate()}" required>
+                        <input type="date" id="startDate" name="startDate" value="${tournament.getOnlyStartDate()}" required>
                     </div>
                     <div>
                         <label for="deadline">Deadline for team registration:</label>
-                        <input type="date" id="deadline" name="deadline" value="${tournament.getDeadline()}" required>
+                        <input type="date" id="deadline" name="deadline" value="${tournament.getOnlyDeadline()}" required>
                     </div>
                     <div>
                         <label for="logo">Logo:</label>
@@ -220,6 +228,7 @@
                     </div>
                     <button type="submit" name="confirm" class="btn btn-primary">Edit</button>
                     <button id="cancelCreateTournament" type="button" name="cancel" class="btn btn-primary">Cancel</button>
+                    <button id="deleteTournament" type="button" name="delete" class="btn btn-delete">Delete Tournament</button>
                 </form>
             </div>
             <div id="container">
@@ -502,6 +511,37 @@
                 alert('Failed to update the tournament. Please try again.');
             });
         });
+
+        document.getElementById('deleteTournament').addEventListener('click', function() {
+            if (confirm('Are you sure you want to delete this tournament?')) {
+                fetch(`/api/tournaments/${tournament.getId()}`, {
+                    method: 'DELETE'
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            alert('Tournament deleted successfully');
+                            window.location.href = '/home';
+                        } else {
+                            alert('Failed to delete the tournament');
+                            window.location.href = '/home';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('An error occurred while deleting the tournament');
+                    });
+            }
+        });
+    }
+
+    function hideForm() {
+        var btnCancelCreateTournament = document.getElementById("cancelCreateTournament");
+        btnCancelCreateTournament.addEventListener("click", function () {
+            document.getElementById("createTournamentForm").style.display = "none";
+            document.getElementById("btnCreateTournament").style.display = "block";
+            document.getElementById("tournamentFilter").style.display = "block";
+            document.querySelector("ul").style.display = "block";
+        });
     }
 
     document.addEventListener('DOMContentLoaded', function () {
@@ -515,6 +555,7 @@
         setStartingMinPlayersAndMaxPlayers();
         setStartAndDeadlineDate();
         manageForm();
+        hideForm();
 
         var seeTournamentTableBtn = document.getElementById("seeTournamentTable");
         var matches = "${matches}";

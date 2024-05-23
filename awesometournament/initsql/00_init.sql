@@ -35,7 +35,7 @@ CREATE TABLE public.teams (
         creator_user_id INT NOT NULL,
         tournament_id INT NOT NULL,
         FOREIGN KEY (creator_user_id) REFERENCES "users" (id),
-        FOREIGN KEY (tournament_id) REFERENCES "tournaments" (id)
+        FOREIGN KEY (tournament_id) REFERENCES "tournaments" (id) ON DELETE CASCADE
 );
 
 CREATE TYPE public.match_result as ENUM ('team1', 'team2', 'draw');
@@ -54,7 +54,7 @@ CREATE TABLE public.matches (
         -- we could also check "result IS NULL"
         FOREIGN KEY (team1_id) REFERENCES "teams" (id),
         FOREIGN KEY (team2_id) REFERENCES "teams" (id),
-        FOREIGN KEY (tournament_id) REFERENCES "tournaments" (id)
+        FOREIGN KEY (tournament_id) REFERENCES "tournaments" (id) ON DELETE CASCADE
 );
 
 CREATE TYPE public.player_position as ENUM (
@@ -72,7 +72,7 @@ CREATE TABLE public.players (
         position player_position NULL,
         medical_certificate BYTEA NULL,
         date_of_birth DATE NOT NULL,
-        FOREIGN KEY (team_id) REFERENCES "teams" (id)
+        FOREIGN KEY (team_id) REFERENCES "teams" (id) ON DELETE CASCADE
 );
 
 CREATE TYPE public.event_type as ENUM ('goal', 'yellow card', 'red card');
@@ -83,6 +83,6 @@ CREATE TABLE public.events (
         player_id INT NOT NULL,
         type event_type NOT NULL,
         time INT NOT NULL,
-        FOREIGN KEY (match_id) REFERENCES "matches" (id),
-        FOREIGN KEY (player_id) REFERENCES "players" (id)
+        FOREIGN KEY (match_id) REFERENCES "matches" (id) ON DELETE CASCADE,
+        FOREIGN KEY (player_id) REFERENCES "players" (id) ON DELETE CASCADE
 );
