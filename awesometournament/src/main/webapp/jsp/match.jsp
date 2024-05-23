@@ -285,7 +285,8 @@
             <ul>
                 <c:forEach items="${events}" var="event">
                     <li>
-                        <c:out value="${event}" />
+                        <c:out value="${event.type}" />
+                        <c:out value="${event.time}" />
                         <c:if test="${owner}">
                             <button onclick="deleteEvent(<c:out value='${event.id}' />)">delete</button>
                         </c:if>
