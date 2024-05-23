@@ -126,7 +126,7 @@
             </li>
         </ul>
     </div>
-    <input type="password" id="passwordcheck" name="passwordcheck" placeholder="Repeat password" /></br>
+    <input type="password" id="passwordcheck" name="passwordcheck" placeholder="Repeat password" style="margin-top: 10px;"/></br>
     <p class="error">
         <c:out value="${error}" />
     </p>
