@@ -42,7 +42,12 @@
             margin-bottom: 10px;
             padding: 10px;
             border-radius: 5px;
+            background-color: #f9f9f9;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        li:hover {
+            background-color: #e9e9e9;
         }
 
         .match-detail {
@@ -211,6 +216,11 @@
         .delete-button {
             margin-left: 10px;
         }
+
+        .event-item .player {
+            margin-left: 10px;
+        }
+
     </style>
 </head>
 
@@ -305,12 +315,21 @@
                     <c:choose>
                         <c:when test="${event.type == 'GOAL'}">
                             <img src="/media/goal.png" alt="Goal" class="event-icon" />
+                            <div href="<c:url value="/players/${event.playerId}"/>" class="player">
+                                <c:out value="${event.playerId}" />
+                            </div>
                         </c:when>
                         <c:when test="${event.type == 'YELLOW_CARD'}">
                             <img src="/media/yellow_card.png" alt="Yellow Card" class="event-icon" />
+                            <div class="player">
+                                <c:out value="${event.playerId}" />
+                            </div>
                         </c:when>
                         <c:when test="${event.type == 'RED_CARD'}">
                             <img src="/media/red_card.png" alt="Red Card" class="event-icon" />
+                            <div class="player">
+                                <c:out value="${event.playerId}" />
+                            </div>
                         </c:when>
                     </c:choose>
                     <div class="event-time">
