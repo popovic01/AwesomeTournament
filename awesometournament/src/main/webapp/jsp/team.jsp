@@ -10,6 +10,40 @@
         <c:import url="/jsp/commons/head.jsp"/>
 
         <style>
+            /* Form styling */
+            form {
+                max-width: 600px;
+                margin: 20px auto;
+                background-color: #fff;
+                border-radius: 5px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                padding: 20px;
+            }
+
+            form label {
+                display: block;
+                margin-bottom: 10px;
+            }
+
+            form input[type="text"], form input[type="submit"] {
+                width: calc(100% - 22px);
+                padding: 10px;
+                margin-bottom: 20px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+
+            form input[type="submit"] {
+                width: 100%;
+                background-color: #3F51B5;
+                color: #fff;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+            }
+
+            form input[type="submit"]:hover {
+                background-color: #2c3e50;
+            }
             .main-wrapper {
                 max-width: 800px;
                 margin: 20px auto;

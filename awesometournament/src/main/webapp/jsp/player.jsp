@@ -118,12 +118,9 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-4 text-center">
+                        <img src="<c:url value="/media/tournament_logo.png"/>" class="img-fluid rounded-circle mb-3" alt="Profile Picture">
                         <h5 class="card-subtitle mb-2 text-muted">${player.getName()} ${player.getSurname()}</h5>
                     </div>
-                    <!-- <div class="col-md-4 text-center"> -->
-                        <!-- <img src="${user.profilePicture}" class="img-fluid rounded-circle mb-3" alt="Profile Picture"> -->
-                        <!-- <h5 class="card-subtitle mb-2 text-muted">${user.name} ${user.surname}</h5> -->
-                    <!-- </div> -->
                     <div class="col-md-8">
                         <ul id="playerInfo" class="list-group list-group-flush">
                             <li class="list-group-item">
