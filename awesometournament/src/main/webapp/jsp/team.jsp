@@ -29,7 +29,7 @@
         <!-- header -->
         <c:import url="/jsp/commons/header.jsp"/>
 
-        <div class="main-wrapper">
+        <div class="main-wrapper" id="teamInformation">
             <div class="title-logo-wrapper">
                 <p class="fs-1 text-dark">
                     <c:out value="${team.name}"/>
@@ -86,11 +86,49 @@
                 <p class="text-secondary text-center">No players added in this team</p>
             </c:if>
             <c:if test="${teamOwner || tournamentOwner}">
-                <a href="<c:url value=""/>">
-                    Add Players to this team
-                </a>
+                <button class="btn btn-outline-secondary" type="button" id="showUpdateFormButton" onclick="showAddPlayerForm()">Add Player</button>
             </c:if>
 
+        </div>
+        <div class="container mt-5" id="addPlayerCard" style="display: none;">
+            <div class="card shadow-lg">
+                <div class="card-header text-white bg-primary">
+                    <h3 class="card-title mb-0">Player Profile</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <!-- <div class="col-md-4 text-center"> -->
+                            <!-- <img src="${user.profilePicture}" class="img-fluid rounded-circle mb-3" alt="Profile Picture"> -->
+                            <!-- <h5 class="card-subtitle mb-2 text-muted">${user.name} ${user.surname}</h5> -->
+                        <!-- </div> -->
+                        <form id="addPlayerForm">
+                            <div class="form-group">
+                                <label for="nameInput">Name:</label>
+                                <input type="text" class="form-control" id="nameInput" placeholder="Name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="surnameInput">Surname:</label>
+                                <input type="text" class="form-control" id="surnameInput" placeholder="Surname" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="my-1 mr-2" for="positionInput">Position</label>
+                                <select class="custom-select my-1 mr-sm-2" id="positionInput" required>
+                                    <option value="goalkeeper" selected>Goalkeeper</option>
+                                    <option value="defender">Defender</option>
+                                    <option value="midfielder">Midfielder</option>
+                                    <option value="striker">Striker</option>
+                                  </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="dateInput">Date of birth:</label>
+                                <input type="text" class="form-control" id="dateInput" placeholder="Date of birth" required>
+                            </div>
+                            <button type="submit" name="confirm" class="btn btn-primary">Confirm</button>
+                            <button type="button" name="cancel" class="btn btn-primary" onclick="cancelAdd(${team.getId()})">Cancel</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- footer -->
@@ -100,6 +138,47 @@
 </html>
 
 <script>
+    function showAddPlayerForm() {
+        document.getElementById("teamInformation").style.display = "none";
+        document.getElementById("addPlayerCard").style.display = "block";
+    }
+
+    function cancelAdd(teamId) {
+      // Redirect to another page, replacing the current page in the history
+      window.location.replace('/team/{teamId}'.replace('{teamId}', teamId));
+    }
+
+    document.getElementById('addPlayerForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent form submission
+        var formData = {
+            name: document.getElementById('nameInput').value,
+            surname: document.getElementById('surnameInput').value,
+            team_id: '${team.getId()}',
+            position: document.getElementById('positionInput').value,
+            date_of_birth: document.getElementById('dateInput').value
+        };
+        // Make AJAX request to update player
+        fetch('/api/teams/${team.getId()}/players', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(response => {
+            if (response.ok) {
+                // Redirect to another page, replacing the current page in the history
+                window.location.replace("/team/${team.getId()}");
+            } else {
+                throw new Error('Failed to create player');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Failed to create player. Please try again later.');
+        });
+    });
+
     document.addEventListener('DOMContentLoaded', function() {
         var btnEdit = document.getElementById('btnEdit');
         var btnDelete = document.getElementById('btnDelete');
