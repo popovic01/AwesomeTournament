@@ -6,6 +6,7 @@
 <head>
     <title>Player Information</title>
     <c:import url="/jsp/commons/head.jsp" />
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/player.js"></script>
     <style>
         /* Custom CSS for Player Information Page */
 
@@ -140,9 +141,11 @@
                             <li class="list-group-item">
                                 <strong>Date of birth:</strong> ${player.getDateOfBirth()}
                             </li>
-                            <li class="list-group-item">
-                                <button class="btn btn-outline-secondary" type="submit" id="showUpdateFormButton" onclick="showUpdateForm()">Update Player</button>
-                            </li>
+                            <c:if test="${authorized}">
+                                <li class="list-group-item">
+                                    <button class="btn btn-outline-secondary" type="submit" id="showUpdateFormButton" onclick="showUpdateForm()">Update Player</button>
+                                </li>
+                            </c:if>
                         </ul>
                         <form id="updateForm" style="display: none;">
                             <div class="form-group">
@@ -156,7 +159,7 @@
                             <div class="form-group">
                                 <label class="my-1 mr-2" for="positionInput">Position</label>
                                 <select class="custom-select my-1 mr-sm-2" id="positionInput" required>
-                                    <option value="goalkeeper" selected>Goalkeeper</option>
+                                    <option value="goalkeeper">Goalkeeper</option>
                                     <option value="defender">Defender</option>
                                     <option value="midfielder">Midfielder</option>
                                     <option value="striker">Striker</option>
@@ -167,7 +170,7 @@
                                 <input type="text" class="form-control" id="dateInput" value="${player.getDateOfBirth()}" required>
                             </div>
                             <button type="submit" name="confirm" class="btn btn-primary">Confirm</button>
-                            <button type="button" name="cancel" class="btn btn-primary" onclick="cancelUpdate()">Cancel</button>
+                            <button type="button" name="cancel" class="btn btn-primary" onclick="cancelUpdate(${player.getId()})">Cancel</button>
                         </form>
                     </div>
                 </div>
@@ -202,32 +205,6 @@
         </div>
     </div>
     <script>
-        function showUpdateForm() {
-            // Hide original data
-            document.getElementById("playerInfo").style.display = "none";
-            document.getElementById("showUpdateFormButton").style.display = "none";
-
-            // Show update form
-            document.getElementById("updateForm").style.display = "block";
-        }
-
-        function validateFile() {
-            const fileInput = document.getElementById('inputGroupFile04');
-            const filePath = fileInput.value;
-            const allowedExtensions = /(\.pdf)$/i;
-            if (!allowedExtensions.exec(filePath)) {
-                showMessage('Upload only pdf files');
-                return false;
-            }
-
-            return true;
-        }
-
-        function cancelUpdate() {
-            // Redirect to another page, replacing the current page in the history
-            window.location.replace("/players/${player.getId()}");
-        }
-
         document.getElementById('updateForm').addEventListener('submit', function(event) {
             event.preventDefault(); // Prevent form submission
             var formData = {
@@ -282,30 +259,8 @@
             });
         };
 
-        // Function to show the modal with a custom message
-        function showMessage(message) {
-            var modal = document.getElementById("modal");
-            var span = document.getElementsByClassName("close")[0];
-            var modalMessage = document.getElementById("message");
-
-            // Set the message text
-            modalMessage.textContent = message;
-
-            // Display the modal
-            modal.style.display = "block";
-
-            // When the user clicks on <span> (x), close the modal
-            span.onclick = function() {
-                modal.style.display = "none";
-            }
-
-            // When the user clicks anywhere outside the modal, close it
-            window.onclick = function(event) {
-                if (event.target == modal) {
-                    modal.style.display = "none";
-                }
-            }
-        }
+        // Call the function to set the selected position
+        setSelectedPosition('${player.getPosition()}');
     </script>
     <c:if test="${uploaded}">
         <script>
