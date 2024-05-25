@@ -385,6 +385,37 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
+        function formatDateWithTimezone(isoString) {
+            const date = new Date(isoString);
+            const options = {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                timeZoneName: 'short'
+            };
+            return date.toLocaleDateString(undefined, options);
+        }
+
+        const matchDateElement = document.getElementById("matchDate");
+        const formattedDate = formatDateWithTimezone("${match.matchDate}");
+        matchDateElement.textContent = formattedDate;
+
+        function formatDateForInput(isoString) {
+            const date = new Date(isoString);
+            const year = date.getFullYear();
+            const month = ('0' + (date.getMonth() + 1)).slice(-2);
+            const day = ('0' + date.getDate()).slice(-2);
+            const hours = ('0' + date.getHours()).slice(-2);
+            const minutes = ('0' + date.getMinutes()).slice(-2);
+            return `\${year}-\${month}-\${day}T\${hours}:\${minutes}`;
+        }
+
+        const formMatchDateElement = document.getElementById("date");
+        const formFormattedDate = formatDateForInput("${match.matchDate}");
+        formMatchDateElement.value = formFormattedDate;
+
         const team1Id = "${match.team1Id}";
         const team2Id = "${match.team2Id}";
 
@@ -458,7 +489,7 @@
             const formData = new FormData(this);
             const jsonObject = {};
             const date = new Date(formData.get("date"));
-            const isoDate = toISOString(date);
+            const isoDate = date.toISOString();
             jsonObject["referee"] = formData.get("referee");
             jsonObject["matchDate"] = isoDate;
             const jsonData = JSON.stringify(jsonObject);
@@ -490,26 +521,6 @@
             }
         }
     });
-
-    function toISOString(date) {
-        const tzo = -date.getTimezoneOffset();
-        const dif = tzo >= 0 ? '+' : '-';
-        const pad = function (num) {
-            return (num < 10 ? '0' : '') + num;
-        };
-        const padMilliseconds = function (num) {
-            return (num < 10 ? '00' : num < 100 ? '0' : '') + num;
-        };
-
-        return date.getFullYear() +
-            '-' + pad(date.getMonth() + 1) +
-            '-' + pad(date.getDate()) +
-            'T' + pad(date.getHours()) +
-            ':' + pad(date.getMinutes()) +
-            ':' + pad(date.getSeconds()) +
-            '.' + padMilliseconds(date.getMilliseconds()) +
-            '+00:00'
-    }
 
     function deleteEvent(id) {
         const xhr = new XMLHttpRequest();

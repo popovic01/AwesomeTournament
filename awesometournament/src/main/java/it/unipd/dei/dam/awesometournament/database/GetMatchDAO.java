@@ -3,6 +3,7 @@ package it.unipd.dei.dam.awesometournament.database;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.time.ZoneId;
 
 import it.unipd.dei.dam.awesometournament.resources.entities.Match;
 import it.unipd.dei.dam.awesometournament.resources.enums.MatchResult;
@@ -50,7 +51,7 @@ public class GetMatchDAO extends AbstractDAO<Match> {
                     rs.getInt("team2_score"),
                     rs.getString("result") != null ? MatchResult.db2enum(rs.getString("result")) : null,
                     rs.getString("referee"),
-                    rs.getTimestamp("match_date"),
+                    rs.getTimestamp("match_date").toInstant().atZone(ZoneId.systemDefault()).toOffsetDateTime(),
                     rs.getBoolean("is_finished")
                     );
 

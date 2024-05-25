@@ -5,7 +5,9 @@ import java.sql.SQLException;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.util.StdDateFormat;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import it.unipd.dei.dam.awesometournament.database.GetMatchDAO;
 import it.unipd.dei.dam.awesometournament.database.UpdateMatchDAO;
@@ -55,6 +57,9 @@ public class MatchHandler extends RestMatcherHandler{
 
         LogContext.setIPAddress(req.getRemoteAddr());
         om = new ObjectMapper();
+        om.registerModule(new JavaTimeModule());
+        om.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+
         int matchId = Integer.parseInt(params[0]);
 
         try {

@@ -2,7 +2,7 @@ package it.unipd.dei.dam.awesometournament.resources.entities;
 
 import it.unipd.dei.dam.awesometournament.resources.enums.MatchResult;
 
-import java.sql.Timestamp;
+import java.time.OffsetDateTime;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -62,7 +62,7 @@ public class Match {
      * The date and time of the match.
      */
     @JsonProperty("matchDate")
-    private Timestamp matchDate;
+    private OffsetDateTime matchDate;
 
     /**
      * Indicates whether the match is finished.
@@ -91,7 +91,7 @@ public class Match {
      * @param isFinished   Indicates whether the match is finished.
      */
     public Match(int id, int team1Id, int team2Id, int tournamentId, Integer team1Score, Integer team2Score,
-                 MatchResult result, String referee, Timestamp matchDate, boolean isFinished) {
+                 MatchResult result, String referee, OffsetDateTime matchDate, boolean isFinished) {
         this.id = id;
         this.team1Id = team1Id;
         this.team2Id = team2Id;
@@ -253,7 +253,7 @@ public class Match {
      *
      * @return The date and time of the match.
      */
-    public Timestamp getMatchDate() {
+    public OffsetDateTime getMatchDate() {
         return matchDate;
     }
 
@@ -262,7 +262,7 @@ public class Match {
      *
      * @param matchDate The date and time of the match.
      */
-    public void setMatchDate(Timestamp matchDate) {
+    public void setMatchDate(OffsetDateTime matchDate) {
         this.matchDate = matchDate;
     }
 

@@ -39,7 +39,7 @@ public class UpdateMatchDAO extends AbstractDAO<Integer> {
             STATEMENT = "UPDATE public.matches SET match_date = ?, referee = ? WHERE id = ?";
             p = con.prepareStatement(STATEMENT);
 
-            p.setTimestamp(1, match.getMatchDate());
+            p.setTimestamp(1, Timestamp.from(match.getMatchDate().toInstant()));
             p.setString(2, match.getReferee());
             p.setInt(3, match.getId());
         } else {

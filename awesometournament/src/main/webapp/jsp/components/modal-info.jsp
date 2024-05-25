@@ -6,7 +6,7 @@
             <label for="referee">Referee:</label>
             <input type="text" id="referee" name="referee" value="${match.referee}">
             <label for="date">Date:</label>
-            <input type="datetime-local" id="date" name="date" value="${match.matchDate}">
+            <input type="datetime-local" id="date" name="date" value="">
             <input type="submit" value="Update">
         </form>
     </div>
