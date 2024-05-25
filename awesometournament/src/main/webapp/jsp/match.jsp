@@ -399,8 +399,11 @@
         }
 
         const matchDateElement = document.getElementById("matchDate");
-        const formattedDate = formatDateWithTimezone("${match.matchDate}");
-        matchDateElement.textContent = formattedDate;
+        if ("${match.matchDate}" != ""){
+            matchDateElement.textContent = formatDateWithTimezone("${match.matchDate}");
+        } else {
+            matchDateElement.textContent = "TBA";
+        }
 
         function formatDateForInput(isoString) {
             const date = new Date(isoString);

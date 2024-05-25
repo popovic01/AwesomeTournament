@@ -51,7 +51,7 @@ public class GetMatchDAO extends AbstractDAO<Match> {
                     rs.getInt("team2_score"),
                     rs.getString("result") != null ? MatchResult.db2enum(rs.getString("result")) : null,
                     rs.getString("referee"),
-                    rs.getTimestamp("match_date").toInstant().atZone(ZoneId.systemDefault()).toOffsetDateTime(),
+                    rs.getTimestamp("match_date") != null ? rs.getTimestamp("match_date").toInstant().atZone(ZoneId.systemDefault()).toOffsetDateTime() : null,
                     rs.getBoolean("is_finished")
                     );
 
