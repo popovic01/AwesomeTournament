@@ -546,40 +546,6 @@
     }
 
     document.addEventListener('DOMContentLoaded', function () {
-        var btnEditTournament = document.getElementById("btnEditTournament");
-        btnEditTournament.addEventListener("click", function() {
-            document.getElementById("editTournamentForm").style.display = "block";
-            document.getElementById("btnEditTournament").style.display = "none";
-            document.getElementById("container").style.display = "none";
-        });
-
-        setStartingMinPlayersAndMaxPlayers();
-        setStartAndDeadlineDate();
-        manageForm();
-        hideForm();
-
-        var seeTournamentTableBtn = document.getElementById("seeTournamentTable");
-        var matches = "${matches}";
-        if (matches && matches.length > 0) seeTournamentTableBtn.style.display = "block";
-        else seeTournamentTableBtn.style.display = "none";
-
-        var btnAdd = document.getElementById('btnAdd');
-
-        if (btnAdd) {
-            btnAdd.addEventListener('click', function() {
-                var url = `/tournament/${tournament.id}/add-team`;
-                window.location.href = url;
-                var xhr = new XMLHttpRequest();
-                xhr.open('GET', url, true);
-                xhr.onload = function() {
-                    if (xhr.status >= 200 && xhr.status < 300) {
-                        window.location.reload();
-                    }
-                };
-            });
-        } else {
-            console.log('btnAdd element not found');
-        }
         var filterControl = document.getElementById('matchFilter');
         if (filterControl) {
             filterControl.addEventListener('change', function () {
@@ -587,7 +553,7 @@
                 var matches = document.querySelectorAll('#matchList li');
                 matches.forEach(function (match) {
                     var isFinished = match.getAttribute('is-finished') === 'true';
-                    var matchDate = match.getAttribute('date'); // Corrected attribute
+                    var matchDate = match.getAttribute('date'); 
                     // Find the result div inside the match li
                     var scoreDiv = match.querySelector('.score');
                     if (scoreDiv) {
@@ -649,7 +615,43 @@
                 xhr.send();
             });
         }
+
+        var btnEditTournament = document.getElementById("btnEditTournament");
+        btnEditTournament.addEventListener("click", function() {
+            document.getElementById("editTournamentForm").style.display = "block";
+            document.getElementById("btnEditTournament").style.display = "none";
+            document.getElementById("container").style.display = "none";
+        });
+
+        setStartingMinPlayersAndMaxPlayers();
+        setStartAndDeadlineDate();
+        manageForm();
+        hideForm();
+
+        var seeTournamentTableBtn = document.getElementById("seeTournamentTable");
+        var matches = "${matches}";
+        if (matches && matches.length > 0) seeTournamentTableBtn.style.display = "block";
+        else seeTournamentTableBtn.style.display = "none";
+
+        var btnAdd = document.getElementById('btnAdd');
+
+        if (btnAdd) {
+            btnAdd.addEventListener('click', function() {
+                var url = `/tournament/${tournament.id}/add-team`;
+                window.location.href = url;
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', url, true);
+                xhr.onload = function() {
+                    if (xhr.status >= 200 && xhr.status < 300) {
+                        window.location.reload();
+                    }
+                };
+            });
+        } else {
+            console.log('btnAdd element not found');
+        }
     });
+
     $(window).bind("pageshow", function () {
         // I need to do that to avoid that back-forward cache (BFCache)
         // mismatches select menu and shown matches
