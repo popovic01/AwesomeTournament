@@ -135,9 +135,7 @@
                             </td>
                             <c:if test="${tournamentOwner || teamOwner}">
                                 <td>
-                                    <a href="for-my-bro.com">
-                                        <i class="fa fa-trash-o"></i>
-                                    </a>
+                                    <i class="fa fa-trash-o" onclick="deletePlayer(${player.getId()})"></i>
                                 </td>
                             </c:if>
                         </tr>
@@ -293,4 +291,26 @@
             console.log('btnDelete element not found');
         }
     })
+
+    function deletePlayer(playerId) {
+        // Make AJAX request to update player
+        fetch('/api/players/{playerId}'.replace('{playerId}', playerId), {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+        .then(response => {
+            if (response.ok) {
+                // Redirect to another page, replacing the current page in the history
+                window.location.replace("/team/${team.getId()}");
+            } else {
+                throw new Error('Failed to delete player');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Failed to delete player. Please try again later.');
+        });
+    };
 </script>
