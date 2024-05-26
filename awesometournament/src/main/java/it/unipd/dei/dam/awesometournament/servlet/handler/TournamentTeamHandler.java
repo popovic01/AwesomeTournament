@@ -61,7 +61,7 @@ public class TournamentTeamHandler extends RestMatcherHandler {
                 var result = getTeamDAO.access().getOutputParam();
                 req.setAttribute("teamName", result.getName());
             }
-            req.getRequestDispatcher("/jsp/common/team/team-form.jsp").forward(req, res);
+            req.getRequestDispatcher("/jsp/components/team-form.jsp").forward(req, res);
         } catch (Exception e) {
             LOGGER.error(e);
         }

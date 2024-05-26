@@ -56,6 +56,21 @@
             #btnEdit {
                 margin-right: 1rem;
             }
+
+            #btnEdit, #btnDelete {
+                height: 80%;
+                width: 40%;
+            }
+
+            .title-logo-actions-wrapper {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                height: 4rem;
+                margin-bottom: 1rem;
+                padding: 0 1rem;
+            }
         </style>
     </head>
 
@@ -64,21 +79,24 @@
         <c:import url="/jsp/commons/header.jsp"/>
 
         <div class="main-wrapper" id="teamInformation">
-            <div class="title-logo-wrapper">
-                <p class="fs-1 text-dark">
-                    <c:out value="${team.name}"/>
-                </p>
-                <c:if test="${not empty team.base64Logo}">
-                    <img src="data:image/jpg;base64,${team.base64Logo}"/>
+            <div class="title-logo-actions-wrapper">
+                <div class="title-logo-wrapper">
+                    <p class="fs-1 text-dark">
+                        <c:out value="${team.name}"/>
+                    </p>
+
+                    <c:if test="${not empty team.base64Logo}">
+                        <img src="data:image/jpg;base64,${team.base64Logo}"/>
+                    </c:if>
+                </div>
+
+                <c:if test="${tournamentOwner || teamOwner}">
+                    <div class="d-flex justify-content-end">
+                        <button id="btnEdit" class="btn btn-secondary"><i class="fa fa-pencil-square-o"></i></button>
+                        <button id="btnDelete" class="btn btn-secondary"><i class="fa fa-trash-o"></i></button>
+                    </div>
                 </c:if>
             </div>
-
-            <c:if test="${tournamentOwner || teamOwner}">
-                <div class="d-flex justify-content-end mb-2">
-                    <button id="btnEdit" class="btn btn-secondary">Edit</button>
-                    <button id="btnDelete" class="btn btn-secondary">Delete</button>
-                </div>
-            </c:if>
 
             <c:if test="${!empty players}">
                 <table class="table">

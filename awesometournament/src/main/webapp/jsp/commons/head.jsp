@@ -40,8 +40,8 @@
         display: flex;
         flex-direction: row;
         justify-content: center;
+        align-items: center;
         gap: 1rem;
         height: 3rem;
-        margin-bottom: 1rem;
     }
 </style>

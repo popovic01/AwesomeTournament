@@ -54,7 +54,7 @@ public class TournamentServlet extends AbstractDatabaseServlet{
                     var result = getTeamDAO.access().getOutputParam();
                     req.setAttribute("teamName", result.getName());
                 }
-                req.getRequestDispatcher("/jsp/common/team/team-form.jsp").forward(req, resp);
+                req.getRequestDispatcher("/jsp/components/team-form.jsp").forward(req, resp);
                 return;
             } catch (Exception e) {
                 LOGGER.error(e);
