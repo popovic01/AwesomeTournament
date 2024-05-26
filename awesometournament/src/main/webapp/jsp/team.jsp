@@ -89,6 +89,11 @@
                         <th scope="col">Date of Birth</th>
                         <th scope="col">Position</th>
                         <th scope="col">See Details</th>
+                        <c:if test="${tournamentOwner || teamOwner}">
+                            <th>
+                                Action
+                            </th>
+                        </c:if>
                     </tr>
                     </thead>
                     <tbody>
@@ -110,6 +115,13 @@
                                     Details
                                 </a>
                             </td>
+                            <c:if test="${tournamentOwner || teamOwner}">
+                                <td>
+                                    <a href="for-my-bro.com">
+                                        <i class="fa fa-trash-o"></i>
+                                    </a>
+                                </td>
+                            </c:if>
                         </tr>
                     </c:forEach>
                     </tbody>
