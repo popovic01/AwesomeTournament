@@ -1,15 +1,21 @@
 package it.unipd.dei.dam.awesometournament.utils;
 
+import java.util.Base64;
+
 /**
  * Represents an entry in a ranking, containing information about a team's name, points, and matches played.
  */
 public class RankingEntry {
+    /** The id of the team. */
+    int teamId;
     /** The name of the team. */
     String teamName;
     /** The points accumulated by the team. */
     int points;
     /** The number of matches played by the team. */
     int matchesPlayed;
+    /** The logo of the team. */
+    byte[] logo;
 
     /**
      * Constructs a new ranking entry with the specified team name, points, and matches played.
@@ -18,10 +24,21 @@ public class RankingEntry {
      * @param points The points accumulated by the team.
      * @param matchesPlayed The number of matches played by the team.
      */
-    public RankingEntry(String teamName, int points, int matchesPlayed) {
+    public RankingEntry(int teamId, String teamName, int points, int matchesPlayed, byte[] logo) {
+        this.teamId = teamId;
         this.teamName = teamName;
         this.points = points;
         this.matchesPlayed = matchesPlayed;
+        this.logo = logo;
+    }
+
+    /**
+     * Gets the id of the team.
+     *
+     * @return The team id.
+     */
+    public int getTeamId() {
+        return teamId;
     }
 
     /**
@@ -49,6 +66,16 @@ public class RankingEntry {
      */
     public int getMatchesPlayed() {
         return matchesPlayed;
+    }
+
+    /**
+     * Gets the logo of the team.
+     *
+     * @return The logo of the team.
+     */
+    public String getLogo() {
+        if (logo != null) return Base64.getEncoder().encodeToString(logo);
+        else return "";
     }
 
     /**

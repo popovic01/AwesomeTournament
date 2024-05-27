@@ -234,7 +234,7 @@
                 <input type="file" id="logo" name="logo" accept=".png, .jpg, .jpeg">
             </div>
             <button type="submit" name="confirm" class="btn btn-primary">Edit</button>
-            <button id="cancelCreateTournament" type="button" name="cancel"
+            <button id="cancelEditTournament" type="button" name="cancel"
                 class="btn btn-primary">Cancel</button>
             <button id="deleteTournament" type="button" name="delete" class="btn btn-delete">Delete
                 Tournament</button>
@@ -258,29 +258,45 @@
                     </c:otherwise>
                 </c:choose>
             </div>
-
         </div>
         <div class="row fh">
             <div class="col-6 full-height">
-                <ol class="team-list">
-                    <c:forEach items="${teams}" var="team" varStatus="i">
-                        <li>
-                            <a class="list" href="/team/${team.getId()}">
-                                <c:out value="${team.name}" />
-                                <c:choose>
-                                    <c:when test="${not empty team.getBase64Logo()}">
-                                        <img src="data:image/jpeg;base64, ${team.getBase64Logo()}"
-                                            class="logo-img" alt="team logo">
-                                    </c:when>
-                                    <c:otherwise>
-                                        <img src="<c:url value='/media/logo_placeholder.png' />"
-                                            class="logo-img" alt="default logo">
-                                    </c:otherwise>
-                                </c:choose>
-                            </a>
-                        </li>
+                <table>
+                    <tr>
+                        <th>Team</th>
+                        <th>Points</th>
+                        <th>Match played</th>
+                    </tr>
+                    <tbody>
+                    <c:if test="${empty ranking}">
+                       CLASSIFICA VUOTA
+                    </c:if>
+                    <c:forEach items="${ranking}" var="entry">
+                        <tr>
+                            <td>
+                                <a href="/team/${entry.getTeamID()}" class="link">
+                                    <c:out value="${entry.getTeamName()}"/>
+                                    <c:choose>
+                                        <c:when test="${not empty entry.getLogo()}">
+                                            <div>
+                                                <img src="data:image/jpeg;base64, ${entry.getLogo()}" class="logo" alt="team logo">
+                                            </div>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <div>
+                                                <img src="<c:url value="/media/logo_placeholder.png"/>" class="logo" alt="default logo">
+                                            </div>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </a>
+                            </td>
+                            <td><c:out value="${entry.getPoints()}"/></td>
+                            <td><c:out value="${entry.getMatchesPlayed()}"/></td>
+                        </tr>
                     </c:forEach>
-                </ol>
+                    </tbody>
+                </table>
+
             </div>
             <div class="col-6 fh">
                 <div class="half-height">
@@ -411,7 +427,6 @@
             </c:if>
         </div>
 </body>
-
 
 <script>
     window.addEventListener("pageshow", function (event) {
@@ -579,11 +594,10 @@
     }
 
     function hideForm() {
-        var btnCancelCreateTournament = document.getElementById("cancelCreateTournament");
-        btnCancelCreateTournament.addEventListener("click", function () {
+        var btnCancelEditTournament = document.getElementById("cancelEditTournament");
+        btnCancelEditTournament.addEventListener("click", function () {
             document.getElementById("editTournamentForm").style.display = "none";
             document.getElementById("btnEditTournament").style.display = "block";
-            //document.getElementById("tournamentFilter").style.display = "block";
             document.getElementById("main-container").style.display = "block";
             document.getElementById("form-container").style.display = "none";
             document.querySelector("ul").style.display = "block";
