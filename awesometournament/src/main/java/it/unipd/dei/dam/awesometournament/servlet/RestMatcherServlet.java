@@ -94,6 +94,7 @@ public class RestMatcherServlet extends AbstractDatabaseServlet {
     private void execute(Method method, String path, HttpServletRequest req, HttpServletResponse res) throws Exception {
         LOGGER.info("Rest handler path = "+path);
         if(path == null) {
+            res.sendError(HttpServletResponse.SC_NOT_FOUND);
             response = new ResponsePackageNoData(ResponseStatus.NOT_FOUND,
                     "Something went wrong");
             res.getWriter().print(om.writeValueAsString(response));

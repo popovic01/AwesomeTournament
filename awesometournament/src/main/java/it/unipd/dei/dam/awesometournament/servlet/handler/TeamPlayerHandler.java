@@ -70,6 +70,7 @@ public class TeamPlayerHandler extends RestMatcherHandler {
                     (players, ResponseStatus.OK, "Players found");
             res.getWriter().print(om.writeValueAsString(response));
         } else {
+            res.sendError(HttpServletResponse.SC_NOT_FOUND, "No players in team " + teamId);
             response = new ResponsePackageNoData
                     (ResponseStatus.NOT_FOUND, "No players in team " + teamId);
             res.getWriter().print(om.writeValueAsString(response));
@@ -96,6 +97,7 @@ public class TeamPlayerHandler extends RestMatcherHandler {
         try {
             player = (Player) om.readValue(requestBody, Player.class);
         } catch (InvalidFormatException e) {
+            res.sendError(HttpServletResponse.SC_BAD_REQUEST);
             response = new ResponsePackageNoData
                     (ResponseStatus.BAD_REQUEST,
                             "Something went wrong");
@@ -112,6 +114,7 @@ public class TeamPlayerHandler extends RestMatcherHandler {
                     (player, ResponseStatus.CREATED, "Player created");
             res.getWriter().print(om.writeValueAsString(response));
         } else {
+            res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response = new ResponsePackageNoData
                     (ResponseStatus.INTERNAL_SERVER_ERROR,
                             "Something went wrong");
@@ -171,6 +174,7 @@ public class TeamPlayerHandler extends RestMatcherHandler {
                     case POST:
                         if (!isUserAuthorized(req, teamId)) {
                             LOGGER.info("User unauthorized");
+                            res.sendError(HttpServletResponse.SC_UNAUTHORIZED);
                             response = new ResponsePackageNoData(ResponseStatus.FORBIDDEN,
                                     "User unauthorized");
                             res.getWriter().print(om.writeValueAsString(response));
@@ -179,16 +183,19 @@ public class TeamPlayerHandler extends RestMatcherHandler {
                         postPlayer(req, res, teamId);
                         break;
                     default:
+                        res.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
                         response = new ResponsePackageNoData(ResponseStatus.METHOD_NOT_ALLOWED,
                                 "Method not allowed");
                         res.getWriter().print(om.writeValueAsString(response));
                         return Result.STOP;
                 }
             } catch (NumberFormatException e) {
+                res.sendError(HttpServletResponse.SC_BAD_REQUEST);
                 response = new ResponsePackageNoData
                         (ResponseStatus.BAD_REQUEST, "ID must be an integer");
                 res.getWriter().print(om.writeValueAsString(response));
             } catch (SQLException e) {
+                res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 response = new ResponsePackageNoData
                         (ResponseStatus.INTERNAL_SERVER_ERROR, "Something went wrong: " + e.getMessage());
                 res.getWriter().print(om.writeValueAsString(response));

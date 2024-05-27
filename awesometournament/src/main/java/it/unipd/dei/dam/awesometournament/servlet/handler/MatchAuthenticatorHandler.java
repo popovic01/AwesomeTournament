@@ -60,6 +60,7 @@ public class MatchAuthenticatorHandler extends RestMatcherHandler{
             case PUT: {
                 if (!SessionHelpers.isLogged(req)) {
                     LOGGER.info("user is not logged!");
+                    res.sendError(HttpServletResponse.SC_UNAUTHORIZED);
                     response = new ResponsePackageNoData(ResponseStatus.UNAUTHORIZED,
                             "User not logged in");
                     res.getWriter().print(om.writeValueAsString(response));
@@ -79,6 +80,7 @@ public class MatchAuthenticatorHandler extends RestMatcherHandler{
                     Tournament t = dao2.getOutputParam();
                     LOGGER.info("tournament is "+t);
                     if (t.getCreatorUserId() != loggedId) {
+                        res.sendError(HttpServletResponse.SC_UNAUTHORIZED);
                         response = new ResponsePackageNoData(ResponseStatus.FORBIDDEN,
                                 "User unauthorized");
                         res.getWriter().print(om.writeValueAsString(response));

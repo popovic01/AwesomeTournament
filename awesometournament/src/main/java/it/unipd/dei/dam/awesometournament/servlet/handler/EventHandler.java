@@ -56,6 +56,7 @@ public class EventHandler extends RestMatcherHandler {
                     "Event found");
             res.getWriter().print(om.writeValueAsString(response));
         } else {
+            res.sendError(HttpServletResponse.SC_NOT_FOUND, "The event doesn't exist");
             response = new ResponsePackageNoData(ResponseStatus.NOT_FOUND,
                     "Event not found");
             res.getWriter().print(om.writeValueAsString(response));
@@ -85,6 +86,7 @@ public class EventHandler extends RestMatcherHandler {
                     "Event updated");
             res.getWriter().print(om.writeValueAsString(response));
         } else {
+            res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response = new ResponsePackageNoData(ResponseStatus.INTERNAL_SERVER_ERROR,
                     "Something went wrong");
             res.getWriter().print(om.writeValueAsString(response));
@@ -111,6 +113,7 @@ public class EventHandler extends RestMatcherHandler {
                     "Event deleted");
             res.getWriter().print(om.writeValueAsString(response));
         } else {
+            res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response = new ResponsePackageNoData(ResponseStatus.INTERNAL_SERVER_ERROR,
                     "Something went wrong");
             res.getWriter().print(om.writeValueAsString(response));        }
@@ -150,10 +153,12 @@ public class EventHandler extends RestMatcherHandler {
                     return Result.STOP;
             }
         } catch (NumberFormatException e) {
+            res.sendError(HttpServletResponse.SC_BAD_REQUEST);
             response = new ResponsePackageNoData(ResponseStatus.BAD_REQUEST,
                     "ID must be an integer");
             res.getWriter().print(om.writeValueAsString(response));
         } catch (SQLException e) {
+            res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response = new ResponsePackageNoData(ResponseStatus.INTERNAL_SERVER_ERROR,
                     "Something went wrong: " + e.getMessage());
             res.getWriter().print(om.writeValueAsString(response));

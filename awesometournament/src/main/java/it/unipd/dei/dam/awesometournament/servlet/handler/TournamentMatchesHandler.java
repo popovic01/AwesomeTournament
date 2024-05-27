@@ -62,6 +62,7 @@ public class TournamentMatchesHandler extends RestMatcherHandler {
                         getTournamentMatches(req, res, tournamentId);
                         break;
                     default: {
+                        res.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
                         response = new ResponsePackageNoData(ResponseStatus.METHOD_NOT_ALLOWED,
                                 "Method not allowed");
                         res.getWriter().print(om.writeValueAsString(response));
@@ -69,10 +70,12 @@ public class TournamentMatchesHandler extends RestMatcherHandler {
                     }
                 }
             } catch (NumberFormatException e) {
+                res.sendError(HttpServletResponse.SC_BAD_REQUEST);
                 response = new ResponsePackageNoData(ResponseStatus.BAD_REQUEST,
                         "ID must be an integer");
                 res.getWriter().print(om.writeValueAsString(response));
             } catch (SQLException e) {
+                res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 response = new ResponsePackageNoData(ResponseStatus.INTERNAL_SERVER_ERROR,
                         "Something went wrong: " + e.getMessage());
                 res.getWriter().print(om.writeValueAsString(response));
@@ -116,6 +119,7 @@ public class TournamentMatchesHandler extends RestMatcherHandler {
                     "Matches found");
             res.getWriter().print(om.writeValueAsString(response));
         } else {
+            res.sendError(HttpServletResponse.SC_NOT_FOUND);
             response = new ResponsePackageNoData(ResponseStatus.NOT_FOUND,
                     "Matches not found");
             res.getWriter().print(om.writeValueAsString(response));

@@ -72,6 +72,7 @@ public class PlayerHandler extends RestMatcherHandler{
                     "Player found");
             res.getWriter().print(om.writeValueAsString(response));
         } else {
+            res.sendError(HttpServletResponse.SC_NOT_FOUND, "The player doesn't exist");
             response = new ResponsePackageNoData(ResponseStatus.NOT_FOUND,
                     "Player not found");
             res.getWriter().print(om.writeValueAsString(response));
@@ -108,6 +109,7 @@ public class PlayerHandler extends RestMatcherHandler{
                     "Player updated");
             res.getWriter().print(om.writeValueAsString(response));
         } else {
+            res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response = new ResponsePackageNoData(ResponseStatus.INTERNAL_SERVER_ERROR,
                     "Something went wrong");
             res.getWriter().print(om.writeValueAsString(response));
@@ -134,6 +136,7 @@ public class PlayerHandler extends RestMatcherHandler{
                     "Player deleted");
             res.getWriter().print(om.writeValueAsString(response));
         } else {
+            res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response = new ResponsePackageNoData(ResponseStatus.INTERNAL_SERVER_ERROR,
                     "Something went wrong");
             res.getWriter().print(om.writeValueAsString(response));
@@ -196,6 +199,7 @@ public class PlayerHandler extends RestMatcherHandler{
                     case PUT:
                         if (!isUserAuthorized(req, playerId)) {
                             LOGGER.info("User unauthorized");
+                            res.sendError(HttpServletResponse.SC_UNAUTHORIZED);
                             response = new ResponsePackageNoData(ResponseStatus.FORBIDDEN,
                                     "User unauthorized");
                             res.getWriter().print(om.writeValueAsString(response));
@@ -206,6 +210,7 @@ public class PlayerHandler extends RestMatcherHandler{
                     case DELETE:
                         if (!isUserAuthorized(req, playerId)) {
                             LOGGER.info("User unauthorized");
+                            res.sendError(HttpServletResponse.SC_UNAUTHORIZED);
                             response = new ResponsePackageNoData(ResponseStatus.FORBIDDEN,
                                     "User unauthorized");
                             res.getWriter().print(om.writeValueAsString(response));
@@ -214,16 +219,19 @@ public class PlayerHandler extends RestMatcherHandler{
                         deletePlayer(req, res, playerId);
                         break;
                     default:
+                        res.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
                         response = new ResponsePackageNoData(ResponseStatus.METHOD_NOT_ALLOWED,
                                 "Method not allowed");
                         res.getWriter().print(om.writeValueAsString(response));
                         return Result.STOP;
                 }
             } catch (NumberFormatException e) {
+                res.sendError(HttpServletResponse.SC_BAD_REQUEST);
                 response = new ResponsePackageNoData(ResponseStatus.BAD_REQUEST,
                         "ID must be an integer");
                 res.getWriter().print(om.writeValueAsString(response));
             } catch (SQLException e) {
+                res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 response = new ResponsePackageNoData(ResponseStatus.INTERNAL_SERVER_ERROR,
                         "Something went wrong: " + e.getMessage());
                 res.getWriter().print(om.writeValueAsString(response));

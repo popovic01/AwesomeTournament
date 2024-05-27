@@ -66,6 +66,7 @@ public class MatchEventHandler extends RestMatcherHandler {
                     "Events found");
             res.getWriter().print(om.writeValueAsString(response));
         } else {
+            res.sendError(HttpServletResponse.SC_NOT_FOUND, "No events in match " + matchId);
             response = new ResponsePackageNoData(ResponseStatus.NOT_FOUND,
                     "No events in match " + matchId);
             res.getWriter().print(om.writeValueAsString(response));
@@ -99,6 +100,7 @@ public class MatchEventHandler extends RestMatcherHandler {
                     "Event created");
             res.getWriter().print(om.writeValueAsString(response));
         } else {
+            res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response = new ResponsePackageNoData(ResponseStatus.INTERNAL_SERVER_ERROR,
                     "Something went wrong");
             res.getWriter().print(om.writeValueAsString(response));
@@ -162,6 +164,7 @@ public class MatchEventHandler extends RestMatcherHandler {
                 case POST:
                     if (!isUserAuthorized(req, matchId)) {
                         LOGGER.info("User unauthorized");
+                        res.sendError(HttpServletResponse.SC_UNAUTHORIZED);
                         response = new ResponsePackageNoData(ResponseStatus.FORBIDDEN,
                                 "User unauthorized");
                         res.getWriter().print(om.writeValueAsString(response));

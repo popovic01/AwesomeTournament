@@ -74,6 +74,7 @@ public class TournamentHandler extends RestMatcherHandler {
              res.getWriter().print(om.writeValueAsString(response));
          }
          else {
+             res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
              response = new ResponsePackageNoData(ResponseStatus.INTERNAL_SERVER_ERROR, "Something went wrong");
              res.getWriter().print(om.writeValueAsString(response));
          }
@@ -104,6 +105,7 @@ public class TournamentHandler extends RestMatcherHandler {
         }
         else {
             LOGGER.info("No tournaments in the database");
+            res.sendError(HttpServletResponse.SC_NOT_FOUND);
             response = new ResponsePackageNoData(ResponseStatus.NOT_FOUND, "No tournaments in the database");
             res.getWriter().print(om.writeValueAsString(response));
         }
@@ -138,14 +140,17 @@ public class TournamentHandler extends RestMatcherHandler {
                     postTournament(req, res);
                     break;
                 default:
+                    res.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
                     response = new ResponsePackageNoData(ResponseStatus.METHOD_NOT_ALLOWED, "Method not allowed");
                     res.getWriter().print(om.writeValueAsString(response));
                     return Result.STOP;
             }
         } catch (NumberFormatException e) {
+            res.sendError(HttpServletResponse.SC_BAD_REQUEST);
             response = new ResponsePackageNoData(ResponseStatus.BAD_REQUEST, "ID must be an integer");
             res.getWriter().print(om.writeValueAsString(response));
         } catch (SQLException e) {
+            res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response = new ResponsePackageNoData(ResponseStatus.INTERNAL_SERVER_ERROR,
                     "Something went wrong: " + e.getMessage());
             res.getWriter().print(om.writeValueAsString(response));

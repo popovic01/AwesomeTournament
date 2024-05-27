@@ -74,10 +74,12 @@ public class MatchHandler extends RestMatcherHandler{
                     return Result.STOP;
             }
         } catch (NumberFormatException e) {
+            res.sendError(HttpServletResponse.SC_BAD_REQUEST);
             response = new ResponsePackageNoData(ResponseStatus.BAD_REQUEST,
                     "ID must be an integer");
             res.getWriter().print(om.writeValueAsString(response));
         } catch (SQLException e) {
+            res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response = new ResponsePackageNoData(ResponseStatus.INTERNAL_SERVER_ERROR,
                     "Something went wrong: " + e.getMessage());
             res.getWriter().print(om.writeValueAsString(response));
@@ -109,6 +111,7 @@ public class MatchHandler extends RestMatcherHandler{
             response = new ResponsePackage<Match>(match, ResponseStatus.OK,
                     "Match found");
         } else {
+            res.sendError(HttpServletResponse.SC_NOT_FOUND);
             res.getWriter().println(om.writeValueAsString(match));
             response = new ResponsePackageNoData(ResponseStatus.NOT_FOUND,
                     "Match not found");
@@ -147,6 +150,7 @@ public class MatchHandler extends RestMatcherHandler{
                     "Match updated");
             res.getWriter().println(om.writeValueAsString(response));
         } else {
+            res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response = new ResponsePackageNoData(ResponseStatus.INTERNAL_SERVER_ERROR,
                     "Something went wrong");
             res.getWriter().println(om.writeValueAsString(response));
