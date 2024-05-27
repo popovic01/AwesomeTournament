@@ -164,7 +164,7 @@ public class MatchEventHandler extends RestMatcherHandler {
                 case POST:
                     if (!isUserAuthorized(req, matchId)) {
                         LOGGER.info("User unauthorized");
-                        res.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                        res.sendError(HttpServletResponse.SC_FORBIDDEN);
                         response = new ResponsePackageNoData(ResponseStatus.FORBIDDEN,
                                 "User unauthorized");
                         res.getWriter().print(om.writeValueAsString(response));

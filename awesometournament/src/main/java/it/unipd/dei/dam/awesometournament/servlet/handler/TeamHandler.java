@@ -148,14 +148,17 @@ public class TeamHandler extends RestMatcherHandler {
                     return Result.STOP;
             }
         } catch (NumberFormatException e) {
+            res.sendError(HttpServletResponse.SC_BAD_REQUEST);
             response = new ResponsePackageNoData(ResponseStatus.BAD_REQUEST,
                     "Something went wrong" + e.getMessage());
             res.getWriter().print(om.writeValueAsString(response));
         } catch (InvalidFormatException e) {
+            res.sendError(HttpServletResponse.SC_BAD_REQUEST);
             response = new ResponsePackageNoData(ResponseStatus.BAD_REQUEST,
                     "Something went wrong: " + e.getMessage());
             res.getWriter().print(om.writeValueAsString(response));
         } catch (SQLException e) {
+            res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response = new ResponsePackageNoData(ResponseStatus.INTERNAL_SERVER_ERROR,
                     "Something went wrong: " + e.getMessage())  ;
             res.getWriter().print(om.writeValueAsString(response));

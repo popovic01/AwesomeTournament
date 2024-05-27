@@ -174,7 +174,7 @@ public class TeamPlayerHandler extends RestMatcherHandler {
                     case POST:
                         if (!isUserAuthorized(req, teamId)) {
                             LOGGER.info("User unauthorized");
-                            res.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                            res.sendError(HttpServletResponse.SC_FORBIDDEN);
                             response = new ResponsePackageNoData(ResponseStatus.FORBIDDEN,
                                     "User unauthorized");
                             res.getWriter().print(om.writeValueAsString(response));

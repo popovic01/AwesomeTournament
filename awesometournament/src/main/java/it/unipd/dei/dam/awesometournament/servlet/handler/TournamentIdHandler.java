@@ -201,7 +201,7 @@ public class TournamentIdHandler extends RestMatcherHandler {
                     // Checking user authorization
                     if (!isUserAuthorized(req, tournamentId)) {
                         LOGGER.info("User unauthorized");
-                        res.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                        res.sendError(HttpServletResponse.SC_FORBIDDEN);
                         response = new ResponsePackageNoData(ResponseStatus.FORBIDDEN, "User unauthorized");
                         res.getWriter().print(om.writeValueAsString(response));
                         return Result.STOP;
@@ -212,7 +212,7 @@ public class TournamentIdHandler extends RestMatcherHandler {
                     // Checking user authorization
                     if (!isUserAuthorized(req, tournamentId)) {
                         LOGGER.info("User unauthorized");
-                        res.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                        res.sendError(HttpServletResponse.SC_FORBIDDEN);
                         response = new ResponsePackageNoData(ResponseStatus.FORBIDDEN, "User unauthorized");
                         res.getWriter().print(om.writeValueAsString(response));
                         return Result.STOP;

@@ -199,7 +199,7 @@ public class PlayerHandler extends RestMatcherHandler{
                     case PUT:
                         if (!isUserAuthorized(req, playerId)) {
                             LOGGER.info("User unauthorized");
-                            res.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                            res.sendError(HttpServletResponse.SC_FORBIDDEN);
                             response = new ResponsePackageNoData(ResponseStatus.FORBIDDEN,
                                     "User unauthorized");
                             res.getWriter().print(om.writeValueAsString(response));
@@ -210,7 +210,7 @@ public class PlayerHandler extends RestMatcherHandler{
                     case DELETE:
                         if (!isUserAuthorized(req, playerId)) {
                             LOGGER.info("User unauthorized");
-                            res.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                            res.sendError(HttpServletResponse.SC_FORBIDDEN);
                             response = new ResponsePackageNoData(ResponseStatus.FORBIDDEN,
                                     "User unauthorized");
                             res.getWriter().print(om.writeValueAsString(response));

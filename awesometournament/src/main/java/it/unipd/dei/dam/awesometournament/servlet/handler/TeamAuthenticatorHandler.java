@@ -43,6 +43,7 @@ public class TeamAuthenticatorHandler extends RestMatcherHandler {
             case DELETE:
                 if (!SessionHelpers.isLogged(req)) {
                     LOGGER.info("User not logged in");
+                    res.sendError(HttpServletResponse.SC_UNAUTHORIZED);
                     response = new ResponsePackageNoData(ResponseStatus.UNAUTHORIZED, "User not logged in");
                     res.getWriter().print(om.writeValueAsString(response));
                     return Result.STOP;
@@ -61,6 +62,7 @@ public class TeamAuthenticatorHandler extends RestMatcherHandler {
                     //only a creator of the tournament can delete a team
                     if (tournament.getCreatorUserId() != loggedUserId) {
                         LOGGER.info("User not authorized");
+                        res.sendError(HttpServletResponse.SC_FORBIDDEN);
                         response = new ResponsePackageNoData(ResponseStatus.FORBIDDEN, "User not authorized");
                         res.getWriter().print(om.writeValueAsString(response));
                         return Result.STOP;
@@ -68,6 +70,7 @@ public class TeamAuthenticatorHandler extends RestMatcherHandler {
                     return Result.CONTINUE;
 
                 } catch (SQLException e) {
+                    res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                     response = new ResponsePackageNoData
                             (ResponseStatus.INTERNAL_SERVER_ERROR, "Something went wrong: " + e.getMessage());
                     res.getWriter().print(om.writeValueAsString(response));
@@ -76,7 +79,8 @@ public class TeamAuthenticatorHandler extends RestMatcherHandler {
             case PUT: {
                 if (!SessionHelpers.isLogged(req)) {
                     LOGGER.info("User not authorized");
-                    response = new ResponsePackageNoData(ResponseStatus.UNAUTHORIZED, "User not authorized");
+                    res.sendError(HttpServletResponse.SC_FORBIDDEN);
+                    response = new ResponsePackageNoData(ResponseStatus.FORBIDDEN, "User not authorized");
                     res.getWriter().print(om.writeValueAsString(response));
                     return Result.STOP;
                 }
@@ -95,6 +99,7 @@ public class TeamAuthenticatorHandler extends RestMatcherHandler {
                     if (tournament.getCreatorUserId() != loggedUserId
                             && team.getCreatorUserId() != loggedUserId) {
                         LOGGER.info("User not authorized");
+                        res.sendError(HttpServletResponse.SC_FORBIDDEN);
                         response = new ResponsePackageNoData(ResponseStatus.FORBIDDEN, "User not authorized");
                         res.getWriter().print(om.writeValueAsString(response));
                         return Result.STOP;
@@ -102,6 +107,7 @@ public class TeamAuthenticatorHandler extends RestMatcherHandler {
                     return Result.CONTINUE;
 
                 } catch (SQLException e) {
+                    res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                     response = new ResponsePackageNoData
                             (ResponseStatus.INTERNAL_SERVER_ERROR, "Something went wrong: " + e.getMessage());
                     res.getWriter().print(om.writeValueAsString(response));

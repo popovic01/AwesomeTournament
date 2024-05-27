@@ -147,7 +147,7 @@ public class PlayerServlet extends AbstractDatabaseServlet {
             int playerId = Integer.parseInt(req.getParameter("playerId"));
             if (!isUserAuthorized(req, playerId)) {
                 LOGGER.info("User unauthorized");
-                resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                resp.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 return;
             }
             GetPlayerDAO getPlayerDAO = new GetPlayerDAO(getConnection(), playerId);

@@ -215,6 +215,7 @@ public class TournamentTeamHandler extends RestMatcherHandler {
                     //only logged-in users can add a team
                     if (getIdOfLoggedInUser(req) == -1) {
                         LOGGER.info("User not logged in");
+                        res.sendError(HttpServletResponse.SC_UNAUTHORIZED);
                         response = new ResponsePackageNoData(ResponseStatus.UNAUTHORIZED,
                                 "User not logged in");
                         res.getWriter().print(om.writeValueAsString(response));
@@ -226,6 +227,7 @@ public class TournamentTeamHandler extends RestMatcherHandler {
                     //only logged-in users can add a team
                     if (getIdOfLoggedInUser(req) == -1) {
                         LOGGER.info("User not logged in");
+                        res.sendError(HttpServletResponse.SC_UNAUTHORIZED);
                         response = new ResponsePackageNoData(ResponseStatus.UNAUTHORIZED,
                                 "User not logged in");
                         res.getWriter().print(om.writeValueAsString(response));
@@ -237,14 +239,17 @@ public class TournamentTeamHandler extends RestMatcherHandler {
                     return Result.STOP;
             }
         } catch (NumberFormatException e) {
+            res.sendError(HttpServletResponse.SC_BAD_REQUEST);
             response = new ResponsePackageNoData(ResponseStatus.BAD_REQUEST,
                     "Something went wrong: " + e.getMessage());
             res.getWriter().print(om.writeValueAsString(response));
         } catch (InvalidFormatException e) {
+            res.sendError(HttpServletResponse.SC_BAD_REQUEST);
             response = new ResponsePackageNoData(ResponseStatus.BAD_REQUEST,
                     "Something went wrong: " + e.getMessage());
             res.getWriter().print(om.writeValueAsString(response));
         } catch (SQLException e) {
+            res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response = new ResponsePackageNoData(ResponseStatus.INTERNAL_SERVER_ERROR,
                     "Something went wrong: " + e.getMessage())  ;
             res.getWriter().print(om.writeValueAsString(response));
