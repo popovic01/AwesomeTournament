@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.util.StdDateFormat;
 
 import it.unipd.dei.dam.awesometournament.servlet.RestMatcherHandler;
@@ -70,7 +71,7 @@ public class TeamPlayerHandler extends RestMatcherHandler {
             res.getWriter().print(om.writeValueAsString(response));
         } else {
             response = new ResponsePackageNoData
-                    (ResponseStatus.OK, "No players in team " + teamId);
+                    (ResponseStatus.NOT_FOUND, "No players in team " + teamId);
             res.getWriter().print(om.writeValueAsString(response));
         }
     }
@@ -91,7 +92,16 @@ public class TeamPlayerHandler extends RestMatcherHandler {
         String requestBody = BodyTools.getRequestBody(req);
         LOGGER.info(requestBody);
         om.setDateFormat(new StdDateFormat());
-        Player player = (Player) om.readValue(requestBody, Player.class);
+        Player player = null;
+        try {
+            player = (Player) om.readValue(requestBody, Player.class);
+        } catch (InvalidFormatException e) {
+            response = new ResponsePackageNoData
+                    (ResponseStatus.BAD_REQUEST,
+                            "Something went wrong");
+            res.getWriter().print(om.writeValueAsString(response));
+            return;
+        }
         player.setTeamId(teamId);
         LOGGER.info(player.toString());
         CreateTeamPlayerDAO createTeamPlayerDAO = new CreateTeamPlayerDAO(getConnection(), player);
