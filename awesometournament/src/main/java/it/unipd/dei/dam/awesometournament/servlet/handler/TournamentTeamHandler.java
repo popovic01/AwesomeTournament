@@ -41,33 +41,6 @@ public class TournamentTeamHandler extends RestMatcherHandler {
     private ObjectMapper om;
 
     /**
-     * A method responsible for handling requests for retrieving all the team from the database belonging to a tournament with particular id.
-     * @param res
-     * @param tournamentId An id of a tournament for which all the teams should be retrieved from the database.
-     * @throws IOException
-     * @throws SQLException
-     */
-    void getFormToCreateTeam(HttpServletRequest req, HttpServletResponse res, int tournamentId) throws IOException, SQLException {
-        LogContext.setAction(Actions.GET_TOURNAMENT_TEAMS);
-        LOGGER.info("Received GET request");
-        try {
-            String regex = ".*/(\\d+)$";
-            Pattern pattern = Pattern.compile(regex);
-            Matcher matcher = pattern.matcher(req.getRequestURI());
-
-            if (matcher.matches()) {
-                int teamId = Integer.parseInt(matcher.group(1));
-                GetTeamDAO getTeamDAO = new GetTeamDAO(getConnection(), teamId);
-                var result = getTeamDAO.access().getOutputParam();
-                req.setAttribute("teamName", result.getName());
-            }
-            req.getRequestDispatcher("/jsp/components/team-form.jsp").forward(req, res);
-        } catch (Exception e) {
-            LOGGER.error(e);
-        }
-    }
-
-    /**
      * A method responsible for handling requests for creating a team in the database belonging to a tournament with particular id.
      * @param req A body of a request which contains data for creating a team.
      * @param res
@@ -208,9 +181,6 @@ public class TournamentTeamHandler extends RestMatcherHandler {
         try {
             int tournamentId = Integer.parseInt(params[0]);
             switch (method) {
-                case GET:
-                    getFormToCreateTeam(req, res, tournamentId);
-                    break;
                 case POST:
                     //only logged-in users can add a team
                     if (getIdOfLoggedInUser(req) == -1) {

@@ -39,6 +39,7 @@ public class TournamentServlet extends AbstractDatabaseServlet{
         LogContext.setIPAddress(req.getRemoteAddr());
         LogContext.setAction(Actions.GET_TOURNAMENT);
         String path = req.getPathInfo();
+        LOGGER.info("get");
 
         String[] parts = path.split("/");
 

@@ -39,6 +39,7 @@ public class TeamServlet extends AbstractDatabaseServlet{
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         LogContext.setIPAddress(req.getRemoteAddr());
         LogContext.setAction(Actions.GET_TEAM);
+        LOGGER.info("get");
 
         String path = req.getPathInfo();
 
