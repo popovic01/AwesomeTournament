@@ -200,26 +200,35 @@
         .event-item {
             display: flex;
             align-items: center;
+            justify-content: space-between;
+            position: relative;
             margin-bottom: 10px;
-        }
-
-        .event-time {
-            flex: 1;
-            text-align: center;
         }
 
         .event-icon {
             width: 24px;
             height: 24px;
+            margin-right: 10px;
+        }
+
+        .player {
+            margin-left: 10px;
+            flex-grow: 1;
+            text-align: left;
+        }
+
+        .event-time {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
         }
 
         .delete-button {
             margin-left: 10px;
+            flex-shrink: 0;
         }
 
-        .event-item .player {
-            margin-left: 10px;
-        }
     </style>
 </head>
 
@@ -400,7 +409,7 @@
         }
 
         const matchDateElement = document.getElementById("matchDate");
-        if ("${match.matchDate}" != ""){
+        if ("${match.matchDate}" != "") {
             matchDateElement.textContent = formatDateWithTimezone("${match.matchDate}");
         } else {
             matchDateElement.textContent = "TBA";
@@ -524,6 +533,10 @@
                 document.getElementById("update-result").style.display = "block";
             }
         }
+
+        <c:forEach items="${events}" var="event" varStatus="status">
+        fetchPlayerData(${event.playerId}, ${status.index + 1});
+        </c:forEach>
     });
 
     function deleteEvent(id) {
