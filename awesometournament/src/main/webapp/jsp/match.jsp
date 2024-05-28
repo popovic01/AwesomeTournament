@@ -220,7 +220,6 @@
         .event-item .player {
             margin-left: 10px;
         }
-
     </style>
 </head>
 
@@ -310,24 +309,26 @@
 
     <div>
         <ul class="event-list">
+            <c:set var="counter" value="0" scope="page" />
             <c:forEach items="${events}" var="event">
+                <c:set var="counter" value="${counter + 1}" scope="page" />
                 <li class="event-item">
                     <c:choose>
                         <c:when test="${event.type == 'GOAL'}">
                             <img src="/media/goal.png" alt="Goal" class="event-icon" />
-                            <div href="<c:url value="/players/${event.playerId}"/>" class="player">
+                            <div class="player" id="player${counter}Surname">
                                 <c:out value="${event.playerId}" />
                             </div>
                         </c:when>
                         <c:when test="${event.type == 'YELLOW_CARD'}">
                             <img src="/media/yellow_card.png" alt="Yellow Card" class="event-icon" />
-                            <div class="player">
+                            <div class="player" id="player${counter}Surname">
                                 <c:out value="${event.playerId}" />
                             </div>
                         </c:when>
                         <c:when test="${event.type == 'RED_CARD'}">
                             <img src="/media/red_card.png" alt="Red Card" class="event-icon" />
-                            <div class="player">
+                            <div class="player" id="player${counter}Surname">
                                 <c:out value="${event.playerId}" />
                             </div>
                         </c:when>
@@ -591,6 +592,34 @@
         xhr.onerror = function () {
             console.error(`Network error while fetching team \{teamNumber} data`);
             alert(`Network error while fetching team \${teamNumber} data`);
+        };
+        xhr.send();
+    }
+
+    function fetchPlayerData(playerId, playerNumber) {
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", `/api/players/\${playerId}`, true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    const response = JSON.parse(xhr.responseText);
+                    if (response.status === "OK" && response.data) {
+                        const playerData = response.data;
+                        // Update the DOM with the team data
+                        document.getElementById(`player\${playerNumber}Surname`).innerText = playerData.surname;
+                    } else {
+                        console.error(`Error in response data for Player ID \${playerId}:`, response.message);
+                        alert(`Failed to fetch player data: ` + response.message);
+                    }
+                } else {
+                    console.error(`Error fetching player data:`, xhr.statusText);
+                    alert(`Failed to fetch player data: ` + xhr.statusText);
+                }
+            }
+        };
+        xhr.onerror = function () {
+            console.error(`Network error while fetching player data`);
+            alert(`Network error while fetching player data`);
         };
         xhr.send();
     }
