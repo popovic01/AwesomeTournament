@@ -326,19 +326,16 @@
                         <c:when test="${event.type == 'GOAL'}">
                             <img src="/media/goal.png" alt="Goal" class="event-icon" />
                             <div class="player" id="player${counter}Surname">
-                                <c:out value="${event.playerId}" />
                             </div>
                         </c:when>
                         <c:when test="${event.type == 'YELLOW_CARD'}">
                             <img src="/media/yellow_card.png" alt="Yellow Card" class="event-icon" />
                             <div class="player" id="player${counter}Surname">
-                                <c:out value="${event.playerId}" />
                             </div>
                         </c:when>
                         <c:when test="${event.type == 'RED_CARD'}">
                             <img src="/media/red_card.png" alt="Red Card" class="event-icon" />
                             <div class="player" id="player${counter}Surname">
-                                <c:out value="${event.playerId}" />
                             </div>
                         </c:when>
                     </c:choose>
