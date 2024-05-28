@@ -45,25 +45,14 @@ public class TournamentTeamHandler extends RestMatcherHandler {
      * @param req A body of a request which contains data for creating a team.
      * @param res
      * @param tournamentId An id of a tournament for which a team should be created in the database.
-     * @param userId An id of a logged-in user.
      * @throws IOException
      * @throws SQLException
      */
     void postTournamentTeam (HttpServletRequest req, HttpServletResponse res,
-                                int tournamentId, int userId) throws IOException, SQLException {
+                                int tournamentId) throws IOException, SQLException {
 
         LogContext.setAction(Actions.POST_TOURNAMENT_TEAM);
         LOGGER.info("Received POST request");
-
-        //check if already exists a team with the same name for the tournament
-//        GetTournamentTeamsDAO getTeamsDao = new GetTournamentTeamsDAO(getConnection(), tournamentId);
-//        List<Team> teams = getTeamsDao.access().getOutputParam();
-//        if (teams.stream().anyMatch(x -> x.getName().equals(team.getName()))) {
-//            response = new ResponsePackageNoData(ResponseStatus.BAD_REQUEST,
-//                    "Team with the same name already exists for this tournament");
-//            res.getWriter().print(om.writeValueAsString(response));
-//            return;
-//        }
 
         InputStream inputStream = null; // input stream of the upload file
 
@@ -83,6 +72,17 @@ public class TournamentTeamHandler extends RestMatcherHandler {
         }
 
         try {
+            //check if already exists a team with the same name for the tournament
+            GetTournamentTeamsDAO getTeamsDao = new GetTournamentTeamsDAO(getConnection(), tournamentId);
+            List<Team> teams = getTeamsDao.access().getOutputParam();
+            if (teams.stream().anyMatch(x -> x.getName().toLowerCase().equals(req.getParameter("name").toLowerCase()))) {
+                response = new ResponsePackageNoData(ResponseStatus.BAD_REQUEST,
+                        "Team with the same name already exists for this tournament");
+                res.getWriter().print(om.writeValueAsString(response));
+                res.setStatus(HttpServletResponse.SC_CONFLICT);
+                return;
+            }
+
             Team team = new Team(0, req.getParameter("name"), inputStream, getIdOfLoggedInUser(req), tournamentId);
             CreateTeamDAO createTeamDAOTeamDAO = new CreateTeamDAO(getConnection(), team);
             LOGGER.info(team.toString());
@@ -113,12 +113,11 @@ public class TournamentTeamHandler extends RestMatcherHandler {
      * @param req A body of a request which contains data for updating a team.
      * @param res
      * @param tournamentId An id of a tournament for which a team should be updated in the database.
-     * @param userId An id of a logged-in user.
      * @throws IOException
      * @throws SQLException
      */
     void putTournamentTeam (HttpServletRequest req, HttpServletResponse res,
-                             int tournamentId, int userId) throws IOException, SQLException {
+                             int tournamentId) throws IOException, SQLException {
 
         LogContext.setAction(Actions.PUT_TEAM);
         LOGGER.info("Received PUT request");
@@ -143,6 +142,16 @@ public class TournamentTeamHandler extends RestMatcherHandler {
         }
 
         try {
+            //check if already exists a team with the same name for the tournament
+            GetTournamentTeamsDAO getTeamsDao = new GetTournamentTeamsDAO(getConnection(), tournamentId);
+            List<Team> teams = getTeamsDao.access().getOutputParam();
+            if (teams.stream().anyMatch(x -> x.getName().toLowerCase().equals(req.getParameter("name").toLowerCase()))) {
+                response = new ResponsePackageNoData(ResponseStatus.BAD_REQUEST,
+                        "Team with the same name already exists for this tournament");
+                res.getWriter().print(om.writeValueAsString(response));
+                res.setStatus(HttpServletResponse.SC_CONFLICT);
+                return;
+            }
             Team team = new Team(teamId, req.getParameter("name"), inputStream);
             UpdateTeamDAO updateTeamDAO = new UpdateTeamDAO(getConnection(), team);
             LOGGER.info(teamId);
@@ -185,25 +194,25 @@ public class TournamentTeamHandler extends RestMatcherHandler {
                     //only logged-in users can add a team
                     if (getIdOfLoggedInUser(req) == -1) {
                         LOGGER.info("User not logged in");
-                        res.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                        res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                         response = new ResponsePackageNoData(ResponseStatus.UNAUTHORIZED,
                                 "User not logged in");
                         res.getWriter().print(om.writeValueAsString(response));
                         return Result.STOP;
                     }
-                    postTournamentTeam(req, res, tournamentId, getIdOfLoggedInUser(req));
+                    postTournamentTeam(req, res, tournamentId);
                     break;
                 case PUT:
                     //only logged-in users can add a team
                     if (getIdOfLoggedInUser(req) == -1) {
                         LOGGER.info("User not logged in");
-                        res.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                        res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                         response = new ResponsePackageNoData(ResponseStatus.UNAUTHORIZED,
                                 "User not logged in");
                         res.getWriter().print(om.writeValueAsString(response));
                         return Result.STOP;
                     }
-                    putTournamentTeam(req, res, tournamentId, getIdOfLoggedInUser(req));
+                    putTournamentTeam(req, res, tournamentId);
                     break;
                 default:
                     return Result.STOP;

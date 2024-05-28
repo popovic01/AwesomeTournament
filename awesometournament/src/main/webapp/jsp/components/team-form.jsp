@@ -77,6 +77,9 @@
                 })
                     .then(response => response.json())
                     .then(data => {
+                        if (data.message) {
+                            alert(data.message);
+                        }
                         if (data.redirect) {
                             window.location.href = data.redirect;
                         } else if (data.error) {
@@ -85,6 +88,7 @@
                     })
                     .catch(error => {
                         console.error('Error:', error);
+                        alert(error)
                     });
             } else {
                 formData.set("teamId", lastSegment);
@@ -94,6 +98,9 @@
                 })
                     .then(response => response.json())
                     .then(data => {
+                        if (data.message) {
+                            alert(data.message);
+                        }
                         if (data.redirect) {
                             window.location.href = data.redirect;
                         } else if (data.error) {
@@ -102,6 +109,7 @@
                     })
                     .catch(error => {
                         console.error('Error:', error);
+                        alert(error)
                     });
             }
         });
