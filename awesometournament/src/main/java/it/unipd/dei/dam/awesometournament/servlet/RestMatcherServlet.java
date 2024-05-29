@@ -105,7 +105,7 @@ public class RestMatcherServlet extends AbstractDatabaseServlet {
         for (Entry e : entries) {
             Matcher matcher = e.pattern.matcher(path);
             if (matcher.matches()) {
-                LOGGER.info("match found: " + e.pattern);
+                LOGGER.info("path: " + path + ", match found: " + e.pattern);
                 String[] params = null;
                 if (matcher.groupCount() > 0) {
                     params = new String[matcher.groupCount()];
