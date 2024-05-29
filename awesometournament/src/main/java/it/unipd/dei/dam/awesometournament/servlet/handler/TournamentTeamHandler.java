@@ -25,6 +25,7 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -145,7 +146,10 @@ public class TournamentTeamHandler extends RestMatcherHandler {
             //check if already exists a team with the same name for the tournament
             GetTournamentTeamsDAO getTeamsDao = new GetTournamentTeamsDAO(getConnection(), tournamentId);
             List<Team> teams = getTeamsDao.access().getOutputParam();
-            if (teams.stream().anyMatch(x -> x.getName().toLowerCase().equals(req.getParameter("name").toLowerCase()))) {
+            Optional<Team> teamFromDb = teams.stream()
+                    .filter(x -> x.getName().equalsIgnoreCase(req.getParameter("name")))
+                    .findFirst();
+            if (teamFromDb.isPresent() && teamFromDb.get().getId() != teamId) {
                 response = new ResponsePackageNoData(ResponseStatus.BAD_REQUEST,
                         "Team with the same name already exists for this tournament");
                 res.getWriter().print(om.writeValueAsString(response));
