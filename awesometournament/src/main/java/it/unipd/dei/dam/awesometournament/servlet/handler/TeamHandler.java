@@ -1,5 +1,12 @@
 package it.unipd.dei.dam.awesometournament.servlet.handler;
 
+import java.io.IOException;
+import java.sql.SQLException;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.message.StringFormatterMessageFactory;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
@@ -17,17 +24,9 @@ import it.unipd.dei.dam.awesometournament.utils.BodyTools;
 import it.unipd.dei.dam.awesometournament.utils.ResponsePackage;
 import it.unipd.dei.dam.awesometournament.utils.ResponsePackageNoData;
 import it.unipd.dei.dam.awesometournament.utils.ResponseStatus;
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.message.StringFormatterMessageFactory;
-
-import java.io.IOException;
-import java.sql.SQLException;
 
 /**
  * A handler responsible for handling requests related to teams.
@@ -38,6 +37,60 @@ public class TeamHandler extends RestMatcherHandler {
             StringFormatterMessageFactory.INSTANCE);
     private ResponsePackageNoData response;
     private ObjectMapper om;
+
+    /**
+     * A method responsible for handling requests for retrieving a team from the database with particular id.
+     * @param req
+     * @param res
+     * @param teamId An id of a team which should be retrieved from the database.
+     * @throws ServletException
+     * @throws IOException
+     * @throws SQLException
+     */
+    void getTeam (HttpServletRequest req, HttpServletResponse res, int teamId) throws ServletException, IOException, SQLException {
+        LogContext.setAction(Actions.GET_TEAM);
+        LOGGER.info("Received GET request");
+        om = new ObjectMapper();
+        om.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+        GetTeamDAO dao = new GetTeamDAO(getConnection(), teamId);
+        Team team = dao.access().getOutputParam();
+        if (team != null) {
+            response = new ResponsePackage<Team>(team, ResponseStatus.OK,
+                    "Team found");
+        } else {
+            response = new ResponsePackageNoData(ResponseStatus.NOT_FOUND,
+                    "Team not found");
+        }
+        res.getWriter().print(om.writeValueAsString(response));
+    }
+    /**
+     * A method responsible for handling requests for updating a team in the database with particular id.
+     * @param req A body of a request which contains data for updating a team.
+     * @param res
+     * @param teamId An id of a team which should be updated in the database.
+     * @throws ServletException
+     * @throws IOException
+     * @throws SQLException
+     */
+    void putTeam (HttpServletRequest req, HttpServletResponse res, int teamId) throws ServletException, IOException, SQLException{
+        LogContext.setAction(Actions.PUT_TEAM);
+        LOGGER.info("Received PUT request");
+        String requestBody = BodyTools.getRequestBody(req);
+        LOGGER.info(requestBody);
+        om = new ObjectMapper();
+        Team team = om.readValue(requestBody, Team.class);
+        team.setId(teamId);
+        UpdateTeamDAO dao = new UpdateTeamDAO(getConnection(), team);
+        Integer result = dao.access().getOutputParam();
+        if (result == 1) {
+            response = new ResponsePackageNoData(ResponseStatus.OK,
+                    "Team successfully updated");
+        } else {
+            response = new ResponsePackageNoData(ResponseStatus.NOT_FOUND,
+                    "Team not found");
+        }
+        res.getWriter().print(om.writeValueAsString(response));
+    }
 
     /**
      * A method responsible for handling requests for deleting a team in the database with particular id.
@@ -77,6 +130,12 @@ public class TeamHandler extends RestMatcherHandler {
             switch (method) {
                 case DELETE:
                     deleteTeam(req, res, teamId);
+                    break;
+                case GET:
+                    getTeam(req, res, teamId);
+                    break;
+                case PUT:
+                    putTeam(req, res, teamId);
                     break;
 
                 default:
