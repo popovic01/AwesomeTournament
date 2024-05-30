@@ -557,9 +557,6 @@
             }
         }
 
-        // <c:forEach items="${events}" var="event" varStatus="status">
-        // fetchPlayerData(${event.playerId}, ${status.index + 1});
-        // </c:forEach>
     });
 
     function deleteEvent(id) {
@@ -628,34 +625,6 @@
         xhr.onerror = function () {
             console.error(`Network error while fetching team \{teamNumber} data`);
             alert(`Network error while fetching team \${teamNumber} data`);
-        };
-        xhr.send();
-    }
-
-    function fetchPlayerData(playerId, playerNumber) {
-        const xhr = new XMLHttpRequest();
-        xhr.open("GET", `/api/players/\${playerId}`, true);
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4) {
-                if (xhr.status === 200) {
-                    const response = JSON.parse(xhr.responseText);
-                    if (response.status === "OK" && response.data) {
-                        const playerData = response.data;
-                        // Update the DOM with the team data
-                        document.getElementById(`player\${playerNumber}Surname`).innerText = playerData.surname;
-                    } else {
-                        console.error(`Error in response data for Player ID \${playerId}:`, response.message);
-                        alert(`Failed to fetch player data: ` + response.message);
-                    }
-                } else {
-                    console.error(`Error fetching player data:`, xhr.statusText);
-                    alert(`Failed to fetch player data: ` + xhr.statusText);
-                }
-            }
-        };
-        xhr.onerror = function () {
-            console.error(`Network error while fetching player data`);
-            alert(`Network error while fetching player data`);
         };
         xhr.send();
     }
