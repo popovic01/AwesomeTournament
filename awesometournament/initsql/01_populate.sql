@@ -123,7 +123,7 @@ INSERT INTO public.players (name, surname, team_id, position, date_of_birth) VAL
 ('Karol', 'Linetty', 10, 'midfielder', '1995-02-02'),
 ('Duvan', 'Zapata', 10, 'striker', '1997-06-29'),
 ('Simone', 'Zaza', 10, 'striker', '1991-06-25'),
-('Simone', 'Verdi', 10, 'striker', '1992-07-12'); --71
+('Simone', 'Verdi', 10, 'striker', '1992-07-12'); --72
 
 
 -- Inserting matches for Serie A based on provided events
@@ -280,7 +280,7 @@ INSERT INTO public.teams (name, creator_user_id, tournament_id) VALUES
 -- Inserting Premier League players
 INSERT INTO public.players (name, surname, team_id, position, date_of_birth) VALUES
 -- Manchester City players
-('Ederson', 'Moraes', 11, 'goalkeeper', '1993-08-17'), --72
+('Ederson', 'Moraes', 11, 'goalkeeper', '1993-08-17'), --73
 ('Ruben', 'Dias', 11, 'defender', '1997-05-14'),
 ('Kyle', 'Walker', 11, 'defender', '1990-05-28'),
 ('John', 'Stones', 11, 'defender', '1994-05-28'),
@@ -292,7 +292,7 @@ INSERT INTO public.players (name, surname, team_id, position, date_of_birth) VAL
 ('Jack', 'Grealish', 11, 'striker', '1995-09-10'),
 
 -- Manchester United players
-('David', 'De Gea', 12, 'goalkeeper', '1990-11-07'), --82
+('David', 'De Gea', 12, 'goalkeeper', '1990-11-07'), --83
 ('Harry', 'Maguire', 12, 'defender', '1993-03-05'),
 ('Aaron', 'Wan-Bissaka', 12, 'defender', '1997-11-26'),
 ('Luke', 'Shaw', 12, 'defender', '1995-07-12'),
@@ -304,7 +304,7 @@ INSERT INTO public.players (name, surname, team_id, position, date_of_birth) VAL
 ('Mason', 'Greenwood', 12, 'striker', '2001-10-01'),
 
 -- Liverpool players
-('Alisson', 'Becker', 13, 'goalkeeper', '1992-10-02'), --92
+('Alisson', 'Becker', 13, 'goalkeeper', '1992-10-02'), --93
 ('Virgil', 'van Dijk', 13, 'defender', '1991-07-08'),
 ('Trent', 'Alexander-Arnold', 13, 'defender', '1998-10-07'),
 ('Andrew', 'Robertson', 13, 'defender', '1994-03-11'),
@@ -316,7 +316,7 @@ INSERT INTO public.players (name, surname, team_id, position, date_of_birth) VAL
 ('Roberto', 'Firmino', 13, 'striker', '1991-10-02'),
 
 -- Chelsea players
-('Édouard', 'Mendy', 14, 'goalkeeper', '1992-03-01'), --102
+('Édouard', 'Mendy', 14, 'goalkeeper', '1992-03-01'), --103
 ('Thiago', 'Silva', 14, 'defender', '1984-09-22'),
 ('César', 'Azpilicueta', 14, 'defender', '1989-08-28'),
 ('Reece', 'James', 14, 'defender', '1999-12-08'),
@@ -328,7 +328,7 @@ INSERT INTO public.players (name, surname, team_id, position, date_of_birth) VAL
 ('Christian', 'Pulisic', 14, 'striker', '1998-09-18'),
 
 -- Arsenal players
-('Bernd', 'Leno', 15, 'goalkeeper', '1992-03-04'), --112
+('Bernd', 'Leno', 15, 'goalkeeper', '1992-03-04'), --113
 ('Gabriel', 'Magalhães', 15, 'defender', '1997-12-19'),
 ('Ben', 'White', 15, 'defender', '1997-10-08'),
 ('Kieran', 'Tierney', 15, 'defender', '1997-06-05'),
@@ -340,7 +340,7 @@ INSERT INTO public.players (name, surname, team_id, position, date_of_birth) VAL
 ('Nicolas', 'Pépé', 15, 'striker', '1995-05-29'),
 
 -- Tottenham Hotspur players
-('Hugo', 'Lloris', 16, 'goalkeeper', '1986-12-26'), --122
+('Hugo', 'Lloris', 16, 'goalkeeper', '1986-12-26'), --123
 ('Toby', 'Alderweireld', 16, 'defender', '1989-03-02'),
 ('Davinson', 'Sánchez', 16, 'defender', '1996-06-12'),
 ('Eric', 'Dier', 16, 'defender', '1994-01-15'),
@@ -352,7 +352,7 @@ INSERT INTO public.players (name, surname, team_id, position, date_of_birth) VAL
 ('Steven', 'Bergwijn', 16, 'striker', '1997-10-08'),
 
 -- Leicester City players
-('Kasper', 'Schmeichel', 17, 'goalkeeper', '1986-11-05'), --132
+('Kasper', 'Schmeichel', 17, 'goalkeeper', '1986-11-05'), --133
 ('Wesley', 'Fofana', 17, 'defender', '2000-12-17'),
 ('Jonny', 'Evans', 17, 'defender', '1988-01-03'),
 ('Ricardo', 'Pereira', 17, 'defender', '1993-10-06'),
@@ -364,7 +364,7 @@ INSERT INTO public.players (name, surname, team_id, position, date_of_birth) VAL
 ('Ayoze', 'Pérez', 17, 'striker', '1993-07-29'),
 
 -- West Ham United players
-('Łukasz', 'Fabiański', 18, 'goalkeeper', '1985-04-18'), --142
+('Łukasz', 'Fabiański', 18, 'goalkeeper', '1985-04-18'), --143
 ('Angelo', 'Ogbonna', 18, 'defender', '1988-05-23'),
 ('Craig', 'Dawson', 18, 'defender', '1990-05-06'),
 ('Vladimír', 'Coufal', 18, 'defender', '1992-08-22'),
@@ -376,7 +376,7 @@ INSERT INTO public.players (name, surname, team_id, position, date_of_birth) VAL
 ('Saïd', 'Benrahma', 18, 'striker', '1995-08-10'),
 
 -- Everton players
-('Jordan', 'Pickford', 19, 'goalkeeper', '1994-03-07'), --152
+('Jordan', 'Pickford', 19, 'goalkeeper', '1994-03-07'), --153
 ('Lucas', 'Digne', 19, 'defender', '1993-07-20'),
 ('Michael', 'Keane', 19, 'defender', '1993-01-11'),
 ('Yerry', 'Mina', 19, 'defender', '1994-09-23'),
@@ -388,7 +388,7 @@ INSERT INTO public.players (name, surname, team_id, position, date_of_birth) VAL
 ('Dominic', 'Calvert-Lewin', 19, 'striker', '1997-03-16'),
 
 -- Wolverhampton Wanderers players
-('Rui', 'Patrício', 20, 'goalkeeper', '1988-02-15'), --162
+('Rui', 'Patrício', 20, 'goalkeeper', '1988-02-15'), --163
 ('Conor', 'Coady', 20, 'defender', '1993-02-25'),
 ('Willy', 'Boly', 20, 'defender', '1991-02-03'),
 ('Nélson', 'Semedo', 20, 'defender', '1993-11-16'),
@@ -397,9 +397,9 @@ INSERT INTO public.players (name, surname, team_id, position, date_of_birth) VAL
 ('Rúben', 'Neves', 20, 'midfielder', '1997-03-13'),
 ('Raúl', 'Jiménez', 20, 'striker', '1991-05-05'),
 ('Adama', 'Traoré', 20, 'striker', '1996-01-25'),
-('Pedro', 'Neto', 20, 'striker', '2000-03-09');
+('Pedro', 'Neto', 20, 'striker', '2000-03-09'); --172
 
--- Inserting matches for Premier League (will add more as needed)
+-- Inserting matches for Premier League
 INSERT INTO public.matches (team1_id, team2_id, tournament_id, team1_score, team2_score, result, referee, match_date, is_finished) VALUES
 -- Match 1: Manchester City vs. Manchester United
 (11, 12, 2, 3, 2, 'team1', 'Michael Oliver', '2024-08-15 18:00:00', true),
@@ -440,31 +440,50 @@ INSERT INTO public.matches (team1_id, team2_id, tournament_id, referee, is_finis
 -- Unscheduled match 21: Lazio vs. Sampdoria
 (16, 19, 2, 'Michael Fabbri', false);
 
--- Inserting events for Premier League matches (will add more as needed)
+-- Inserting events for Premier League matches
 INSERT INTO public.events (match_id, player_id, type, time) VALUES
--- Match 1: Manchester City vs. Manchester United
-(22, 43, 'goal', 10),  -- Kevin De Bruyne (Manchester City) scores
-(22, 44, 'goal', 30),  -- Sergio Agüero (Manchester City) scores
-(22, 42, 'goal', 45),  -- Ruben Dias (Manchester City) scores
-(22, 46, 'goal', 55),  -- Harry Maguire (Manchester United) scores
-(22, 47, 'goal', 70),  -- Bruno Fernandes (Manchester United) scores
--- Match 2: Liverpool vs. Chelsea
-(23, 50, 'goal', 25),  -- Virgil van Dijk (Liverpool) scores
-(23, 52, 'goal', 60),  -- Mohamed Salah (Liverpool) scores
-(23, 55, 'goal', 75),  -- N'Golo Kanté (Chelsea) scores
--- Match 3: Arsenal vs. Tottenham Hotspur
-(24, 60, 'goal', 20),  -- Pierre-Emerick Aubameyang (Arsenal) scores
-(24, 64, 'goal', 65),  -- Harry Kane (Tottenham Hotspur) scores
--- Match 4: Leicester City vs. West Ham United
-(25, 66, 'goal', 15),  -- Wesley Fofana (Leicester City) scores
-(25, 67, 'goal', 30),  -- James Maddison (Leicester City) scores
-(25, 72, 'goal', 40),  -- Michail Antonio (West Ham United) scores
-(25, 68, 'goal', 70),  -- Jamie Vardy (Leicester City) scores
--- Match 5: Everton vs. Wolverhampton Wanderers
-(26, 73, 'goal', 5),   -- Jordan Pickford (Everton) scores
-(26, 74, 'goal', 30),  -- Lucas Digne (Everton) scores
-(26, 79, 'goal', 60),  -- João Moutinho (Wolverhampton Wanderers) scores
-(26, 80, 'goal', 70);  -- Raúl Jiménez (Wolverhampton Wanderers) scores
+-- Match 1: Manchester City vs. Manchester United 3-2
+(22, 89, 'goal', 10),  -- Gol Bruno
+(22, 74, 'yellow card', 28), --Yellow Dias
+(22, 80, 'goal', 30),  -- Gol Haaland
+(22, 80, 'goal', 45),  -- Gol Haaland
+(22, 85, 'yellow card', 47), -- Yellow AWB
+(22, 87, 'goal', 55),  -- Gol McTominay
+(22, 81, 'goal', 70),  -- Gol Alvarez
+
+-- Match 2: Liverpool vs. Chelsea 2-1
+(23, 100, 'goal', 25),  -- Goal Salah
+(23, 94, 'goal', 60),  -- Goal TAA (free-kick)
+(23, 104, 'goal', 75),  -- Goal Silva
+(23, 94, 'yellow card', 75), -- Yellow TAA
+(23, 95, 'yellow card', 78), -- Yellow Robertson
+(23, 106, 'red card', 90), -- Red James
+
+-- Match 3: Arsenal vs. Tottenham Hotspur 1-1
+(24, 117, 'goal', 20),  -- Goal Saka
+(24, 115, 'yellow card', 21), -- Yellow White
+(24, 114, 'yellow card', 45), -- Yellow Gabriel
+(24, 131, 'goal', 65),  -- Goal Son
+(24, 131, 'yellow card', 70), -- Yellow Son
+(24, 128, 'yellow card', 82), -- Yellow Hojbjerg
+
+-- Match 4: Leicester City vs. West Ham United 3-1
+(25, 147, 'yellow card', 3), -- Yellow Soucek
+(25, 141, 'goal', 15),  -- Goal Vardy
+(25, 141, 'goal', 30),  -- Goal Vardy
+(25, 151, 'goal', 40),  -- Goal Bowen
+(25, 141, 'yellow card', 44), -- Yellow Vardy
+(25, 141, 'goal', 70),  -- Goal Vardy
+(25, 141, 'red card', 71), -- Red Vard
+
+-- Match 5: Everton vs. Wolverhampton Wanderers 2-2
+(26, 162, 'goal', 5),   -- Goal C-L
+(26, 164, 'yellow card', 21), -- Yellow Coady
+(26, 159, 'goal', 30),  -- Goal Gomes
+(26, 163, 'yellow card', 32), -- Yellow Pasticcio
+(26, 170, 'goal', 60),  -- Goal Jimenez
+(26, 170, 'yellow card', 62), -- Yellow Jimenez
+(26, 171, 'goal', 70);  -- Goal Adama
 
 -- Inserting a new tournament without matches and with a deadline within 24 hours
 INSERT INTO public.tournaments (name, token, creator_user_id, max_teams, max_players, min_players, starting_players, max_substitutions, deadline, start_date, creation_date, is_finished)
@@ -503,206 +522,238 @@ VALUES
     ('Fortuna Düsseldorf', 10, 4);
 
 -- Inserting matches for Bundesliga 2018-2019
-INSERT INTO public.matches (team1_id, team2_id, tournament_id, team1_score, team2_score, referee, match_date, is_finished)
+INSERT INTO public.matches (team1_id, team2_id, tournament_id, team1_score, team2_score, result, referee, match_date, is_finished)
 VALUES
-    (31, 32, 4, 5, 0, 'Referee 1', '2018-08-24 20:00:00', TRUE),
-    (33, 34, 4, 2, 2, 'Referee 2', '2018-09-01 15:30:00', TRUE),
-    (35, 36, 4, 1, 0, 'Referee 3', '2018-09-15 18:00:00', TRUE),
-    (37, 38, 4, 2, 2, 'Referee 4', '2018-09-29 15:30:00', TRUE),
-    (39, 40, 4, 2, 1, 'Referee 5', '2018-10-06 15:30:00', TRUE),
-    (32, 33, 4, 1, 1, 'Referee 6', '2018-10-20 15:30:00', TRUE),
-    (34, 35, 4, 0, 1, 'Referee 7', '2018-11-03 15:30:00', TRUE),
-    (36, 37, 4, 1, 2, 'Referee 8', '2018-11-24 15:30:00', TRUE),
-    (38, 39, 4, 2, 0, 'Referee 9', '2018-12-08 15:30:00', TRUE),
-    (40, 31, 4, 0, 3, 'Referee 10', '2018-12-15 15:30:00', TRUE);
+    -- Bayern Monaco - Borussia : 5-0
+    (31, 32, 4, 5, 0, team1, 'Referee 1', '2018-08-24 20:00:00', TRUE),
+    -- Leipzig - Monchengladbach : 2-2
+    (33, 34, 4, 2, 2, draw, 'Referee 2', '2018-09-01 15:30:00', TRUE),
+    -- Leverkusen - Schalke : 1-0
+    (35, 36, 4, 1, 0, team1, 'Referee 3', '2018-09-15 18:00:00', TRUE),
+    -- Eintracht - Werder : 2-2
+    (37, 38, 4, 2, 2, draw, 'Referee 4', '2018-09-29 15:30:00', TRUE),
+    -- Hoffenheim - Fortuna : 2-1
+    (39, 40, 4, 2, 1, team1, 'Referee 5', '2018-10-06 15:30:00', TRUE),
+    -- Borussia - Leipzig : 1-1
+    (32, 33, 4, 1, 1, draw, 'Referee 6', '2018-10-20 15:30:00', TRUE),
+    -- Monchengladbach - Leverkusen : 0-1
+    (34, 35, 4, 0, 1, team2, 'Referee 7', '2018-11-03 15:30:00', TRUE),
+    -- Schalke - Eintracht : 1-2
+    (36, 37, 4, 1, 2, team2, 'Referee 8', '2018-11-24 15:30:00', TRUE),
+    -- Werder - Hoffenheim : 2-0
+    (38, 39, 4, 2, 0, team1, 'Referee 9', '2018-12-08 15:30:00', TRUE),
+    -- Fortuna - Bayern Monaco : 0-3
+    (40, 31, 4, 0, 3, team2, 'Referee 10', '2018-12-15 15:30:00', TRUE);
 
 -- Inserting players for Bundesliga 2018-2019
 -- Bayern Munich
 INSERT INTO public.players (name, surname, team_id, position, date_of_birth)
 VALUES
-    ('Manuel', 'Neuer', 31, 'goalkeeper', '1986-03-27'),
+    ('Manuel', 'Neuer', 31, 'goalkeeper', '1986-03-27'), --173
     ('Mats', 'Hummels', 31, 'defender', '1988-12-16'),
     ('David', 'Alaba', 31, 'defender', '1992-06-24'),
     ('Niklas', 'Süle', 31, 'defender', '1995-09-03'),
     ('Joshua', 'Kimmich', 31, 'midfielder', '1995-02-08'),
     ('Thiago', 'Alcántara', 31, 'midfielder', '1991-04-11'),
     ('Javi', 'Martinez', 31, 'midfielder', '1988-09-02'),
-    ('Thomas', 'Müller', 31, 'forward', '1989-09-13'),
-    ('Kingsley', 'Coman', 31, 'forward', '1996-06-13'),
-    ('Serge', 'Gnabry', 31, 'forward', '1995-07-14'),
+    ('Thomas', 'Müller', 31, 'striker', '1989-09-13'),
+    ('Kingsley', 'Coman', 31, 'striker', '1996-06-13'),
+    ('Serge', 'Gnabry', 31, 'striker', '1995-07-14'),
     ('Robert', 'Lewandowski', 31, 'striker', '1988-08-21');
 
 -- Borussia Dortmund
 INSERT INTO public.players (name, surname, team_id, position, date_of_birth)
 VALUES
-    ('Roman', 'Bürki', 32, 'goalkeeper', '1990-11-14'),
+    ('Roman', 'Bürki', 32, 'goalkeeper', '1990-11-14'), --184
+    ('Dan-Axel', 'Zagadou', 32, 'defender', '1999-06-03'),
+    ('Raphaël', 'Guerreiro', 32, 'defender', '1993-12-22'),
+    ('Thomas', 'Delaney', 32, 'midfielder', '1991-09-03'),
     ('Marco', 'Reus', 32, 'midfielder', '1989-05-31'),
-    ('Jadon', 'Sancho', 32, 'striker', '2000-03-25'),
     ('Axel', 'Witsel', 32, 'midfielder', '1989-01-12'),
     ('Mario', 'Götze', 32, 'midfielder', '1992-06-03'),
-    ('Paco', 'Alcácer', 32, 'striker', '1993-08-30'),
     ('Julian', 'Weigl', 32, 'midfielder', '1995-09-08'),
-    ('Raphaël', 'Guerreiro', 32, 'defender', '1993-12-22'),
-    ('Dan-Axel', 'Zagadou', 32, 'defender', '1999-06-03'),
-    ('Thomas', 'Delaney', 32, 'midfielder', '1991-09-03');
+    ('Paco', 'Alcácer', 32, 'striker', '1993-08-30'),
+    ('Jadon', 'Sancho', 32, 'striker', '2000-03-25');
 
 -- RB Leipzig
 INSERT INTO public.players (name, surname, team_id, position, date_of_birth)
 VALUES
-    ('Peter', 'Gulácsi', 33, 'goalkeeper', '1990-05-06'),
-    ('Timo', 'Werner', 33, 'striker', '1996-03-06'),
-    ('Marcel', 'Sabitzer', 33, 'midfielder', '1994-03-17'),
-    ('Yussuf', 'Poulsen', 33, 'striker', '1994-06-15'),
-    ('Emil', 'Forsberg', 33, 'midfielder', '1991-10-23'),
+    ('Peter', 'Gulácsi', 33, 'goalkeeper', '1990-05-06'), --194
     ('Dayot', 'Upamecano', 33, 'defender', '1998-10-27'),
+    ('Willi', 'Orban', 33, 'defender', '1992-11-03'),
     ('Kevin', 'Kampl', 33, 'midfielder', '1990-10-09'),
-    ('Willi', 'Orban', 33, 'defender', '1992-11-03');
+    ('Marcel', 'Sabitzer', 33, 'midfielder', '1994-03-17'),
+    ('Emil', 'Forsberg', 33, 'midfielder', '1991-10-23'),
+    ('Timo', 'Werner', 33, 'striker', '1996-03-06'),
+    ('Yussuf', 'Poulsen', 33, 'striker', '1994-06-15');
 
 -- Borussia Mönchengladbach
 INSERT INTO public.players (name, surname, team_id, position, date_of_birth)
 VALUES
-    ('Yann', 'Sommer', 34, 'goalkeeper', '1988-12-17'),
-    ('Alassane', 'Pléa', 34, 'striker', '1993-03-10'),
-    ('Denis', 'Zakaria', 34, 'midfielder', '1996-11-20'),
-    ('Thorgan', 'Hazard', 34, 'midfielder', '1993-03-29'),
-    ('Lars', 'Stindl', 34, 'forward', '1988-08-26'),
+    ('Tobias', 'Sippel', 34, 'goalkeeper', '1988-03-22'), --202
     ('Matthias', 'Ginter', 34, 'defender', '1994-01-19'),
     ('Nico', 'Elvedi', 34, 'defender', '1996-09-30'),
-    ('Oscar', 'Wendt', 34, 'defender', '1985-10-24');
+    ('Oscar', 'Wendt', 34, 'defender', '1985-10-24'),
+    ('Denis', 'Zakaria', 34, 'midfielder', '1996-11-20'),
+    ('Thorgan', 'Hazard', 34, 'midfielder', '1993-03-29'),
+    ('Alassane', 'Pléa', 34, 'striker', '1993-03-10'),
+    ('Lars', 'Stindl', 34, 'striker', '1988-08-26');
+
 
 -- Bayer Leverkusen
 INSERT INTO public.players (name, surname, team_id, position, date_of_birth)
 VALUES
-    ('Lukáš', 'Hrádecký', 35, 'goalkeeper', '1989-11-24'),
-    ('Kevin', 'Volland', 35, 'striker', '1992-07-30'),
+    ('Lukáš', 'Hrádecký', 35, 'goalkeeper', '1989-11-24'), --210
+    ('Jonathan', 'Tah', 35, 'defender', '1996-02-11'),
+    ('Wendell', 'Nascimiento', 35, 'defender', '1993-07-20'),
     ('Kai', 'Havertz', 35, 'midfielder', '1999-06-11'),
     ('Julian', 'Brandt', 35, 'midfielder', '1996-05-02'),
     ('Charles', 'Aránguiz', 35, 'midfielder', '1989-04-17'),
-    ('Leon', 'Bailey', 35, 'forward', '1997-08-09'),
-    ('Jonathan', 'Tah', 35, 'defender', '1996-02-11'),
-    ('Wendell', 'Nascimiento', 35, 'defender', '1993-07-20');
+    ('Kevin', 'Volland', 35, 'striker', '1992-07-30'),
+    ('Leon', 'Bailey', 35, 'striker', '1997-08-09');
 
 -- Schalke 04
 INSERT INTO public.players (name, surname, team_id, position, date_of_birth)
 VALUES
-    ('Ralf', 'Fährmann', 36, 'goalkeeper', '1988-09-27'),
-    ('Guido', 'Burgstaller', 36, 'striker', '1989-04-29'),
+    ('Ralf', 'Fährmann', 36, 'goalkeeper', '1988-09-27'), --218
+    ('Matija', 'Nastasić', 36, 'defender', '1993-03-28'),
     ('Suat', 'Serdar', 36, 'midfielder', '1997-04-11'),
     ('Nabil', 'Bentaleb', 36, 'midfielder', '1994-11-24'),
     ('Amine', 'Harit', 36, 'midfielder', '1997-06-18'),
     ('Weston', 'McKennie', 36, 'midfielder', '1998-08-28'),
     ('Sebastian', 'Rudy', 36, 'midfielder', '1990-02-28'),
-    ('Matija', 'Nastasić', 36, 'defender', '1993-03-28');
+    ('Guido', 'Burgstaller', 36, 'striker', '1989-04-29');
 
 -- Eintracht Frankfurt
 INSERT INTO public.players (name, surname, team_id, position, date_of_birth)
 VALUES
-    ('Kevin', 'Trapp', 37, 'goalkeeper', '1990-07-08'),
+    ('Kevin', 'Trapp', 37, 'goalkeeper', '1990-07-08'), --226
+    ('Danny', 'da Costa', 37, 'defender', '1993-07-13'),
     ('Filip', 'Kostić', 37, 'midfielder', '1992-11-01'),
+    ('Gelson', 'Fernandes', 37, 'midfielder', '1986-09-02'),
     ('André', 'Silva', 37, 'striker', '1995-11-06'),
     ('Sebastien', 'Haller', 37, 'striker', '1994-06-22'),
     ('Luka', 'Jovic', 37, 'striker', '1997-12-23'),
-    ('Ante', 'Rebic', 37, 'forward', '1993-09-21'),
-    ('Gelson', 'Fernandes', 37, 'midfielder', '1986-09-02'),
-    ('Danny', 'da Costa', 37, 'defender', '1993-07-13');
+    ('Joel', 'Pohjanpalo', 37, 'striker', '1994-09-13');
 
 -- Werder Bremen
 INSERT INTO public.players (name, surname, team_id, position, date_of_birth)
 VALUES
-    ('Jiří', 'Pavlenka', 38, 'goalkeeper', '1992-04-14'),
-    ('Josh', 'Sargent', 38, 'striker', '2000-02-20'),
+    ('Jiří', 'Pavlenka', 38, 'goalkeeper', '1992-04-14'), --234
+    ('Niklas', 'Moisander', 38, 'defender', '1985-09-29'),
+    ('Theodor', 'Gebre Selassie', 38, 'defender', '1986-12-24'),
     ('Milot', 'Rashica', 38, 'midfielder', '1996-06-28'),
-    ('Max', 'Kruse', 38, 'striker', '1988-03-19'),
     ('Davy', 'Klaassen', 38, 'midfielder', '1993-02-21'),
     ('Maximilian', 'Eggestein', 38, 'midfielder', '1996-12-08'),
-    ('Niklas', 'Moisander', 38, 'defender', '1985-09-29'),
-    ('Theodor', 'Gebre Selassie', 38, 'defender', '1986-12-24');
+    ('Josh', 'Sargent', 38, 'striker', '2000-02-20'),
+    ('Max', 'Kruse', 38, 'striker', '1988-03-19');
 
 -- Hoffenheim
 INSERT INTO public.players (name, surname, team_id, position, date_of_birth)
 VALUES
-    ('Oliver', 'Baumann', 39, 'goalkeeper', '1990-06-02'),
-    ('Andrej', 'Kramarić', 39, 'striker', '1991-06-19'),
+    ('Oliver', 'Baumann', 39, 'goalkeeper', '1990-06-02'), --242
+    ('Kevin', 'Vogt', 39, 'defender', '1991-09-23'),
+    ('Ermin', 'Bičakčić', 39, 'defender', '1990-01-24'),
     ('Florian', 'Grillitsch', 39, 'midfielder', '1995-08-07'),
     ('Kerem', 'Demirbay', 39, 'midfielder', '1993-07-03'),
-    ('Joelinton', 'Cassio', 39, 'striker', '1996-08-14'),
     ('Nadiem', 'Amiri', 39, 'midfielder', '1996-10-27'),
-    ('Kevin', 'Vogt', 39, 'defender', '1991-09-23'),
-    ('Ermin', 'Bičakčić', 39, 'defender', '1990-01-24');
+    ('Joelinton', 'Cassio', 39, 'striker', '1996-08-14'),
+    ('Andrej', 'Kramarić', 39, 'striker', '1991-06-19');
 
 -- Fortuna Düsseldorf
 INSERT INTO public.players (name, surname, team_id, position, date_of_birth)
 VALUES
-    ('Michael', 'Rensing', 40, 'goalkeeper', '1984-05-14'),
-    ('Rouwen', 'Hennings', 40, 'striker', '1987-08-28'),
-    ('Alfredo', 'Morales', 40, 'midfielder', '1990-05-12'),
-    ('Dodi', 'Lukebakio', 40, 'forward', '1997-09-24'),
+    ('Michael', 'Rensing', 40, 'goalkeeper', '1984-05-14'), --250
     ('Kaan', 'Ayhan', 40, 'defender', '1994-11-10'),
     ('Niko', 'Gießelmann', 40, 'defender', '1991-09-26'),
     ('Oliver', 'Fink', 40, 'midfielder', '1982-06-06'),
-    ('Matthias', 'Zimmermann', 40, 'midfielder', '1992-06-16');
+    ('Matthias', 'Zimmermann', 40, 'midfielder', '1992-06-16'),
+    ('Alfredo', 'Morales', 40, 'midfielder', '1990-05-12'),
+    ('Dodi', 'Lukebakio', 40, 'striker', '1997-09-24'),
+    ('Rouwen', 'Hennings', 40, 'striker', '1987-08-28'); --257
 
--- Inserting events
--- Match 1
+-- Inserting events for Bundesliga matches
+-- Match 1: Bayern Monaco vs. Borussia 5-0
 INSERT INTO public.events (match_id, player_id, type, time)
 VALUES
-    (38, , 'goal', 10), -- Goal Hummels
-    (38, , 'goal', 17), -- Gol Lewa
-    (38, , 'yellow card', 40), -- giallo zagadou
-    (38, , 'goal', 41), -- gol Martinez
-    (38, , 'goal', 43), -- gol Gnabry
-    (38, , 'yellow card', 70), -- giallo Lewa
-    (38, , 'yellow card', 70), -- giallo delaney
-    (38, , 'goal', 89); -- gol Lewa
+    (38, 174, 'goal', 10), -- Goal Hummels
+    (38, 183, 'goal', 17), -- Goal Lewa
+    (38, 185, 'yellow card', 40), -- Yellow Zagadou
+    (38, 179, 'goal', 41), -- Goal Martinez
+    (38, 182, 'goal', 43), -- Goal Gnabry
+    (38, 183, 'yellow card', 70), -- Yellow Lewa
+    (38, 187, 'yellow card', 70), -- Yellow Delaney
+    (38, 183, 'goal', 89); -- Goal Lewa
 
--- Match 2
+-- Match 2: Leipzig vs. Monchengladbach 2-2
 INSERT INTO public.events (match_id, player_id, type, time)
 VALUES
-    (39, 87, 'goal', 15),  -- Gol scored by Timo Werner
-    (39, 88, 'red card', 70);  -- Red card for Marcel Sabitzer
+    (39, 200, 'goal', 15),  -- Goal Werner
+    (39, 201, 'goal', 16),  -- Goal Poulsen
+    (39, 208, 'goal', 35),  -- Goal Plea
+    (39, 209, 'goal', 56),  -- Goal Stindl
+    (39, 196, 'red card', 70);  -- Red Orban
 
--- Match 3
+-- Match 3: Leverkusen vs. Schalke 1-0
 INSERT INTO public.events (match_id, player_id, type, time)
 VALUES
-    (40, 89, 'goal', 37);  -- Gol scored by Alassane Pléa
+    (40, 211, 'goal', 37);  -- Goal Tah
 
--- Match 4
+-- Match 4: Eintracht vs. Werder 2-2
 INSERT INTO public.events (match_id, player_id, type, time)
 VALUES
-    (41, 92, 'yellow card', 20),  -- Yellow card for Denis Zakaria
-    (41, 93, 'yellow card', 45);  -- Yellow card for Kevin Volland
+    (41, 232, 'goal', 1),  -- Goal Jovic
+    (41, 239, 'goal', 4),  -- Goal Eggestein
+    (41, 241, 'goal', 37),  -- Goal Kruse
+    (41, 233, 'goal', 78),  -- Goal Pohjanpalo
+    (41, 240, 'yellow card', 81),  -- Yellow Sargent
+    (41, 226, 'yellow card', 81);  -- Yellow Trapp
 
--- Match 5
+-- Match 5: Hoffenheim vs. Fortuna 2-1
 INSERT INTO public.events (match_id, player_id, type, time)
 VALUES
-    (42, 95, 'goal', 50);  -- Gol scored by André Silva
+    (42, 243, 'goal', 10),  -- Goal Vogt
+    (42, 249, 'goal', 20), -- Goal Kramaric
+    (42, 256, 'goal', 50), -- Goal Lukebakio
+    (42, 257, 'red card', 60); -- Red Hennings
 
--- Match 6
+-- Match 6: -- Borussia vs. Leipzig 1-1
 INSERT INTO public.events (match_id, player_id, type, time)
 VALUES
-    (43, 96, 'goal', 80),  -- Gol scored by Josh Sargent
-    (43, 97, 'yellow card', 35);  -- Yellow card for Milot Rashica
+    (43, 199, 'goal', 80),  -- Goal Forsberg
+    (43, 188, 'goal', 81),  -- Goal Reus
+    (43, 186, 'yellow card', 82);  -- Yellow Guerreiro
 
--- Match 7
+-- Match 7: Monchengladbach vs. Leverkusen 0-1
 INSERT INTO public.events (match_id, player_id, type, time)
 VALUES
-    (44, 99, 'goal', 60),  -- Gol scored by Guido Burgstaller
-    (44, 100, 'goal', 75);  -- Gol scored by Suat Serdar
+    (44, 214, 'goal', 60);  -- Goal Brandt
 
--- Match 8
+-- Match 8: Schalke vs. Eintracht 1-2
 INSERT INTO public.events (match_id, player_id, type, time)
 VALUES
-    (45, 102, 'goal', 10),  -- Gol scored by Filip Kostić
-    (45, 103, 'yellow card', 30);  -- Yellow card for André Silva
+    (45, 219, 'goal', 10), -- Goal Nastasic
+    (45, 232, 'goal', 32), -- Goal Jovic
+    (45, 232, 'goal', 35),  -- Goal Jovic
+    (45, 220, 'yellow card', 60), -- Yellow Serdar
+    (45, 228, 'yellow card', 86);  -- Yellow Kostic
 
--- Match 9
+-- Match 9: Werder vs. Hoffenheim 2-0
 INSERT INTO public.events (match_id, player_id, type, time)
 VALUES
-    (46, 105, 'goal', 45);  -- Gol scored by Andrej Kramarić
+    (46, 237, 'goal', 13),  -- Goal Rashica
+    (46, 237, 'yellow card', 32), -- Yellow Rashica
+    (46, 247, 'yellow card', 45),  -- Yellow Amiri
+    (46, 238, 'goal', 40),  -- Goal Klaasen
+    (46, 243, 'yellow card', 74), -- Yellow Vogt
+    (46, 234, 'yellow card', 86);  -- Yellow Pavlenka
 
--- Match 10
+-- Match 10: Fortuna vs. Bayern Monaco 0-3
 INSERT INTO public.events (match_id, player_id, type, time)
 VALUES
-    (47, 107, 'goal', 5),  -- Gol scored by Rouwen Hennings
-    (47, 108, 'yellow card', 40);  -- Yellow card for Alfredo Morales
-
+    (47, 183, 'goal', 5),  -- Goal Lewandowski
+    (47, 251, 'yellow card', 12),  -- Yellow Ayhan
+    (47, 183, 'goal', 15),  -- Goal Lewandowski
+    (47, 183, 'goal', 56),  -- Goal Lewandowski
+    (47, 253, 'yellow card', 80),  -- Yellow Fink
+    (47, 174, 'yellow card', 82);  -- Yellow Hummels
