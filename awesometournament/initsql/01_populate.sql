@@ -401,43 +401,43 @@ INSERT INTO public.players (name, surname, team_id, position, date_of_birth) VAL
 
 -- Inserting matches for Premier League
 INSERT INTO public.matches (team1_id, team2_id, tournament_id, team1_score, team2_score, result, referee, match_date, is_finished) VALUES
--- Match 1: Manchester City vs. Manchester United
+-- Match 22: Manchester City vs. Manchester United
 (11, 12, 2, 3, 2, 'team1', 'Michael Oliver', '2024-08-15 18:00:00', true),
--- Match 2: Liverpool vs. Chelsea
+-- Match 23: Liverpool vs. Chelsea
 (13, 14, 2, 2, 1, 'team1', 'Martin Atkinson', '2024-08-16 15:30:00', true),
--- Match 3: Arsenal vs. Tottenham Hotspur
+-- Match 24: Arsenal vs. Tottenham Hotspur
 (15, 16, 2, 1, 1, 'draw', 'Anthony Taylor', '2024-08-17 16:45:00', true),
--- Match 4: Leicester City vs. West Ham United
+-- Match 25: Leicester City vs. West Ham United
 (17, 18, 2, 3, 1, 'team1', 'Andre Marriner', '2024-08-18 14:00:00', true),
--- Match 5: Everton vs. Wolverhampton Wanderers
+-- Match 26: Everton vs. Wolverhampton Wanderers
 (19, 20, 2, 2, 2, 'draw', 'Chris Kavanagh', '2024-08-19 17:30:00', true);
 
 -- Inserting scheduled but not yet played matches with existing referees
 INSERT INTO public.matches (team1_id, team2_id, tournament_id, match_date, referee, is_finished) VALUES
--- Scheduled match 11: AC Milan vs. Juventus
+-- Scheduled match 27: Manchester City vs. Liverpool
 (11, 13, 2, '2024-09-01 17:00:00', 'Michael Fabbri', false),
--- Scheduled match 12: AS Roma vs. Inter Milan
+-- Scheduled match 28: Chelsea vs. Manchester United
 (14, 12, 2, '2024-09-02 19:45:00', 'Daniele Doveri', false),
--- Scheduled match 13: Lazio vs. Napoli
+-- Scheduled match 29: Tottenham Hotspur vs. Arsenal
 (16, 15, 2, '2024-09-03 15:30:00', 'Gianpaolo Calvarese', false),
--- Scheduled match 14: Fiorentina vs. Torino
+-- Scheduled match 30: West Ham vs. Wolverhampton Wanderers
 (18, 20, 2, '2024-09-04 20:00:00', 'Martin Atkinson', false),
--- Scheduled match 15: Sampdoria vs. Atalanta
+-- Scheduled match 31: Everton vs. Leicester City
 (19, 17, 2, '2024-09-05 18:15:00', 'Anthony Taylor', false),
--- Scheduled match 16: Inter Milan vs. Lazio
+-- Scheduled match 32: Manchester United vs. Tottenham Hotspur
 (12, 16, 2, '2024-09-06 16:30:00', 'Michael Fabbri', false);
 
 -- Inserting matches that aren't scheduled yet with existing referees
 INSERT INTO public.matches (team1_id, team2_id, tournament_id, referee, is_finished) VALUES
--- Unscheduled match 17: Juventus vs. Napoli
+-- Unscheduled match 33: Liverpool vs. Arsenal
 (13, 15, 2, 'Daniele Doveri', false),
--- Unscheduled match 18: Atalanta vs. AC Milan
+-- Unscheduled match 34: Leicester City vs. Manchester City
 (17, 11, 2, 'Gianpaolo Calvarese', false),
--- Unscheduled match 19: Torino vs. AS Roma
+-- Unscheduled match 35: Manchester City vs. Chelsea
 (11, 14, 2, 'Martin Atkinson', false),
--- Unscheduled match 20: Inter Milan vs. Fiorentina
+-- Unscheduled match 36: Manchester United vs. West Ham
 (12, 18, 2, 'Anthony Taylor', false),
--- Unscheduled match 21: Lazio vs. Sampdoria
+-- Unscheduled match 37: Tottenham Hotspur vs. Everton
 (16, 19, 2, 'Michael Fabbri', false);
 
 -- Inserting events for Premier League matches
@@ -524,26 +524,26 @@ VALUES
 -- Inserting matches for Bundesliga 2018-2019
 INSERT INTO public.matches (team1_id, team2_id, tournament_id, team1_score, team2_score, result, referee, match_date, is_finished)
 VALUES
-    -- Bayern Monaco - Borussia : 5-0
-    (31, 32, 4, 5, 0, team1, 'Referee 1', '2018-08-24 20:00:00', TRUE),
-    -- Leipzig - Monchengladbach : 2-2
-    (33, 34, 4, 2, 2, draw, 'Referee 2', '2018-09-01 15:30:00', TRUE),
-    -- Leverkusen - Schalke : 1-0
-    (35, 36, 4, 1, 0, team1, 'Referee 3', '2018-09-15 18:00:00', TRUE),
-    -- Eintracht - Werder : 2-2
-    (37, 38, 4, 2, 2, draw, 'Referee 4', '2018-09-29 15:30:00', TRUE),
-    -- Hoffenheim - Fortuna : 2-1
-    (39, 40, 4, 2, 1, team1, 'Referee 5', '2018-10-06 15:30:00', TRUE),
-    -- Borussia - Leipzig : 1-1
-    (32, 33, 4, 1, 1, draw, 'Referee 6', '2018-10-20 15:30:00', TRUE),
-    -- Monchengladbach - Leverkusen : 0-1
-    (34, 35, 4, 0, 1, team2, 'Referee 7', '2018-11-03 15:30:00', TRUE),
-    -- Schalke - Eintracht : 1-2
-    (36, 37, 4, 1, 2, team2, 'Referee 8', '2018-11-24 15:30:00', TRUE),
-    -- Werder - Hoffenheim : 2-0
-    (38, 39, 4, 2, 0, team1, 'Referee 9', '2018-12-08 15:30:00', TRUE),
-    -- Fortuna - Bayern Monaco : 0-3
-    (40, 31, 4, 0, 3, team2, 'Referee 10', '2018-12-15 15:30:00', TRUE);
+    -- Match 38: Bayern Monaco - Borussia : 5-0
+    (31, 32, 4, 5, 0, 'team1', 'Referee 1', '2018-08-24 20:00:00', TRUE),
+    -- Match 39: Leipzig - Monchengladbach : 2-2
+    (33, 34, 4, 2, 2, 'draw', 'Referee 2', '2018-09-01 15:30:00', TRUE),
+    -- Match 40: Leverkusen - Schalke : 1-0
+    (35, 36, 4, 1, 0, 'team1', 'Referee 3', '2018-09-15 18:00:00', TRUE),
+    -- Match 41: Eintracht - Werder : 2-2
+    (37, 38, 4, 2, 2, 'draw', 'Referee 4', '2018-09-29 15:30:00', TRUE),
+    -- Match 42: Hoffenheim - Fortuna : 2-1
+    (39, 40, 4, 2, 1, 'team1', 'Referee 5', '2018-10-06 15:30:00', TRUE),
+    -- Match 43: Borussia - Leipzig : 1-1
+    (32, 33, 4, 1, 1, 'draw', 'Referee 6', '2018-10-20 15:30:00', TRUE),
+    -- Match 44: Monchengladbach - Leverkusen : 0-1
+    (34, 35, 4, 0, 1, 'team2', 'Referee 7', '2018-11-03 15:30:00', TRUE),
+    -- Match 45: Schalke - Eintracht : 1-2
+    (36, 37, 4, 1, 2, 'team2', 'Referee 8', '2018-11-24 15:30:00', TRUE),
+    -- Match 46: Werder - Hoffenheim : 2-0
+    (38, 39, 4, 2, 0, 'team1', 'Referee 9', '2018-12-08 15:30:00', TRUE),
+    -- Match 47: Fortuna - Bayern Monaco : 0-3
+    (40, 31, 4, 0, 3, 'team2', 'Referee 10', '2018-12-15 15:30:00', TRUE);
 
 -- Inserting players for Bundesliga 2018-2019
 -- Bayern Munich
