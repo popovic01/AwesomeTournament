@@ -197,35 +197,14 @@
             padding: 0;
         }
 
-        .event-item {
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            position: relative;
-            margin-bottom: 10px;
-        }
-
         .event-icon {
             width: 24px;
             height: 24px;
             margin-right: 10px;
         }
 
-        .player {
-            margin-left: auto;
-            flex-grow: 1;
-            text-align: left;
-        }
-        
         .player-surname {
             display: inline-block;
-        }
-
-        .event-time {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            text-align: center;
         }
 
         .delete-button {
