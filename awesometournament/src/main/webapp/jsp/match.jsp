@@ -200,7 +200,7 @@
         .event-item {
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: flex-start;
             position: relative;
             margin-bottom: 10px;
         }
@@ -212,9 +212,13 @@
         }
 
         .player {
-            margin-left: 10px;
+            margin-left: auto;
             flex-grow: 1;
             text-align: left;
+        }
+        
+        .player-surname {
+            display: inline-block;
         }
 
         .event-time {
@@ -227,6 +231,19 @@
         .delete-button {
             margin-left: 10px;
             flex-shrink: 0;
+        }
+
+        .event-list-container {
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .event-list-son {
+        }
+
+        .event-list-middle {
+            position: absolute;
+            right: 50%;
         }
 
     </style>
@@ -319,27 +336,36 @@
     <div>
         <ul class="event-list">
             <c:set var="counter" value="0" scope="page" />
-            <c:forEach items="${events}" var="event">
-                <c:set var="counter" value="${counter + 1}" scope="page" />
-                <li class="event-item">
-                    <c:choose>
-                        <c:when test="${event.type == 'GOAL'}">
-                            <img src="/media/goal.png" alt="Goal" class="event-icon" />
-                            <div class="player" id="player${counter}Surname">
+            <c:forEach items="${eventdetails}" var="eventdetail">
+                <c:set var="event" value="${eventdetail.getEvent()}"/>
+                <li
+                    class="event-list-container"
+                    <c:if test="${eventdetail.getTeam() == 2}">style="justify-content: flex-end;"</c:if>
+                    >
+                    <div class="event-list-son">
+                        <c:if test="${eventdetail.getTeam() == 2}">
+                            <div class="player-surname">
+                                <c:out value="${eventdetail.getName()}"></c:out>
                             </div>
-                        </c:when>
-                        <c:when test="${event.type == 'YELLOW_CARD'}">
-                            <img src="/media/yellow_card.png" alt="Yellow Card" class="event-icon" />
-                            <div class="player" id="player${counter}Surname">
+                        </c:if>
+                        <c:choose>
+                            <c:when test="${event.type == 'GOAL'}">
+                                <img src="/media/goal.png" alt="Goal" class="event-icon" />
+                            </c:when>
+                            <c:when test="${event.type == 'YELLOW_CARD'}">
+                                <img src="/media/yellow_card.png" alt="Yellow Card" class="event-icon" />
+                            </c:when>
+                            <c:when test="${event.type == 'RED_CARD'}">
+                                <img src="/media/red_card.png" alt="Red Card" class="event-icon" />
+                            </c:when>
+                        </c:choose>
+                        <c:if test="${eventdetail.getTeam() == 1}">
+                            <div class="player-surname">
+                                <c:out value="${eventdetail.getName()}"></c:out>
                             </div>
-                        </c:when>
-                        <c:when test="${event.type == 'RED_CARD'}">
-                            <img src="/media/red_card.png" alt="Red Card" class="event-icon" />
-                            <div class="player" id="player${counter}Surname">
-                            </div>
-                        </c:when>
-                    </c:choose>
-                    <div class="event-time">
+                        </c:if>
+                    </div>
+                    <div class="event-list-middle">
                         <c:out value="${event.time}" />'
                     </div>
                     <c:if test="${owner}">
@@ -531,9 +557,9 @@
             }
         }
 
-        <c:forEach items="${events}" var="event" varStatus="status">
-        fetchPlayerData(${event.playerId}, ${status.index + 1});
-        </c:forEach>
+        // <c:forEach items="${events}" var="event" varStatus="status">
+        // fetchPlayerData(${event.playerId}, ${status.index + 1});
+        // </c:forEach>
     });
 
     function deleteEvent(id) {

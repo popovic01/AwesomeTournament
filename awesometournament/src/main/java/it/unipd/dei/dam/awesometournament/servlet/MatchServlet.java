@@ -16,8 +16,10 @@ import org.apache.logging.log4j.message.StringFormatterMessageFactory;
 import it.unipd.dei.dam.awesometournament.database.GetMatchDAO;
 import it.unipd.dei.dam.awesometournament.database.GetMatchEventsByDAO;
 import it.unipd.dei.dam.awesometournament.database.GetMatchEventsDAO;
+import it.unipd.dei.dam.awesometournament.database.GetMatchEventsDetailDAO;
 import it.unipd.dei.dam.awesometournament.database.GetTeamPlayersDAO;
 import it.unipd.dei.dam.awesometournament.database.GetTournamentByIdDAO;
+import it.unipd.dei.dam.awesometournament.database.GetMatchEventsDetailDAO.EventDetails;
 import it.unipd.dei.dam.awesometournament.resources.Actions;
 import it.unipd.dei.dam.awesometournament.resources.LogContext;
 import it.unipd.dei.dam.awesometournament.resources.entities.Event;
@@ -75,6 +77,12 @@ public class MatchServlet extends AbstractDatabaseServlet {
                 matchEventsDAO.access();
                 List<Event> events = matchEventsDAO.getOutputParam();
                 req.setAttribute("events", events);
+
+                // get the eventdetails of this match
+                GetMatchEventsDetailDAO matchEventsDetailDAO = new GetMatchEventsDetailDAO(getConnection(), match.getId());
+                matchEventsDetailDAO.access();
+                List<EventDetails> eventdetails = matchEventsDetailDAO.getOutputParam();
+                req.setAttribute("eventdetails", eventdetails);
 
                 // get the players taking part in this match
                 List<Player> players = new ArrayList<>();
