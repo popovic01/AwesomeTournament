@@ -201,6 +201,7 @@
             width: 24px;
             height: 24px;
             margin-right: 10px;
+            margin-left: 10px;
         }
 
         .player-surname {
@@ -218,6 +219,7 @@
         }
 
         .event-list-son {
+
         }
 
         .event-list-middle {
@@ -314,7 +316,6 @@
 
     <div>
         <ul class="event-list">
-            <c:set var="counter" value="0" scope="page" />
             <c:forEach items="${eventdetails}" var="eventdetail">
                 <c:set var="event" value="${eventdetail.getEvent()}"/>
                 <li
