@@ -174,17 +174,20 @@
                             </div>
                             <div class="form-group">
                                 <label class="my-1 mr-2" for="positionInput">Position</label>
-                                <select class="custom-select my-1 mr-sm-2" id="positionInput" required>
-                                    <option value="goalkeeper" selected>Goalkeeper</option>
+                                <select class="form-select" id="positionInput" required>
+                                    <option label="Choose" value="" selected hidden></option>
+                                    <option value="goalkeeper">Goalkeeper</option>
                                     <option value="defender">Defender</option>
                                     <option value="midfielder">Midfielder</option>
                                     <option value="striker">Striker</option>
                                   </select>
                             </div>
+                            <br>
                             <div class="form-group">
                                 <label for="dateInput">Date of birth:</label>
-                                <input type="text" class="form-control" id="dateInput" placeholder="Date of birth" required>
+                                <input type="date" class="form-control" id="dateInput" placeholder="Date of birth" required>
                             </div>
+                            <br>
                             <button type="submit" name="confirm" class="btn btn-primary">Confirm</button>
                             <button type="button" name="cancel" class="btn btn-primary" onclick="cancelAdd(${team.getId()})">Cancel</button>
                         </form>
