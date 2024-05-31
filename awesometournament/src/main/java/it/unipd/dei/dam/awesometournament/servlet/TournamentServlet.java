@@ -3,11 +3,11 @@ package it.unipd.dei.dam.awesometournament.servlet;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import it.unipd.dei.dam.awesometournament.database.*;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -25,6 +25,9 @@ import it.unipd.dei.dam.awesometournament.resources.entities.Match;
 import it.unipd.dei.dam.awesometournament.resources.entities.Team;
 import it.unipd.dei.dam.awesometournament.resources.entities.Tournament;
 import it.unipd.dei.dam.awesometournament.utils.SessionHelpers;
+import it.unipd.dei.dam.awesometournament.database.*;
+import it.unipd.dei.dam.awesometournament.utils.RankingEntry;
+import it.unipd.dei.dam.awesometournament.utils.RankingScorersEntry;
 
 /**
  * Servlet implementation for handling tournament-related operations
@@ -88,9 +91,17 @@ public class TournamentServlet extends AbstractDatabaseServlet{
                 teamsDao.access();
                 List<Team> teams = teamsDao.getOutputParam();
 
+                GetRankingDAO getRankingDAO = new GetRankingDAO(getConnection(), id);
+                ArrayList<RankingEntry> ranking = getRankingDAO.access().getOutputParam();
+
+                GetRankingScorersDAO getRankingScorersDAO = new GetRankingScorersDAO(getConnection(), id);
+                ArrayList<RankingScorersEntry> rankingScorers = getRankingScorersDAO.access().getOutputParam();
+
                 req.setAttribute("tournament", tournament);
                 req.setAttribute("matches", matches);
                 req.setAttribute("teams", teams);
+                //req.setAttribute("ranking", ranking);
+                req.setAttribute("rankingScorers", rankingScorers);
 
                 if(SessionHelpers.isLogged(req)) {
                     int userId = SessionHelpers.getId(req);
