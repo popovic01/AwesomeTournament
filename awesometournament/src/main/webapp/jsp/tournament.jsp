@@ -290,8 +290,8 @@
 
     <div class="container-fluid fh" id="main-container">
         <c:import url="/jsp/commons/header.jsp"/>
-        <div class="row" style="margin-bottom: 30px">
-            <div class="title-logo-wrapper">
+        <div class="row" style="padding: 15px;">
+            <div class="title-logo-wrapper" style="padding: 5px;">
                 <p class="fs-1 text-dark">
                     <c:out value="${tournament.name}" />
                 </p>
@@ -439,7 +439,6 @@
                     <c:choose>
                         <c:when test="${not empty matches}">
                             <div class="match-header">
-                                <h3 id="matchesString">Matches:</h3>
                                 <select id="matchFilter">
                                     <option value="past" selected>Past Matches</option>
                                     <option value="upcoming">Upcoming Matches</option>
