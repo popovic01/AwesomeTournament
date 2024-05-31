@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -130,10 +131,10 @@
                                 <strong>Surname:</strong> ${player.getSurname()}
                             </li>
                             <li class="list-group-item">
-                                <strong>Team:</strong> ${player.getTeamId()}
+                                <strong>Team:</strong> ${team}
                             </li>
-                            <li class="list-group-item">
-                                <strong>Position:</strong> ${player.getPosition()}
+                            <li class="list-group-item" style="text-transform:capitalize">
+                                <strong>Position:</strong> ${fn:toLowerCase(player.getPosition())}
                             </li>
                             <li class="list-group-item">
                                 <strong>Date of birth:</strong> ${player.getDateOfBirth()}
@@ -155,17 +156,19 @@
                             </div>
                             <div class="form-group">
                                 <label class="my-1 mr-2" for="positionInput">Position</label>
-                                <select class="custom-select my-1 mr-sm-2" id="positionInput" required>
+                                <select class="form-select" id="positionInput" required>
                                     <option value="goalkeeper">Goalkeeper</option>
                                     <option value="defender">Defender</option>
                                     <option value="midfielder">Midfielder</option>
                                     <option value="striker">Striker</option>
                                   </select>
                             </div>
+                            <br>
                             <div class="form-group">
                                 <label for="dateInput">Date of birth:</label>
-                                <input type="text" class="form-control" id="dateInput" value="${player.getDateOfBirth()}" required>
+                                <input type="date" class="form-control" id="dateInput" value="${player.getDateOfBirth()}" required>
                             </div>
+                            <br>
                             <button type="submit" name="confirm" class="btn btn-primary">Confirm</button>
                             <button type="button" name="cancel" class="btn btn-primary" onclick="cancelUpdate(${player.getId()})">Cancel</button>
                         </form>

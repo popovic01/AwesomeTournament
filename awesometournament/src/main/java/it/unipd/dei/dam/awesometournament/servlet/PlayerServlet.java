@@ -99,6 +99,9 @@ public class PlayerServlet extends AbstractDatabaseServlet {
                     GetPlayerDAO getPlayerDAO = new GetPlayerDAO(connection, playerId);
                     Player player = (Player) getPlayerDAO.access().getOutputParam();
                     if (player != null) {
+                        GetTeamDAO getTeamDAO = new GetTeamDAO(getConnection(), player.getTeamId());
+                        Team team = getTeamDAO.access().getOutputParam();
+                        req.setAttribute("team", team.getName());
                         req.setAttribute("player", player);
                         req.getRequestDispatcher("/jsp/player.jsp").forward(req, resp);
                     } else {
