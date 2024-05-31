@@ -189,6 +189,8 @@
 
 <body>
     <!-- header -->
+    <c:import url="/jsp/commons/header.jsp" />
+
     <div class="my-container" id="form-container" style="display:none;">
 
     <div id="editTournamentForm" style="display: none; margin-top: 20px;">
@@ -242,9 +244,8 @@
     </div>
 
     <div class="container-fluid fh" id="main-container">
-        <c:import url="/jsp/commons/header.jsp" />
-        <div class="row">
-            <div class="title-logo-wrapper">
+        <div class="row" style="padding: 15px;">
+            <div class="title-logo-wrapper" style="padding: 5 0;">
                 <p class="fs-1 text-dark">
                     <c:out value="${tournament.name}" />
                 </p>
@@ -344,7 +345,6 @@
                     <c:choose>
                         <c:when test="${not empty matches}">
                             <div class="match-header">
-                                <h3 id="matchesString">Matches:</h3>
                                 <select id="matchFilter">
                                     <option value="past" selected>Past Matches</option>
                                     <option value="upcoming">Upcoming Matches</option>
