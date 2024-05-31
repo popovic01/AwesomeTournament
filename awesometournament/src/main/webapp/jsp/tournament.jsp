@@ -260,16 +260,22 @@
         </div>
         <div class="row fh">
             <div class="col-lg-6 col-sm-12 full-height">
-                <table>
+                <div style="display: flex; margin-bottom: 30px;">
+                    <button id="seeTournamentTable" class="btn btn-primary">
+                        See table
+                    </button>
+                    <button style="margin-left: 30px;" id="seeRankingScorers" class="btn btn-primary">
+                        See top scorers
+                    </button>
+                </div>
+
+                <!--<table id="tournamentTable>
                     <tr>
                         <th>Team</th>
                         <th>Points</th>
                         <th>Match played</th>
                     </tr>
                     <tbody>
-                    <c:if test="${empty ranking}">
-                       CLASSIFICA VUOTA
-                    </c:if>
                     <c:forEach items="${ranking}" var="entry">
                         <tr>
                             <td>
@@ -291,6 +297,42 @@
                             </td>
                             <td><c:out value="${entry.getPoints()}"/></td>
                             <td><c:out value="${entry.getMatchesPlayed()}"/></td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>-->
+
+                <table id="rankingScorers">
+                    <tr>
+                        <th>Player</th>
+                        <th>Team</th>
+                        <th>Goals</th>
+                    </tr>
+                    <tbody>
+                    <c:forEach items="${rankingScorers}" var="entry">
+                        <tr>
+                            <td>
+                                <a href="/players/${entry.getPlayerID()}" class="link">
+                                    <c:out value="${entry.getPlayerName()} ${entry.getPlayerSurname()}"/>
+                                </a>
+                            </td>
+                            <td>
+                                <c:choose>
+                                    <c:when test="${not empty entry.getLogo()}">
+                                        <div>
+                                            <img src="data:image/jpeg;base64, ${entry.getLogo()}" class="logo" alt="team logo">
+                                            <a href="/team/${entry.getTeamID()}" class="link"><c:out value="${entry.getTeamName()}"/></a>
+                                        </div>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <div>
+                                            <img src="<c:url value="/media/logo_placeholder.png"/>" class="logo" alt="default logo">
+                                            <a href="/team/${entry.getTeamID()}" class="link"><c:out value="${entry.getTeamName()}"/></a>
+                                        </div>
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
+                            <td><c:out value="${entry.getGoals()}"/></td>
                         </tr>
                     </c:forEach>
                     </tbody>
@@ -389,16 +431,6 @@
                             </p>
                         </c:otherwise>
                     </c:choose>
-                </div>
-                <div class="half-height">
-                    <div class="inline-container">
-                        <p id="teamString" class="fs-4 text-dark">Teams</p>
-                        <a href="/ranking/scorers/tournaments/${tournament.getId()}">
-                            <button style="margin-left: 30px" id="seeTournamentTable" class="btn btn-primary">
-                                See ranking scorers
-                            </button>
-                        </a>
-                    </div>
                 </div>
             </div>
         </div>
@@ -604,6 +636,16 @@
     }
 
     document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById("seeTournamentTable").addEventListener('click', function() {
+            document.getElementById("rankingScorers").style.display = "none";
+            //document.getElementById("tournamentTable").style.display = "block";
+        });
+
+        document.getElementById("seeRankingScorers").addEventListener('click', function() {
+            //document.getElementById("tournamentTable").style.display = "none";
+            document.getElementById("rankingScorers").style.display = "block";
+        });
+
         var filterControl = document.getElementById('matchFilter');
         if (filterControl) {
             filterControl.addEventListener('change', function () {
