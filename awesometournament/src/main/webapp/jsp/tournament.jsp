@@ -101,7 +101,6 @@
             justify-content: space-between;
             align-items: center;
             width: 100%;
-            max-width: 800px;
             margin-bottom: 10px;
         }
 
@@ -260,7 +259,7 @@
             </div>
         </div>
         <div class="row fh">
-            <div class="col-6 full-height">
+            <div class="col-lg-6 col-sm-12 full-height">
                 <table>
                     <tr>
                         <th>Team</th>
@@ -298,7 +297,7 @@
                 </table>
 
             </div>
-            <div class="col-6 fh">
+            <div class="col-lg-6 col-sm-12 fh">
                 <div class="half-height">
                     <c:choose>
                         <c:when test="${not empty matches}">
