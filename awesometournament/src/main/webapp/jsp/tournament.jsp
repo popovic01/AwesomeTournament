@@ -176,76 +176,122 @@
             overflow-y: auto;
         }
 
-        .half-height {
-            height: 50%;
-            overflow-y: auto;
-        }
-
         .fh {
             height: 100%;
+        }
+
+        .logo{
+            width: auto;
+            height: 60px;
+        }
+
+        a.link {
+            text-decoration: none; /* Remove underlined */
+            color: inherit; /* Uses the parent's text color */
+        }
+
+        /* Style for team hover links */
+        a.link:hover {
+            text-decoration: underline; /* Underline text on hover */
+            color: inherit; /* Uses the parent's text color */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+
+        th, td {
+            border: 2px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: #888;
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: #555;
+        }
+
+        ::-webkit-scrollbar-track {
+            background-color: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-track:hover {
+            background-color: #ddd;
         }
     </style>
 </head>
 
 <body>
     <!-- header -->
-    <c:import url="/jsp/commons/header.jsp" />
-
     <div class="my-container" id="form-container" style="display:none;">
-
-    <div id="editTournamentForm" style="display: none; margin-top: 20px;">
-        <form>
-            <div>
-                <label for="tournamentName">Tournament Name:</label>
-                <input type="text" id="tournamentName" name="tournamentName" value="${tournament.getName()}"
-                    required>
-            </div>
-            <div>
-                <label for="maxTeam">Maximum number of teams:</label>
-                <input type="number" id="maxTeam" name="maxTeam" min="2" max="20"
-                    value="${tournament.getMaxTeams()}" required>
-            </div>
-            <div>
-                <label for="startingPlayers">Number of starting players per team:</label>
-                <input type="number" id="startingPlayers" name="startingPlayers" min="1" max="11"
-                    value="${tournament.getStartingPlayers()}" required>
-            </div>
-            <div>
-                <label for="minPlayers">Minimum number of players for a team:</label>
-                <input type="number" id="minPlayers" name="minPlayers" min="1" max="11"
-                    value="${tournament.getMinPlayers()}" required>
-            </div>
-            <div>
-                <label for="maxPlayers">Maximum number of players for a team:</label>
-                <input type="number" id="maxPlayers" name="maxPlayers" min="1" max="25"
-                    value="${tournament.getMaxPlayers()}" required>
-            </div>
-            <div>
-                <label for="startDate">Start date of the tournament:</label>
-                <input type="date" id="startDate" name="startDate" value="${tournament.getOnlyStartDate()}"
-                    required>
-            </div>
-            <div>
-                <label for="deadline">Deadline for team registration:</label>
-                <input type="date" id="deadline" name="deadline" value="${tournament.getOnlyDeadline()}"
-                    required>
-            </div>
-            <div>
-                <label for="logo">Logo:</label>
-                <input type="file" id="logo" name="logo" accept=".png, .jpg, .jpeg">
-            </div>
-            <button type="submit" name="confirm" class="btn btn-primary">Edit</button>
-            <button id="cancelEditTournament" type="button" name="cancel"
-                class="btn btn-primary">Cancel</button>
-            <button id="deleteTournament" type="button" name="delete" class="btn btn-delete">Delete
-                Tournament</button>
-        </form>
-    </div>
+        <div id="editTournamentForm" style="display: none; margin-top: 20px;">
+            <form>
+                <div>
+                    <label for="tournamentName">Tournament Name:</label>
+                    <input type="text" id="tournamentName" name="tournamentName" value="${tournament.getName()}"
+                        required>
+                </div>
+                <div>
+                    <label for="maxTeam">Maximum number of teams:</label>
+                    <input type="number" id="maxTeam" name="maxTeam" min="2" max="20"
+                        value="${tournament.getMaxTeams()}" required>
+                </div>
+                <div>
+                    <label for="startingPlayers">Number of starting players per team:</label>
+                    <input type="number" id="startingPlayers" name="startingPlayers" min="1" max="11"
+                        value="${tournament.getStartingPlayers()}" required>
+                </div>
+                <div>
+                    <label for="minPlayers">Minimum number of players for a team:</label>
+                    <input type="number" id="minPlayers" name="minPlayers" min="1" max="11"
+                        value="${tournament.getMinPlayers()}" required>
+                </div>
+                <div>
+                    <label for="maxPlayers">Maximum number of players for a team:</label>
+                    <input type="number" id="maxPlayers" name="maxPlayers" min="1" max="25"
+                        value="${tournament.getMaxPlayers()}" required>
+                </div>
+                <div>
+                    <label for="startDate">Start date of the tournament:</label>
+                    <input type="date" id="startDate" name="startDate" value="${tournament.getOnlyStartDate()}"
+                        required>
+                </div>
+                <div>
+                    <label for="deadline">Deadline for team registration:</label>
+                    <input type="date" id="deadline" name="deadline" value="${tournament.getOnlyDeadline()}"
+                        required>
+                </div>
+                <div>
+                    <label for="logo">Logo:</label>
+                    <input type="file" id="logo" name="logo" accept=".png, .jpg, .jpeg">
+                </div>
+                <button type="submit" name="confirm" class="btn btn-primary">Edit</button>
+                <button id="cancelEditTournament" type="button" name="cancel"
+                    class="btn btn-primary">Cancel</button>
+                <button id="deleteTournament" type="button" name="delete" class="btn btn-delete">Delete
+                    Tournament</button>
+            </form>
+        </div>
     </div>
 
     <div class="container-fluid fh" id="main-container">
-        <div class="row" style="padding: 15px;">
-            <div class="title-logo-wrapper" style="padding: 5 0;">
+        <c:import url="/jsp/commons/header.jsp"/>
+        <div class="row" style="margin-bottom: 30px">
+            <div class="title-logo-wrapper">
                 <p class="fs-1 text-dark">
                     <c:out value="${tournament.name}" />
                 </p>
@@ -254,15 +300,27 @@
                         <img src="data:image/jpg;base64,${tournament.base64Logo}" />
                     </c:when>
                     <c:otherwise>
-                        <img src="<c:url value=" /media/tournament_logo.png" />" alt="default logo">
+                        <img src="<c:url value="/media/tournament_logo.png" />" alt="default logo">
                     </c:otherwise>
                 </c:choose>
+                <c:if test="${owner}">
+                    <c:if test="${empty matches}">
+                        <button id="generateMatches" class="btn btn-primary">Close Subscriptions and<br>Generate
+                            Matches</button>
+                    </c:if>
+                </c:if>
+                <c:if test="${owner}">
+                    <button id="btnAdd" class="btn btn-primary">
+                        Add Team
+                    </button>
+                    <button id="btnEditTournament" class="btn btn-primary">Edit</button>
+                </c:if>
             </div>
         </div>
         <div class="row fh">
             <div class="col-lg-6 col-sm-12 full-height">
                 <div style="display: flex; margin-bottom: 30px;">
-                    <button id="seeTournamentTable" class="btn btn-primary">
+                    <button id="seeTournamentTable" class="btn btn-primary" style="background-color: darkblue">
                         See table
                     </button>
                     <button style="margin-left: 30px;" id="seeRankingScorers" class="btn btn-primary">
@@ -270,7 +328,7 @@
                     </button>
                 </div>
 
-                <!--<table id="tournamentTable>
+                <!--<table id="tournamentTable">
                     <tr>
                         <th>Team</th>
                         <th>Points</th>
@@ -303,15 +361,17 @@
                     </tbody>
                 </table>-->
 
-                <table id="rankingScorers">
+                <!--<table id="rankingScorers" class="w-100">
                     <tr>
+                        <th>#</th>
                         <th>Player</th>
                         <th>Team</th>
                         <th>Goals</th>
                     </tr>
                     <tbody>
-                    <c:forEach items="${rankingScorers}" var="entry">
+                    <c:forEach items="${rankingScorers}" var="entry" varStatus="status">
                         <tr>
+                            <td>${status.index + 1}</td>
                             <td>
                                 <a href="/players/${entry.getPlayerID()}" class="link">
                                     <c:out value="${entry.getPlayerName()} ${entry.getPlayerSurname()}"/>
@@ -337,14 +397,49 @@
                         </tr>
                     </c:forEach>
                     </tbody>
-                </table>
+                </table>-->
+
+                <ol>
+                    <c:forEach items="${rankingScorers}" var="entry" varStatus="status">
+                        <li>
+                                <div class="player-info">
+                                    <div class="player-details">
+                                        <a href="/players/${entry.getPlayerID()}" class="link">
+                                            <c:out value="${entry.getPlayerName()} ${entry.getPlayerSurname()}"/>
+                                        </a>
+                                    </div>
+                                    <div style="display: flex; align-items: center;">
+                                        <c:choose>
+                                            <c:when test="${not empty entry.getLogo()}">
+                                                <div>
+                                                    <img src="data:image/jpeg;base64, ${entry.getLogo()}" class="logo" alt="team logo">
+                                                    <a href="/team/${entry.getTeamID()}" class="link"><c:out value="${entry.getTeamName()}"/></a>
+                                                </div>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <div>
+                                                    <img src="<c:url value="/media/logo_placeholder.png"/>" class="logo" alt="default logo">
+                                                    <a href="/team/${entry.getTeamID()}" class="link"><c:out value="${entry.getTeamName()}"/></a>
+                                                </div>
+                                            </c:otherwise>
+                                        </c:choose>
+                                        <div style="font-size: large; margin-left: 10px;">
+                                            <c:out value="${entry.getGoals()}"/>
+                                        </div>
+                                    </div>
+
+                                </div>
+                        </li>
+                    </c:forEach>
+                </ol>
 
             </div>
             <div class="col-lg-6 col-sm-12 fh">
-                <div class="half-height">
+                <div class="full-height">
                     <c:choose>
                         <c:when test="${not empty matches}">
                             <div class="match-header">
+                                <h3 id="matchesString">Matches:</h3>
                                 <select id="matchFilter">
                                     <option value="past" selected>Past Matches</option>
                                     <option value="upcoming">Upcoming Matches</option>
@@ -434,29 +529,9 @@
                 </div>
             </div>
         </div>
-        <c:import url="/jsp/commons/footer.jsp" />
+        <c:import url="/jsp/commons/footer.jsp"/>
     </div>
 
-
-    <div class="my-container">
-        <div id="my-container">
-            <c:if test="${owner}">
-                <!-- TODO Will be placed somewhere else -->
-                <c:if test="${empty matches}">
-                    <!-- If it is moved out of this <c> block you must check if user is owner -->
-                    <button id="generateMatches" class="btn btn-primary">Close Subscriptions and<br>Generate
-                        Matches</button>
-                </c:if>
-            </c:if>
-
-
-            <c:if test="${owner}">
-                <button id="btnAdd" class="btn btn-secondary">
-                    Add Team
-                </button>
-                <button id="btnEditTournament" class="btn btn-primary">Edit</button>
-            </c:if>
-        </div>
 </body>
 
 <script>
@@ -638,12 +713,20 @@
     document.addEventListener('DOMContentLoaded', function () {
         document.getElementById("seeTournamentTable").addEventListener('click', function() {
             document.getElementById("rankingScorers").style.display = "none";
-            //document.getElementById("tournamentTable").style.display = "block";
+            // document.getElementById("tournamentTable").style.display = "block";
+            this.style.backgroundColor = "darkblue";
+            document.getElementById("seeRankingScorers").style.backgroundColor = "#007bff";
         });
 
         document.getElementById("seeRankingScorers").addEventListener('click', function() {
-            //document.getElementById("tournamentTable").style.display = "none";
+            // document.getElementById("tournamentTable").style.display = "none";
             document.getElementById("rankingScorers").style.display = "block";
+            // Assicurati che la classe w-100 sia applicata
+            document.getElementById("rankingScorers").classList.add("w-100");
+            // Applica anche lo stile di larghezza direttamente
+            document.getElementById("rankingScorers").style.width = "100%";
+            this.style.backgroundColor = "darkblue";
+            document.getElementById("seeTournamentTable").style.backgroundColor = "#007bff";
         });
 
         var filterControl = document.getElementById('matchFilter');

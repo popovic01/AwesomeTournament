@@ -22,6 +22,7 @@ public class GetRankingScorersDAO extends AbstractDAO<ArrayList<RankingScorersEn
                                             "JOIN public.teams tm ON p.team_id = tm.id " +
                                             "WHERE t.id = ? " +
                                             "GROUP BY p.id, tm.id, tm.logo " +
+                                            "HAVING COUNT(CASE WHEN e.type = 'goal' THEN 1 END) > 0 " +
                                             "ORDER BY goals_scored DESC;";
 
 

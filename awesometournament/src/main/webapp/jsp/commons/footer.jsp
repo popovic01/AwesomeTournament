@@ -6,9 +6,8 @@
         display: flex;
         flex-direction: row;
         justify-content: space-around;
-        height: 3rem;
+        height: 4rem;
         align-items: center;
-        position: fixed;
         bottom: 0;
         left: 0;
         right: 0;
