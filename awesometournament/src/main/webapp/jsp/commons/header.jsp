@@ -16,7 +16,7 @@
         height: 74%;
     }
 
-    h1 {
+    h1.h1-header {
         color: #e3e0e0;
     }
 
@@ -69,7 +69,7 @@
         </a>
     </div>
 
-    <h1>Awesome Tournament</h1>
+    <h1 class="h1-header">Awesome Tournament</h1>
 
     <button class="menu-btn" onclick="toggleNavbar()">☰</button>
 

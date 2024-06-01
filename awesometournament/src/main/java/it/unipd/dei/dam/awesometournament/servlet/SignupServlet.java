@@ -83,16 +83,8 @@ public class SignupServlet extends AbstractDatabaseServlet {
 
         String email = map.get("email");
         String password = map.get("password");
-        String passwordcheck = map.get("passwordcheck");
 
         String redirect = map.get("redirect");
-
-        if (!password.equals(passwordcheck)) {
-            req.setAttribute("error", "The passwords don't correspond!\n");
-            req.setAttribute("redirect", redirect);
-            req.getRequestDispatcher("/jsp/signup.jsp").forward(req, resp);
-            return;
-        }
 
         if (email == null || password == null) {
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "email or password not provided");

@@ -6,69 +6,20 @@
 
 <head>
     <title>Signup</title>
-
+    <c:import url="/jsp/commons/head.jsp" />
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            /* Height of the viewport */
-        }
-
-        .login-form {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 300px;
-            padding: 20px;
-            background-color: rgba(255, 255, 255, 0.7);
-        }
-
-        input[type=email],
-        input[type=password] {
-            width: calc(100% - 20px);
-            padding: 10px;
-            margin-bottom: 10px;
-            border: none;
-            border-radius: 5px;
-        }
-
-        input[type=submit] {
-            width: 100%;
-            padding: 10px;
-            border: none;
-            cursor: pointer;
-        }
-
-        input[type=submit].invalid {
-            cursor: not-allowed;
-            background-color: #cccccc;
-        }
-
-        .signup-text {
-            text-align: center;
-            margin-top: 15px;
-        }
-
         p.error {
             color: red;
         }
     </style>
+
     <style>
         .passvalidator {
             background-color: #f8f9fa;
             border: 1px solid #dee2e6;
             border-radius: 5px;
             padding: 20px;
-            width: 300px;
-            margin: 0 auto;
+            margin: 20px 0px 20px 0px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
@@ -109,33 +60,45 @@
 </head>
 
 <body>
-    <form action="<c:url value=" /auth/signup" />" method="post">
-    <h2 style="text-align: center">SIGNUP</h2>
-    <input type="email" id="email" name="email" placeholder="Email" /></br>
-    <input type="password" id="password" name="password" placeholder="Password" /></br>
-    <div class="passvalidator">
-        <ul>
-            <li class="invalid" id="validchars">
-                8 to 20 characters
-            </li>
-            <li class="invalid" id="validnumber">
-                at least one number
-            </li>
-            <li class="invalid" id="validupper">
-                at least one uppercase character
-            </li>
-        </ul>
-    </div>
-    <input type="password" id="passwordcheck" name="passwordcheck" placeholder="Repeat password" style="margin-top: 10px;"/></br>
-    <p class="error">
-        <c:out value="${error}" />
-    </p>
-    <p class="error" id="passwordmismatch" hidden>
-        The passwords don't correspond!
-    </p>
-    <input type="hidden" name="redirect" value="<c:out value=" ${redirect}" />">
-    <input type="submit" value="Signup" id="submit" class="invalid" disabled />
-    </form>
+        <c:import url="/jsp/commons/header.jsp" />
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 offset-md-3 col-sm-12">
+                    <form action="<c:url value=" /auth/signup" />" method="post">
+                        <div class="form-group">
+                            <label for="email">Email address</label>
+                            <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" name="email">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" class="form-control" id="password" placeholder="Enter password" name="password">
+                            <div class="passvalidator">
+                                <ul>
+                                    <li class="invalid" id="validchars">
+                                        8 to 20 characters
+                                    </li>
+                                    <li class="invalid" id="validnumber">
+                                        at least one number
+                                    </li>
+                                    <li class="invalid" id="validupper">
+                                        at least one uppercase character
+                                    </li>
+                                </ul>
+                            </div>
+                            <label for="passwordcheck">Repeat Password</label>
+                            <input type="password" class="form-control" id="passwordcheck" placeholder="Repeat password">
+                        </div>
+                        <p class="error"><c:out value="${error}"/></p>
+                        <p class="error" id="passwordmismatch" hidden>
+                            The passwords don't correspond!
+                        </p>
+                        <input type="hidden" name="redirect" value="<c:out value="${redirect}"/>">
+                        <button type="submit" id="submit" class="btn btn-primary invalid" disabled>Signup</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <c:import url="/jsp/commons/footer.jsp" />
 </body>
 
 <script>

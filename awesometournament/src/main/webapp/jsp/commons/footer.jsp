@@ -16,10 +16,10 @@
     .img-wrapper {
         height: 74%;
     }
-    img {
+    img.footer {
         height: 100%;
     }
-    p {
+    p.footer {
         color: #e3e0e0;
         margin: 0;
     }
@@ -29,16 +29,16 @@
     <div class="img-wrapper">
         <a href="http://www.unipd.it/" target="_blank">
             <img src="<c:url value="/media/unipd_logo.jpg"/>"
-                 alt="logo University of Padua">
+                 alt="logo University of Padua" class="footer">
         </a>
     </div>
     <div>
-        <p>&copy; 2024 Awesome Tournament. All rights reserved.</p>
+        <p class="footer">&copy; 2024 Awesome Tournament. All rights reserved.</p>
     </div>
     <div class="img-wrapper">
         <a href="/">
             <img src="<c:url value="/media/tournament_logo.png"/>"
-                 alt="logo of Awesome Tournament">
+                 alt="logo of Awesome Tournament" class="footer">
         </a>
     </div>
 </footer>
