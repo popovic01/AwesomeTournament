@@ -214,11 +214,6 @@
             display: inline-block;
         }
 
-        .delete-button {
-            margin-left: 10px;
-            flex-shrink: 0;
-        }
-
         .event-list-container {
             display: flex;
             justify-content: flex-start;
@@ -332,24 +327,33 @@
                     <c:if test="${eventdetail.getTeam() == 2}">style="justify-content: flex-end;"</c:if>
                     >
                     <div class="event-list-son">
+                        <c:if test="${owner && eventdetail.getTeam() == 1}">
+                            <button class="blue-btn"
+                                onclick="deleteEvent(<c:out value='${event.id}'/>)">
+                                <img src="/media/delete.png" width="20px" height="auto" alt="delete icon">
+                            </button>
+                        </c:if>
                         <c:if test="${eventdetail.getTeam() == 2}">
                             <div class="player-surname">
-                                <c:out value="${eventdetail.getName()}"></c:out>
+                                <c:out value="${eventdetail.getName()}" />
                             </div>
                         </c:if>
                         <img src="/media/${event.type}.png" alt="${event.type}" class="event-icon" />
                         <c:if test="${eventdetail.getTeam() == 1}">
                             <div class="player-surname">
-                                <c:out value="${eventdetail.getName()}"></c:out>
+                                <c:out value="${eventdetail.getName()}" />
                             </div>
+                        </c:if>
+                        <c:if test="${owner && eventdetail.getTeam() == 2}">
+                            <button class="blue-btn"
+                                onclick="deleteEvent(<c:out value='${event.id}'/>)">
+                                <img src="/media/delete.png" width="20px" height="auto" alt="delete icon">
+                            </button>
                         </c:if>
                     </div>
                     <div class="event-list-middle">
                         <c:out value="${event.time}" />'
                     </div>
-                    <c:if test="${owner}">
-                        <button class="delete-button" onclick="deleteEvent(<c:out value='${event.id}' />)">delete</button>
-                    </c:if>
                 </li>
             </c:forEach>
         </ul>
