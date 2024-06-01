@@ -179,7 +179,7 @@
             background-color: #0056b3;
         }
 
-        .back-btn {
+        .blue-btn {
             background-color: #007bff;
             color: white;
             padding: 7px 10px;
@@ -188,7 +188,7 @@
             cursor: pointer;
         }
 
-        .back-btn:hover {
+        .blue-btn:hover {
             background-color: #0056b3;
         }
 
@@ -202,6 +202,12 @@
             height: 24px;
             margin-right: 10px;
             margin-left: 10px;
+        }
+
+        .event-btn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .player-surname {
@@ -218,10 +224,6 @@
             justify-content: flex-start;
         }
 
-        .event-list-son {
-
-        }
-
         .event-list-middle {
             position: absolute;
             right: 50%;
@@ -235,7 +237,7 @@
 <c:import url="/jsp/commons/header.jsp" />
 
 <div class="container" data-owner="${owner}" data-match-date="${match.matchDate}">
-    <button class="back-btn" onclick="window.location.href='/tournament/${match.tournamentId}';">
+    <button class="blue-btn" onclick="window.location.href='/tournament/${match.tournamentId}';">
         <img src="/media/go-back.png" width="30px" height="auto"> Back to tournament
     </button>
     <c:choose>
@@ -314,6 +316,13 @@
         </div>
     </div>
 
+    <c:if test="${!goals_coherent}">
+        <div class="alert alert-danger" role="alert">
+            Attention! the number of goal events is not
+            coherent with the saved score!
+        </div>
+    </c:if>
+
     <div>
         <ul class="event-list">
             <c:forEach items="${eventdetails}" var="eventdetail">
@@ -355,35 +364,13 @@
             </c:forEach>
         </ul>
     </div>
-    <c:if test="${owner}">
-        <c:if test="${!goals_coherent}">
-            <div class="alert alert-danger" role="alert">
-                Attention! the number of goal events is not
-                coherent with the saved score!
-            </div>
-        </c:if>
-        <form id="newEvent" style="background-color: rgb(82, 81, 81);">
-            <label for="player_id">Player: </label>
-            <select name="player_id" id="player_id">
-                <c:forEach var="player" items="${players}">
-                    <option value="${player.id}">
-                        <c:out value="${player.getFullName()}"></c:out>
-                    </option>
-                </c:forEach>
-            </select><br>
 
-            <label for="type">Type of event: </label>
-            <select name="type" id="type">
-                <c:forEach var="type" items="${types}">
-                    <option value="${type}">
-                        <c:out value="${type}"></c:out>
-                    </option>
-                </c:forEach>
-            </select><br>
-            <label for="time">Time: </label>
-            <input type="number" id="time" name="time" min="1" max="90"><br>
-            <input type="submit" value="Add">
-        </form>
+    <c:if test="${owner}">
+        <div class = "event-btn">
+            <button id="add-event" class="blue-btn">
+                Add Event
+            </button>
+        </div>
     </c:if>
 </div>
 
@@ -395,6 +382,9 @@
 
 <!-- Modal to update info -->
 <c:import url="/jsp/components/modal-info.jsp" />
+
+<!-- Modal to add event -->
+<c:import url="/jsp/components/modal-event.jsp" />
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
@@ -441,8 +431,10 @@
         // Modal functionality
         var resultModal = document.getElementById("resultModal");
         var infoModal = document.getElementById("infoModal");
+        var eventModal = document.getElementById("eventModal");
         var resultBtn = document.getElementById("update-result");
         var infoBtn = document.getElementById("update-info");
+        var eventBtn = document.getElementById("add-event");
         var spanClose = document.getElementsByClassName("close");
 
         resultBtn.onclick = function () {
@@ -455,11 +447,17 @@
             infoModal.style.display = "block";
         }
 
+        eventBtn.onclick = function () {
+            console.log("add-event button clicked");
+            eventModal.style.display = "block";
+        }
+
         for (var i = 0; i < spanClose.length; i++) {
             spanClose[i].onclick = function () {
                 console.log("close button clicked");
                 resultModal.style.display = "none";
                 infoModal.style.display = "none";
+                eventModal.style.display = "none";
             }
         }
 
@@ -471,6 +469,10 @@
             if (event.target == infoModal) {
                 console.log("Click outside infoModal detected");
                 infoModal.style.display = "none";
+            }
+            if (event.target == eventModal) {
+                console.log("Click outside eventModal detected");
+                eventModal.style.display = "none";
             }
         }
 
@@ -566,6 +568,9 @@
         xhr.setRequestHeader("Content-Type", "application/json");
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
+                console.log("Match event updated successfully!");
+                alert("Match event updated successfully!");
+                infoModal.style.display = "none";
                 window.location.reload();
             }
         };
