@@ -337,17 +337,7 @@
                                 <c:out value="${eventdetail.getName()}"></c:out>
                             </div>
                         </c:if>
-                        <c:choose>
-                            <c:when test="${event.type == 'GOAL'}">
-                                <img src="/media/goal.png" alt="Goal" class="event-icon" />
-                            </c:when>
-                            <c:when test="${event.type == 'YELLOW_CARD'}">
-                                <img src="/media/yellow_card.png" alt="Yellow Card" class="event-icon" />
-                            </c:when>
-                            <c:when test="${event.type == 'RED_CARD'}">
-                                <img src="/media/red_card.png" alt="Red Card" class="event-icon" />
-                            </c:when>
-                        </c:choose>
+                        <img src="/media/${event.type}.png" alt="${event.type}" class="event-icon" />
                         <c:if test="${eventdetail.getTeam() == 1}">
                             <div class="player-surname">
                                 <c:out value="${eventdetail.getName()}"></c:out>
