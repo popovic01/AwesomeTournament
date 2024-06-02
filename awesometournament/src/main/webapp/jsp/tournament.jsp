@@ -339,7 +339,7 @@
                     <c:forEach items="${ranking}" var="entry">
                         <tr>
                             <td>
-                                <a href="/team/${entry.getTeamID()}" class="link">
+                                <a href="/team/${entry.teamId}" class="link">
                                     <c:out value="${entry.getTeamName()}"/>
                                     <c:choose>
                                         <c:when test="${not empty entry.getLogo()}">
