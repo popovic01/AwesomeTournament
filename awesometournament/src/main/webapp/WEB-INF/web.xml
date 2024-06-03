@@ -21,12 +21,12 @@
 	</servlet-mapping>
 
 	<servlet>
-		<servlet-name>Home</servlet-name>
-		<servlet-class>it.unipd.dei.dam.awesometournament.servlet.HomeServlet</servlet-class>
+		<servlet-name>TournamentsList</servlet-name>
+		<servlet-class>it.unipd.dei.dam.awesometournament.servlet.TournamentsListServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>Home</servlet-name>
-		<url-pattern>/home</url-pattern>
+		<servlet-name>TournamentsList</servlet-name>
+		<url-pattern>/tournaments</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
