@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -125,8 +126,8 @@
                             <td>
                                 <c:out value="${player.dateOfBirth}"/>
                             </td>
-                            <td>
-                                <c:out value="${player.position}"/>
+                            <td style="text-transform:capitalize">
+                                <c:out value="${fn:toLowerCase(player.getPosition())}" />
                             </td>
                             <td>
                                 <a href="<c:url value="/players/${player.id}"/>">
