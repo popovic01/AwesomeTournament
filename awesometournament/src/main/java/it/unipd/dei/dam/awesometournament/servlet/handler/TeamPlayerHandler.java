@@ -17,10 +17,12 @@ import it.unipd.dei.dam.awesometournament.utils.SessionHelpers;
 import it.unipd.dei.dam.awesometournament.database.CreateTeamPlayerDAO;
 import it.unipd.dei.dam.awesometournament.database.GetTeamDAO;
 import it.unipd.dei.dam.awesometournament.database.GetTeamPlayersDAO;
+import it.unipd.dei.dam.awesometournament.database.GetTournamentByIdDAO;
 import it.unipd.dei.dam.awesometournament.resources.Actions;
 import it.unipd.dei.dam.awesometournament.resources.LogContext;
 import it.unipd.dei.dam.awesometournament.resources.entities.Player;
 import it.unipd.dei.dam.awesometournament.resources.entities.Team;
+import it.unipd.dei.dam.awesometournament.resources.entities.Tournament;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -138,8 +140,10 @@ public class TeamPlayerHandler extends RestMatcherHandler {
         int userId = SessionHelpers.getId(req);
         GetTeamDAO getTeamDAO = new GetTeamDAO(getConnection(), teamId);
         Team team = (Team) getTeamDAO.access().getOutputParam();
+        GetTournamentByIdDAO getTournamentByIdDAO = new GetTournamentByIdDAO(getConnection(), team.getTournamentId());
+        Tournament tournament = (Tournament) getTournamentByIdDAO.access().getOutputParam();
 
-        if (team.getCreatorUserId() != userId)
+        if (team.getCreatorUserId() != userId && tournament.getCreatorUserId() != userId)
             return false;
 
         LOGGER.info("User authorized");
