@@ -20,8 +20,8 @@ import jakarta.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation for handling requests to the home page
  */
-public class HomeServlet extends AbstractDatabaseServlet{
-    protected final static Logger LOGGER = LogManager.getLogger(HomeServlet.class,
+public class TournamentsListServlet extends AbstractDatabaseServlet{
+    protected final static Logger LOGGER = LogManager.getLogger(TournamentsListServlet.class,
             StringFormatterMessageFactory.INSTANCE);
 
     @Override
@@ -39,7 +39,7 @@ public class HomeServlet extends AbstractDatabaseServlet{
                 req.setAttribute("userId", userId);
             }
             req.setAttribute("tournaments", tournaments);
-            req.getRequestDispatcher("/jsp/home.jsp").forward(req, resp);
+            req.getRequestDispatcher("/jsp/tournaments-list.jsp").forward(req, resp);
         } catch (SQLException e) {
             resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
