@@ -49,7 +49,6 @@ public class GetRankingScorersDAO extends AbstractDAO<ArrayList<RankingScorersEn
             p.setInt(1, this.tournamentId);
             rs = p.executeQuery();
             while(rs.next()) {
-                LOGGER.info("Add player to ranking");
                 ranking.add(new RankingScorersEntry(rs.getInt("player_id"), rs.getString("player_name"), rs.getString("player_surname"),
                         rs.getInt("team_id"), rs.getString("team_name"), rs.getBytes("team_logo"),
                         rs.getInt("goals_scored")));
