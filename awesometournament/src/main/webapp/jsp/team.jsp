@@ -92,8 +92,8 @@
 
                 <c:if test="${(tournamentOwner || teamOwner) && !deadlinePassed}">
                     <div class="d-flex justify-content-end">
-                        <button id="btnEdit" class="btn btn-secondary"><i class="fa fa-pencil-square-o"></i></button>
-                        <button id="btnDelete" class="btn btn-secondary"><i class="fa fa-trash-o"></i></button>
+                        <button id="btnEdit" class="btn btn-primary"><i class="fa fa-pencil-square-o"></i></button>
+                        <button id="btnDelete" class="btn btn-primary"><i class="fa fa-trash-o"></i></button>
                     </div>
                 </c:if>
             </div>
@@ -148,7 +148,7 @@
                 <p class="text-secondary text-center">No players added in this team</p>
             </c:if>
             <c:if test="${teamOwner || tournamentOwner}">
-                <button class="btn btn-outline-secondary" type="button" id="showUpdateFormButton" onclick="showAddPlayerForm()">Add Player</button>
+                <button class="btn btn-primary" type="button" id="showUpdateFormButton" onclick="showAddPlayerForm()">Add Player</button>
             </c:if>
 
         </div>
