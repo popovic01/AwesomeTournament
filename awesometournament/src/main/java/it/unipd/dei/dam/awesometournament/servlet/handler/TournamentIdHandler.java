@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.util.StdDateFormat;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import it.unipd.dei.dam.awesometournament.database.*;
 import it.unipd.dei.dam.awesometournament.resources.entities.Tournament;
@@ -189,6 +190,7 @@ public class TournamentIdHandler extends RestMatcherHandler {
         // Setting log context
         LogContext.setIPAddress(req.getRemoteAddr());
         om = new ObjectMapper();
+        om = om.registerModule(new JavaTimeModule());
         int tournamentId = Integer.parseInt(params[0]);
 
         try {
