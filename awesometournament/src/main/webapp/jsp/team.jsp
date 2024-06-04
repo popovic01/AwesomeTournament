@@ -27,7 +27,6 @@
             }
 
             form input[type="text"], form input[type="submit"] {
-                width: calc(100% - 22px);
                 padding: 10px;
                 margin-bottom: 20px;
                 border: 1px solid #ccc;
