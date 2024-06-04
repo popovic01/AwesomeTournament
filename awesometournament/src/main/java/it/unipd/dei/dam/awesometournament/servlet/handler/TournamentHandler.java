@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.util.StdDateFormat;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import it.unipd.dei.dam.awesometournament.database.*;
 import it.unipd.dei.dam.awesometournament.resources.entities.Tournament;
@@ -59,7 +60,6 @@ public class TournamentHandler extends RestMatcherHandler {
          LOGGER.info(requestBody);
 
          // Deserializing request body to Tournament object
-         om.setDateFormat(new StdDateFormat());
          Tournament tournament = om.readValue(requestBody, Tournament.class);
          LOGGER.info(tournament.toString());
 
@@ -67,10 +67,14 @@ public class TournamentHandler extends RestMatcherHandler {
          CreateTournamentDAO createTournamentDAO = new CreateTournamentDAO(getConnection(), tournament);
          Integer newId = createTournamentDAO.access().getOutputParam();
 
+         GetTournamentByIdDAO getTournamentByIdDAO = new GetTournamentByIdDAO(getConnection(), newId);
+         getTournamentByIdDAO.access();
+         Tournament savedTournament = getTournamentByIdDAO.getOutputParam();
+
          // Sending response to client
          if (newId != null) {
              LOGGER.info("Tournament created with id %d", newId);
-             response = new ResponsePackage<Tournament>(tournament, ResponseStatus.CREATED, "Tournament created");
+             response = new ResponsePackage<Tournament>(savedTournament, ResponseStatus.CREATED, "Tournament created");
              res.getWriter().print(om.writeValueAsString(response));
          }
          else {
@@ -129,6 +133,7 @@ public class TournamentHandler extends RestMatcherHandler {
         // Setting log context
         LogContext.setIPAddress(req.getRemoteAddr());
         om = new ObjectMapper();
+        om = om.registerModule(new JavaTimeModule());
 
         try {
             // Handling request based on method

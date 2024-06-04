@@ -383,10 +383,11 @@
                             'Content-Type': 'application/json'
                         },
                         body: JSON.stringify(formData)
-                    }).then(response => {
+                    }).then(async response => {
                             if (response.ok) {
-                                // Redirect to another page, replacing the current page in the history
-                                window.location.replace("/home");
+                                let body = await response.json();
+
+                                window.location.replace('/tournament/'+body.data.id);
                             }
                             else throw new Error('Failed to create the tournament');
                     }).catch(error => {
