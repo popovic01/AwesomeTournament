@@ -6,108 +6,10 @@
 <html>
 <head>
     <title>Player Information</title>
+
     <c:import url="/jsp/commons/head.jsp" />
+    <link rel="stylesheet" type="text/css" href="../css/player.css" />
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/player.js"></script>
-    <style>
-        /* Custom CSS for Player Information Page */
-
-        /* Body styling */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-            margin: 0;
-            padding: 0;
-        }
-
-        /* Header styling */
-        h1 {
-            text-align: center;
-            color: #333;
-            margin-top: 20px;
-        }
-
-        /* Form styling */
-        form {
-            max-width: 600px;
-            margin: 20px auto;
-            background-color: #fff;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-        }
-
-        form label {
-            display: block;
-            margin-bottom: 10px;
-        }
-
-        form input[type="text"], form input[type="submit"] {
-            padding: 10px;
-            margin-bottom: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
-        form input[type="submit"] {
-            width: 100%;
-            background-color: #3F51B5;
-            color: #fff;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        form input[type="submit"]:hover {
-            background-color: #2c3e50;
-        }
-
-        /* Modal styling */
-        .modal {
-            display: none; /* Hidden by default */
-            position: fixed; /* Stay in place */
-            z-index: 1; /* Sit on top */
-            left: 0;
-            top: 0;
-            width: 100%; /* Full width */
-            height: 100%; /* Full height */
-            overflow: auto; /* Enable scroll if needed */
-            background-color: rgba(0, 0, 0, 0.6); /* Black w/ opacity */
-        }
-
-        .modal-content {
-            background-color: #fefefe;
-            margin: 15% auto; /* 15% from the top and centered */
-            padding: 20px;
-            border: 1px solid #888;
-            border-radius: 8px;
-            width: 50%; /* Smaller width */
-            max-width: 400px; /* Ensure it doesn't get too large */
-            text-align: center; /* Center the text */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add some shadow */
-            position: relative; /* Relative positioning for the close button */
-        }
-
-        .close {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            color: #aaa;
-            font-size: 28px;
-            font-weight: bold;
-        }
-
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        #message {
-            margin-top: 40px; /* Add margin to separate from the close button */
-            font-size: 18px; /* Increase font size for better readability */
-            color: #333; /* Darker color for contrast */
-        }
-    </style>
 </head>
 <body>
     <c:import url="/jsp/commons/header.jsp" />
@@ -145,7 +47,7 @@
                                 </li>
                             </c:if>
                         </ul>
-                        <form id="updateForm" style="display: none;">
+                        <form id="updateForm">
                             <div class="form-group">
                                 <label for="nameInput">Name:</label>
                                 <input type="text" class="form-control" id="nameInput" value="${player.getName()}" required>
