@@ -2,6 +2,7 @@ package it.unipd.dei.dam.awesometournament.servlet;
 
 import java.io.*;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
 import jakarta.servlet.ServletException;
@@ -72,6 +73,14 @@ public class TeamServlet extends AbstractDatabaseServlet{
                         // the user is the creator of the team
                         req.setAttribute("teamOwner", true);
                     }
+
+                    var now = new Date();
+                    var deadline = new Date(tournament.getDeadline().getTime());
+                    var timeLeft = new Date(
+                            deadline.getTime() -
+                                    now.getTime());
+                    var deadlinePassed = timeLeft.getTime() <= 0;
+                    req.setAttribute("deadlinePassed", deadlinePassed);
                 }
 
                 GetTeamPlayersDAO getTeamPlayersDAO = new GetTeamPlayersDAO(getConnection(), id);

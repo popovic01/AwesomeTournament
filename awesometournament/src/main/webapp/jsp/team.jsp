@@ -90,7 +90,7 @@
                     </c:if>
                 </div>
 
-                <c:if test="${tournamentOwner || teamOwner}">
+                <c:if test="${(tournamentOwner || teamOwner) && !deadlinePassed}">
                     <div class="d-flex justify-content-end">
                         <button id="btnEdit" class="btn btn-secondary"><i class="fa fa-pencil-square-o"></i></button>
                         <button id="btnDelete" class="btn btn-secondary"><i class="fa fa-trash-o"></i></button>

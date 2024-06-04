@@ -334,7 +334,7 @@
                             Matches</button>
                     </c:if>
                 </c:if>
-                <c:if test="${logged}">
+                <c:if test="${logged && !deadlinePassed}">
                     <button id="btnAdd" class="btn btn-primary">
                         Add Team
                     </button>

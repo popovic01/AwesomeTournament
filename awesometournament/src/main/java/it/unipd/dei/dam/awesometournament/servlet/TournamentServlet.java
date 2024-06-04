@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.Date;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -82,6 +83,14 @@ public class TournamentServlet extends AbstractDatabaseServlet{
                     if(loggedId == tournament.getCreatorUserId()) {
                         req.setAttribute("owner", true);
                     }
+
+                    var now = new Date();
+                    var deadline = new Date(tournament.getDeadline().getTime());
+                    var timeLeft = new Date(
+                            deadline.getTime() -
+                                    now.getTime());
+                    var deadlinePassed = timeLeft.getTime() <= 0;
+                    req.setAttribute("deadlinePassed", deadlinePassed);
                 }
 
                 GetTournamentMatchesDAO matchesDAO = new GetTournamentMatchesDAO(getConnection(), id);
