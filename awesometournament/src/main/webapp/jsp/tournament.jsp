@@ -310,11 +310,13 @@
                             Matches</button>
                     </c:if>
                 </c:if>
-                <c:if test="${owner}">
+                <c:if test="${logged}">
                     <button id="btnAdd" class="btn btn-primary">
                         Add Team
                     </button>
-                    <button id="btnEditTournament" class="btn btn-primary">Edit</button>
+                    <c:if test="${owner}">
+                        <button id="btnEditTournament" class="btn btn-primary">Edit</button>
+                    </c:if>
                 </c:if>
             </div>
         </div>
@@ -737,7 +739,7 @@
             });
             filterControl.dispatchEvent(new Event('change'));
         } else {
-            console.log('matchFilter element not found');
+            // console.log('matchFilter element not found');
         }
         var generateMatchesButton = document.getElementById('generateMatches');
         if (generateMatchesButton) {
@@ -762,12 +764,15 @@
         }
 
         var btnEditTournament = document.getElementById("btnEditTournament");
-        btnEditTournament.addEventListener("click", function () {
-            document.getElementById("editTournamentForm").style.display = "block";
-            document.getElementById("form-container").style.display = "block";
-            document.getElementById("btnEditTournament").style.display = "none";
-            document.getElementById("main-container").style.display = "none";
-        });
+        if(btnEditTournament) {
+            // If the user is not logged, there is no edit tournament button
+            btnEditTournament.addEventListener("click", function () {
+                document.getElementById("editTournamentForm").style.display = "block";
+                document.getElementById("form-container").style.display = "block";
+                document.getElementById("btnEditTournament").style.display = "none";
+                document.getElementById("main-container").style.display = "none";
+            });
+        }
 
         setStartingMinPlayersAndMaxPlayers();
         setStartAndDeadlineDate();
@@ -793,8 +798,6 @@
                     }
                 };
             });
-        } else {
-            console.log('btnAdd element not found');
         }
     });
 

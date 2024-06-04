@@ -78,6 +78,7 @@ public class TournamentServlet extends AbstractDatabaseServlet{
 
                 if(SessionHelpers.isLogged(req)) {
                     int loggedId = SessionHelpers.getId(req);
+                    req.setAttribute("logged", true);
                     if(loggedId == tournament.getCreatorUserId()) {
                         req.setAttribute("owner", true);
                     }
