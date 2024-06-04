@@ -97,6 +97,7 @@ public class PlayerServlet extends AbstractDatabaseServlet {
                     if (isUserAuthorized(req, playerId)) {
                         req.setAttribute("authorized", true);
                     }
+                    req.setAttribute("logged", true);
                     Connection connection = getConnection();
                     GetPlayerDAO getPlayerDAO = new GetPlayerDAO(connection, playerId);
                     Player player = (Player) getPlayerDAO.access().getOutputParam();

@@ -60,6 +60,7 @@ public class MatchServlet extends AbstractDatabaseServlet {
 
                 // check if the logged user is the admin of the tournament
                 if (SessionHelpers.isLogged(req)) {
+                    req.setAttribute("logged", true);
                     GetTournamentByIdDAO tournamentByIdDAO = new GetTournamentByIdDAO(getConnection(),
                             match.getTournamentId());
                     tournamentByIdDAO.access();

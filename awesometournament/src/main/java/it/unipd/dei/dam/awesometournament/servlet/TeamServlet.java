@@ -59,6 +59,7 @@ public class TeamServlet extends AbstractDatabaseServlet{
                 req.setAttribute("team", team);
 
                 if(SessionHelpers.isLogged(req)) {
+                    req.setAttribute("logged", true);
                     GetTournamentByIdDAO tournamentByIdDAO = new GetTournamentByIdDAO(getConnection(), team.getTournamentId());
                     tournamentByIdDAO.access();
                     Tournament tournament = tournamentByIdDAO.getOutputParam();
