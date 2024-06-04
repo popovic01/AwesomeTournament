@@ -179,7 +179,7 @@
                 <div class="card-footer text-muted text-right">
                     <c:choose>
                         <c:when test="${not empty player.getMedicalCertificate()}">
-                            Medical Certificate: OK
+                            Medical Certificate: Present
                         </c:when>
                         <c:otherwise>
                             Medical Certificate: Missing
@@ -267,5 +267,7 @@
             showMessage("Medical certificate uploaded correctly");
         </script>
     </c:if>
+    <!-- remove the session attribute from redirect -->
+    <c:remove var="uploaded" scope="session" />
 </body>
 </html>

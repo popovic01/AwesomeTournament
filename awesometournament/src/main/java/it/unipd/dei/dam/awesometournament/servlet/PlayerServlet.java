@@ -159,10 +159,9 @@ public class PlayerServlet extends AbstractDatabaseServlet {
             UpdatePlayerDAO updatePlayerDAO = new UpdatePlayerDAO(getConnection(), player);
             Integer result = (Integer) updatePlayerDAO.access().getOutputParam();
             if (result == 1) {
-                req.setAttribute("authorized", true);
-                req.setAttribute("uploaded", true);
-                req.setAttribute("player", player);
-                req.getRequestDispatcher("/jsp/player.jsp").forward(req, resp);
+                // to pass an attribute with redirect
+                req.getSession().setAttribute("uploaded", true);
+                resp.sendRedirect("/players/" + playerId);
             } else {
                 resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             }
