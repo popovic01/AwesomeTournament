@@ -48,11 +48,10 @@
                 </c:choose>
             </div>
         </div>
-        <div class="score" style="font-size: 2.2em;">
+        <div class="score">
             ${match.team1Score} - ${match.team2Score}
             <div>
-                <button id="update-result" class="btn" style="display: none;"><img src="/media/edit.png"
-                                                                                   width="30px" height="auto" style="padding-right: 10px;">Edit Result</button>
+                <button id="update-result" class="btn"><img src="/media/edit.png" width="25px" height="auto">Edit Result</button>
             </div>
         </div>
 
@@ -89,8 +88,8 @@
                 </c:choose>
             </div>
             <div>
-                <button id="update-info" class="btn" style="display: none;">
-                    <img src="/media/edit.png" width="20px" height="auto" style="padding-right: 5px;">
+                <button id="update-info" class="btn">
+                    <img src="/media/edit.png" width="25px" height="auto">
                     Edit Info
                 </button>
             </div>
@@ -116,7 +115,7 @@
                         <c:if test="${owner && eventdetail.getTeam() == 1}">
                             <button class="blue-btn"
                                 onclick="deleteEvent(<c:out value='${event.id}'/>)">
-                                <img src="/media/delete.png" width="20px" height="auto" alt="delete icon">
+                                <img src="/media/delete.png" width="30px" height="auto" alt="delete icon">
                             </button>
                         </c:if>
                         <c:if test="${eventdetail.getTeam() == 2}">
@@ -133,7 +132,7 @@
                         <c:if test="${owner && eventdetail.getTeam() == 2}">
                             <button class="blue-btn"
                                 onclick="deleteEvent(<c:out value='${event.id}'/>)">
-                                <img src="/media/delete.png" width="20px" height="auto" alt="delete icon">
+                                <img src="/media/delete.png" width="30px" height="auto" alt="delete icon">
                             </button>
                         </c:if>
                     </div>
