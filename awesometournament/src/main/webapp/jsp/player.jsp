@@ -42,7 +42,6 @@
         }
 
         form input[type="text"], form input[type="submit"] {
-            width: calc(100% - 22px);
             padding: 10px;
             margin-bottom: 20px;
             border: 1px solid #ccc;
@@ -111,6 +110,7 @@
     </style>
 </head>
 <body>
+    <c:import url="/jsp/commons/header.jsp" />
     <div class="container mt-5">
         <div class="card shadow-lg">
             <div class="card-header text-white bg-primary">
@@ -137,7 +137,7 @@
                                 <strong>Position:</strong> ${fn:toLowerCase(player.getPosition())}
                             </li>
                             <li class="list-group-item">
-                                <strong>Date of birth:</strong> ${player.getDateOfBirth()}
+                                <strong>Date of birth:</strong> ${date}
                             </li>
                             <c:if test="${authorized}">
                                 <li class="list-group-item">
@@ -269,5 +269,6 @@
     </c:if>
     <!-- remove the session attribute from redirect -->
     <c:remove var="uploaded" scope="session" />
+    <c:import url="/jsp/commons/footer.jsp" />
 </body>
 </html>

@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -99,6 +101,9 @@ public class PlayerServlet extends AbstractDatabaseServlet {
                     GetPlayerDAO getPlayerDAO = new GetPlayerDAO(connection, playerId);
                     Player player = (Player) getPlayerDAO.access().getOutputParam();
                     if (player != null) {
+                        DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+                        String date = df.format(player.getDateOfBirth());
+                        req.setAttribute("date", date);
                         GetTeamDAO getTeamDAO = new GetTeamDAO(getConnection(), player.getTeamId());
                         Team team = getTeamDAO.access().getOutputParam();
                         req.setAttribute("team", team.getName());
