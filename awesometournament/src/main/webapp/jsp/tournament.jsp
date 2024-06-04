@@ -353,7 +353,7 @@
                     </button>
                 </div>
 
-                <table id="tournamentTable" class="table">
+                <table id="tournamentTable">
                     <thead>
                     <tr>
                         <th>#</th>
