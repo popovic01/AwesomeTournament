@@ -101,7 +101,7 @@ public class TournamentServlet extends AbstractDatabaseServlet{
                 req.setAttribute("tournament", tournament);
                 req.setAttribute("matches", matches);
                 req.setAttribute("teams", teams);
-                //req.setAttribute("ranking", ranking);
+                req.setAttribute("ranking", ranking);
                 req.setAttribute("rankingScorers", rankingScorers);
 
                 if(SessionHelpers.isLogged(req)) {
@@ -154,12 +154,12 @@ public class TournamentServlet extends AbstractDatabaseServlet{
             Integer result = (Integer) updateTournamentDAO.access().getOutputParam();
             if (result == 1) {
                 resp.setStatus(HttpServletResponse.SC_OK);
-                resp.getWriter().print("Logo Uploaded!");
+                resp.sendRedirect("/tournament/" + tournamentId);
             } else {
                 resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             }
         } catch (NumberFormatException e) {
-            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Player ID must be an integer");
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Tournament ID must be an integer");
         } catch (SQLException e) {
             resp.sendError(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
         }

@@ -112,7 +112,51 @@
         <!-- header -->
         <c:import url="/jsp/commons/header.jsp"/>
 
-        <div class="container">
+        <div class="container mt-5" id="addTournamentCard" style="display: none;">
+            <div class="card shadow-lg">
+                <div class="card-header text-white bg-primary">
+                    <h3 class="card-title mb-0">Tournament details</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <form id="createTournamentForm">
+                            <div>
+                                <label for="tournamentName">Tournament Name:</label>
+                                <input type="text" id="tournamentName" name="tournamentName" required>
+                            </div>
+                            <div>
+                                <label for="maxTeam">Maximum number of teams:</label>
+                                <input type="number" id="maxTeam" name="maxTeam" min="2" max="20" value="2" required>
+                            </div>
+                            <div>
+                                <label for="startingPlayers">Number of starting players per team:</label>
+                                <input type="number" id="startingPlayers" name="startingPlayers" min="1" max="11" value="1" required>
+                            </div>
+                            <div>
+                                <label for="minPlayers">Minimum number of players for a team:</label>
+                                <input type="number" id="minPlayers" name="minPlayers" min="1" max="11" value="1" required>
+                            </div>
+                            <div>
+                                <label for="maxPlayers">Maximum number of players for a team:</label>
+                                <input type="number" id="maxPlayers" name="maxPlayers" min="1" max="25" value="1" required>
+                            </div>
+                            <div>
+                                <label for="startDate">Start date of the tournament:</label>
+                                <input type="date" id="startDate" name="startDate" required>
+                            </div>
+                            <div>
+                                <label for="deadline">Deadline for team registration:</label>
+                                <input type="date" id="deadline" name="deadline" required>
+                            </div>
+                            <button type="submit" name="confirm" class="btn btn-primary">Submit</button>
+                            <button id="cancelCreateTournament" type="button" name="cancel" class="btn btn-primary">Cancel</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="container" class="container">
             <h1 class="title">AwesomeTournaments</h1>
 
             <c:if test="${logged}">
@@ -122,45 +166,6 @@
                     </button>
                 </div>
             </c:if>
-
-            <div id="createTournamentForm" style="display: none; margin-top: 20px;">
-                <form>
-                    <div>
-                        <label for="tournamentName">Tournament Name:</label>
-                        <input type="text" id="tournamentName" name="tournamentName" required>
-                    </div>
-                    <div>
-                        <label for="maxTeam">Maximum number of teams:</label>
-                        <input type="number" id="maxTeam" name="maxTeam" min="2" max="20" value="2" required>
-                    </div>
-                    <div>
-                        <label for="startingPlayers">Number of starting players per team:</label>
-                        <input type="number" id="startingPlayers" name="startingPlayers" min="1" max="11" value="1" required>
-                    </div>
-                    <div>
-                        <label for="minPlayers">Minimum number of players for a team:</label>
-                        <input type="number" id="minPlayers" name="minPlayers" min="1" max="11" value="1" required>
-                    </div>
-                    <div>
-                        <label for="maxPlayers">Maximum number of players for a team:</label>
-                        <input type="number" id="maxPlayers" name="maxPlayers" min="1" max="25" value="1" required>
-                    </div>
-                    <div>
-                        <label for="startDate">Start date of the tournament:</label>
-                        <input type="date" id="startDate" name="startDate" required>
-                    </div>
-                    <div>
-                        <label for="deadline">Deadline for team registration:</label>
-                        <input type="date" id="deadline" name="deadline" required>
-                    </div>
-                    <div>
-                        <label for="logo">Logo:</label>
-                        <input type="file" id="logo" name="logo" accept=".png, .jpg, .jpeg">
-                    </div>
-                    <button type="submit" name="confirm" class="btn btn-primary">Submit</button>
-                    <button id="cancelCreateTournament" type="button" name="cancel" class="btn btn-primary">Cancel</button>
-                </form>
-            </div>
 
             <div class="dropdown" style="margin-bottom: 10px;">
                 <select id="tournamentFilter" onchange="filterTournaments()">
@@ -174,7 +179,7 @@
                     <li class="tournament" data-is-finished="${tournament.getIsFinished()}" data-deadline="${tournament.getDeadline()}">
                         <a class="list" href="/tournament/${tournament.getId()}">
                             <c:choose>
-                                <c:when test="${not empty entry.getBase64Logo()}">
+                                <c:when test="${not empty entry.getLogo()}">
                                     <img src="data:image/jpeg;base64, ${tournament.getBase64Logo()}" class="logo" alt="tournament logo">
                                 </c:when>
                                 <c:otherwise>
@@ -331,20 +336,16 @@
             function createTournament() {
                 var btnCreateTournament = document.getElementById("btnCreateTournament");
                 btnCreateTournament.addEventListener("click", function() {
-                    document.getElementById("createTournamentForm").style.display = "block";
-                    document.getElementById("btnCreateTournament").style.display = "none";
-                    document.getElementById("tournamentFilter").style.display = "none";
-                    document.querySelector("ul").style.display = "none";
+                    document.getElementById("addTournamentCard").style.display = "block";
+                    document.getElementById("container").style.display = "none";
                 });
             }
 
             function hideForm() {
                 var btnCancelCreateTournament = document.getElementById("cancelCreateTournament");
                 btnCancelCreateTournament.addEventListener("click", function () {
-                    document.getElementById("createTournamentForm").style.display = "none";
-                    document.getElementById("btnCreateTournament").style.display = "block";
-                    document.getElementById("tournamentFilter").style.display = "block";
-                    document.querySelector("ul").style.display = "block";
+                    document.getElementById("addTournamentCard").style.display = "none";
+                    document.getElementById("container").style.display = "block";;
                 });
             }
             function manageForm() {
@@ -366,16 +367,6 @@
                         isFinished: false
                     };
 
-                    // Convert the image in base64
-                    var logoFile = document.getElementById("logo").files[0];
-                    if (logoFile) {
-                        var reader = new FileReader();
-
-                        reader.onload = function () {
-                            formData.append('logo', reader.result);
-                        };
-                    }
-
                     // Make AJAX request to create the tournament
                     fetch('/api/tournaments', {
                         method: 'POST',
@@ -385,6 +376,8 @@
                         body: JSON.stringify(formData)
                     }).then(async response => {
                             if (response.ok) {
+                                // Redirect to another page, replacing the current page in the history
+                                window.location.replace("/tournaments");
                                 let body = await response.json();
 
                                 window.location.replace('/tournament/'+body.data.id);

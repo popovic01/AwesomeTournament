@@ -8,6 +8,7 @@ import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Base64;
 
 /**
  * A class which represents a tournament.
