@@ -9,69 +9,7 @@
         <title>AwesomeTournaments - Tournament</title>
 
         <c:import url="/jsp/commons/head.jsp"/>
-
-        <style>
-            /* Form styling */
-            form {
-                max-width: 600px;
-                margin: 20px auto;
-                background-color: #fff;
-                border-radius: 5px;
-                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-                padding: 20px;
-            }
-
-            form label {
-                display: block;
-                margin-bottom: 10px;
-            }
-
-            form input[type="text"], form input[type="submit"] {
-                padding: 10px;
-                margin-bottom: 20px;
-                border: 1px solid #ccc;
-                border-radius: 5px;
-            }
-
-            form input[type="submit"] {
-                width: 100%;
-                background-color: #3F51B5;
-                color: #fff;
-                cursor: pointer;
-                transition: background-color 0.3s ease;
-            }
-
-            form input[type="submit"]:hover {
-                background-color: #2c3e50;
-            }
-            .main-wrapper {
-                max-width: 800px;
-                margin: 20px auto;
-                padding: 20px;
-                background-color: #fff;
-                border-radius: 5px;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            }
-
-            #btnEdit {
-                margin-right: 1rem;
-            }
-
-            #btnEdit, #btnDelete {
-                height: 80%;
-                width: 40%;
-            }
-
-            .title-logo-actions-wrapper {
-                display: flex;
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: center;
-                height: 4rem;
-                margin-bottom: 1rem;
-                padding: 0 1rem;
-            }
-        </style>
+        <link rel="stylesheet" type="text/css" href="../css/team.css" />
     </head>
 
     <body>
@@ -198,122 +136,15 @@
 
         <!-- footer -->
         <c:import url="/jsp/commons/footer.jsp"/>
+
+        <script>
+            var team = '${team}';
+            var teamId = '${team.getId()}';
+            var playerId = '${player.getId()}';
+            var teamTournamentId = '${team.getTournamentId()}';
+        </script>
+        <script type="text/javascript" src="/js/team.js"></script>
     </body>
 
 </html>
 
-<script>
-    function showAddPlayerForm() {
-        document.getElementById("teamInformation").style.display = "none";
-        document.getElementById("addPlayerCard").style.display = "block";
-    }
-
-    function cancelAdd(teamId) {
-      // Redirect to another page, replacing the current page in the history
-      window.location.replace('/team/{teamId}'.replace('{teamId}', teamId));
-    }
-
-    document.getElementById('addPlayerForm').addEventListener('submit', function(event) {
-        event.preventDefault(); // Prevent form submission
-        var formData = {
-            name: document.getElementById('nameInput').value,
-            surname: document.getElementById('surnameInput').value,
-            team_id: '${team.getId()}',
-            position: document.getElementById('positionInput').value,
-            date_of_birth: document.getElementById('dateInput').value
-        };
-        // Make AJAX request to update player
-        fetch('/api/teams/${team.getId()}/players', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(formData)
-        })
-        .then(response => {
-            if (response.ok) {
-                // Redirect to another page, replacing the current page in the history
-                window.location.replace("/team/${team.getId()}");
-            } else {
-                throw new Error('Failed to create player');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Failed to create player. Please try again later.');
-        });
-    });
-
-    document.addEventListener('DOMContentLoaded', function() {
-        var btnEdit = document.getElementById('btnEdit');
-        var btnDelete = document.getElementById('btnDelete');
-
-        if (btnEdit) {
-            btnEdit.addEventListener('click', function() {
-                var url = `/tournament/${team.getTournamentId()}/team/${team.id}`;
-                window.location.href = url;
-
-                var xhr = new XMLHttpRequest();
-                xhr.open('GET', url, true);
-                xhr.onload = function() {
-                    if (xhr.status >= 200 && xhr.status < 300) {
-                        window.location.reload();
-                    }
-                };
-            });
-        } else {
-            console.log('btnEdit element not found');
-        }
-
-        if (btnDelete) {
-            btnDelete.addEventListener('click', function() {
-                if (confirm('Are you sure you want to delete this team?')) {
-                    var url = `/api/teams/${team.id}`;
-                    var urlRedirect = `/tournament/${team.getTournamentId()}`;
-
-                    fetch(url, {
-                        method: 'DELETE'
-                    })
-                        .then(response => {
-                            window.location.href = urlRedirect;
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                        });
-
-                    var xhr = new XMLHttpRequest();
-                    xhr.open('DELETE', url, true);
-                    xhr.onload = function() {
-                        if (xhr.status >= 200 && xhr.status < 300) {
-                            window.location.reload();
-                        }
-                    };
-                }
-            });
-        } else {
-            console.log('btnDelete element not found');
-        }
-    })
-
-    function deletePlayer(playerId) {
-        // Make AJAX request to update player
-        fetch('/api/players/{playerId}'.replace('{playerId}', playerId), {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-        })
-        .then(response => {
-            if (response.ok) {
-                // Redirect to another page, replacing the current page in the history
-                window.location.replace("/team/${team.getId()}");
-            } else {
-                throw new Error('Failed to delete player');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Failed to delete player. Please try again later.');
-        });
-    };
-</script>
