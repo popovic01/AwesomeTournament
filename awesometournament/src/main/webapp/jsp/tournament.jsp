@@ -281,12 +281,11 @@
         </div>
     </div>
     <c:import url="/jsp/commons/footer.jsp" />
+    <script>
+        var userId = "${userId}";
+        var tournamentId = "${tournament.getId()}";
+        var matches_ = "${matches}";
+    </script>
+    <script type="text/javascript" src="/js/tournament.js"></script>
 </body>
-<script>
-    var userId = "${userId}";
-    var tournamentId = "${tournament.getId()}";
-    var matches_ = "${matches}";
-</script>
-<script type="text/javascript" src="/js/tournament.js"></script>
-
 </html>
