@@ -6,9 +6,7 @@
 
 <head>
     <title>AwesomeTournaments - Tournament</title>
-
     <c:import url="/jsp/commons/head.jsp" />
-
     <style>
         .my-container {
             max-width: 800px;
@@ -20,9 +18,97 @@
             margin-bottom: 4rem;
         }
 
-        h1 {
-            text-align: center;
-            color: #333;
+        .container-fluid.fh {
+            min-height: calc(100vh - 50px);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .row.fh {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .col-lg-6.full-height,
+        .col-sm-12.full-height {
+            height: 100%;
+            overflow: hidden;
+            padding-bottom: 50px;
+        }
+
+        .full-height-content {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .match-header,
+        .button-container {
+            padding-top: 20px;
+            display: flex;
+            margin-bottom: 30px;
+        }
+
+        .right-column {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .right-column-content {
+            flex-grow: 1;
+            overflow-y: auto;
+            max-height: 60vh;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            width: auto;
+            height: 60px;
+        }
+
+        .logo-img {
+            width: auto;
+            height: 45px;
+        }
+
+        a.link {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        a.link:hover {
+            text-decoration: underline;
+            color: inherit;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border-spacing: 0;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #13730a;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
         }
 
         ul {
@@ -40,168 +126,6 @@
 
         li:hover {
             background-color: #e9e9e9;
-        }
-
-        p {
-            margin: 1rem 0;
-        }
-
-        .logo-img {
-            height: 2rem;
-        }
-
-        .match-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        h3 {
-            margin: 0;
-        }
-
-        #matchFilter {
-            padding: 5px 10px;
-            border-radius: 5px;
-        }
-
-        .btn {
-            padding: 6px 12px;
-            background-color: #007bff;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            border: none;
-            cursor: pointer;
-        }
-
-        .btn-primary:hover {
-            background-color: #0056b3;
-        }
-
-        .btn-delete {
-            background-color: #dc3545;
-        }
-
-        .btn-delete:hover {
-            background-color: #c82333;
-        }
-
-        .match-detail {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-            margin-bottom: 10px;
-        }
-
-        .team-detail,
-        .score {
-            margin-top: 12px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            flex: 1;
-        }
-
-        .team-detail {
-            align-items: flex-start;
-            /* Aligns team1 to the left */
-        }
-
-        .team2-detail {
-            align-items: flex-end;
-            /* Aligns team2 to the right */
-        }
-
-        .score {
-            flex: 0 1 200px;
-            justify-content: center;
-        }
-
-        /* Add space between logo and name */
-        .team1-detail img {
-            margin-right: 15px;
-            margin-left: 5px;
-        }
-
-        .team2-detail img {
-            margin-right: 5px;
-            margin-left: 15px;
-        }
-
-        .match-date {
-            font-size: 0.8em;
-            color: grey;
-            display: inline;
-            /* Ensures it stays on the same line */
-        }
-
-        #match-link {
-            text-decoration: none;
-            color: black;
-        }
-
-        .inline-container {
-            display: flex;
-            align-items: center;
-        }
-
-        a.list {
-            text-decoration: none;
-            color: inherit;
-            display: block;
-        }
-
-        .ctr {
-            height: 100%;
-        }
-
-        html,
-        body {
-            height: 100%;
-        }
-
-        .full-height {
-            height: 100%;
-            overflow-y: auto;
-        }
-
-        .fh {
-            height: 100%;
-        }
-
-        .logo{
-            width: auto;
-            height: 60px;
-        }
-
-        a.link {
-            text-decoration: none; /* Remove underlined */
-            color: inherit; /* Uses the parent's text color */
-        }
-
-        /* Style for team hover links */
-        a.link:hover {
-            text-decoration: underline; /* Underline text on hover */
-            color: inherit; /* Uses the parent's text color */
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            border-spacing: 0;
-        }
-
-        th, td {
-            border: 2px solid black;
-            padding: 8px;
-            text-align: left;
-        }
-
-        th {
-            background-color: #f2f2f2;
         }
 
         .ranking-position {
@@ -230,14 +154,142 @@
         ::-webkit-scrollbar-track:hover {
             background-color: #ddd;
         }
+
+        .match-detail {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .team-detail,
+        .score {
+            margin-top: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+        }
+
+        .team-detail {
+            align-items: flex-start;
+        }
+
+        .team2-detail {
+            align-items: flex-end;
+        }
+
+        .score {
+            flex: 0 1 200px;
+            justify-content: center;
+        }
+
+        .team1-detail img {
+            margin-right: 15px;
+            margin-left: 5px;
+        }
+
+        .team2-detail img {
+            margin-right: 5px;
+            margin-left: 15px;
+        }
+
+        .match-date {
+            font-size: 0.8em;
+            color: grey;
+            display: inline;
+        }
+
+        #match-link {
+            text-decoration: none;
+            color: black;
+        }
+
+        .inline-container {
+            display: flex;
+            align-items: center;
+        }
+
+        #matchFilter {
+            padding: 5px 10px;
+            border-radius: 5px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+        }
+
+        .table-container {
+            width: 100%;
+        }
+
+        #tournamentTable,
+        #rankingScorers {
+            width: 100%;
+            display: table;
+        }
+
+        .tournament-info {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .tournament-info img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+        }
+
+        .tournament-info .tournament-name {
+            margin: 0;
+            font-size: 1.5rem;
+            color: #333;
+        }
+
+        .d-flex button {
+            margin-right: 10px;
+        }
+
+        .d-flex button:last-child {
+            margin-right: 0;
+        }
     </style>
 </head>
 
 <body>
-    <!-- header -->
     <c:import url="/jsp/commons/header.jsp" />
+    
+    <div class="tournament-info d-flex justify-content-center align-items-center my-4">
+        <h2 class="tournament-name m-0">
+            <strong>${tournament.getName()}</strong>
+        </h2>
+        <c:choose>
+            <c:when test="${not empty tournament.getBase64Logo()}">
+                <img src="data:image/jpg;base64,${tournament.getBase64Logo()}" class="img-fluid rounded-circle ml-3" alt="tournament logo" />
+            </c:when>
+            <c:otherwise>
+                <img src="<c:url value='/media/tournament_logo.png' />" class="img-fluid rounded-circle ml-3" alt="default logo">
+            </c:otherwise>
+        </c:choose>
+    </div>
 
-    <div id="editTournamentContainer" class="container mt-5"  style="display: none;">
+    <c:if test="${owner}">
+        <div class="d-flex justify-content-center mb-4">
+            <button id="btnEditTournament" class="btn btn-primary mr-3">Edit Tournament</button>
+            <c:if test="${empty matches}">
+                <button id="generateMatches" class="btn btn-success">Close Subscriptions and<br>Generate Matches</button>
+            </c:if>
+        </div>
+    </c:if>
+
+    <div id="editTournamentContainer" class="container mt-5" style="display: none;">
         <div class="card shadow-lg">
             <div class="card-header text-white bg-primary">
                 <h3 class="card-title mb-0">Tournament details</h3>
@@ -247,56 +299,47 @@
                     <div class="col-md-4 text-center">
                         <c:choose>
                             <c:when test="${not empty tournament.getBase64Logo()}">
-                                <img src="data:image/jpg;base64,${tournament.getBase64Logo()}" class="img-fluid rounded-circle mb-3"/>
+                                <img src="data:image/jpg;base64,${tournament.getBase64Logo()}" class="img-fluid rounded-circle mb-3" />
                             </c:when>
                             <c:otherwise>
-                                <img src="<c:url value="/media/tournament_logo.png" />" class="img-fluid rounded-circle mb-3" alt="default logo">
+                                <img src="<c:url value='/media/tournament_logo.png' />" class="img-fluid rounded-circle mb-3" alt="default logo">
                             </c:otherwise>
                         </c:choose>
-                        <h5 class="card-subtitle mb-2 text-muted"> <strong> ${tournament.getName()} </strong> </h5>
+                        <h5 class="card-subtitle mb-2 text-muted"> <strong>${tournament.getName()}</strong> </h5>
                     </div>
                     <div class="col-md-8">
                         <form id="editTournamentForm">
                             <div>
                                 <label for="tournamentName">Tournament Name:</label>
-                                <input type="text" id="tournamentName" name="tournamentName" value="${tournament.getName()}"
-                                       required>
+                                <input type="text" id="tournamentName" name="tournamentName" value="${tournament.getName()}" required>
                             </div>
                             <div>
                                 <label for="maxTeam">Maximum number of teams:</label>
-                                <input type="number" id="maxTeam" name="maxTeam" min="2" max="20"
-                                       value="${tournament.getMaxTeams()}" required>
+                                <input type="number" id="maxTeam" name="maxTeam" min="2" max="20" value="${tournament.getMaxTeams()}" required>
                             </div>
                             <div>
                                 <label for="startingPlayers">Number of starting players per team:</label>
-                                <input type="number" id="startingPlayers" name="startingPlayers" min="1" max="11"
-                                       value="${tournament.getStartingPlayers()}" required>
+                                <input type="number" id="startingPlayers" name="startingPlayers" min="1" max="11" value="${tournament.getStartingPlayers()}" required>
                             </div>
                             <div>
                                 <label for="minPlayers">Minimum number of players for a team:</label>
-                                <input type="number" id="minPlayers" name="minPlayers" min="1" max="11"
-                                       value="${tournament.getMinPlayers()}" required>
+                                <input type="number" id="minPlayers" name="minPlayers" min="1" max="11" value="${tournament.getMinPlayers()}" required>
                             </div>
                             <div>
                                 <label for="maxPlayers">Maximum number of players for a team:</label>
-                                <input type="number" id="maxPlayers" name="maxPlayers" min="1" max="25"
-                                       value="${tournament.getMaxPlayers()}" required>
+                                <input type="number" id="maxPlayers" name="maxPlayers" min="1" max="25" value="${tournament.getMaxPlayers()}" required>
                             </div>
                             <div>
                                 <label for="startDate">Start date of the tournament:</label>
-                                <input type="date" id="startDate" name="startDate" value="${tournament.getOnlyStartDate()}"
-                                       required>
+                                <input type="date" id="startDate" name="startDate" value="${tournament.getOnlyStartDate()}" required>
                             </div>
                             <div>
                                 <label for="deadline">Deadline for team registration:</label>
-                                <input type="date" id="deadline" name="deadline" value="${tournament.getOnlyDeadline()}"
-                                       required>
+                                <input type="date" id="deadline" name="deadline" value="${tournament.getOnlyDeadline()}" required>
                             </div>
                             <button type="submit" name="confirm" class="btn btn-primary">Edit</button>
-                            <button id="cancelEditTournament" type="button" name="cancel"
-                                    class="btn btn-primary">Cancel</button>
-                            <button id="deleteTournament" type="button" name="delete" class="btn btn-delete">Delete
-                                Tournament</button>
+                            <button id="cancelEditTournament" type="button" name="cancel" class="btn btn-primary">Cancel</button>
+                            <button id="deleteTournament" type="button" name="delete" class="btn btn-delete">Delete Tournament</button>
                         </form>
                     </div>
                 </div>
@@ -315,123 +358,99 @@
     </div>
 
     <div class="container-fluid fh" id="main-container">
-        <div class="row" style="padding: 15px;">
-            <div class="title-logo-wrapper" style="padding: 5px;">
-                <p class="fs-1 text-dark">
-                    <c:out value="${tournament.name}" />
-                </p>
-                <c:choose>
-                    <c:when test="${not empty tournament.getLogo()}">
-                        <img src="data:image/jpg;base64,${tournament.getBase64Logo()}" />
-                    </c:when>
-                    <c:otherwise>
-                        <img src="<c:url value="/media/tournament_logo.png" />" alt="default logo">
-                    </c:otherwise>
-                </c:choose>
-                <c:if test="${owner}">
-                    <c:if test="${empty matches}">
-                        <button id="generateMatches" class="btn btn-primary">Close Subscriptions and<br>Generate
-                            Matches</button>
-                    </c:if>
-                </c:if>
-                <c:if test="${logged && !deadlinePassed}">
-                    <button id="btnAdd" class="btn btn-primary">
-                        Add Team
-                    </button>
-                    <button id="btnEditTournament" class="btn btn-primary">Edit</button>
-                </c:if>
-            </div>
-        </div>
         <div class="row fh">
             <div class="col-lg-6 col-sm-12 full-height">
-                <div style="display: flex; margin-bottom: 30px;">
-                    <button id="seeTournamentTable" class="btn btn-primary" style="background-color: darkblue">
-                        See table
-                    </button>
-                    <button style="margin-left: 30px;" id="seeRankingScorers" class="btn btn-primary">
-                        See top scorers
-                    </button>
+                <div class="full-height-content">
+                    <div class="button-container">
+                        <button id="seeTournamentTable" class="btn btn-primary" style="background-color: darkblue">See table</button>
+                        <button style="margin-left: 30px;" id="seeRankingScorers" class="btn btn-primary">See top scorers</button>
+                    </div>
+                    <div class="table-container">
+                        <table id="tournamentTable">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Team</th>
+                                    <th>Points</th>
+                                    <th>Matches Played</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <c:forEach items="${ranking}" var="entry" varStatus="status">
+                                    <tr>
+                                            <td><c:out value="${status.index + 1}" /></td>
+                                            <td>
+                                                <a href="/team/${entry.getTeamId()}" class="link">
+                                                    <c:out value="${entry.getTeamName()}" /></a>
+                                                    <c:choose>
+                                                        <c:when test="${not empty entry.getLogo()}">
+                                                            <img src="data:image/jpeg;base64,${entry.getLogo()}" class="logo" alt="team logo" id="logo">
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <img src="<c:url value='/media/logo_placeholder.png'/>" class="logo" alt="default logo" id="logo">
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </a>
+                                            </td>
+                                            <td><c:out value="${entry.getPoints()}" /></td>
+                                            <td><c:out value="${entry.getMatchesPlayed()}" /></td>
+                                    </tr>
+                            </c:forEach>
+                            </tbody>
+                        </table>
+
+                        <table id="rankingScorers" style="display: none">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Player</th>
+                                    <th>Team</th>
+                                    <th>Goals</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <c:forEach items="${rankingScorers}" var="entry" varStatus="status">
+                                    <tr>
+                                        <td><c:out value="${status.index + 1}" /></td>
+                                        <td>
+                                            <a href="/players/${entry.getPlayerID()}" class="link"><c:out value="${entry.getPlayerName()} ${entry.getPlayerSurname()}" /></a>
+                                        </td>
+                                        <td>
+                                            <c:choose>
+                                                <c:when test="${not empty entry.getLogo()}">
+                                                    <div>
+                                                        <img src="data:image/jpeg;base64,${entry.getLogo()}" class="logo" alt="team logo">
+                                                        <a href="/team/${entry.getTeamID()}" class="link"><c:out value="${entry.getTeamName()}" /></a>
+                                                    </div>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <div>
+                                                        <img src="<c:url value='/media/logo_placeholder.png' />" class="logo" alt="default logo">
+                                                        <a href="/team/${entry.getTeamID()}" class="link"><c:out value="${entry.getTeamName()}" /></a>
+                                                    </div>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </td>
+                                        <td><c:out value="${entry.getGoals()}" /></td>
+                                    </tr>
+                                </c:forEach>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-
-                <table id="tournamentTable">
-                    <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Team</th>
-                        <th>Points</th>
-                        <th>Matches Played</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <c:forEach items="${ranking}" var="entry" varStatus="status">
-                        <tr>
-                            <td><c:out value="${status.index + 1}"/></td>
-                            <td>
-                                <a href="/team/${entry.getTeamId()}" class="link">
-                                    <c:out value="${entry.getTeamName()}"/>
-                                </a>
-                                <c:choose>
-                                    <c:when test="${not empty entry.getLogo()}">
-                                        <img src="data:image/jpeg;base64, ${entry.getLogo()}" class="logo" alt="team logo">
-                                    </c:when>
-                                    <c:otherwise>
-                                        <img src="<c:url value='/media/logo_placeholder.png'/>" class="logo" alt="default logo">
-                                    </c:otherwise>
-                                </c:choose>
-                            </td>
-                            <td><c:out value="${entry.getPoints()}"/></td>
-                            <td><c:out value="${entry.getMatchesPlayed()}"/></td>
-                        </tr>
-                    </c:forEach>
-                    </tbody>
-                </table>
-
-                <ul id="rankingScorers" style="display: none">
-                    <c:forEach items="${rankingScorers}" var="entry" varStatus="status">
-                        <li>
-                            <div class="player-info">
-                                <div class="player-details">
-                                    <span class="ranking-position">${status.index + 1}</span>
-                                    <a href="/players/${entry.getPlayerID()}" class="link">
-                                        <c:out value="${entry.getPlayerName()} ${entry.getPlayerSurname()}"/>
-                                    </a>
-                                </div>
-                                <div style="display: flex; align-items: center;">
-                                    <c:choose>
-                                        <c:when test="${not empty entry.getLogo()}">
-                                            <div>
-                                                <img src="data:image/jpeg;base64, ${entry.getLogo()}" class="logo" alt="team logo">
-                                                <a href="/team/${entry.getTeamID()}" class="link"><c:out value="${entry.getTeamName()}"/></a>
-                                            </div>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <div>
-                                                <img src="<c:url value="/media/logo_placeholder.png"/>" class="logo" alt="default logo">
-                                                <a href="/team/${entry.getTeamID()}" class="link"><c:out value="${entry.getTeamName()}"/></a>
-                                            </div>
-                                        </c:otherwise>
-                                    </c:choose>
-                                    <div style="font-size: large; margin-left: 20px;">
-                                        <c:out value="${entry.getGoals()}"/>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                    </c:forEach>
-                </ul>
             </div>
-            <div class="col-lg-6 col-sm-12 fh">
-                <div class="full-height">
+            <div class="col-lg-6 col-sm-12 right-column">
+                <div class="match-header">
+                    <select id="matchFilter">
+                        <option value="past">Past Matches</option>
+                        <option value="upcoming">Upcoming Matches</option>
+                        <option value="tba">Not Scheduled Yet</option>
+                        <option value="all" selected>All Matches</option>
+                    </select>
+                </div>
+                <div class="right-column-content">
                     <c:choose>
                         <c:when test="${not empty matches}">
-                            <div class="match-header">
-                                <select id="matchFilter">
-                                    <option value="past" selected>Past Matches</option>
-                                    <option value="upcoming">Upcoming Matches</option>
-                                    <option value="tba">Not Scheduled Yet</option>
-                                    <option value="all">All Matches</option>
-                                </select>
-                            </div>
                             <ul id="matchList">
                                 <c:forEach items="${matches}" var="match">
                                     <li is-finished="${match.isFinished}" date="${match.matchDate}">
@@ -449,56 +468,52 @@
                                                 <c:set var="team2Logo" value="${team.getBase64Logo()}" />
                                             </c:if>
                                         </c:forEach>
-                                        <a id="match-link" href="<c:url value=" /match/${match.getId()}" />">
-                                        <div class="match-detail">
-                                            <div class="team-detail team1-detail">
-                                                <c:choose>
-                                                    <c:when test="${not empty team1Logo}">
-                                                        <img src="data:image/jpeg;base64, ${team1Logo}"
-                                                            class="logo-img" alt="team logo">
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        <img src="<c:url value='/media/logo_placeholder.png' />"
-                                                            class="logo-img" alt="default logo">
-                                                    </c:otherwise>
-                                                </c:choose>
-                                                <div>
+                                        <a id="match-link" href="<c:url value='/match/${match.getId()}' />">
+                                            <div class="match-detail">
+                                                <div class="team-detail team1-detail">
                                                     <c:choose>
-                                                        <c:when test="${match.result == 'TEAM1'}">
-                                                            <strong>${team1Name}</strong>
+                                                        <c:when test="${not empty team1Logo}">
+                                                            <img src="data:image/jpeg;base64,${team1Logo}" class="logo-img" alt="team logo">
                                                         </c:when>
                                                         <c:otherwise>
-                                                            ${team1Name}
+                                                            <img src="<c:url value='/media/logo_placeholder.png' />" class="logo-img" alt="default logo">
                                                         </c:otherwise>
                                                     </c:choose>
+                                                    <div>
+                                                        <c:choose>
+                                                            <c:when test="${match.result == 'TEAM1'}">
+                                                                <strong>${team1Name}</strong>
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                ${team1Name}
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="score">
-                                                ${match.team1Score} - ${match.team2Score}
-                                            </div>
-                                            <div class="team-detail team2-detail">
-                                                <c:choose>
-                                                    <c:when test="${not empty team2Logo}">
-                                                        <img src="data:image/jpeg;base64, ${team2Logo}"
-                                                            class="logo-img" alt="team logo">
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        <img src="<c:url value='/media/logo_placeholder.png' />"
-                                                            class="logo-img" alt="default logo">
-                                                    </c:otherwise>
-                                                </c:choose>
-                                                <div>
+                                                <div class="score">
+                                                    ${match.team1Score} - ${match.team2Score}
+                                                </div>
+                                                <div class="team-detail team2-detail">
                                                     <c:choose>
-                                                        <c:when test="${match.result == 'TEAM2'}">
-                                                            <strong>${team2Name}</strong>
+                                                        <c:when test="${not empty team2Logo}">
+                                                            <img src="data:image/jpeg;base64,${team2Logo}" class="logo-img" alt="team logo">
                                                         </c:when>
                                                         <c:otherwise>
-                                                            ${team2Name}
+                                                            <img src="<c:url value='/media/logo_placeholder.png' />" class="logo-img" alt="default logo">
                                                         </c:otherwise>
                                                     </c:choose>
+                                                    <div>
+                                                        <c:choose>
+                                                            <c:when test="${match.result == 'TEAM2'}">
+                                                                <strong>${team2Name}</strong>
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                ${team2Name}
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
                                         </a>
                                     </li>
                                 </c:forEach>
@@ -514,9 +529,8 @@
                 </div>
             </div>
         </div>
-        <c:import url="/jsp/commons/footer.jsp"/>
     </div>
-
+    <c:import url="/jsp/commons/footer.jsp" />
 </body>
 
 <script>
@@ -525,19 +539,16 @@
             (typeof window.performance != "undefined" &&
                 window.performance.navigation.type === 2);
         if (historyTraversal) {
-            // Handle page restore.
             window.location.reload();
         }
     });
 
     function setStartingMinPlayersAndMaxPlayers() {
-        // Get the elements
         const maxTeamInput = document.getElementById('maxTeam');
         const startingPlayersInput = document.getElementById('startingPlayers');
         const minPlayersInput = document.getElementById('minPlayers');
         const maxPlayersInput = document.getElementById('maxPlayers');
 
-        // Deny keyboard input for all 3 input
         maxTeamInput.addEventListener('keydown', function (event) {
             event.preventDefault();
         });
@@ -560,8 +571,7 @@
             if (startingPlayers > minPlayersInput.value && startingPlayers > maxPlayersInput.value) {
                 minPlayersInput.value = startingPlayers;
                 maxPlayersInput.value = startingPlayers;
-            }
-            else if (startingPlayers > minPlayersInput.value) minPlayersInput.value = startingPlayers;
+            } else if (startingPlayers > minPlayersInput.value) minPlayersInput.value = startingPlayers;
             if (startingPlayers < 1) startingPlayersInput.value = 1;
         });
 
@@ -583,23 +593,18 @@
             if (maxPlayers < minPlayers && maxPlayers < startingPlayers) {
                 startingPlayersInput.value = maxPlayersInput.value;
                 minPlayersInput.value = maxPlayersInput.value;
-            }
-            else if (maxPlayers < minPlayers) minPlayersInput.value = maxPlayersInput.value;
+            } else if (maxPlayers < minPlayers) minPlayersInput.value = maxPlayersInput.value;
         })
     }
 
     function setStartAndDeadlineDate() {
-
-        // Get tomorrow's date in the format YYYY-MM-DD
         const date = new Date();
         date.setDate(date.getDate() + 1);
         const tomorrow = date.toISOString().split('T')[0];
 
-        // Get the startDate and deadline input element
         const startDateInput = document.getElementById('startDate');
         const deadlineInput = document.getElementById('deadline');
 
-        // Set the min attribute to tomorrow's date and implements logic for startDate and deadline
         startDateInput.min = tomorrow;
         deadlineInput.min = tomorrow;
         deadlineInput.max = startDateInput.value;
@@ -608,14 +613,13 @@
             if (startDateInput.value) {
                 deadlineInput.max = startDateInput.value;
                 if (!deadlineInput.value || new Date(startDateInput.value) < new Date(deadlineInput.value)) deadlineInput.value = startDateInput.value;
-            }
-            else deadlineInput.removeAttribute('max');
+            } else deadlineInput.removeAttribute('max');
         });
     }
 
     function manageForm() {
         document.getElementById('editTournamentForm').addEventListener('submit', function (event) {
-            event.preventDefault(); // Prevent form submission
+            event.preventDefault();
 
             var formData = {
                 name: document.getElementById("tournamentName").value,
@@ -632,7 +636,6 @@
                 isFinished: false
             };
 
-            // Make AJAX request to create the tournament
             fetch('/api/tournaments/${tournament.getId()}', {
                 method: 'PUT',
                 headers: {
@@ -641,10 +644,8 @@
                 body: JSON.stringify(formData)
             }).then(response => {
                 if (response.ok) {
-                    // Redirect to another page, replacing the current page in the history
                     window.location.replace("/tournament/${tournament.getId()}");
-                }
-                else throw new Error('Failed to update tournament');
+                } else throw new Error('Failed to update tournament');
             }).catch(error => {
                 console.error('Error:', error);
                 alert('Failed to update the tournament. Please try again.');
@@ -662,7 +663,7 @@
                             window.location.href = '/tournaments';
                         } else {
                             alert('Failed to delete the tournament');
-                            window.location.href = '/tournamets';
+                            window.location.href = '/tournaments';
                         }
                     })
                     .catch(error => {
@@ -684,18 +685,19 @@
     }
 
     document.addEventListener('DOMContentLoaded', function () {
-        document.getElementById("seeTournamentTable").addEventListener('click', function() {
-            document.getElementById("rankingScorers").style.display = "none";
-            document.getElementById("tournamentTable").style.display = "block";
+        var tournamentTable = document.getElementById("tournamentTable");
+        var rankingScorers = document.getElementById("rankingScorers");
+
+        document.getElementById("seeTournamentTable").addEventListener('click', function () {
+            rankingScorers.style.display = "none";
+            tournamentTable.style.display = "table";
             this.style.backgroundColor = "darkblue";
             document.getElementById("seeRankingScorers").style.backgroundColor = "#007bff";
         });
 
-        document.getElementById("seeRankingScorers").addEventListener('click', function() {
-            document.getElementById("tournamentTable").style.display = "none";
-            document.getElementById("rankingScorers").style.display = "block";
-            //document.getElementById("rankingScorers").classList.add("w-100");
-            //document.getElementById("rankingScorers").style.width = "100%";
+        document.getElementById("seeRankingScorers").addEventListener('click', function () {
+            tournamentTable.style.display = "none";
+            rankingScorers.style.display = "table";
             this.style.backgroundColor = "darkblue";
             document.getElementById("seeTournamentTable").style.backgroundColor = "#007bff";
         });
@@ -708,7 +710,6 @@
                 matches.forEach(function (match) {
                     var isFinished = match.getAttribute('is-finished') === 'true';
                     var matchDate = match.getAttribute('date');
-                    // Find the result div inside the match li
                     var scoreDiv = match.querySelector('.score');
                     if (scoreDiv) {
                         var dateSpan = scoreDiv.querySelector('.match-date');
@@ -730,7 +731,6 @@
                             dateSpan.textContent = ' Date: TBA';
                         }
                     }
-                    // Handle the display logic
                     if (selectedFilter === 'all') {
                         match.style.display = '';
                     } else if (selectedFilter === 'upcoming' && matchDate && !isFinished) {
@@ -745,14 +745,13 @@
                 });
             });
             filterControl.dispatchEvent(new Event('change'));
-        } else {
-            // console.log('matchFilter element not found');
         }
+
         var generateMatchesButton = document.getElementById('generateMatches');
         if (generateMatchesButton) {
             generateMatchesButton.addEventListener('click', function () {
-                generateMatchesButton.disabled = true; // Disable the button to prevent multiple clicks
-                generateMatchesButton.textContent = 'Loading...'; // Change button text to indicate loading
+                generateMatchesButton.disabled = true;
+                generateMatchesButton.textContent = 'Loading...';
                 var xhr = new XMLHttpRequest();
                 xhr.open('POST', '/matches/tournaments/${tournament.id}', true);
                 xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -761,7 +760,6 @@
                         window.location.reload();
                     }
                 };
-                // Restore original button on error
                 xhr.onerror = function () {
                     generateMatchesButton.disabled = false;
                     generateMatchesButton.textContent = 'Close Subscriptions and\nGenerate Matches';
@@ -787,7 +785,6 @@
         else seeTournamentTableBtn.style.display = "none";
 
         var btnAdd = document.getElementById('btnAdd');
-
         if (btnAdd) {
             btnAdd.addEventListener('click', function () {
                 var url = `/tournament/${tournament.id}/add-team`;
@@ -806,9 +803,7 @@
     });
 
     $(window).bind("pageshow", function () {
-        // I need to do that to avoid that back-forward cache (BFCache)
-        // mismatches select menu and shown matches
-        $("#matchFilter").val('past');
+        $("#matchFilter").val('all');
     });
 </script>
 
