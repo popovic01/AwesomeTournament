@@ -87,7 +87,7 @@
                             Medical Certificate: Missing
                         </c:otherwise>
                     </c:choose>
-                    <form class="form-row" method="POST" action="/uploadMedicalCertificate" enctype="multipart/form-data" onsubmit="return validateFile()">
+                    <form class="form-row" id="uploadMedicalCertificateForm" method="POST" action="/uploadMedicalCertificate" enctype="multipart/form-data" onsubmit="return validateFile()">
                         <input type="hidden" name="playerId" value="${player.getId()}">
                         <div class="input-group">
                             <input type="file" class="form-control" id="inputGroupFile04" name="medicalCertificate" aria-describedby="inputGroupFileAddon04" aria-label="Upload" required>
@@ -107,6 +107,60 @@
         </div>
     </div>
     <script>
+        document.getElementById('uploadMedicalCertificateForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            // Check if the file input is valid
+            if (!validateFile()) {
+                return;
+            }
+
+            // Create a FormData object from the form element
+            const formData = new FormData(this);
+
+            // Use fetch API to send the form data
+            fetch('/uploadMedicalCertificate', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.json(); // Expecting a JSON response with the redirect URL
+                } else {
+                    throw new Error('Network response was not ok');
+                }
+            })
+            .then(data => {
+                console.log('Success:', data);
+
+                var modal = document.getElementById("modal");
+                var span = document.getElementsByClassName("close")[0];
+                var modalMessage = document.getElementById("message");
+
+                // Set the message text
+                modalMessage.textContent = "Medical certificate uploaded correctly";
+
+                // Display the modal
+                modal.style.display = "block";
+
+                // When the user clicks on <span> (x), close the modal
+                span.onclick = function() {
+                    modal.style.display = "none";
+                    window.location.replace(data.redirectUrl);
+                }
+
+                // When the user clicks anywhere outside the modal, close it
+                window.onclick = function(event) {
+                    if (event.target == modal) {
+                        modal.style.display = "none";
+                        window.location.replace(data.redirectUrl);
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
         document.getElementById('updateForm').addEventListener('submit', function(event) {
             event.preventDefault(); // Prevent form submission
             var formData = {
@@ -164,13 +218,6 @@
         // Call the function to set the selected position
         setSelectedPosition('${player.getPosition()}');
     </script>
-    <c:if test="${uploaded}">
-        <script>
-            showMessage("Medical certificate uploaded correctly");
-        </script>
-    </c:if>
-    <!-- remove the session attribute from redirect -->
-    <c:remove var="uploaded" scope="session" />
     <c:import url="/jsp/commons/footer.jsp" />
 </body>
 </html>

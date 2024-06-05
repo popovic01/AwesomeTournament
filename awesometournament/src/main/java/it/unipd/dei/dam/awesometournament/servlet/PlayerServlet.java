@@ -2,6 +2,7 @@ package it.unipd.dei.dam.awesometournament.servlet;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.DateFormat;
@@ -165,9 +166,12 @@ public class PlayerServlet extends AbstractDatabaseServlet {
             UpdatePlayerDAO updatePlayerDAO = new UpdatePlayerDAO(getConnection(), player);
             Integer result = (Integer) updatePlayerDAO.access().getOutputParam();
             if (result == 1) {
-                // to pass an attribute with redirect
-                req.getSession().setAttribute("uploaded", true);
-                resp.sendRedirect("/players/" + playerId);
+                // Send a JSON response with the redirect URL
+                resp.setContentType("application/json");
+                resp.setStatus(HttpServletResponse.SC_OK);
+                PrintWriter out = resp.getWriter();
+                out.print("{\"redirectUrl\": \"/players/" + playerId + "\"}");
+                out.flush();
             } else {
                 resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             }
