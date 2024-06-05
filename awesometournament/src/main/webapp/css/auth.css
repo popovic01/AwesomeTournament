@@ -1,0 +1,46 @@
+p.error {
+    color: red;
+}
+
+.passvalidator {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    padding: 20px;
+    margin: 20px 0px 20px 0px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.passvalidator ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.passvalidator li {
+    background: #ffffff;
+    border: 1px solid #dee2e6;
+    border-radius: 3px;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    color: #495057;
+    display: flex;
+    align-items: center;
+}
+
+.passvalidator li::before {
+    content: "✔";
+    color: #28a745;
+    font-weight: bold;
+    display: inline-block;
+    width: 20px;
+    text-align: center;
+    margin-right: 10px;
+}
+
+.passvalidator li.invalid::before {
+    content: "✖";
+    color: #dc3545;
+}

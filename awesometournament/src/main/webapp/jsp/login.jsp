@@ -3,15 +3,10 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
     <head>
         <title>Login Page</title>
         <c:import url="/jsp/commons/head.jsp" />
-        <style>
-            p.error {
-                color: red;
-            }
-        </style>
+        <link rel="stylesheet" type="text/css" href="/css/auth.css" />
     </head>
 
 
@@ -39,5 +34,4 @@
         </div>
         <c:import url="/jsp/commons/footer.jsp" />
     </body>
-
 </html>
