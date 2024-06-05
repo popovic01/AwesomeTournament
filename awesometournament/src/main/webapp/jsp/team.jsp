@@ -24,7 +24,7 @@
                     </p>
 
                     <c:if test="${not empty team.base64Logo}">
-                        <img src="data:image/jpg;base64,${team.base64Logo}"/>
+                        <img src="data:image/jpg;base64,${team.base64Logo}"width="45px" height="auto"/>
                     </c:if>
                 </div>
 
