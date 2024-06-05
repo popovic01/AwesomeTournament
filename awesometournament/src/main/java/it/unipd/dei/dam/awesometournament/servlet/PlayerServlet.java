@@ -93,12 +93,14 @@ public class PlayerServlet extends AbstractDatabaseServlet {
                 resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid URL format");
             } else {
                 try {
+                    if(SessionHelpers.isLogged(req)) {
+                        req.setAttribute("logged", true);
+                    }
                     int playerId = Integer.parseInt(urlParts[1]);
                     req.setAttribute("authorized", false);
                     if (isUserAuthorized(req, playerId)) {
                         req.setAttribute("authorized", true);
                     }
-                    req.setAttribute("logged", true);
                     Connection connection = getConnection();
                     GetPlayerDAO getPlayerDAO = new GetPlayerDAO(connection, playerId);
                     Player player = (Player) getPlayerDAO.access().getOutputParam();
