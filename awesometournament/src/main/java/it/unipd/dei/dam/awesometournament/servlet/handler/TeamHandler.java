@@ -105,7 +105,15 @@ public class TeamHandler extends RestMatcherHandler {
         LogContext.setAction(Actions.DELETE_TEAM);
         LOGGER.info("Received DELETE request");
         DeleteTeamDAO deleteTeamDAO = new DeleteTeamDAO(getConnection(), teamId);
-        Integer result = deleteTeamDAO.access().getOutputParam();
+        Integer result = 0;
+        try {
+            result = deleteTeamDAO.access().getOutputParam();
+        } catch (Exception e) {
+            res.sendError( 500);
+            response = new ResponsePackageNoData
+                    (ResponseStatus.INTERNAL_SERVER_ERROR, "Something went wrong");
+            res.getWriter().print(om.writeValueAsString(response));
+        }
 
         if (result == 1) {
             response = new ResponsePackageNoData(ResponseStatus.OK,
