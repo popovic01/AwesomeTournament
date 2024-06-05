@@ -106,7 +106,7 @@ ul {
     padding: 0;
 }
 
-li {
+li.match {
     margin-bottom: 10px;
     padding: 10px;
     background-color: #f9f9f9;
@@ -114,7 +114,7 @@ li {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-li:hover {
+li.match:hover {
     background-color: #e9e9e9;
 }
 

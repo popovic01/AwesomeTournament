@@ -203,7 +203,7 @@
                         <c:when test="${not empty matches}">
                             <ul id="matchList">
                                 <c:forEach items="${matches}" var="match">
-                                    <li is-finished="${match.isFinished}" date="${match.matchDate}">
+                                    <li is-finished="${match.isFinished}" date="${match.matchDate}" class="match">
                                         <c:set var="team1Name" value="" />
                                         <c:set var="team1Logo" value="" />
                                         <c:set var="team2Name" value="" />

@@ -41,7 +41,7 @@
                 padding: 0;
             }
 
-            li {
+            li.tournament {
                 margin-bottom: 10px;
                 padding: 10px;
                 background-color: #f9f9f9;
@@ -57,7 +57,7 @@
                 display: block;
             }
 
-            li:hover {
+            li.tournament:hover {
                 background-color: #e9e9e9;
             }
 
