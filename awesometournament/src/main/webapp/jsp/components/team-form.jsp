@@ -33,7 +33,7 @@
                     <input type="file" name="file" id="file" class="form-control input-width-70"/>
                 </div>
                 <div class="d-flex justify-content-center">
-                    <input type="submit" value="Edit" name="upload" class="btn btn-secondary" id="btnSubmit"/>
+                    <input type="submit" value="Edit" name="upload" class="btn btn-primary" id="btnSubmit"/>
                 </div>
             </form>
         </div>
