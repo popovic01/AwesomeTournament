@@ -88,7 +88,7 @@ function manageForm() {
         var formData = {
             name: document.getElementById("tournamentName").value,
             token: "prova",
-            creatorUserId: '${userId}',
+            creatorUserId: userId,
             maxTeams: parseInt(document.getElementById("maxTeam").value),
             maxPlayers: parseInt(document.getElementById("maxPlayers").value),
             minPlayers: parseInt(document.getElementById("minPlayers").value),
@@ -100,7 +100,7 @@ function manageForm() {
             isFinished: false
         };
 
-        fetch('/api/tournaments/${tournament.getId()}', {
+        fetch('/api/tournaments/'+ tournamentId, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -108,7 +108,7 @@ function manageForm() {
             body: JSON.stringify(formData)
         }).then(response => {
             if (response.ok) {
-                window.location.replace("/tournament/${tournament.getId()}");
+                window.location.replace("/tournament/" + tournamentId);
             } else throw new Error('Failed to update tournament');
         }).catch(error => {
             console.error('Error:', error);
@@ -118,7 +118,7 @@ function manageForm() {
 
     document.getElementById('deleteTournament').addEventListener('click', function () {
         if (confirm('Are you sure you want to delete this tournament?')) {
-            fetch(`/api/tournaments/${tournament.getId()}`, {
+            fetch(`/api/tournaments/`+ tournamentId, {
                 method: 'DELETE'
             })
                 .then(response => {
@@ -217,7 +217,7 @@ document.addEventListener('DOMContentLoaded', function () {
             generateMatchesButton.disabled = true;
             generateMatchesButton.textContent = 'Loading...';
             var xhr = new XMLHttpRequest();
-            xhr.open('POST', '/matches/tournaments/${tournament.id}', true);
+            xhr.open('POST', '/matches/tournaments/' + tournamentId, true);
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             xhr.onload = function () {
                 if (xhr.status >= 200 && xhr.status < 300) {
@@ -244,14 +244,14 @@ document.addEventListener('DOMContentLoaded', function () {
     hideForm();
 
     var seeTournamentTableBtn = document.getElementById("seeTournamentTable");
-    var matches = "${matches}";
+    var matches = matches_;
     if (matches && matches.length > 0) seeTournamentTableBtn.style.display = "block";
     else seeTournamentTableBtn.style.display = "none";
 
     var btnAdd = document.getElementById('btnAdd');
     if (btnAdd) {
         btnAdd.addEventListener('click', function () {
-            var url = `/tournament/${tournament.id}/add-team`;
+            var url = '/tournament/' + tournamentId + '/add-team';
             window.location.href = url;
             var xhr = new XMLHttpRequest();
             xhr.open('GET', url, true);
