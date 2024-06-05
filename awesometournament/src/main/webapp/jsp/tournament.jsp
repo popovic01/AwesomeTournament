@@ -265,29 +265,7 @@
 
 <body>
     <c:import url="/jsp/commons/header.jsp" />
-    
-    <div class="tournament-info d-flex justify-content-center align-items-center my-4">
-        <h2 class="tournament-name m-0">
-            <strong>${tournament.getName()}</strong>
-        </h2>
-        <c:choose>
-            <c:when test="${not empty tournament.getBase64Logo()}">
-                <img src="data:image/jpg;base64,${tournament.getBase64Logo()}" class="img-fluid rounded-circle ml-3" alt="tournament logo" />
-            </c:when>
-            <c:otherwise>
-                <img src="<c:url value='/media/tournament_logo.png' />" class="img-fluid rounded-circle ml-3" alt="default logo">
-            </c:otherwise>
-        </c:choose>
-    </div>
 
-    <c:if test="${owner}">
-        <div class="d-flex justify-content-center mb-4">
-            <button id="btnEditTournament" class="btn btn-primary mr-3">Edit Tournament</button>
-            <c:if test="${empty matches}">
-                <button id="generateMatches" class="btn btn-success">Close Subscriptions and<br>Generate Matches</button>
-            </c:if>
-        </div>
-    </c:if>
 
     <div id="editTournamentContainer" class="container mt-5" style="display: none;">
         <div class="card shadow-lg">
@@ -339,7 +317,7 @@
                             </div>
                             <button type="submit" name="confirm" class="btn btn-primary">Edit</button>
                             <button id="cancelEditTournament" type="button" name="cancel" class="btn btn-primary">Cancel</button>
-                            <button id="deleteTournament" type="button" name="delete" class="btn btn-delete">Delete Tournament</button>
+                            <button id="deleteTournament" type="button" name="delete" class="btn btn-danger">Delete Tournament</button>
                         </form>
                     </div>
                 </div>
@@ -358,6 +336,31 @@
     </div>
 
     <div class="container-fluid fh" id="main-container">
+        <div class="tournament-info d-flex justify-content-center align-items-center my-4">
+            <h1 class="tournament-name m-0">
+                <strong>${tournament.getName()}</strong>
+            </h1>
+            <c:choose>
+                <c:when test="${not empty tournament.getBase64Logo()}">
+                    <img src="data:image/jpg;base64,${tournament.getBase64Logo()}" class="img-fluid rounded-circle ml-3" alt="tournament logo" />
+                </c:when>
+                <c:otherwise>
+                    <img src="<c:url value='/media/tournament_logo.png' />" class="img-fluid rounded-circle ml-3" alt="default logo">
+                </c:otherwise>
+            </c:choose>
+        </div>
+
+        <div class="d-flex justify-content-center mb-4">
+            <c:if test="${owner}">
+                <button id="btnEditTournament" class="btn btn-primary mr-3">Edit Tournament</button>
+                <c:if test="${empty matches}">
+                    <button id="generateMatches" class="btn btn-success">Close Subscriptions and<br>Generate Matches</button>
+                </c:if>
+            </c:if>
+            <c:if test="${logged && !deadlinePassed}">
+                <button id="btnAdd" class="btn btn-primary">Add Team</button>
+            </c:if>
+        </div>
         <div class="row fh">
             <div class="col-lg-6 col-sm-12 full-height">
                 <div class="full-height-content">

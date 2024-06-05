@@ -78,9 +78,10 @@ public class TournamentServlet extends AbstractDatabaseServlet{
                 }
 
                 if(SessionHelpers.isLogged(req)) {
-                    int loggedId = SessionHelpers.getId(req);
+                    int userId = SessionHelpers.getId(req);
                     req.setAttribute("logged", true);
-                    if(loggedId == tournament.getCreatorUserId()) {
+                    req.setAttribute("userId", userId);
+                    if(userId == tournament.getCreatorUserId()) {
                         req.setAttribute("owner", true);
                     }
 
@@ -112,12 +113,6 @@ public class TournamentServlet extends AbstractDatabaseServlet{
                 req.setAttribute("teams", teams);
                 req.setAttribute("ranking", ranking);
                 req.setAttribute("rankingScorers", rankingScorers);
-
-                if(SessionHelpers.isLogged(req)) {
-                    int userId = SessionHelpers.getId(req);
-                    req.setAttribute("logged", true);
-                    req.setAttribute("userId", userId);
-                }
 
                 req.getRequestDispatcher("/jsp/tournament.jsp").forward(req, resp);
             } catch (SQLException e) {
