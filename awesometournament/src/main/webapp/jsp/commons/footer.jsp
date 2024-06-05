@@ -11,7 +11,7 @@
     <div class="row justify-content-center align-items-center">
         <div class="col-md-1 text-center">
             <a href="http://www.unipd.it/" target="_blank">
-                <img class="img-fluid" src="<c:url value="/media/unipd_logo.png"/>" alt="logo University of Padua">
+                <img class="img-fluid" src="<c:url value="/media/unipd_logo.png"/>" alt="logo University of Padua" width="100px" height="auto">
             </a>
         </div>
         <div class="col-md-4 text-center text-muted small">
@@ -19,7 +19,7 @@
         </div>
         <div class="col-md-1 text-center">
             <a href="" target="_blank">
-                <img class="img-fluid" src="<c:url value="/media/tournament_logo.png"/>" alt="logo Tournament">
+                <img class="img-fluid" src="<c:url value="/media/tournament_logo.png"/>" alt="logo Tournament" width="100px" height="auto">
             </a>
         </div>
     </div>

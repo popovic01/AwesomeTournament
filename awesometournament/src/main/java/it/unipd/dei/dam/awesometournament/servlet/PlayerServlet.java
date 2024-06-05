@@ -112,6 +112,7 @@ public class PlayerServlet extends AbstractDatabaseServlet {
                         Team team = getTeamDAO.access().getOutputParam();
                         req.setAttribute("team", team.getName());
                         req.setAttribute("player", player);
+                        req.setAttribute("logo", team.getBase64Logo());
                         req.getRequestDispatcher("/jsp/player.jsp").forward(req, resp);
                     } else {
                         resp.sendError(HttpServletResponse.SC_NOT_FOUND, "The player doesn't exist");
