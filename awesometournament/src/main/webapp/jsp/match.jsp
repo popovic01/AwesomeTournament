@@ -168,7 +168,6 @@
 <script>
     var id = '${match.id}';
     var matchDate = '${match.matchDate}';
-    console.log(matchDate);
     var team1Id = '${match.team1Id}';
     var team2Id = '${match.team2Id}';
 </script>
