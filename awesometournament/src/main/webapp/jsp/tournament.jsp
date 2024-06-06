@@ -16,112 +16,39 @@
 
     <div class="container-fluid fh" id="main-container">
         <div class="tournament-info d-flex justify-content-center align-items-center my-4">
-            <h1 class="tournament-name m-0">
+            <h1 class="tournament-name m-4">
                 <strong>${tournament.getName()}</strong>
             </h1>
             <c:choose>
                 <c:when test="${not empty tournament.getBase64Logo()}">
-                    <img src="data:image/jpg;base64,${tournament.getBase64Logo()}" class="img-fluid rounded-circle ml-3" alt="tournament logo" />
+                    <img src="data:image/jpg;base64,${tournament.getBase64Logo()}"
+                        class="img-fluid rounded-circle ml-3" alt="tournament logo" />
                 </c:when>
                 <c:otherwise>
-                    <img src="<c:url value='/media/tournament_logo.png' />" class="img-fluid rounded-circle ml-3" alt="default logo">
+                    <img src="<c:url value='/media/tournament_logo.png' />"
+                        class="img-fluid rounded-circle ml-3" alt="default logo">
                 </c:otherwise>
             </c:choose>
         </div>
 
-        <div class="d-flex justify-content-center mb-4">
-            <c:if test="${owner}">
-                <button id="btnEditTournament" class="btn btn-primary mr-3">Edit Tournament</button>
-                <c:if test="${empty matches}">
-                    <button id="generateMatches" class="btn btn-success">Close Subscriptions and<br>Generate Matches</button>
-                </c:if>
-            </c:if>
-            <c:if test="${logged && !deadlinePassed}">
-                <button id="btnAdd" class="btn btn-primary">Add Team</button>
-            </c:if>
-        </div>
-        <div class="row fh">
-            <div class="col-lg-6 col-sm-12 full-height">
-                <div class="full-height-content">
-                    <div class="button-container">
-                        <button id="seeTournamentTable" class="btn btn-primary" style="background-color: darkblue">See table</button>
-                        <button style="margin-left: 30px;" id="seeRankingScorers" class="btn btn-primary">See top scorers</button>
-                    </div>
-                    <div class="table-container">
-                        <table id="tournamentTable">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Team</th>
-                                    <th>Points</th>
-                                    <th>Matches Played</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <c:forEach items="${ranking}" var="entry" varStatus="status">
-                                    <tr>
-                                            <td><c:out value="${status.index + 1}" /></td>
-                                            <td>
-                                                <a href="/team/${entry.getTeamId()}" class="link">
-                                                    <c:out value="${entry.getTeamName()}" /></a>
-                                                    <c:choose>
-                                                        <c:when test="${not empty entry.getLogo()}">
-                                                            <img src="data:image/jpeg;base64,${entry.getLogo()}" class="logo" alt="team logo" id="logo">
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                            <img src="<c:url value='/media/logo_placeholder.png'/>" class="logo" alt="default logo" id="logo">
-                                                        </c:otherwise>
-                                                    </c:choose>
-                                                </a>
-                                            </td>
-                                            <td><c:out value="${entry.getPoints()}" /></td>
-                                            <td><c:out value="${entry.getMatchesPlayed()}" /></td>
-                                    </tr>
-                            </c:forEach>
-                            </tbody>
-                        </table>
-
-                        <table id="rankingScorers" style="display: none">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Player</th>
-                                    <th>Team</th>
-                                    <th>Goals</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <c:forEach items="${rankingScorers}" var="entry" varStatus="status">
-                                    <tr>
-                                        <td><c:out value="${status.index + 1}" /></td>
-                                        <td>
-                                            <a href="/players/${entry.getPlayerID()}" class="link"><c:out value="${entry.getPlayerName()} ${entry.getPlayerSurname()}" /></a>
-                                        </td>
-                                        <td>
-                                            <c:choose>
-                                                <c:when test="${not empty entry.getLogo()}">
-                                                    <div>
-                                                        <img src="data:image/jpeg;base64,${entry.getLogo()}" class="logo" alt="team logo">
-                                                        <a href="/team/${entry.getTeamID()}" class="link"><c:out value="${entry.getTeamName()}" /></a>
-                                                    </div>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <div>
-                                                        <img src="<c:url value='/media/logo_placeholder.png' />" class="logo" alt="default logo">
-                                                        <a href="/team/${entry.getTeamID()}" class="link"><c:out value="${entry.getTeamName()}" /></a>
-                                                    </div>
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </td>
-                                        <td><c:out value="${entry.getGoals()}" /></td>
-                                    </tr>
-                                </c:forEach>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+        <div class="custom-container">
+            <div class="tabs" id="rads">
+                <input type="radio" id="radio-1" name="tabs" checked />
+                <label class="tab" for="radio-1">Ranking</label>
+                <input type="radio" id="radio-2" name="tabs" />
+                <label class="tab" for="radio-2">Scorers Ranking</label>
+                <input type="radio" id="radio-3" name="tabs" />
+                <label class="tab" for="radio-3">Matches</label>
+                <span class="glider"></span>
             </div>
-            <div class="col-lg-6 col-sm-12 right-column">
+        </div>
+
+        <div class="table-container padding-top">
+            <div class="table-responsive">
+                <c:import url="/jsp/components/tournament-ranking.jsp" />
+                <c:import url="/jsp/components/scorers-ranking.jsp" />
+            </div>
+            <div class="col-lg-6 col-sm-12" id="matches">
                 <div class="match-header">
                     <select id="matchFilter">
                         <option value="past">Past Matches</option>
@@ -130,12 +57,13 @@
                         <option value="all" selected>All Matches</option>
                     </select>
                 </div>
-                <div class="right-column-content">
+                <div class = "table-container padding-top">
                     <c:choose>
                         <c:when test="${not empty matches}">
                             <ul id="matchList">
                                 <c:forEach items="${matches}" var="match">
-                                    <li is-finished="${match.isFinished}" date="${match.matchDate}" class="match">
+                                    <li is-finished="${match.isFinished}" date="${match.matchDate}"
+                                        class="match">
                                         <c:set var="team1Name" value="" />
                                         <c:set var="team1Logo" value="" />
                                         <c:set var="team2Name" value="" />
@@ -155,10 +83,12 @@
                                                 <div class="team-detail team1-detail">
                                                     <c:choose>
                                                         <c:when test="${not empty team1Logo}">
-                                                            <img src="data:image/jpeg;base64,${team1Logo}" class="logo-img" alt="team logo">
+                                                            <img src="data:image/jpeg;base64,${team1Logo}"
+                                                                class="logo-img" alt="team logo">
                                                         </c:when>
                                                         <c:otherwise>
-                                                            <img src="<c:url value='/media/logo_placeholder.png' />" class="logo-img" alt="default logo">
+                                                            <img src="<c:url value='/media/logo_placeholder.png' />"
+                                                                class="logo-img" alt="default logo">
                                                         </c:otherwise>
                                                     </c:choose>
                                                     <div>
@@ -178,10 +108,12 @@
                                                 <div class="team-detail team2-detail">
                                                     <c:choose>
                                                         <c:when test="${not empty team2Logo}">
-                                                            <img src="data:image/jpeg;base64,${team2Logo}" class="logo-img" alt="team logo">
+                                                            <img src="data:image/jpeg;base64,${team2Logo}"
+                                                                class="logo-img" alt="team logo">
                                                         </c:when>
                                                         <c:otherwise>
-                                                            <img src="<c:url value='/media/logo_placeholder.png' />" class="logo-img" alt="default logo">
+                                                            <img src="<c:url value='/media/logo_placeholder.png' />"
+                                                                class="logo-img" alt="default logo">
                                                         </c:otherwise>
                                                     </c:choose>
                                                     <div>
@@ -213,11 +145,44 @@
         </div>
     </div>
     <c:import url="/jsp/commons/footer.jsp" />
-    <script>
-        var userId = "${userId}";
-        var tournamentId = "${tournament.getId()}";
-        var matches_ = "${matches}";
-    </script>
-    <script type="text/javascript" src="/js/tournament.js"></script>
 </body>
+
+<script type="text/javascript">
+    var rad = document.getElementById('rads').children;
+
+    for (var i = 0; i < rad.length; i++) {
+        let local_i = i;
+
+        if (i === 0 && rad[i].checked) {
+            document.getElementById('tournamentTable').style.display = 'table';
+            document.getElementById('rankingTable').style.display = 'none';
+            document.getElementById('matches').style.display = 'none';
+        } else if (i === 2 && rad[i].checked) {
+            document.getElementById('tournamentTable').style.display = 'none';
+            document.getElementById('rankingTable').style.display = 'table';
+            document.getElementById('matches').style.display = 'none';
+        } else if (i === 4 && rad[i].checked) {
+            document.getElementById('tournamentTable').style.display = 'none';
+            document.getElementById('rankingTable').style.display = 'none';
+            document.getElementById('matches').style.display = 'block';
+        }
+
+        rad[i].addEventListener('change', function () {
+            if (local_i === 0) {
+                document.getElementById('tournamentTable').style.display = 'table';
+                document.getElementById('rankingTable').style.display = 'none';
+                document.getElementById('matches').style.display = 'none';
+            } else if (local_i === 2) {
+                document.getElementById('tournamentTable').style.display = 'none';
+                document.getElementById('rankingTable').style.display = 'table';
+                document.getElementById('matches').style.display = 'none';
+            } else if (local_i === 4) {
+                document.getElementById('tournamentTable').style.display = 'none';
+                document.getElementById('rankingTable').style.display = 'none';
+                document.getElementById('matches').style.display = 'block';
+            }
+        });
+    }
+</script>
+
 </html>
