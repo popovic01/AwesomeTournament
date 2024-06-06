@@ -43,7 +43,6 @@ public class EventServlet extends AbstractDatabaseServlet {
                     Event event = (Event) getEventDAO.access().getOutputParam();
                     if (event != null) {
                         req.setAttribute("event", event); //Passes the object to JSP
-                        req.getRequestDispatcher("/jsp/event.jsp").forward(req, resp); //Forwards the request to the JSP
                     } else {
                         resp.sendError(HttpServletResponse.SC_NOT_FOUND, "The event doesn't exist");
                     }
