@@ -19,7 +19,7 @@
         </div>
         <div class="col-md-1 text-center">
             <a href="" target="_blank">
-                <img class="img-fluid" src="<c:url value="/media/tournament_logo.png"/>" alt="logo Tournament" width="100px" height="auto">
+                <img class="img-fluid" src="<c:url value="/media/AT_logo.png"/>" alt="logo Tournament" width="100px" height="auto">
             </a>
         </div>
     </div>

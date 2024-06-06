@@ -15,7 +15,7 @@
                                 class="img-fluid rounded-circle mb-3" />
                         </c:when>
                         <c:otherwise>
-                            <img src="<c:url value='/media/tournament_logo.png' />"
+                            <img src="<c:url value='/media/AT_logo.png' />"
                                 class="img-fluid rounded-circle mb-3" alt="default logo">
                         </c:otherwise>
                     </c:choose>
