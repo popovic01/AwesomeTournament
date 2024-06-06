@@ -1,6 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+
+<head>
+    <title>Header</title>
+    <link rel="stylesheet" type="text/css" href="/css/header.css" />
+</head>
 <style>
     #navbarNav{
         text-align: center;
@@ -9,8 +14,7 @@
 
 <nav class="navbar navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/">
-            <img src="/media/AT_logo.png" alt="" width="30" height="24" class="d-inline-block align-text-top">
+        <a class="navbar-brand custom-color-bold" href="/">
             Awesome Tournament
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
