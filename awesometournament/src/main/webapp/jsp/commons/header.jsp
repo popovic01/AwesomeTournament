@@ -6,11 +6,6 @@
     <title>Header</title>
     <link rel="stylesheet" type="text/css" href="/css/header.css" />
 </head>
-<style>
-    #navbarNav{
-        text-align: center;
-    }
-</style>
 
 <nav class="navbar navbar-light bg-light">
     <div class="container-fluid">

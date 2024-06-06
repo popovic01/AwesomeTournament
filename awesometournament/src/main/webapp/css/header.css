@@ -1,4 +1,9 @@
 .custom-color-bold {
     color: #16539A;
     font-weight: bold;
+    padding-left: 20px;
+}
+
+#navbarNav{
+    text-align: center;
 }
