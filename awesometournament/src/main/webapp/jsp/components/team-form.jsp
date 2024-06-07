@@ -78,21 +78,6 @@
                     console.error('Error:', error);
                     alert(error.message);
                 });
-                    /*.then(response => response.json())
-                    .then(data => {
-                        if (data.message) {
-                            alert(data.message);
-                        }
-                        if (data.redirect) {
-                            window.location.href = data.redirect;
-                        } else if (data.error) {
-                            console.error('Error:', data.error);
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert(error)
-                    });*/
             } else {
                 formData.set("teamId", lastSegment);
                 fetch(url, {
