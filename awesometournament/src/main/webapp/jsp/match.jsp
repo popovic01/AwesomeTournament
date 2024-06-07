@@ -51,7 +51,9 @@
         <div class="score">
             ${match.team1Score} - ${match.team2Score}
             <div>
-                <button id="update-result" class="btn"><img src="/media/edit.png" width="25px" height="auto">Edit Result</button>
+                <button id="update-result" class="btn">
+                    <img src="/media/edit.png" width="25px" height="auto"> Edit Result
+                </button>
             </div>
         </div>
 
@@ -89,8 +91,7 @@
             </div>
             <div>
                 <button id="update-info" class="btn">
-                    <img src="/media/edit.png" width="25px" height="auto">
-                    Edit Info
+                    <img src="/media/edit.png" width="25px" height="auto"> Edit Info
                 </button>
             </div>
         </div>
