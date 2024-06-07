@@ -85,7 +85,7 @@
             <c:if test="${empty players}">
                 <p class="text-secondary text-center">No players added in this team</p>
             </c:if>
-            <c:if test="${teamOwner || tournamentOwner}">
+            <c:if test="${(tournamentOwner || teamOwner) && !deadlinePassed}">
                 <button class="btn btn-primary" type="button" id="showUpdateFormButton" onclick="showAddPlayerForm()">Add Player</button>
             </c:if>
 
