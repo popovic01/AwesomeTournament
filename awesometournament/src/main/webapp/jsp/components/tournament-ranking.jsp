@@ -6,9 +6,13 @@
         <tr>
             <th>#</th>
             <th>Team</th>
-            <th>Points</th>
             <th>Played</th>
-            <!-- TODO ADD MORE STATS-->
+            <th>Won</th>
+            <th>Drawn</th>
+            <th>Lost</th>
+            <th>GF</th>
+            <th>GA</th>
+            <th>Points</th>
         </tr>
     </thead>
     <tbody>
@@ -32,10 +36,25 @@
                     </a>
                 </td>
                 <td>
-                    <c:out value="${entry.getPoints()}" />
+                    <c:out value="${entry.getMatchesPlayed()}" />
                 </td>
                 <td>
-                    <c:out value="${entry.getMatchesPlayed()}" />
+                    <c:out value="${entry.getWins()}" />
+                </td>
+                <td>
+                    <c:out value="${entry.getDraws()}" />
+                </td>
+                <td>
+                    <c:out value="${entry.getDefeats()}" />
+                </td>
+                <td>
+                    <c:out value="${entry.getGoalsScored()}" />
+                </td>
+                <td>
+                    <c:out value="${entry.getGoalsConceded()}" />
+                </td>
+                <td>
+                    <strong><c:out value="${entry.getPoints()}" /></strong>
                 </td>
             </tr>
         </c:forEach>

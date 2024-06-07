@@ -17,6 +17,12 @@ public class RankingEntry {
     /** The logo of the team. */
     byte[] logo;
 
+    int wins;
+    int defeats;
+    int draws;
+    int goalsScored;
+    int goalsConceded;
+
     /**
      * Constructs a new ranking entry with the specified team name, points, and matches played.
      *
@@ -24,12 +30,18 @@ public class RankingEntry {
      * @param points The points accumulated by the team.
      * @param matchesPlayed The number of matches played by the team.
      */
-    public RankingEntry(int teamId, String teamName, int points, int matchesPlayed, byte[] logo) {
+    public RankingEntry(int teamId, String teamName, int points, int matchesPlayed, byte[] logo,
+                        int wins, int defeats, int draws, int goalsScored, int goalsConceded) {
         this.teamId = teamId;
         this.teamName = teamName;
         this.points = points;
         this.matchesPlayed = matchesPlayed;
         this.logo = logo;
+        this.wins = wins;
+        this.defeats = defeats;
+        this.draws = draws;
+        this.goalsScored = goalsScored;
+        this.goalsConceded = goalsConceded;
     }
 
     /**
@@ -66,6 +78,26 @@ public class RankingEntry {
      */
     public int getMatchesPlayed() {
         return matchesPlayed;
+    }
+
+    public int getWins() {
+        return wins;
+    }
+
+    public int getDefeats() {
+        return defeats;
+    }
+
+    public int getDraws() {
+        return draws;
+    }
+
+    public int getGoalsScored() {
+        return goalsScored;
+    }
+
+    public int getGoalsConceded() {
+        return goalsConceded;
     }
 
     /**
