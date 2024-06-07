@@ -53,6 +53,10 @@ public class TournamentServlet extends AbstractDatabaseServlet{
                 Pattern pattern = Pattern.compile(regex);
                 Matcher matcher = pattern.matcher(req.getRequestURI());
 
+                if(SessionHelpers.isLogged(req)) {
+                    req.setAttribute("logged", true);
+                }
+
                 if (matcher.matches()) {
                     int teamId = Integer.parseInt(matcher.group(1));
                     GetTeamDAO getTeamDAO = new GetTeamDAO(getConnection(), teamId);
