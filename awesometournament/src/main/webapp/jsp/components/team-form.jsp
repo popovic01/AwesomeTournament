@@ -8,13 +8,7 @@
         <title>AwesomeTournaments - Tournament</title>
 
         <c:import url="/jsp/commons/head.jsp"/>
-
-        <style>
-            .input-width-70 {
-                width: 70%;
-                margin-left: 1rem;
-            }
-        </style>
+        <link rel="stylesheet" type="text/css" href="/css/team-form.css" />
     </head>
 
     <body>
