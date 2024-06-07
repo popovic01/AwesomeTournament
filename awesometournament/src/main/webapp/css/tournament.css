@@ -147,6 +147,11 @@ input[id="radio-3"] {
     vertical-align: middle;
 }
 
+.main-logo {
+    width:7%;
+    height:auto;
+}
+
 .logo-img {
     width: auto;
     height: 45px;
