@@ -10,9 +10,9 @@
 *:before {
     box-sizing: border-box;
 }
-
+/*Errore*/
 body {
-    font-family: "Inter", sans-serif;
+    font-family: Arial, sans-serif;
     background-color: rgba(#e6eef9, 0.5);
 }
 
