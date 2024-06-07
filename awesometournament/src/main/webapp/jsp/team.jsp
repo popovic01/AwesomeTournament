@@ -30,8 +30,8 @@
 
                 <c:if test="${(tournamentOwner || teamOwner) && !deadlinePassed}">
                     <div class="d-flex justify-content-end">
-                        <button id="btnEdit" class="btn btn-primary"><i class="fa fa-pencil-square-o"></i></button>
-                        <button id="btnDelete" class="btn btn-primary"><i class="fa fa-trash-o"></i></button>
+                        <button id="btnEdit" class="btn btn-primary" title="Edit team"><i class="fa fa-pencil-square-o"></i></button>
+                        <button id="btnDelete" class="btn btn-primary" title="Delete team"><i class="fa fa-trash-o"></i></button>
                     </div>
                 </c:if>
             </div>
@@ -73,7 +73,7 @@
                             </td>
                             <c:if test="${tournamentOwner || teamOwner}">
                                 <td>
-                                    <i class="fa fa-trash-o" onclick="deletePlayer(${player.getId()})"></i>
+                                    <i class="fa fa-trash-o" title="Delete player" onclick="deletePlayer(${player.getId()})"></i>
                                 </td>
                             </c:if>
                         </tr>
