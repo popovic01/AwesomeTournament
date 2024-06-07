@@ -25,8 +25,8 @@
                         class="img-fluid rounded-circle ml-3 main-logo" alt="tournament logo" />
                 </c:when>
                 <c:otherwise>
-                    <img src="<c:url value='/media/AT_logo.png' />"
-                        class="img-fluid rounded-circle ml-3 main-logo" alt="default logo">
+                    <!-- <img src="<c:url value='/media/AT_logo.png' />"
+                        class="img-fluid rounded-circle ml-3 main-logo" alt="default logo"> -->
                 </c:otherwise>
             </c:choose>
         </div>
