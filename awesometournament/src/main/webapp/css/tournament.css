@@ -252,3 +252,7 @@ li.match:hover {
     background-color: #fff;
     border: 1px solid #ccc;
 }
+
+.button-separator {
+    margin-left: 1%; /* Adjust the value as needed */
+}

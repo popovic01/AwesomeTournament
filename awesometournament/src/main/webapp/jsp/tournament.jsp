@@ -31,6 +31,18 @@
             </c:choose>
         </div>
 
+        <div class="d-flex justify-content-center mb-4">
+            <c:if test="${owner}">
+                <button id="btnEditTournament" class="btn btn-primary">Edit Tournament</button>
+                <c:if test="${empty matches}">
+                    <button id="generateMatches" class="btn btn-success button-separator">Close Subscriptions and<br>Generate Matches</button>
+                </c:if>
+            </c:if>
+            <c:if test="${logged && !deadlinePassed}">
+                <button id="btnAdd" class="btn btn-primary button-separator">Add Team</button>
+            </c:if>
+        </div>
+
         <div class="custom-container">
             <div class="tabs" id="rads">
                 <input type="radio" id="radio-1" name="tabs" checked />
