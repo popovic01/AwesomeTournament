@@ -10,7 +10,7 @@
 *:before {
     box-sizing: border-box;
 }
-/*Errore*/
+
 body {
     font-family: Arial, sans-serif;
     background-color: rgba(230, 238, 249, 0.5);
@@ -247,7 +247,7 @@ li.match:hover {
 .centered-container {
     display: flex;
     justify-content: center;
-    margin-bottom: 10px; /* Adjust as needed for spacing */
+    margin-bottom: 10px;
     width: 100%;
 }
 
@@ -259,5 +259,5 @@ li.match:hover {
 }
 
 .button-separator {
-    margin-left: 1%; /* Adjust the value as needed */
+    margin-left: 1%;
 }
