@@ -82,7 +82,20 @@ function setStartAndDeadlineDate() {
 }
 
 function manageForm() {
-    document.getElementById('editTournamentForm').addEventListener('submit', function (event) {
+    const editTournamentForm = document.getElementById('editTournamentForm');
+    const deleteTournamentButton = document.getElementById('deleteTournament');
+
+    if (editTournamentForm && !editTournamentForm.dataset.listenerAdded) {
+        editTournamentForm.addEventListener('submit', handleFormSubmit);
+        editTournamentForm.dataset.listenerAdded = true;
+    }
+
+    if (deleteTournamentButton && !deleteTournamentButton.dataset.listenerAdded) {
+        deleteTournamentButton.addEventListener('click', handleDeleteTournament);
+        deleteTournamentButton.dataset.listenerAdded = true;
+    }
+
+    function handleFormSubmit(event) {
         event.preventDefault();
 
         var formData = {
@@ -114,9 +127,9 @@ function manageForm() {
             console.error('Error:', error);
             alert('Failed to update the tournament. Please try again.');
         });
-    });
+    }
 
-    document.getElementById('deleteTournament').addEventListener('click', function () {
+    function handleDeleteTournament() {
         if (confirm('Are you sure you want to delete this tournament?')) {
             fetch(`/api/tournaments/`+ tournamentId, {
                 method: 'DELETE'
@@ -127,7 +140,6 @@ function manageForm() {
                         window.location.href = '/tournaments';
                     } else {
                         alert('Failed to delete the tournament');
-                        window.location.href = '/tournaments';
                     }
                 })
                 .catch(error => {
@@ -135,7 +147,7 @@ function manageForm() {
                     alert('An error occurred while deleting the tournament');
                 });
         }
-    });
+    }
 }
 
 function hideForm() {
