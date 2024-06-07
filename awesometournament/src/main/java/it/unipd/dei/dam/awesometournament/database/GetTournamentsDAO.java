@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.unipd.dei.dam.awesometournament.resources.entities.Tournament;
+import it.unipd.dei.dam.awesometournament.utils.ImageConverter;
 
 /**
  * DAO class for retrieving tournaments from the database.
@@ -44,6 +45,10 @@ public class GetTournamentsDAO extends AbstractDAO<List<Tournament>> {
             Tournament t = new Tournament(id, name, token, creatorUserId, maxTeams, maxPlayers,
                     minPlayers, startingPlayers, maxSubstitutions, deadline,
                     startDate, creationDate, logo, isFinished);
+
+            if (t.getLogo() != null) {
+                t.setBase64Logo(ImageConverter.convertInputStreamToBase64(t.getLogo()));
+            }
             
             LOGGER.info(t);
             res.add(t);
