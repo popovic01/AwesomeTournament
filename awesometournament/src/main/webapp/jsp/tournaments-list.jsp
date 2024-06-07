@@ -88,7 +88,7 @@
                                         <c:out value="${tournament.getName()}"/>
                                     </div>
                                     <div class="tournament-details">
-                                        <c:out value="${tournament.getStartingPlayers()}"/> players per team.
+                                        <c:out value="${tournament.getStartingPlayers()}"/> starting players per team.
                                     </div>
                                     <div class="tournament-details">
                                         Starting date: <strong><c:out value="${tournament.getOnlyStartDate()}"/></strong>

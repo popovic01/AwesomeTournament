@@ -51,6 +51,8 @@
                 <label class="tab" for="radio-2">Scorers Ranking</label>
                 <input type="radio" id="radio-3" name="tabs" />
                 <label class="tab" for="radio-3">Matches</label>
+                <input type="radio" id="radio-4" name="tabs" />
+                <label class="tab" for="radio-4">Info</label>
                 <span class="glider"></span>
             </div>
         </div>
@@ -60,6 +62,7 @@
                 <c:import url="/jsp/components/tournament-ranking.jsp" />
                 <c:import url="/jsp/components/scorers-ranking.jsp" />
                 <c:import url="/jsp/components/matches-list.jsp" />
+                <c:import url="/jsp/components/info.jsp"/>
             </div>
         </div>
     </div>
@@ -87,14 +90,22 @@
             document.getElementById('tournamentTable').style.display = 'table';
             document.getElementById('rankingTable').style.display = 'none';
             document.getElementById('matches').style.display = 'none';
+            document.getElementById('info').style.display = 'none';
         } else if (i === 2 && rad[i].checked) {
             document.getElementById('tournamentTable').style.display = 'none';
             document.getElementById('rankingTable').style.display = 'table';
             document.getElementById('matches').style.display = 'none';
+            document.getElementById('info').style.display = 'none';
         } else if (i === 4 && rad[i].checked) {
             document.getElementById('tournamentTable').style.display = 'none';
             document.getElementById('rankingTable').style.display = 'none';
             document.getElementById('matches').style.display = 'block';
+            document.getElementById('info').style.display = 'none';
+        } else if (i === 6 && rad[i].checked) {
+            document.getElementById('tournamentTable').style.display = 'none';
+            document.getElementById('rankingTable').style.display = 'none';
+            document.getElementById('matches').style.display = 'none';
+            document.getElementById('info').style.display = 'block';
         }
 
         rad[i].addEventListener('change', function () {
@@ -102,14 +113,22 @@
                 document.getElementById('tournamentTable').style.display = 'table';
                 document.getElementById('rankingTable').style.display = 'none';
                 document.getElementById('matches').style.display = 'none';
+                document.getElementById('info').style.display = 'none';
             } else if (local_i === 2) {
                 document.getElementById('tournamentTable').style.display = 'none';
                 document.getElementById('rankingTable').style.display = 'table';
                 document.getElementById('matches').style.display = 'none';
+                document.getElementById('info').style.display = 'none';
             } else if (local_i === 4) {
                 document.getElementById('tournamentTable').style.display = 'none';
                 document.getElementById('rankingTable').style.display = 'none';
                 document.getElementById('matches').style.display = 'block';
+                document.getElementById('info').style.display = 'none';
+            } else if (local_i === 6) {
+                document.getElementById('tournamentTable').style.display = 'none';
+                document.getElementById('rankingTable').style.display = 'none';
+                document.getElementById('matches').style.display = 'none';
+                document.getElementById('info').style.display = 'block';
             }
         });
     }

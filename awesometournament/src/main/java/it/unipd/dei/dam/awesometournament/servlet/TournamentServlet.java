@@ -25,6 +25,7 @@ import it.unipd.dei.dam.awesometournament.resources.LogContext;
 import it.unipd.dei.dam.awesometournament.resources.entities.Match;
 import it.unipd.dei.dam.awesometournament.resources.entities.Team;
 import it.unipd.dei.dam.awesometournament.resources.entities.Tournament;
+import it.unipd.dei.dam.awesometournament.resources.entities.User;
 import it.unipd.dei.dam.awesometournament.utils.SessionHelpers;
 import it.unipd.dei.dam.awesometournament.database.*;
 import it.unipd.dei.dam.awesometournament.utils.RankingEntry;
@@ -112,11 +113,15 @@ public class TournamentServlet extends AbstractDatabaseServlet{
                 GetRankingScorersDAO getRankingScorersDAO = new GetRankingScorersDAO(getConnection(), id);
                 ArrayList<RankingScorersEntry> rankingScorers = getRankingScorersDAO.access().getOutputParam();
 
+                GetUserDAO getUserDAO = new GetUserDAO(getConnection(), tournament.getCreatorUserId());
+                User user = getUserDAO.access().getOutputParam();
+
                 req.setAttribute("tournament", tournament);
                 req.setAttribute("matches", matches);
                 req.setAttribute("teams", teams);
                 req.setAttribute("ranking", ranking);
                 req.setAttribute("rankingScorers", rankingScorers);
+                req.setAttribute("creator", user);
 
                 req.getRequestDispatcher("/jsp/tournament.jsp").forward(req, resp);
             } catch (SQLException e) {
