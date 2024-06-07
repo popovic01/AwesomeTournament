@@ -9,6 +9,7 @@
     <title>AwesomeTournaments - User</title>
     <c:import url="/jsp/commons/head.jsp" />
     <link rel="stylesheet" type="text/css" href="/css/auth.css" />
+    <link rel="stylesheet" type="text/css" href="/css/user.css" />
 </head>
 
 <body>
@@ -40,8 +41,8 @@
                 <button type="submit" class="btn btn-primary" id="submit" disabled>Submit</button>
               </form>
         </div>
-        <div class="row">
-            <p>Creator of:</p>
+        <div class="row list">
+            <h2>Creator of:</h2>
             <ul>
                 <c:forEach var="tournament" items="${tournaments}">
                     <a href="/tournament/${tournament.getId()}">
@@ -50,8 +51,8 @@
                 </c:forEach>
             </ul>
         </div>
-        <div class="row">
-            <p>Creator of:</p>
+        <div class="row list">
+            <h2>Creator of:</h2>
             <ul>
                 <c:forEach var="team" items="${teams}">
                     <a href="/team/${team.getId()}">
