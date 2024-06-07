@@ -7,12 +7,12 @@
 <head>
     <title>Tournament</title>
     <c:import url="/jsp/commons/head.jsp" />
-    <link rel="stylesheet" type="text/css" href="/css/tournament.css" />
+    <link rel="stylesheet" type="text/css" href="/css/tournament.css"/>
 </head>
 
 <body>
     <c:import url="/jsp/commons/header.jsp" />
-    <c:import url="/jsp/components/edit-tournament-form.jsp" />
+    <c:import url="/jsp/components/edit-tournament-form.jsp"/>
 
     <div class="container-fluid fh" id="main-container">
         <div class="tournament-info d-flex justify-content-center align-items-center my-4">
