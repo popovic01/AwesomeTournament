@@ -26,17 +26,20 @@
                 <c:choose>
                     <c:when test="${logged}">
                         <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/user">Private area</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="/auth/logout">Logout</a>
                         </li>
                     </c:when>
-                <c:otherwise>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/auth/login">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/auth/signup">Signup</a>
-                    </li>
-                </c:otherwise>
+                    <c:otherwise>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/auth/login">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/auth/signup">Signup</a>
+                        </li>
+                    </c:otherwise>
                 </c:choose>
             </ul>
         </div>

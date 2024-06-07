@@ -127,6 +127,15 @@
 		<url-pattern>/matches/tournaments/*</url-pattern>
 	</servlet-mapping>
 
+	<servlet>
+		<servlet-name>User</servlet-name>
+		<servlet-class>it.unipd.dei.dam.awesometournament.servlet.UserServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>User</servlet-name>
+		<url-pattern>/user</url-pattern>
+	</servlet-mapping>
+
 	<listener>
 		<listener-class>it.unipd.dei.dam.awesometournament.listeners.JobSchedulerContextListener</listener-class>
 	</listener>
