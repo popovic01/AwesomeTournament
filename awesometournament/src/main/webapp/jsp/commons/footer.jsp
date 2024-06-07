@@ -15,7 +15,7 @@
             </a>
         </div>
         <div class="col-md-4 text-center text-muted small">
-            Copyright &copy; 2024 Awesome Tournament. All rights reserved.
+            Copyright &copy; 2024 Awesome Tournaments. All rights reserved.
         </div>
         <div class="col-md-1 text-center">
             <a href="" target="_blank">
