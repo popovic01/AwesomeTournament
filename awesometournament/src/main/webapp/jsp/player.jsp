@@ -23,13 +23,13 @@
                         <c:choose>
                             <c:when test="${not empty logo}">
                                 <div>
-                                    <img src="data:image/jpeg;base64,${logo}" class="img-fluid rounded-circle mb-3" alt="Profile Picture" width="100px" height="auto">
+                                    <img src="data:image/jpeg;base64,${logo}" class="img-fluid" alt="Profile Picture" width="100px" height="auto">
                                     <h5 class="card-subtitle mb-2 text-muted">${player.getName()} ${player.getSurname()}</h5>
                                 </div>
                             </c:when>
                             <c:otherwise>
                                 <div>
-                                    <img src="<c:url value='/media/logo_placeholder.png' />" class="img-fluid rounded-circle mb-3" alt="Profile Picture">
+                                    <img src="<c:url value='/media/logo_placeholder.png' />" class="img-fluid" alt="Profile Picture">
                                     <h5 class="card-subtitle mb-2 text-muted">${player.getName()} ${player.getSurname()}</h5>
                                 </div>
                             </c:otherwise>

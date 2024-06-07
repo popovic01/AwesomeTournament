@@ -98,10 +98,6 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <!-- <div class="col-md-4 text-center"> -->
-                            <!-- <img src="${user.profilePicture}" class="img-fluid rounded-circle mb-3" alt="Profile Picture"> -->
-                            <!-- <h5 class="card-subtitle mb-2 text-muted">${user.name} ${user.surname}</h5> -->
-                        <!-- </div> -->
                         <form id="addPlayerForm">
                             <div class="form-group">
                                 <label for="nameInput">Name:</label>

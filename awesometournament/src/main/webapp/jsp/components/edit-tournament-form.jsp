@@ -12,11 +12,11 @@
                     <c:choose>
                         <c:when test="${not empty tournament.getBase64Logo()}">
                             <img src="data:image/jpg;base64,${tournament.getBase64Logo()}"
-                                class="img-fluid rounded-circle mb-3" />
+                                class="img-fluid" />
                         </c:when>
                         <c:otherwise>
                             <img src="<c:url value='/media/AT_logo.png' />"
-                                class="img-fluid rounded-circle mb-3" alt="default logo">
+                                class="img-fluid" alt="default logo">
                         </c:otherwise>
                     </c:choose>
                     <h5 class="card-subtitle mb-2 text-muted"> <strong>${tournament.getName()}</strong> </h5>

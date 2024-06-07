@@ -22,12 +22,8 @@
             <c:choose>
                 <c:when test="${not empty tournament.getBase64Logo()}">
                     <img src="data:image/jpg;base64,${tournament.getBase64Logo()}"
-                        class="img-fluid rounded-circle ml-3 main-logo" alt="tournament logo" />
+                        class="img-fluid main-logo" alt="tournament logo" />
                 </c:when>
-                <c:otherwise>
-                    <!-- <img src="<c:url value='/media/AT_logo.png' />"
-                        class="img-fluid rounded-circle ml-3 main-logo" alt="default logo"> -->
-                </c:otherwise>
             </c:choose>
         </div>
 
