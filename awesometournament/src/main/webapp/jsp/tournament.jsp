@@ -217,6 +217,7 @@
         var userId = "${userId}";
         var tournamentId = "${tournament.getId()}";
         var matches_ = "${matches}";
+        var owner = "${owner}";
     </script>
     <script type="text/javascript" src="/js/tournament.js"></script>
 </body>

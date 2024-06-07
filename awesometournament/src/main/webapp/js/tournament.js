@@ -232,11 +232,13 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    var btnEditTournament = document.getElementById("btnEditTournament");
-    btnEditTournament.addEventListener("click", function () {
-        document.getElementById("editTournamentContainer").style.display = "block";
-        document.getElementById("main-container").style.display = "none";
-    });
+    if(owner) {
+        var btnEditTournament = document.getElementById("btnEditTournament");
+        btnEditTournament.addEventListener("click", function () {
+            document.getElementById("editTournamentContainer").style.display = "block";
+            document.getElementById("main-container").style.display = "none";
+        });
+    }
 
     setStartingMinPlayersAndMaxPlayers();
     setStartAndDeadlineDate();
