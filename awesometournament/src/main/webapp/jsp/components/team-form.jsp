@@ -68,8 +68,17 @@
                 fetch(url, {
                     method: 'POST',
                     body: formData
-                })
-                    .then(response => response.json())
+                }).then(response => {
+                        if (response.ok) {
+                            window.location.replace("/tournament/" + tournamentId);
+                        }
+                        else if(response.status === 403) throw new Error('We are sorry, the maximum number of teams has been reached');
+                        else throw new Error("Failed to add a new player. Try again layer.")
+                    }).catch(error => {
+                    console.error('Error:', error);
+                    alert(error.message);
+                });
+                    /*.then(response => response.json())
                     .then(data => {
                         if (data.message) {
                             alert(data.message);
@@ -83,7 +92,7 @@
                     .catch(error => {
                         console.error('Error:', error);
                         alert(error)
-                    });
+                    });*/
             } else {
                 formData.set("teamId", lastSegment);
                 fetch(url, {

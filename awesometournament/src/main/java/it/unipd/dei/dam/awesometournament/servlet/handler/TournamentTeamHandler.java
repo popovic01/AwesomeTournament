@@ -6,6 +6,7 @@ import it.unipd.dei.dam.awesometournament.database.*;
 import it.unipd.dei.dam.awesometournament.resources.Actions;
 import it.unipd.dei.dam.awesometournament.resources.LogContext;
 import it.unipd.dei.dam.awesometournament.resources.entities.Team;
+import it.unipd.dei.dam.awesometournament.resources.entities.Tournament;
 import it.unipd.dei.dam.awesometournament.servlet.RestMatcherHandler;
 import it.unipd.dei.dam.awesometournament.servlet.RestMatcherServlet.Method;
 import it.unipd.dei.dam.awesometournament.servlet.RestMatcherServlet.Result;
@@ -83,24 +84,33 @@ public class TournamentTeamHandler extends RestMatcherHandler {
                 res.setStatus(HttpServletResponse.SC_CONFLICT);
                 return;
             }
-
-            Team team = new Team(0, req.getParameter("name"), inputStream, getIdOfLoggedInUser(req), tournamentId);
-            CreateTeamDAO createTeamDAOTeamDAO = new CreateTeamDAO(getConnection(), team);
-            LOGGER.info(team.toString());
-            Integer result = createTeamDAOTeamDAO.access().getOutputParam();
-            res.setContentType("application/json");
-            PrintWriter out = res.getWriter();
-            if (result != 0) {
-                //route to tournament/id page
-                try {
-                    String redirectUrl = req.getContextPath() + "/tournament/" + tournamentId;
-                    out.print("{ \"redirect\": \"" + redirectUrl + "\" }");
-                    out.flush();
-                } catch (Exception e) {
-                    LOGGER.error(e);
+            //get the number of maxTeams for the tournament
+            GetTournamentByIdDAO getTournamentByIdDAO = new GetTournamentByIdDAO(getConnection(), tournamentId);
+            Tournament tournament = getTournamentByIdDAO.access().getOutputParam();
+            int maxTeams = tournament.getMaxTeams();
+            LOGGER.info("MAX TEAMS: " + maxTeams);
+            if(teams.size() == maxTeams) {
+                res.sendError(HttpServletResponse.SC_FORBIDDEN, "Reached maximum number of teams");
+            }
+            else {
+                Team team = new Team(0, req.getParameter("name"), inputStream, getIdOfLoggedInUser(req), tournamentId);
+                CreateTeamDAO createTeamDAOTeamDAO = new CreateTeamDAO(getConnection(), team);
+                LOGGER.info(team.toString());
+                Integer result = createTeamDAOTeamDAO.access().getOutputParam();
+                res.setContentType("application/json");
+                PrintWriter out = res.getWriter();
+                if (result != 0) {
+                    //route to tournament/id page
+                    try {
+                        String redirectUrl = req.getContextPath() + "/tournament/" + tournamentId;
+                        out.print("{ \"redirect\": \"" + redirectUrl + "\" }");
+                        out.flush();
+                    } catch (Exception e) {
+                        LOGGER.error(e);
+                    }
+                } else {
+                    res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 }
-            } else {
-                res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             }
         } catch (NumberFormatException e) {
             res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Team ID must be an integer");
