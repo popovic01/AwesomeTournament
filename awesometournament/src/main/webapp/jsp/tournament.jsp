@@ -5,7 +5,7 @@
 <html lang="en">
 
 <head>
-    <title>AwesomeTournaments - Tournament</title>
+    <title>Tournament</title>
     <c:import url="/jsp/commons/head.jsp" />
     <link rel="stylesheet" type="text/css" href="/css/tournament.css" />
 </head>

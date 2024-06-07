@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Awesome Tournament</title>
+    <title>Awesome Tournaments</title>
     <c:import url="/jsp/commons/head.jsp"/>
     <style>
         /* Global Styles */
