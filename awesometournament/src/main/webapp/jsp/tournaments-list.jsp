@@ -102,10 +102,6 @@
                                         <c:when test="${not empty tournament.getBase64Logo()}">
                                             <img src="data:image/jpeg;base64, ${tournament.getBase64Logo()}" class="logo" alt="tournament logo">
                                         </c:when>
-                                        <c:otherwise>
-                                            <!-- or a default -->
-                                            <!-- <img src="<c:url value="/media/AT_logo.png"/>" class="logo" alt="default logo"> -->
-                                        </c:otherwise>
                                     </c:choose>
                                 </div>
                             </div>
