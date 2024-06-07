@@ -1,5 +1,3 @@
-CREATE USER awesome;
-CREATE DATABASE awesome;
 GRANT ALL PRIVILEGES ON DATABASE awesome TO awesome;
 
 \c awesome;
