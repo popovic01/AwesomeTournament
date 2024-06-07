@@ -184,7 +184,7 @@
                 <c:forEach var="tournament" items="${tournaments}">
                     <li class="tournament" data-is-finished="${tournament.getIsFinished()}" data-deadline="${tournament.getDeadline()}">
                         <a class="list" href="/tournament/${tournament.getId()}">
-                            <div class="tournament-element" style="">
+                            <div class="tournament-element">
                                 <div class="tournament-info">
                                     <div class="tournament-name">
                                         <c:out value="${tournament.getName()}"/>
@@ -201,7 +201,7 @@
                                 </div>
                                 <div class="tournament-logo">
                                     <c:choose>
-                                        <c:when test="${not empty entry.getLogo()}">
+                                        <c:when test="${not empty tournament.getBase64Logo()}">
                                             <img src="data:image/jpeg;base64, ${tournament.getBase64Logo()}" class="logo" alt="tournament logo">
                                         </c:when>
                                         <c:otherwise>
