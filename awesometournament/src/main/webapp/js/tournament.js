@@ -229,6 +229,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if(owner) {
         var btnEditTournament = document.getElementById("btnEditTournament");
+        var startDate_ = new Date(startDate);
+        if(new Date() > startDate_) btnEditTournament.style.display = "none";
         btnEditTournament.addEventListener("click", function () {
             document.getElementById("editTournamentContainer").style.display = "block";
             document.getElementById("main-container").style.display = "none";
