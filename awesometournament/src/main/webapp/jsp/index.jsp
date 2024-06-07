@@ -6,84 +6,14 @@
     <meta charset="UTF-8">
     <title>Awesome Tournaments</title>
     <c:import url="/jsp/commons/head.jsp"/>
+    <link rel="stylesheet" type="text/css" href="/css/index.css" />
     <style>
-        /* Global Styles */
-        body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            font-family: Arial, sans-serif;
-            color: #fff;
-            text-align: center;
-        }
-
         body {
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             background: url('<c:url value="/media/background.jpg"/>') no-repeat center center fixed;
             background-size: cover;
-        }
-
-        .content {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-grow: 1;
-        }
-
-        .container {
-            background: rgba(0, 0, 0, 0.7);
-            padding: 20px;
-            border-radius: 10px;
-            width: 80%;
-            max-width: 800px;
-        }
-
-        .blue-btn {
-            background-color: #007bff;
-            color: white;
-            padding: 10px 20px;
-            margin: 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-        }
-
-        .blue-btn:hover {
-            background-color: #0056b3;
-        }
-
-        /* Specific Styles for Buttons */
-        .buttons {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 20px;
-        }
-
-        .buttons .blue-btn {
-            min-width: 150px;
-            height: 50px;
-        }
-
-        .cta {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-            max-width: 400px;
-        }
-
-        .cta .blue-btn {
-            width: 48%;
-            height: 50px;
         }
     </style>
 </head>
