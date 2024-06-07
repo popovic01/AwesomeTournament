@@ -239,6 +239,13 @@ li.match:hover {
     align-items: center;
 }
 
+.centered-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px; /* Adjust as needed for spacing */
+    width: 100%;
+}
+
 #matchFilter {
     padding: 5px 10px;
     border-radius: 5px;

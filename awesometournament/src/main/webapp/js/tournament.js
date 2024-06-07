@@ -58,7 +58,7 @@ function setStartingMinPlayersAndMaxPlayers() {
             startingPlayersInput.value = maxPlayersInput.value;
             minPlayersInput.value = maxPlayersInput.value;
         } else if (maxPlayers < minPlayers) minPlayersInput.value = maxPlayersInput.value;
-    })
+    });
 }
 
 function setStartAndDeadlineDate() {
@@ -149,23 +149,6 @@ function hideForm() {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-    var tournamentTable = document.getElementById("tournamentTable");
-    var rankingScorers = document.getElementById("rankingScorers");
-
-    document.getElementById("seeTournamentTable").addEventListener('click', function () {
-        rankingScorers.style.display = "none";
-        tournamentTable.style.display = "table";
-        this.style.backgroundColor = "darkblue";
-        document.getElementById("seeRankingScorers").style.backgroundColor = "#007bff";
-    });
-
-    document.getElementById("seeRankingScorers").addEventListener('click', function () {
-        tournamentTable.style.display = "none";
-        rankingScorers.style.display = "table";
-        this.style.backgroundColor = "darkblue";
-        document.getElementById("seeTournamentTable").style.backgroundColor = "#007bff";
-    });
-
     var filterControl = document.getElementById('matchFilter');
     if (filterControl) {
         filterControl.addEventListener('change', function () {
