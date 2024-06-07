@@ -17,6 +17,7 @@
         <c:import url="/jsp/commons/header.jsp"/>
 
         <div class="main-wrapper" id="teamInformation">
+            <a href="/tournament/${tournament.getId()}">${tournament.getName()}</a>
             <div class="title-logo-actions-wrapper">
                 <div class="title-logo-wrapper">
                     <p class="fs-1 text-dark">

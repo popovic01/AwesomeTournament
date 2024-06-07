@@ -57,12 +57,14 @@ public class TeamServlet extends AbstractDatabaseServlet{
                     return;
                 }
                 req.setAttribute("team", team);
+                GetTournamentByIdDAO tournamentByIdDAO = new GetTournamentByIdDAO(getConnection(), team.getTournamentId());
+                tournamentByIdDAO.access();
+                Tournament tournament = tournamentByIdDAO.getOutputParam();
+                req.setAttribute("tournament", tournament);
 
                 if(SessionHelpers.isLogged(req)) {
                     req.setAttribute("logged", true);
-                    GetTournamentByIdDAO tournamentByIdDAO = new GetTournamentByIdDAO(getConnection(), team.getTournamentId());
-                    tournamentByIdDAO.access();
-                    Tournament tournament = tournamentByIdDAO.getOutputParam();
+
 
                     int userId = SessionHelpers.getId(req);
                     if(userId == tournament.getCreatorUserId()) {
