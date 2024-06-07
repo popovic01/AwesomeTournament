@@ -8,6 +8,8 @@ The homeworks are carried out by groups of students of a
 
 *Web Applications* is part of the teaching activities of the [Intelligent Interactive Information Access (IIIA) Hub](http://iiia.dei.unipd.it/).
 
+### Primary objective
+
 The primary objective of the web application is to provide a comprehensive 
 platform for organizing football tournaments and following match schedules, 
 results, and rankings effortlessly. Our solution offers an opportunity for 
