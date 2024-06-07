@@ -73,8 +73,7 @@
 
             .logo{
                 width: auto;
-                height: 60px;
-                float: right;
+                height: 100%;
                 margin-left: 10px;
             }
 
@@ -103,6 +102,13 @@
                 border: 1px solid red;
                 padding: 5px;
                 margin-top: 5px;
+            }
+
+            .tournament-element {
+                height: 100px;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
             }
         </style>
     </head>
@@ -178,25 +184,31 @@
                 <c:forEach var="tournament" items="${tournaments}">
                     <li class="tournament" data-is-finished="${tournament.getIsFinished()}" data-deadline="${tournament.getDeadline()}">
                         <a class="list" href="/tournament/${tournament.getId()}">
-                            <c:choose>
-                                <c:when test="${not empty entry.getLogo()}">
-                                    <img src="data:image/jpeg;base64, ${tournament.getBase64Logo()}" class="logo" alt="tournament logo">
-                                </c:when>
-                                <c:otherwise>
-                                    <img src="<c:url value="/media/AT_logo.png"/>" class="logo" alt="default logo">
-                                </c:otherwise>
-                            </c:choose>
-                            <div class="tournament-name">
-                                <c:out value="${tournament.getName()}"/>
-                            </div>
-                            <div class="tournament-details">
-                                <c:out value="${tournament.getStartingPlayers()}"/> players per team.
-                            </div>
-                            <div class="tournament-details">
-                                Starting date: <strong><c:out value="${tournament.getOnlyStartDate()}"/></strong>
-                            </div>
-                            <div class="tournament-details">
-                                Time left for registration: <span class="time-left"></span>
+                            <div class="tournament-element" style="">
+                                <div class="tournament-info">
+                                    <div class="tournament-name">
+                                        <c:out value="${tournament.getName()}"/>
+                                    </div>
+                                    <div class="tournament-details">
+                                        <c:out value="${tournament.getStartingPlayers()}"/> players per team.
+                                    </div>
+                                    <div class="tournament-details">
+                                        Starting date: <strong><c:out value="${tournament.getOnlyStartDate()}"/></strong>
+                                    </div>
+                                    <div class="tournament-details">
+                                        Time left for registration: <span class="time-left"></span>
+                                    </div>
+                                </div>
+                                <div class="tournament-logo">
+                                    <c:choose>
+                                        <c:when test="${not empty entry.getLogo()}">
+                                            <img src="data:image/jpeg;base64, ${tournament.getBase64Logo()}" class="logo" alt="tournament logo">
+                                        </c:when>
+                                        <c:otherwise>
+                                            <img src="<c:url value="/media/AT_logo.png"/>" class="logo" alt="default logo">
+                                        </c:otherwise>
+                                    </c:choose>
+                                </div>
                             </div>
                         </a>
                     </li>
