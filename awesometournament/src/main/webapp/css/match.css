@@ -227,7 +227,8 @@ li.event-list-container:hover {
 }
 
 .blue-btn img {
-    padding-right: 10px;
+    height: 20px;
+    width: auto;
 }
 
 #update-info img {
