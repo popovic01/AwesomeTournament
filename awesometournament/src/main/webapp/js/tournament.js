@@ -228,11 +228,6 @@ document.addEventListener('DOMContentLoaded', function () {
     manageForm();
     hideForm();
 
-    var seeTournamentTableBtn = document.getElementById("seeTournamentTable");
-    var matches = matches_;
-    if (matches && matches.length > 0) seeTournamentTableBtn.style.display = "block";
-    else seeTournamentTableBtn.style.display = "none";
-
     var btnAdd = document.getElementById('btnAdd');
     if (btnAdd) {
         btnAdd.addEventListener('click', function () {
